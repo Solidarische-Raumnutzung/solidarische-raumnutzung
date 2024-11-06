@@ -162,7 +162,7 @@
       \usebeamerfont{framesubtitle}\insertframesubtitle%
     \end{textblock*}%
     \begin{textblock*}{20mm}[1,1](\dimexpr\paperwidth-\kitinnermargin\relax,15mm)%j
-        \includegraphics[width=20mm]{präsi_template/logos/\@kitlogo}%
+        \includegraphics[width=20mm]{presi_template/logos/\@kitlogo}%
     \end{textblock*}%
   \fi
 % Rand oben (ergibt Beginn des Textes bei 34 mm -> 22,7 mm)
@@ -316,14 +316,14 @@
 
   % KIT-Logo
   \begin{textblock*}{30mm}(\kitinnermargin,6.7mm)
-  \includegraphics[width=30mm]{präsi_template/logos/\@kitlogo} 
+  \includegraphics[width=30mm]{presi_template/logos/\@kitlogo} 
   \end{textblock*}
   
   % Gruppenlogo
   \ifdefined\@grouplogo
     \ifx\@grouplogo\empty \else
       \begin{textblock*}{20mm}(\dimexpr\paperwidth-24mm\relax,6.7mm)
-      \includegraphics[width=20mm,height=20mm,keepaspectratio]{präsi_template/logos/\@grouplogo} 
+      \includegraphics[width=20mm,height=20mm,keepaspectratio]{presi_template/logos/\@grouplogo} 
       \end{textblock*}
     \fi % falls \grouplogo{} aufgerufen wird, kein Gruppenlogo einbinden
     \else
@@ -376,7 +376,7 @@
     \ifdefined\@titleimage
       \ifx\@titleimage\empty \else%
         \pgftext[at=\pgfpoint{.5\paperwidth}{0mm},center,bottom]{%
-          \includegraphics[height=40mm]{präsi_template/logos/\@titleimage}
+          \includegraphics[height=40mm]{presi_template/logos/\@titleimage}
         }
         \fi % Bei Aufruf von \titleimage{} leeren Rahmen anzeigen.
       \else 
