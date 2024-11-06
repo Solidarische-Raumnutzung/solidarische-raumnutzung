@@ -3,8 +3,6 @@ image: registry.gitlab.com/islandoftex/images/texlive:latest
 build:
   script:
     - pdflatex ./presi_template/presentation.tex
-    - biber ./presi_template/presentation
-    - pdflatex ./presi_template/presentation.tex
   artifacts:
     paths:
       - ./presi_template/presentation.pdf
