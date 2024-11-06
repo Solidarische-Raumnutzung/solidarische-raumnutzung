@@ -1,13 +1,23 @@
-image: registry.gitlab.com/islandoftex/images/texlive:latest
 
-build:
+stages:
+  - build
+
+latex-build: 
+  image: registry.gitlab.com/islandoftex/images/texlive:latest
+  stage: build
   script:
-    - cd presi_template
-    - pdflatex presentation.tex
-    - cd ..
-    - cd pflichtenheft
-    - pdflatex Pflichtenheft.tex
+      - cd presi_template
+      - pdflatex presentation.tex
+      - cd ..
+      - cd pflichtenheft
+      - pdflatex Pflichtenheft.tex
   artifacts:
     paths:
       - ./presi_template/presentation.pdf
       - ./pflichtenheft/Pflichtenheft.pdf
+
+java-build: 
+    image: maven:3.8-openjdk-11
+    stage: build
+    script: 
+      - mvn --version
