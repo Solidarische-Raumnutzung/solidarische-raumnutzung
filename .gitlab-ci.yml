@@ -2,9 +2,12 @@ image: registry.gitlab.com/islandoftex/images/texlive:latest
 
 build:
   script:
-    - pdflatex ./presi_template/presentation.tex
-    - pdflatex ./pflichtenheft/Pflichtenheft.tex
+    - cd presi_template
+    - pdflatex presentation.tex
+    - cd ..
+    - cd pflichtenheft
+    - pdflatex .Pflichtenheft.tex
   artifacts:
     paths:
-      - presentation.pdf
-      - Pflichtenheft.pdf
+      - ./presi_template/presentation.pdf
+      - ./pflichtenheft/Pflichtenheft.pdf
