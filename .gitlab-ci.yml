@@ -5,4 +5,4 @@ build:
     - pdflatex ./presi_template/presentation.tex
   artifacts:
     paths:
-      - ./presi_template/presentation.pdf
+      - presentation.pdf
