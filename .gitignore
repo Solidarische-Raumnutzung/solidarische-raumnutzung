@@ -14,3 +14,4 @@ presentation.synctex.gz
 presentation.toc
 *.pdf
 /.idea
+*.log
