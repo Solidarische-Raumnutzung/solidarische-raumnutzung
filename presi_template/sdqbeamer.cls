@@ -162,7 +162,7 @@
       \usebeamerfont{framesubtitle}\insertframesubtitle%
     \end{textblock*}%
     \begin{textblock*}{20mm}[1,1](\dimexpr\paperwidth-\kitinnermargin\relax,15mm)%j
-        \includegraphics[width=20mm]{logos/\@kitlogo}%
+        \includegraphics[width=20mm]{./logos/\@kitlogo}%
     \end{textblock*}%
   \fi
 % Rand oben (ergibt Beginn des Textes bei 34 mm -> 22,7 mm)
@@ -316,7 +316,7 @@
 
   % KIT-Logo
   \begin{textblock*}{30mm}(\kitinnermargin,6.7mm)
-  \includegraphics[width=30mm]{logos/\@kitlogo} 
+  \includegraphics[width=30mm]{./logos/\@kitlogo} 
   \end{textblock*}
   
   % Gruppenlogo
