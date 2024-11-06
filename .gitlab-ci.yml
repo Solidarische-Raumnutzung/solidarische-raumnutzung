@@ -6,7 +6,7 @@ build:
     - pdflatex presentation.tex
     - cd ..
     - cd pflichtenheft
-    - pdflatex .Pflichtenheft.tex
+    - pdflatex Pflichtenheft.tex
   artifacts:
     paths:
       - ./presi_template/presentation.pdf
