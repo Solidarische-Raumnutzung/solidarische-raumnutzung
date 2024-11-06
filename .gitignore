@@ -12,3 +12,6 @@ presentation.run.xml
 presentation.snm
 presentation.synctex.gz
 presentation.toc
+*.pdf
+/.idea
+*.log
