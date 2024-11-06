@@ -3,6 +3,8 @@ image: registry.gitlab.com/islandoftex/images/texlive:latest
 build:
   script:
     - pdflatex ./presi_template/presentation.tex
+    - pdflatex ./pflichtenheft/Pflichtenheft.tex
   artifacts:
     paths:
       - presentation.pdf
+      - Pflichtenheft.pdf
