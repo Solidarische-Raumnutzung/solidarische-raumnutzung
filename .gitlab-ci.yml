@@ -5,8 +5,6 @@ build:
     - pdflatex ./presi_template/presentation.tex
     - biber ./presi_template/presentation
     - pdflatex ./presi_template/presentation.tex
-  after_script:
-    - cat ./presi_template/presentation.log
   artifacts:
     paths:
       - ./presi_template/presentation.pdf
