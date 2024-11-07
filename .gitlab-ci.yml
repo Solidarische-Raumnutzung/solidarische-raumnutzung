@@ -8,6 +8,8 @@ latex-build:
   script:
       - cd presi_template
       - pdflatex presentation.tex
+      - biber presentation
+      - pdflatex presentation.tex
       - cd ..
       - cd pflichtenheft
       - pdflatex Pflichtenheft.tex
