@@ -1,0 +1,60 @@
+%!TEX root = ../Pflichtenheft.tex
+
+% Kapitel 4
+%-------------------------------------------------------------------------------
+
+\chapter{Produktfunktionen}
+\label{chap:product_functions}
+
+In Abhängigkeit von den gewählten Konzepten erfolgt hier eine Konkretisierung
+und Detaillierung der Funktionen aus den Use-Case-Diagrammen und ggf. dem
+Angebot.
+
+Die Produktfunktionen müssen die Kriterien aus den Zielbestimmungen abdecken.
+Dabei kann es je nach Kriterium eine oder mehrere Funktion geben.
+Das nachfolgende Format sollte für einige Funktionsbeschreibungen übernommen werden:
+
+Beispiel:\\
+\begin{function}{10}{Lagerverwaltung}
+\item[Anwendungsfall:] Automatisches Einlagern
+\item[Anforderung:] \lfk{20} (Wenn kein Lastenheft vorhanden, dann Kriterium aus den Zielbestimmungen, z.B.: \ref{RM1})
+\item[Ziel:] Ein Reifen erscheint am Systemeingang (Scanner), erhält einen Lagerplatz
+zugewiesen und wird dort eingelagert.
+\item[Vorbedingung:] Das Scannen des Barcode-Reifens muss erfolgreich sein, sonst kann
+der Typ nicht ermittelt werden. Solche unbekannten Reifen werden direkt in den
+Überlauf gefördert.
+\item[Nachbedingung Erfolg:] Reifen ist physikalisch eingelagert und logisch in der
+Datenbank verbucht.
+\item[Nachbedingung Fehlschlag:] Der Reifen wurde infolge gestörter Fördermechanik
+nicht eingelagert (liegt im Überlauf) oder produzierte aufgrund inkonsistenter
+Datenbank einen "`Platz belegt"' - Fehler beim Anfahren eines irrtümlich
+als frei angenommenen Platzes.
+\item[Akteure:] ~Produktion
+\item[Auslösendes Ereignis:] SPS meldet der Steuerung, dass am Eingangsscanner ein
+Reifen mit Seriennummer X des Typs Y eingetroffen ist.
+\item[Beschreibung:] ~
+\begin{enumerate}
+  \item Reifentypinformationen ermitteln (besonders Höhe des Reifens bei Wahl zwischen unterschiedlich hohen Lagerplätzen wichtig).
+  \item Alle Module ermitteln, die\\
+-  Platz auf den Einlagerstichen haben\\
+-  momentan nicht im Störungszustand sind\\
+-  freie Lagerplätze in der geforderten Höhe aufweisen.
+  \item Lagerplatz nach Gleichverteilungsgrundsatz bestimmen.
+  \item Reifen auf den Einlagerstich des gewählten Moduls befördern.
+  \item Sobald er auf dem vordersten Platz des Einlagerstichs steht, dem Modul den Befehl zur Reifenaufnahme und Einlagerung auf den gewählten Platz schicken.
+\end{enumerate}
+\item[Erweiterung:] (optional)\\
+	2a Zur Effizienzsteigerung auch Module ansteuern, die momentan keinen Platz auf
+	den Einlagerstichen haben, aber wahrscheinlich so schnell einlagern, dass der
+	Reifen nach der Fahrtzeit zum Modul auf den Stich eingelagert werden kann
+	(Überwachung des "`Unterwegsbestandes"' an Reifen für ein bestimmtes
+	Modul).\\
+	3a Lagerplatz des Reifens möglichst nah zum Einlagerstich im RBG wählen	(kürzere RBG-Fahrtzeiten).
+\item[Alternativen:] (optional)\\
+	2a Wenn kein Lagerplatz gefunden wird, Reifen zum Überlauf schicken (der
+	Einlagerförderer wird niemals angehalten!).
+\end{function}
+
+\begin{function}{20}{Login}
+\item[Anwendungsfall:] ...
+\end{function}

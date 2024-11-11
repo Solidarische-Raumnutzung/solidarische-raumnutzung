@@ -12,11 +12,11 @@ latex-build:
       - pdflatex presentation.tex
       - cd ..
       - cd pflichtenheft
-      - pdflatex Pflichtenheft.tex
+      - pdflatex main.tex
   artifacts:
     paths:
       - ./presi_template/presentation.pdf
-      - ./pflichtenheft/Pflichtenheft.pdf
+      - ./pflichtenheft/main.pdf
 
 java-build: 
     image: maven:3.8-openjdk-11

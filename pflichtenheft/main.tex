@@ -1,0 +1,66 @@
+%Dies ist die Hauptseite des Dokumentes. Es werden u. a. alle Kapitel,
+%Einstellung im Header eingebunden.  Veränderungen müssen in folgenden Dateien
+%vorgenommen werden:
+      %- config.tex
+      %- einzelne Kapitel (evtl. erweitern)
+
+\input{common/layout.tex}           % Diese Datei enthält alle
+                                           % Layouteinstellungen
+\newcommand{\dokumentTitel}{Pflichtenheft}
+\input{common/config.tex}
+
+%------Beginn des Gesamtdokumentes----------------------------------------------
+\begin{document}
+
+%------Eingebundene Seiten, Verzeichnisse bzw. Kapitel--------------------------
+\include{common/titelseite}                       % Titelseite
+
+%----Bearbeiterübersicht--------------------
+%Diese Tabelle ist eine Übersicht, wer welche Teile des Dokumentes verfasst hat. 
+%Sie ist vollständig zu bearbeiten.
+{\relsize{2}\textbf{Bearbeiterübersicht}}\\[2ex]
+\begin{longtable}{|m{3.38cm}|m{4.0cm}|m{6.0cm}|}
+  \hline                                              % Gitterlinie oberhalb
+  \textbf{Kapitel}  &    \textbf{Autoren}  &    \textbf{Kommentare} \\ 
+  \hline \hline                                       % Gitterlinie
+  
+  %----Die Granularität sollte mindestens auf section level sein.
+  %----Fehlende sections bitte hier nachtragen. Sollte eine feinere Granularität
+  %----nötig sein, sollte dies hier ebenfalls nachgetragen werden.
+  1   &    ...    &    ...  \\ \hline
+  1.1 &    ...    &    ...  \\ \hline
+  1.2 &    ...    &    ...  \\ \hline
+  2   &    ...    &    ...  \\ \hline
+  3   &    ...    &    ...  \\ \hline
+  3.1 &    ...    &    ...  \\ \hline
+  3.2 &    ...    &    ...  \\ \hline
+  4   &    ...    &    ...  \\ \hline
+  4.1 &    ...    &    ...  \\ \hline
+  4.2 &    ...    &    ...  \\ \hline
+  4.3 &    ...    &    ...  \\ \hline
+  5   &    ...    &    ...  \\ \hline
+  5.1 &    ...    &    ...  \\ \hline
+  5.2 &    ...    &    ...  \\ \hline
+  5.3 &    ...    &    ...  \\ \hline
+  6   &    ...    &    ...  \\ \hline
+  6.1 &    ...    &    ...  \\ \hline
+  6.2 &    ...    &    ...  \\ \hline
+  6.3 &    ...    &    ...  \\ \hline
+  7   &    ...    &    ...  \\ \hline
+\end{longtable}
+
+\tableofcontents                           % Inhaltsverzeichnis wird automatisch
+                                           % generiert
+\listoffigures                             % ebenso das Abbildungsverzeichnis
+
+%----Kapitel des Pflichtenhefts, die mit Inhalt zu füllen sind--------------------
+\include{Pflichtenheft/01_zielbestimmung}
+\include{Pflichtenheft/03_produktuebersicht}
+\include{Pflichtenheft/04_produktfunktionen}
+\include{Pflichtenheft/06_nichtfunktionaleanforderungen}
+\include{Pflichtenheft/07_benutzeroberflaeche}
+\include{Pflichtenheft/08_produktumgebung}
+\include{Pflichtenheft/10_glossar}
+
+%------Ende des Dokumentes------------------------------------------------------
+\end{document}

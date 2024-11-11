@@ -1,0 +1,36 @@
+%!TEX root = ../Pflichtenheft.tex
+
+\chapter{Produktdaten}
+\label{chap:product_data}
+
+Die langfristig zu speichernden Daten sind aus Benutzersicht detaillierter zu
+beschreiben. Dabei bietet sich eine formale Beschreibung an, um eine größere Präzisierung zu erreichen.
+Es sollte eine Menge an erwarteten Daten angegeben werden.
+
+Es kann die Darstellung gemäß Beispiel verwendet werden (alternativ kann auch ein Klassendiagramm mit entsprechender Beschreibung erstellt werden):\\
+
+\begin{data}{10}{Lagerdaten}
+	Daten der Lagerplätze (max. 5.000):\\
+	-  Modulnummer,\\
+	-  Regalseite,\\
+	-  Regalspalte,\\
+	-  Regalzeile,\\
+	-  Fachhöhe,\\
+	-  Platzsperre (0 = nicht gesperrt, 1 = gesperrt für Einlagerung, 2 = gesperrt
+	   für Auslagerung, 3 = gesperrt für alle Zugriffe),\\
+	-  Reifenstatus (0 = frei,1 = reserviert für Einlagerung, 2= belegt, 3 =
+	   reserviert für Auslagerung),\\
+	-  Reifenseriennummer.\\
+\end{data}
+
+\begin{data}{20}{Moduldaten}
+	Daten der Module (max. 20):\\
+	-  Modulnummer,\\
+	-  Sperrkennzeichen (0 = nicht gesperrt, 1 = gesperrt für Einlagerung, 2 =
+	   gesperrt für Auslagerung, 3 = gesperrt für alle Zugriffe),\\
+	-  maximale Kapazität,\\
+	-  freie Kapazität,\\
+	-  belegte Plätze (ergibt sich aus Status und Zahl der zugeordneten
+	   Lagerplätze, wird aus Geschwindigkeitsgründen allerdings redundant
+	   mitgeführt).
+\end{data}

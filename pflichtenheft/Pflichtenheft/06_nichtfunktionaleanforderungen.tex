@@ -1,0 +1,41 @@
+%!TEX root = ../Pflichtenheft.tex
+
+% Kapitel 6
+%-------------------------------------------------------------------------------
+
+\chapter{Nichtfunktionale Anforderungen}
+\label{chap:non_functional_req}
+
+In diesem Kapitel wird festgelegt, welche Qualitätsmerkmale das zu entwickelnde
+Produkt in welcher Qualitätsstufe besitzen soll. Anschließend werden die als am
+wichtigsten bezeichneten Qualitätsmerkmale operationalisiert, d.h. in konkrete
+Produktanforderungen detailliert, falls sie nicht als allgemeine Richtlinie (z.
+B. Standard, Norm) zur Verfügung gestellt werden können.
+
+
+Die oben als am wichtigsten bezeichneten Qualitätsmerkmale werden im Folgenden
+operationalisiert, d.h. in konkrete Produktanforderungen detailliert oder es
+wird angegeben, welche Richtlinie (z. B. Standard, Norm) einzuhalten ist. Diese
+Qualitätsanforderungen werden wie im Beispiel definiert. Zu prüfen ist, ob die
+gewünschte Qualität mit den in Produktdaten genannten Datenmengen erreicht
+werden kann.
+
+
+Beispiele:
+
+\begin{itemize}
+
+\item  \qualityReq{10}{Die Funktion \ref{F20} darf nicht länger als 5 Sekunden Antwortzeit benötigen.}
+\item  \qualityReq{20}{Alle Reaktionszeiten auf Benutzeraktionen müssen unter 2 Sekunden
+liegen (außer Funktion \ref{F20}).}
+\item  \qualityReq{30}{Die im Rahmen der automatischen Einlagerung \ref{F10} notwendige
+Platzwahl für einen am Anmeldescanner gemeldeten Reifen darf aus Gründen der
+Kommunikation mit der SPS nicht länger als 3 Sekunden dauern, ansonsten kann
+die SPS die Lieferung des Reifens zum richtigen Modul nicht garantieren.}
+\item  \qualityReq{40}{Das Produkt soll plattformunabhängig sein.}
+\item  \qualityReq{50}{Das Produkt muss anwenderfreundlich sein. (Intuitive Bedienbarkeit
+für Benutzer ohne EDV-Vorkenntnisse, umfangreiche Hilfefunktion)}
+\item  \qualityReq{60}{Die Produkt soll fehlertolerant bezüglich Bedien- und
+Eingabefehler sein.}
+
+\end{itemize}
