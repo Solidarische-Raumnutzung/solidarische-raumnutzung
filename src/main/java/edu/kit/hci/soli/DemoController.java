@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.Principal;
+
 @Controller
 public class DemoController {
 
@@ -27,10 +29,11 @@ public class DemoController {
     }
 
     @GetMapping("/")
-    public String index(Model model, HttpServletResponse response) {
+    public String index(Model model, HttpServletResponse response, Principal principal) {
         visitsRepository.increment();
 
-        model.addAttribute("model", new DemoModel("Anon", visitsRepository.getVisits()));
+        String username = principal == null ? "Anonymous" : principal.getName();
+        model.addAttribute("model", new DemoModel(username, visitsRepository.getVisits()));
         return "index";
     }
 }
