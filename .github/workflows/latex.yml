@@ -34,6 +34,7 @@ jobs:
           cd ..
           cd pflichtenheft
           pdflatex main.tex
+          pdflatex main.tex
           cd ..
           mkdir pages
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
