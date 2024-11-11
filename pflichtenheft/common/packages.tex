@@ -53,10 +53,14 @@
                           % Liste von Seitenzahlen
   plainpages=false,       % zur korrekten Erstellung der Bookmarks
   pdfpagelabels,          % zur korrekten Erstellung der Bookmarks
-  hypertexnames=false,    % zur korrekten Erstellung der Bookmarks
+  hypertexnames=false, 
+  colorlinks=true,   % zur korrekten Erstellung der Bookmarks
   linktocpage             % Seitenzahlen anstatt Text im Inhaltsverzeichnis verlinken
   ]{hyperref}
-
+  \hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+  }
   \usepackage{verbatim}
   \usepackage{lipsum}                     % Dummytext
   \usepackage{xargs}                      % Use more than one optional parameter in a new commands
