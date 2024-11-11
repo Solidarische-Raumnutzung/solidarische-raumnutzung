@@ -18,8 +18,22 @@ latex-build:
       - ./presi_template/presentation.pdf
       - ./pflichtenheft/main.pdf
 
-java-build: 
-    image: maven:3.8-openjdk-11
-    stage: build
-    script: 
-      - mvn --version
+java-test:
+  image: eclipse-temurin:21-jdk-noble
+  stage: test
+  script:
+    - gradle build
+
+image-build:
+  image: docker:latest
+  stage: deploy
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker buildx -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  only:
+    - master
