@@ -22,7 +22,6 @@
 \usepackage[headsepline, footsepline, ilines]{scrlayer-scrpage}
 
 %------Grafiken und Farben -----------------------------------------------------
-\usepackage{xcolor}
 \usepackage{graphicx}
 
 %------Packet zum Sperren, Unterstreichen und Hervorheben von Texten------------
@@ -59,9 +58,10 @@
   ]{hyperref}
 
   \usepackage{verbatim}
-
-
-
-
+  \usepackage{lipsum}                     % Dummytext
+  \usepackage{xargs}                      % Use more than one optional parameter in a new commands
+  \usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+  % 
+  \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 
 

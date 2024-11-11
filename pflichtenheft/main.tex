@@ -4,10 +4,10 @@
       %- config.tex
       %- einzelne Kapitel (evtl. erweitern)
 
-\input{common/layout.tex}           % Diese Datei enthält alle
+\input{common/layout}           % Diese Datei enthält alle
                                            % Layouteinstellungen
 \newcommand{\dokumentTitel}{Pflichtenheft}
-\input{common/config.tex}
+\input{common/config}
 
 %------Beginn des Gesamtdokumentes----------------------------------------------
 \begin{document}
@@ -51,8 +51,9 @@
 
 \tableofcontents                           % Inhaltsverzeichnis wird automatisch
                                            % generiert
-\listoffigures                             % ebenso das Abbildungsverzeichnis
-
+\listoffigures              
+\newpage
+\listoftodos[Notes]
 %----Kapitel des Pflichtenhefts, die mit Inhalt zu füllen sind--------------------
 \include{Pflichtenheft/01_zielbestimmung}
 \include{Pflichtenheft/03_produktuebersicht}
