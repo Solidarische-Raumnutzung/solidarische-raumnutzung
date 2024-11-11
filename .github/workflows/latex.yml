@@ -22,11 +22,12 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-full
+          apt update
+          apt install texlive-latex-base texlive-lang-german texlive-science latexmk
+          apt install texlive-latex-extra --no-install-recommends   
       - name: Build
         run: |
-          cd presi_template
+          cd presi_template 
           pdflatex presentation.tex
           biber presentation
           pdflatex presentation.tex
