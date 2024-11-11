@@ -1,9 +1,47 @@
-name: latex build
+name: LaTeX Build
 
 on:
   push:
     branches:
       - master
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-full
+      - name: Build
+        run: |
+          cd presi_template
+          pdflatex presentation.tex
+          biber presentation
+          pdflatex presentation.tex
+          cd ..
+          cd pflichtenheft
+          pdflatex main.tex
+          cd ..
+          mkdir pages
+          mv ./presi_template/presentation.pdf ./pages/presentation.pdf
+          mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: 'pages'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
