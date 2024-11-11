@@ -22,9 +22,9 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Install Dependencies
         run: |
-          apt update
-          apt install texlive-latex-base texlive-lang-german texlive-science latexmk
-          apt install texlive-latex-extra --no-install-recommends   
+          sudo apt-get update
+          sudo apt-get install texlive-latex-base texlive-lang-german texlive-science latexmk
+          sudo apt-get install texlive-latex-extra --no-install-recommends   
       - name: Build
         run: |
           cd presi_template 
