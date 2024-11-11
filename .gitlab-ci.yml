@@ -1,6 +1,7 @@
 
 stages:
   - build
+  - deploy
 
 latex-build: 
   image: registry.gitlab.com/islandoftex/images/texlive:latest
@@ -20,7 +21,7 @@ latex-build:
 
 java-test:
   image: eclipse-temurin:21-jdk-noble
-  stage: test
+  stage: build
   script:
     - gradle build
 
