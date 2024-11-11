@@ -33,5 +33,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build Docker Image
       run: |
-        docker build -t ghcr.io/${{ github.actor }}/solidarische-raumnutzung:latest .
-        docker push ghcr.io/${{ github.actor }}/solidarische-raumnutzung:latest
+        export IMAGE_NAME=`echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]'`/solidarische-raumnutzung:latest
+        docker build -t "ghcr.io/$IMAGE_NAME" .
+        docker push "ghcr.io/$IMAGE_NAME"
