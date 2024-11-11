@@ -50,3 +50,13 @@ jte {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+val copyArtifact by tasks.creating(Copy::class) {
+    dependsOn(tasks.bootJar)
+    from(tasks.bootJar)
+    into(layout.buildDirectory.dir("libs"))
+    rename(".*\\.jar", "app.jar")
+}
+tasks.assemble {
+    dependsOn(copyArtifact)
+}
