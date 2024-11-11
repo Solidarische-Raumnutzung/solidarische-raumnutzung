@@ -23,7 +23,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install texlive-latex-base texlive-lang-german texlive-science latexmk texlive-fonts-extra texlive-bibtex-extra
+          sudo apt-get install texlive-latex-base texlive-lang-german texlive-science latexmk texlive-fonts-extra texlive-bibtex-extra biber
           sudo apt-get install texlive-latex-extra --no-install-recommends   
       - name: Build
         run: |
