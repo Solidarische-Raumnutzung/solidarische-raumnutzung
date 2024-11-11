@@ -1,0 +1,9 @@
+name: latex build
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+    build:
+        runs-on: ubuntu-latest
