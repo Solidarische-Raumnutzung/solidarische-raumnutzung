@@ -8,26 +8,48 @@
 \chapter{Technische Produktumgebung}
 \label{chap:tech_env}
 
-In diesm Kapitel halten wir die technsiche Umgebung des Produktes fest.
+\section{Hardware}
 
-In diesem Kapitel wird die technische Umgebung des Produktes beschrieben. Bei
-Client/Server-Anwendungen ist die Umgebung jeweils für Client und Server
-getrennt anzugeben.
+\subsection{Backend}
+
+\begin{itemize}
+    \item AMD64-kompatibler Prozessor (emuliert in einer VM)
+    \item mindestens 1 GB RAM
+\end{itemize}
+
+\subsection{Frontend}
+
+\begin{itemize}
+    \item Beliebiges (mobiles) Gerät mit Internetzugang
+\end{itemize}
 
 \section{Software}
-Hier wird angegeben, welche Softwaresysteme (z. B. Betriebssystem, Datenbank,
-Fenstersystem, usw.) zur Verfügung stehen.\\
 
-Beispiel:\\
-Server-Betriebssystem: Linux (Debian 7)\\
-Client-Betriebssystem: Windows 7\\
+\subsection{Backend}
 
+\begin{itemize}
+    \item Ubuntu Linux 24.04 LTS als Betriebssystem
+    \item Docker zur Containerisierung der Anwendung
+    \item PostgreSQL als Datenbank (in einem eigenen Container)
+    \item Applikations-Container (gebaut in CI)
+    \item Spring Boot mit Java 21 als Backend-Framework
+    \todo[inline]{Wie machen wir HTTPS? Mit Spring oder per NGINX/Caddy? Wie kriegen wir Domäne, Zertifikat, ...?}
+\end{itemize}
 
-\section{Hardware}
-Hier werden die Hardware Komponenten (z. B. CPU, Peripherie) in minimaler und
-maximaler Konfiguration aufgeführt, die für den Produkteinsatz vorgesehen
-sind.
+\subsection{Frontend}
 
-Beispiel:\\
-Server: Virtueller Server mit 4 Cores und 4 GB RAM \\
-Client: Standard PC und browserfähiges Gerät mit Grafikbildschirm (für Fernwartung)\\
+\begin{itemize}
+    \item Pure HTML mit JavaScript zur Interaktivität um maximale Kompatibilität zu gewährleisten
+    \item DaisyUI als CSS-Framework
+    \item FullCalendar für die Kalenderansicht
+    \item Moderner Browser (Chrome, Firefox, Safari, Edge) zur vollen Funktionalität
+\end{itemize}
+
+\section{Schnittstellen}
+
+\begin{itemize}
+    \item SSR (Server-Side Rendering) generiert HTML-Dateien
+    \item HTML-Forms zur Interaktion mit dem Backend
+    \item Minimale REST-API zum Prüfen auf Verfügbarkeit
+    \todo[inline]{Machen wir das?}
+\end{itemize}
