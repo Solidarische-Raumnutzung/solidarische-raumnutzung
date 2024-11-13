@@ -14,6 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - uses: gradle/actions/wrapper-validation@v4
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -36,3 +37,5 @@ jobs:
         export IMAGE_NAME=`echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'`:latest
         docker build -t "ghcr.io/$IMAGE_NAME" .
         docker push "ghcr.io/$IMAGE_NAME"
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v4
