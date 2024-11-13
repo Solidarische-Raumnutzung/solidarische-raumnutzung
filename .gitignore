@@ -57,3 +57,4 @@ presentation.toc
 /.idea
 *.log
 *.aux
+*.synctex.gz
