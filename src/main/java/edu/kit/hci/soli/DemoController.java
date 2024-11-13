@@ -15,7 +15,7 @@ public class DemoController {
 
     final VisitsRepository visitsRepository;
 
-    @Value("${spring.profiles.active:PROFILE_NOT_SET")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     public DemoController(@Autowired VisitsRepository visitsRepository) {

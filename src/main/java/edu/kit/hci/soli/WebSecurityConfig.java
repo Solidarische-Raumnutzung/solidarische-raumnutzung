@@ -1,5 +1,6 @@
 package edu.kit.hci.soli;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,18 +24,24 @@ public class WebSecurityConfig {
             )
 //                .oidcLogout()
             .formLogin(form -> form
-                    .loginPage("/login")
+//                    .loginPage("/login") //TODO implement login page
                     .permitAll());
         return http.build();
     }
 
+    @Value("${soli.administrator.name}")
+    private String username;
+
+    @Value("${soli.administrator.password}")
+    private String password;
+
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
+                User.builder()
+                        .username(username)
+                        .password(password)
+                        .roles("USER", "ADMIN")
                         .build();
 
         return new InMemoryUserDetailsManager(user);
