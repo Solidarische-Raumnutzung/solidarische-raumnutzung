@@ -56,3 +56,4 @@ presentation.toc
 *.pdf
 /.idea
 *.log
+*.aux
