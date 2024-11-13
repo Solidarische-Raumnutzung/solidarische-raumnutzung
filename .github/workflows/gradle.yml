@@ -23,7 +23,7 @@ jobs:
         server-id: github
         settings-path: ${{ github.workspace }}
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@4.2.0
+      uses: gradle/actions/setup-gradle@4a0951b3dce72986ec5a30ca053bf7390e736564
     - name: Build with Gradle
       run: ./gradlew clean build
     - name: Login to Docker
