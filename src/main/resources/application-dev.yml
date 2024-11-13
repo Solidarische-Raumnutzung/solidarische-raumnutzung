@@ -1,0 +1,13 @@
+spring:
+  devtools:
+    restart:
+      additional-paths: ./src/main/jte
+
+gg:
+  jte:
+    development-mode: true
+
+soli:
+  administrator:
+    name: admin
+    password: "{noop}password"
