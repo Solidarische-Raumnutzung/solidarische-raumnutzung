@@ -17,7 +17,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+/.idea
 *.iws
 *.iml
 *.ipr
@@ -40,5 +40,18 @@ out/
 
 # TeX
 auxil/
-
-/.idea
+presentation.bbl
+presentation.bcf
+presentation.blg
+presentation.fdb_latexmk
+presentation.fls
+presentation.log
+presentation.nav
+presentation.out
+presentation.run.xml
+presentation.snm
+presentation.toc
+*.pdf
+*.log
+*.aux
+*.synctex.gz
