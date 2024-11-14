@@ -1,0 +1,34 @@
+version: "3"
+services:
+  cavo:
+    depends_on: 
+      - database
+    image: ghcr.io/solidarische-raumnutzung/solidarische-raumnutzung:latest
+    ports:
+      - "443:3443"
+      - "8080:3080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:postgresql://database:5432/soli",
+        "spring.datasource.username" : "soli",
+        "spring.datasource.password" : "john_soli",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"}'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    command: --interval 30
+  database:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: soli
+      POSTGRES_PASSWORD: john_soli
+      POSTGRES_DB: soli
