@@ -4,12 +4,14 @@
 \label{chap:product_overview}
 
 \section{Betriebsbedingungen}
-Hier werden die unterschiedlichen Bedürfnisse und Anforderungen an das Produkt
-aufgelistet. Dies können folgenden Punkte sein:
+\iffalse Hier werden die unterschiedlichen Bedürfnisse und Anforderungen an das Produkt
+aufgelistet. Dies können folgenden Punkte sein: \fi
 \begin{itemize}
-\item physikalische Umgebung des Systems (z. B. Büroumgebung, mobiler Einsatz)
-\item tägliche Betriebszeit (z. B. Dauerbetrieb)
-\item ständige Beobachtung des Systems durch einen Bediener oder unbeaufsichtigter Betrieb
+    \item Die Software soll in einem Docker-Container laufen.
+    \item Die Software soll weitgehend ohne Unterbrechung laufen.
+    \item Ständige Beobachtung ist nicht vorgesehen, die Software soll weitgehend autonom laufen.
+    \item Übliche Administrationsaufgaben sollen über die Administrationsoberfläche und ohne Neustart der Software möglich sein.
+    \item Die RAM-Nutzung soll möglichst gering sein (Ideal: unter 1GB)
 \end{itemize}
 
 \section{Use-Cases}
