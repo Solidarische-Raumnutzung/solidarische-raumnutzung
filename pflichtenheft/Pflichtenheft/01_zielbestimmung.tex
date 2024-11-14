@@ -25,13 +25,28 @@ Wir halten also welche Funktionalitäten/Leistungen das Softwareprodukt in
 jedem Fall erfüllen muss, damit es genutzt werden kann.
 
 \todo[inline]{Hier fallen uns noch sicherliche mehr Kriterien ein.}
+\todo[inline]{Numbering these correctly only makes sense once they are (at least mostly) done.}
 
-\must{1}{Die Anwendung soll als Web-Applikation realisiert werden.}
-\must{2}{Nutzer der Anwendung sollten in der Lage sein, sich mit ihrem KIT-Konto oder einem lokalen Gastkonto anzumelden.}
-\must{3}{User der Anwedung sollen in der Lage sein, einen Raum zu reservieren. Dabei sollte nicht nur eine einfache Kalendaransicht angeboten werden, sondern die Möglichkeit zur Eingabe zusätzlicher Informationen bereitgestellt werden.}
-\must{4}{Der Status einer getätigten Reservierung sollte nuanciert angegeben werden.}
-\must{5}{Die Anwendung soll in der Lage sein, Benutzer*innen darüber zu informieren, wenn ihre Buchung durch eine Buchung mit höherer Priorität überschrieben wurde.}
-\must{6}{Nutzer der Anwendung sollen in der Lage sein, eine Reservierung zu stornieren.}
+\must{1}{Die Anwendung muss als Web-Applikation realisiert werden.}
+\must{2}{Nutzer der Anwendung müssen in der Lage sein, sich mit ihrem KIT-Konto oder einem lokalen Gastkonto anzumelden.}
+\must{3}{Es muss einen Admin-Benutzer geben, welcher per Passwort sich authentifiziert. Alleine der Serveradmin darf dieses Passwort ändern können.}
+\must{3}{Es müssen die Ansichten Kalender, Ereignis und Ereignis-erstellen die Benutzerinteraktionen ermöglichen.}
+\must{3}{Die Kalender Ansicht muss einen klaren Überblick über bereits reservierte Zeiten geben.}
+\must{3}{Die Kalender Ansicht muss die Öffnungszeiten des Raumens zur darstellung bringen.}
+\must{3}{Die Kalender Ansicht soll angemeldeten Nutzern ihre eigenen Termine hervorgehoben kennzeichnen.}
+\must{3}{Die Ereignis Ansicht muss die möglichkeit bieten, genauere Information über ein Termin darzustellen.}
+\must{3}{Die Ereignis-erstellen Ansicht muss die möglichkeit bieten, einen Raum für eine gewisse Zeitperiode zu reservieren.}
+
+\unsure{what exactly should be specified??}
+\must{3}{Bei der Reservierung eines Raumes muss die Möglichkeit bestehen eine Beschreibung, Namen, Mail-Adresse TODO... zu hinterlegen. Hierbei muss der Nutzer klar darauf hingeweisen werden, wer diese Daten einsehen kann.}
+
+\unsure{Specify more concretely, nuanced in what way?}
+\must{4}{Der Prioritäts-Status einer getätigten Reservierung muss nuanciert angegeben werden können.}
+
+\must{5}{Die Anwendung muss in der Lage sein, Benutzer*innen darüber zu informieren, wenn ihre Buchung durch eine Buchung mit höherer Priorität überschrieben wurde.}
+\must{6}{Nutzer der Anwendung müssen in der Lage sein, eine Reservierung zu stornieren.}
+\must{6}{x}
+
 
 
 \section{Wunschkriterien}\label{sec:wunschkriterien}
@@ -46,7 +61,12 @@ schlimm ist, wenn am Ende nicht alle Wunschkriterien implementiert sind.
 
 \todo[inline]{Hier fallen uns noch sicherliche mehr Kriterien ein.}
 
-\wish{1}{Some criteria}
+\wish{1}{Es sollte die Möglichkeit geben mehr als ein Raum zur Buchung anzubieten.}
+\wish{1}{In der Kalenderansicht sollten Feiertage automatisch eingebunden werden.}
+\wish{1}{Admins sollten die möglichkeit haben geplante Wartungs- und Sperrzeiten einzurichten.}
+\wish{1}{Termine sollen nach dem einrichten per iCal-Format exportiert werden können.}
+\wish{1}{Nutzer sollen bei der Ereignis Ansicht die Möglichkeit haben ihre eigenen Termine zu editieren.}
+\wish{1}{Die Kalenderansicht soll Anzeigen welche Termine bereits in der Vergangenheit liegen und wo der Übergang von Vergangenheit auf Zukunft liegt.}
 \wish{1}{Some criteria}
 
 
