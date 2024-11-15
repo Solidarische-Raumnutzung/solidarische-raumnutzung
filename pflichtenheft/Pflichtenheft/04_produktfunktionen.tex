@@ -28,7 +28,7 @@ Beispiel:\\
     Datenbank verbucht.
     \item[Nachbedingung Fehlschlag:] Der Reifen wurde infolge gestörter Fördermechanik
     nicht eingelagert (liegt im Überlauf) oder produzierte aufgrund inkonsistenter
-    Datenbank einen "`Platz belegt"' - Fehler beim Anfahren eines irrtümlich
+    Datenbank einen `Platz belegt` - Fehler beim Anfahren eines irrtümlich
     als frei angenommenen Platzes.
     \item[Akteure:] ~Produktion
     \item[Auslösendes Ereignis:] SPS meldet der Steuerung, dass am Eingangsscanner ein
@@ -37,8 +37,8 @@ Beispiel:\\
     \begin{enumerate}
       \item Reifentypinformationen ermitteln (besonders Höhe des Reifens bei Wahl zwischen unterschiedlich hohen Lagerplätzen wichtig).
       \item Alle Module ermitteln, die\\
-    -  Platz auf den Einlagerstichen haben\\
-    -  momentan nicht im Störungszustand sind\\
+    - Platz auf den Einlagerstichen haben\\
+    - momentan nicht im Störungszustand sind\\
     -  freie Lagerplätze in der geforderten Höhe aufweisen.
       \item Lagerplatz nach Gleichverteilungsgrundsatz bestimmen.
       \item Reifen auf den Einlagerstich des gewählten Moduls befördern.
@@ -48,7 +48,7 @@ Beispiel:\\
         2a Zur Effizienzsteigerung auch Module ansteuern, die momentan keinen Platz auf
         den Einlagerstichen haben, aber wahrscheinlich so schnell einlagern, dass der
         Reifen nach der Fahrtzeit zum Modul auf den Stich eingelagert werden kann
-        (Überwachung des "`Unterwegsbestandes"' an Reifen für ein bestimmtes
+        (Überwachung des `Unterwegsbestandes` an Reifen für ein bestimmtes
         Modul).\\
         3a Lagerplatz des Reifens möglichst nah zum Einlagerstich im RBG wählen	(kürzere RBG-Fahrtzeiten).
     \item[Alternativen:] (optional)\\
@@ -80,7 +80,7 @@ Beispiel:\\
     \item[Anforderung:] \ref{RM3}, \ref{RM8}, \ref{RM9} und \ref{RM10}
     \item[Ziel:] Der Benutzer kann einen Raum reservieren.
     \item[Vorbedingung:] Der Benutzer ist angemeldet und hat eine Internetverbindung.
-    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und der Benutzer wird zur Buchungsseite weitergeleitet.
+    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und der Benutzer zur Buchungsseite weitergeleitet.
     \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht gespeichert und der Benutzer erhält eine Fehlermeldung.
     \item[Auslösendes Ereignis:] Der Benutzer wählt einen Raum und einen Startzeitpunkt.
     \item[Beschreibung:] ~
@@ -92,7 +92,7 @@ Beispiel:\\
         \item Falls eine E-Mail-Adresse angegeben wurde, kann der Benutzer diese als in der Oberfläche sichtbar oder unsichtbar markieren.
         \item Der Benutzer bestätigt seine Eingaben.
         \item Die Anwendung prüft, ob der Raum in dem Zeitraum verfügbar ist.
-        \item Falls ja, wird die Reservierung gespeichert und der Nutzer wird weitergeleitet.
+        \item Falls ja, wird die Reservierung gespeichert und der Nutzer weitergeleitet.
               Wenn nötig, wird eine E-Mail an die Ersteller überschriebener Reservierungen gesendet.
     \end{enumerate}
 \end{function}
