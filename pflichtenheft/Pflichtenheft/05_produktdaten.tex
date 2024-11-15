@@ -36,3 +36,39 @@ Es kann die Darstellung gemäß Beispiel verwendet werden (alternativ kann auch 
 	   mitgeführt).
 \end{data}
 \fi
+
+Die Anwendung verwendet den Server als zentralen Speicherort für alle Daten.
+Die Daten werden in einer PostgreSQL-Datenbank gespeichert.
+Auf dem Client werden nur temporäre Daten gespeichert, die für die Funktionalität der Anwendung notwendig sind.
+
+\improvement{Das LaTeX-Template bietet für diese Sektion ein anderes Format an. Ich hab es nicht schön gekriegt, deshalb habe ich es so gelöst.}
+
+\subsection*{Clientdaten}
+\begin{itemize}
+    \item Anmeldungscookie (falls der Benutzer anonym angemeldet ist)
+    \item Zustand der Anwendung (z.B. aktuelle Seite, geöffnete Dialoge)
+\end{itemize}
+
+\subsection*{Serverdaten}
+\begin{itemize}
+    \item Benutzerdaten \begin{itemize}
+        \item Benutzername
+        \item (optional) E-Mail-Adresse
+        \item OAuth- oder Cookie-Token
+    \end{itemize}
+    \item Ereignisdaten \begin{itemize}
+        \item Start- und Endzeitpunkt \unsure{Wie kodieren wir die Zeit? Fixe Slots oder Unix-Timestamp?}
+        \item Beschreibung
+        \item Raum
+        \item Ersteller
+        \item Priorität
+        \item Kollaborativität
+        \item (optional) E-Mail-Adresse
+        \item Sichtbarkeit der E-Mail-Adresse
+    \end{itemize}
+    \item Raumdaten \begin{itemize}
+        \item Raumname
+        \item Raumbeschreibung
+        \item Raumbild
+    \end{itemize}
+\end{itemize}
