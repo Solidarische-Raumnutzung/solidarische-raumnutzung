@@ -3,11 +3,8 @@ spring:
     restart:
       additional-paths: ./src/main/jte
 
-gg:
-  jte:
-    development-mode: true
-
 soli:
+  development-mode: true
   administrator:
     name: admin
     password: "{noop}password"

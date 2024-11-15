@@ -1,13 +1,15 @@
-package edu.kit.hci.soli;
+package edu.kit.hci.soli.template;
 
 import gg.jte.TemplateEngine;
 import gg.jte.output.Utf8ByteOutput;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
+import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.view.AbstractTemplateView;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Map;
 
 public class JteView extends AbstractTemplateView {
@@ -16,6 +18,11 @@ public class JteView extends AbstractTemplateView {
 
     public JteView(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
+    }
+
+    @Override
+    public boolean checkResource(Locale locale) throws Exception {
+        return templateEngine.hasTemplate(this.getUrl());
     }
 
     @Override

@@ -1,9 +1,8 @@
-package edu.kit.hci.soli;
+package edu.kit.hci.soli.template;
 
+import edu.kit.hci.soli.SoliApplication;
 import gg.jte.*;
 import gg.jte.resolve.DirectoryCodeResolver;
-import gg.jte.springframework.boot.autoconfigure.JteProperties;
-import gg.jte.springframework.boot.autoconfigure.JteViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -13,10 +12,9 @@ import java.nio.file.Paths;
 
 @Configuration
 public class JteConfiguration {
-
     @Bean
-    public ViewResolver jteViewResolve(TemplateEngine templateEngine, JteProperties properties) {
-        return new JteViewResolver(templateEngine, properties);
+    public ViewResolver jteViewResolve(TemplateEngine templateEngine) {
+        return new JteViewResolver(templateEngine);
     }
 
     @Bean

@@ -31,7 +31,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("gg.jte:jte:3.1.14")
-    implementation("gg.jte:jte-spring-boot-starter-3:3.1.14")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
