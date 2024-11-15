@@ -29,6 +29,9 @@ public class JteView extends AbstractTemplateView {
     protected void renderMergedTemplateModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String url = this.getUrl();
 
+        RequestContext context = new RequestContext(request, response, getServletContext(), model);
+        model.put("context", new JteContext(context.getMessageSource(), context.getLocale()));
+
         Utf8ByteOutput output = new Utf8ByteOutput();
         templateEngine.render(url, model, output);
 
