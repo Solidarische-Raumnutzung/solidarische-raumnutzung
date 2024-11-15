@@ -12,12 +12,12 @@
 
 \begin{itemize}
     \item Devcontainer für reproduzierbare Entwicklungsumgebung
-    \item IntelliJ IDEA als IDE und LaTex-Editor
+    \item IntelliJ IDEA als \gls{IDE} und LaTex-Editor
     \item pdfLaTeX zur Kompilierung des Dokuments
-    \item Git zur Versionskontrolle
-    \item Gradle zur Build-Automatisierung
-    \item GitHub Actions für CI/CD (inkl. Tests und Dokumentation)
-    \item GitHub Packages zur Speicherung generierter Docker-Images
+    \item \gls{Git} zur Versionskontrolle
+    \item \gls{Gradle} zur Build-Automatisierung
+    \item \gls{GitHub} Actions für \gls{CI} (inkl. Tests und Dokumentation)
+    \item \gls{GitHub} Packages zur Speicherung generierter \gls{Docker}-Images
 \end{itemize}
 
 \section{Hardware}
@@ -25,8 +25,8 @@
 \subsection{Backend}
 
 \begin{itemize}
-    \item AMD64-kompatibler Prozessor (emuliert in einer VM)
-    \item mindestens 1 GB RAM
+    \item \gls{AMD64}-kompatibler Prozessor (emuliert in einer \gls{VM})
+    \item mindestens 1 GB \gls{RAM}
 \end{itemize}
 
 \subsection{Frontend}
@@ -41,28 +41,28 @@
 
 \begin{itemize}
     \item Ubuntu Linux 24.04 LTS als Betriebssystem
-    \item Docker zur Containerisierung der Anwendung
-    \item PostgreSQL als Datenbank (in einem eigenen Container)
-    \item Applikations-Container (gebaut in CI)
+    \item \gls{Docker} zur \gls{Container}isierung der Anwendung
+    \item \gls{PostgreSQL} als Datenbank (in einem eigenen \gls{Container})
+    \item Applikations-\gls{Container} (gebaut in \gls{CI})
     \item Spring Boot mit Java 21 als Backend-Framework
-    \item JTE zur Generierung von HTML-Seiten
+    \item JTE zur Generierung von \gls{HTML}-Seiten
     \unsure{Wie machen wir HTTPS? Mit Spring oder per NGINX/Caddy? Wie kriegen wir Domäne, Zertifikat, ...?}
 \end{itemize}
 
 \subsection{Frontend}
 
 \begin{itemize}
-    \item Pure HTML mit JavaScript zur Interaktivität um maximale Kompatibilität zu gewährleisten
-    \item DaisyUI als CSS-Framework
+    \item Pure \gls{HTML} mit \gls{JavaScript} zur Interaktivität um maximale Kompatibilität zu gewährleisten
+    \item DaisyUI als \gls{CSS}-Framework
     \item FullCalendar für die Kalenderansicht
-    \item Moderner Browser (Chrome, Firefox, Safari, Edge) zur vollen Funktionalität
+    \item Moderner \gls{Browser} (Chrome, Firefox, Safari, Edge) zur vollen Funktionalität
 \end{itemize}
 
 \section{Schnittstellen}
 
 \begin{itemize}
-    \item SSR generiert (hauptsächlich) statische HTML-Seiten
-    \item HTML-Forms zur Interaktion mit dem Backend
-    \item Minimale REST-API zum Prüfen auf Verfügbarkeit
+    \item \gls{SSR} generiert (hauptsächlich) statische \gls{HTML}-Seiten
+    \item \gls{HTML}-Forms zur Interaktion mit dem Backend
+    \item Minimale \gls{REST}-\gls{API} zum Prüfen auf Verfügbarkeit
     \unsure{Machen wir das?}
 \end{itemize}

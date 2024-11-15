@@ -9,14 +9,18 @@
 \newcommand{\dokumentTitel}{Pflichtenheft}
 \input{common/config}
 
+\makeglossaries
+
 %------Beginn des Gesamtdokumentes----------------------------------------------
 \begin{document}
 
 %------Eingebundene Seiten, Verzeichnisse bzw. Kapitel--------------------------
 \include{common/titelseite}                       % Titelseite
 
+\include{Pflichtenheft/10_glossar}
+
 %----Bearbeiterübersicht--------------------
-%Diese Tabelle ist eine Übersicht, wer welche Teile des Dokumentes verfasst hat. 
+%Diese Tabelle ist eine Übersicht, wer welche Teile des Dokumentes verfasst hat.
 %Sie ist vollständig zu bearbeiten.
 {\relsize{2}\textbf{Bearbeiterübersicht}}\\[2ex]
 \begin{longtable}{|m{3.38cm}|m{4.0cm}|m{6.0cm}|}
@@ -64,7 +68,8 @@
 \include{Pflichtenheft/07_benutzeroberflaeche}
 \include{Pflichtenheft/08_produktumgebung}
 \include{Pflichtenheft/09_testen}
-\include{Pflichtenheft/10_glossar}
+\setglossarystyle{german}
+\printglossaries
 
 %------Ende des Dokumentes------------------------------------------------------
 \end{document}

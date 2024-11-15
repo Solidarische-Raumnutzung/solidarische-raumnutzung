@@ -34,6 +34,7 @@ jobs:
           cd ..
           cd pflichtenheft
           pdflatex main.tex
+          makeglossaries main
           pdflatex main.tex
           cd ..
           mkdir pages
