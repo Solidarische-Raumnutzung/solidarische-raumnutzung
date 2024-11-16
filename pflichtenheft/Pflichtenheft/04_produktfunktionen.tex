@@ -167,3 +167,22 @@ Beispiel:\\
     \end{enumerate}
 \end{function}
 
+\begin{function}{70}{Stornierung einer Reservierung}
+    \item[Anwendungsfall:] Stornierung einer Reservierung
+    \item[Anforderung:] ~\ref{RM14}
+    \item[Ziel:] Der Benutzer kann eine bestehende Reservierung stornieren.
+    \item[Vorbedingung:] Der Benutzer ist angemeldet und hat eine aktive Reservierung.
+    \item[Nachbedingung Erfolg:] Die Reservierung wird storniert und der Benutzer erhält eine Bestätigungsmeldung.
+    \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht storniert und der Benutzer erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Der Benutzer wählt die Option zur Stornierung einer bestehenden Reservierung.
+    \item[Beschreibung:] ~
+    \begin{enumerate}
+        \item Der Benutzer öffnet die Seite mit seinen aktuellen Reservierungen.
+        \item Der Benutzer wählt die Reservierung aus, die er stornieren möchte.
+        \item Der Benutzer bestätigt die Stornierung der Reservierung (z. B. durch Klick auf „Reservierung stornieren“).
+        \item Eine Bestätigungsabfrage erscheint, in der der Benutzer die Stornierung bestätigen muss.
+        \item Falls der Benutzer bestätigt, wird die Reservierung storniert.
+        \item Das System aktualisiert die Raumverfügbarkeit und zeigt dem Benutzer eine Bestätigungsmeldung (z. B. "Reservierung erfolgreich storniert").
+        \item Der Benutzer erhält ggf. eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
+    \end{enumerate}
+\end{function}
