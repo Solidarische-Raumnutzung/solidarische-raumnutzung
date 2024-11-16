@@ -59,3 +59,8 @@ val copyArtifact by tasks.creating(Copy::class) {
 tasks.assemble {
     dependsOn(copyArtifact)
 }
+
+extensions.findByName("buildScan")?.withGroovyBuilder {
+    setProperty("termsOfServiceUrl", "https://gradle.com/terms-of-service")
+    setProperty("termsOfServiceAgree", "yes")
+}
