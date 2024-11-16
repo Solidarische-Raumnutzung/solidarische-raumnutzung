@@ -15,4 +15,9 @@ class SoliApplicationTests {
     void testAlwaysTrue() {
         Assertions.assertTrue(true);
     }
+
+    @Test
+    void testAlwaysFalse() {
+        Assertions.fail();
+    }
 }
