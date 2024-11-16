@@ -141,8 +141,8 @@ Beispiel:\\
 
 \needspace{10\baselineskip}
 
-\begin{function}{40}{Löschen von Terminen}
-    \item[Anwendungsfall:] Löschen von Terminen
+\begin{function}{40}{Löschen von Terminen von Admins}
+    \item[Anwendungsfall:] Löschen von Terminen von Admins
     \item[Anforderung:] ~\ref{RM16}
     \item[Ziel:] Der Administrator kann bestehende Termine löschen.
     \item[Vorbedingung:] Der Administrator ist angemeldet.
@@ -155,7 +155,7 @@ Beispiel:\\
         \item Der Administrator wählt den Termin aus, den er löschen möchte.
         \item Der Administrator wird gefragt, ob er den Termin wirklich löschen möchte (Bestätigungsabfrage).
         \item Falls der Administrator bestätigt, wird der Termin gelöscht.
-        \item Eine Bestätigungsmeldung wird angezeigt (z. B. "Termin erfolgreich gelöscht").
+        \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ `Termin erfolgreich gelöscht').
     \end{enumerate}
 \end{function}
 
@@ -175,7 +175,7 @@ Beispiel:\\
         \item Der Administrator wählt einen Gastbenutzer aus, den er deaktivieren möchte.
         \item Der Administrator bestätigt die Deaktivierung.
         \item Der Gastbenutzer wird deaktiviert und aus der aktiven Liste entfernt.
-        \item Eine Bestätigungsmeldung wird angezeigt (z. B. "Gastbenutzer erfolgreich deaktiviert").
+        \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ "Gastbenutzer erfolgreich deaktiviert").
     \end{enumerate}
 \end{function}
 
@@ -206,15 +206,15 @@ Beispiel:\\
     \item[Anforderung:] ~\ref{RM18}
     \item[Ziel:] Die Anwendung stellt den Raumstatus, einschließlich der aktuellen Belegung und Priorität, übersichtlich dar.
     \item[Vorbedingung:] Der Benutzer ist nicht eingeloggt.
-    \item[Nachbedingung Erfolg:] Der Raumstatus wird auf einer öffentlichen Seite korrekt angezeigt, inklusive Belegung und Priorität (z. B. durch farbige Banner).
+    \item[Nachbedingung Erfolg:] Der Raumstatus wird auf einer öffentlichen Seite korrekt angezeigt, inklusive Belegung und Priorität (z.B.\ durch farbige Banner).
     \item[Nachbedingung Fehlschlag:] Der Raumstatus wird nicht angezeigt oder ist unvollständig.
     \item[Auslösendes Ereignis:] Der Benutzer öffnet die Seite mit den Informationen zu den Räumen.
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Der Benutzer öffnet die Seite.
         \item Der Raum wird mit dem entsprechenden Status angezeigt, der die aktuelle Belegung widerspiegelt.
-        \item Falls der Raum belegt ist, wird dies deutlich sichtbar gemacht (z. B. durch einen roten Banner oder ein entsprechendes Symbol).
-        \item Falls der Raum eine höhere Priorität hat, wird diese Information ebenfalls angezeigt, z. B. durch einen farbigen Banner oder ein Symbol, das den Raum hervorhebt.
+        \item Falls der Raum belegt ist, wird dies deutlich sichtbar gemacht (z.B.\ durch einen roten Banner oder ein entsprechendes Symbol).
+        \item Falls der Raum eine höhere Priorität hat, wird diese Information ebenfalls angezeigt, z.B.\ durch einen farbigen Banner oder ein Symbol, das den Raum hervorhebt.
         \item Der Raumstatus ist für alle Benutzer sichtbar, ohne dass eine Anmeldung erforderlich ist.
     \end{enumerate}
 \end{function}
@@ -237,7 +237,7 @@ Beispiel:\\
         \item Eine Bestätigungsabfrage erscheint, in der der Benutzer die Stornierung bestätigen muss.
         \item Falls der Benutzer bestätigt, wird die Reservierung storniert.
         \item Das System aktualisiert die Raumverfügbarkeit und zeigt dem Benutzer eine Bestätigungsmeldung (z. B. "Reservierung erfolgreich storniert").
-        \item Der Benutzer erhält ggf. eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
+        \item Der Benutzer erhält ggf.\ eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
     \end{enumerate}
 \end{function}
 
