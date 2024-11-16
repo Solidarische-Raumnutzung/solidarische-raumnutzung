@@ -37,9 +37,12 @@ jobs:
           makeglossaries main
           pdflatex main.tex
           cd ..
-          mkdir pages
+          mkdir -p pages/mockups
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
+          cp -r pflichtenheft/mockups pages/mockups
+          pip install mako
+          python genindex.py pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
