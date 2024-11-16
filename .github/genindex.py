@@ -1,7 +1,3 @@
-""" Build index from directory listing
-
-make_index.py </path/to/directory> [--header <header text>]
-"""
 import os.path, time
 
 INDEX_TEMPLATE = r"""
@@ -11,13 +7,19 @@ INDEX_TEMPLATE = r"""
 <title>${header}</title>
 <meta name="description" content="${header}"/>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
 
 </head>
 <body>
-    <h2>Index of ${header}</h2>
-    <p>
-    <table>
-        <tbody>
+    <div class="navbar bg-base-100">
+    <div class="navbar-start"></div>
+    <div class="navbar-center"><h1 class="btn btn-ghost text-xl">Index of ${header}</h1></div>
+    <div class="navbar-end"></div>
+    </div>
+    <div class="overflow-x-auto py-6">
+    <table class="table">
+        <thead>
             <tr>
                 <th valign="top"><img src="${ROOTDIR}images/blank.gif"
                     alt="[ICO]"></th>
@@ -26,6 +28,8 @@ INDEX_TEMPLATE = r"""
                 <th><a href="?C=S;O=A">Size</a></th>
                 <th><a href="?C=D;O=A">Description</a></th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
                 <th colspan="5"><hr></th>
             </tr>
@@ -64,6 +68,7 @@ INDEX_TEMPLATE = r"""
             </p>
         </tbody>
     </table>
+    </div>
 </body>
 </html>
 """
