@@ -57,8 +57,28 @@ Beispiel:\\
 \end{function}
 \fi
 
-\begin{function}{10}{Login}
-    \item[Anwendungsfall:] Login
+\begin{function}{10}{Landeseite}
+    \item[Anwendungsfall:] Initiales besuchen der Webseite
+    \item[Anforderung:]~\ref{RM1}, ~\ref{RW1}, ~\ref{RM4}
+    \item[Ziel:] Dem Benutzer wird ohne Anmeldung die Kalenderansicht gezeigt.
+    \item[Vorbedingung:] Der Benutzer hat eine Internetverbindung und hat im \gls{Browser}~die Webseite geöffnet.
+    \item[Nachbedingung Erfolg:] Der Benutzer sieht die Kalenderansicht mit zukünftigen Reservierungen.
+    \item[Nachbedingung Fehlschlag:] Der Benutzer ist nicht in der Lage mit der Webseite weiter zu interagieren.
+    \item[Auslösendes Ereignis:] Der Benutzer nutzt seinen \gls{Browser}~, um die Webseite aufzurufen.
+    \item[Beschreibung:]~
+    \begin{enumerate}
+        \item Der Benutzer navigiert in seinem Browser auf die Webseite.
+        \item Die Landeseite lädt und zeigt dem Benutzer die Kalenderansicht an.
+        \item Ebenfalls wird dem Benutzer wird eine Schaltfläche angezeigt zum Erstellen eines Termines, sowie zum Anmelden/Registrieren.
+    \end{enumerate}
+    \item[Erweiterung:] Sollte es mehr als ein Arbeitsraum geben, so sollte hier vom Nutzer die Auswahl getroffen werden, bevor die Kalenderansicht angezeigt wird.
+\end{function}
+
+% require at least 10 lines, otherwise pagebreak
+\needspace{10\baselineskip}
+
+\begin{function}{20}{Anmelden}
+    \item[Anwendungsfall:] Anmelden bzw.\ Registrieren
     \item[Anforderung:]~\ref{RM2}
     \item[Ziel:] Der Benutzer kann sich mit seinem KIT-Konto oder einem lokalen Gastkonto anmelden.
     \item[Vorbedingung:] Der Benutzer hat eine Internetverbindung und die Anwendung ist gestartet.
@@ -68,6 +88,7 @@ Beispiel:\\
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Der Benutzer wählt in einem Dialog die Anmeldemethode aus.
+        \item Sollte dieser noch keinen Account haben, so wird statt eine Anmeldung eine Registrierung vollzogen.
         \item Der Benutzer wird, falls nötig, auf die KIT-Login-Seite weitergeleitet.
         \item Falls keine lokale Anmeldung gewählt wurde, gibt der Benutzer seine Zugangsdaten ein.
         \item Die Anwendung überprüft die Zugangsdaten und meldet den Benutzer an.
@@ -75,6 +96,8 @@ Beispiel:\\
     \end{enumerate}
 \end{function}
 \begin{function}{20}{Reservierung}
+
+\begin{function}{30}{Reservierung}
     \item[Anwendungsfall:] Reservierung
     \item[Anforderung:]~\ref{RM3},~\ref{RM8},~\ref{RM9} und~\ref{RM10}
     \item[Ziel:] Der Benutzer kann einen Raum reservieren.
@@ -95,7 +118,8 @@ Beispiel:\\
               Wenn nötig, wird eine E-Mail an die Ersteller überschriebener Reservierungen gesendet.
     \end{enumerate}
 \end{function}
-\begin{function}{30}{Löschen von Terminen}
+
+\begin{function}{40}{Löschen von Terminen}
     \item[Anwendungsfall:] Löschen von Terminen
     \item[Anforderung:] ~\ref{RM16}
     \item[Ziel:] Der Administrator kann bestehende Termine löschen.
@@ -113,7 +137,7 @@ Beispiel:\\
     \end{enumerate}
 \end{function}
 
-\begin{function}{40}{Deaktivierung von Gastbenutzern}
+\begin{function}{50}{Deaktivierung von Gastbenutzern}
     \item[Anwendungsfall:] Deaktivierung von Gastbenutzern
     \item[Anforderung:] ~\ref{RM16}
     \item[Ziel:] Der Administrator kann Gastbenutzer deaktivieren.
@@ -131,7 +155,7 @@ Beispiel:\\
     \end{enumerate}
 \end{function}
 
-\begin{function}{50}{Benachrichtigung bei freiem Raum}
+\begin{function}{60}{Benachrichtigung bei freiem Raum}
     \item[Anwendungsfall:] Benachrichtigung über freigewordenen Raum
     \item[Anforderung:] ~\ref{RM17}
     \item[Ziel:] Die Anwendung informiert Benutzer, wenn ein Raum wieder frei wird.
@@ -149,7 +173,7 @@ Beispiel:\\
     \end{enumerate}
 \end{function}
 
-\begin{function}{60}{Anzeige des Raumstatus}
+\begin{function}{70}{Anzeige des Raumstatus}
     \item[Anwendungsfall:] Anzeige des Raumstatus
     \item[Anforderung:] ~\ref{RM18}
     \item[Ziel:] Die Anwendung stellt den Raumstatus, einschließlich der aktuellen Belegung und Priorität, übersichtlich dar.
@@ -167,7 +191,7 @@ Beispiel:\\
     \end{enumerate}
 \end{function}
 
-\begin{function}{70}{Stornierung einer Reservierung}
+\begin{function}{80}{Stornierung einer Reservierung}
     \item[Anwendungsfall:] Stornierung einer Reservierung
     \item[Anforderung:] ~\ref{RM14}
     \item[Ziel:] Der Benutzer kann eine bestehende Reservierung stornieren.
