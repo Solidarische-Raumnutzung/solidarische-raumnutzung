@@ -1,0 +1,13 @@
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ Das kann bestimmt ausschmücken... }{5}{section*.5}%
+\contentsline {todo}{\fcolorbox {Plum}{Plum!25}{\textcolor {Plum!25}{o}}\ Dieser Abschnitt sollte noch ausführlicher beschrieben werden.}{7}{section*.8}%
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ The original todo note withouth chaflsjklfsdkljnged colours.\newline Here's another line.}{7}{section*.9}%
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ Hier fallen uns noch sicherliche mehr Kriterien ein.}{7}{section*.11}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ ist Kollaborativ ein guter Name dafür??}{7}{section*.28}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ what exactly should be specified??}{8}{section*.31}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ Specify more concretely, nuanced in what way?}{8}{section*.34}%
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ Hier fallen uns noch sicherlich mehr Kriterien ein.}{8}{section*.52}%
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ Hier vielleicht mit KANN/KÖNNTE statt mit SOLL schreiben (Abstimmen: JA: 3, NEIN: 0)}{8}{section*.53}%
+\contentsline {todo}{\fcolorbox {Plum}{Plum!25}{\textcolor {Plum!25}{o}}\ Das LaTeX-Template bietet für diese Sektion ein anderes Format an. Ich hab es nicht schön gekriegt, deshalb habe ich es so gelöst.}{17}{section*.134}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ Wie kodieren wir die Zeit? Fixe Slots oder Unix-Timestamp?}{17}{section*.137}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ Wie machen wir HTTPS? Mit Spring oder per NGINX/Caddy? Wie kriegen wir Domäne, Zertifikat, ...?}{22}{section*.161}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ Machen wir das?}{22}{section*.164}%
