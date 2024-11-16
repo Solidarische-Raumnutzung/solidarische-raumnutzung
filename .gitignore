@@ -57,3 +57,5 @@ presentation.toc
 *.synctex.gz
 *.glo
 *.ist
+*.glsdefs
+*.tdo
