@@ -37,7 +37,7 @@ jobs:
           makeglossaries main
           pdflatex main.tex
           cd ..
-          mkdir -p pages/mockups
+          mkdir -p pages
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
           cp -r pflichtenheft/mockups pages/mockups
