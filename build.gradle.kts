@@ -2,7 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
-    id("gg.jte.gradle") version "3.1.14"
+    id("gg.jte.gradle") version "3.1.15"
 }
 
 group = "edu.kit.hci"
@@ -35,7 +35,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("gg.jte:jte:3.1.14")
+    implementation("gg.jte:jte:3.1.15")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
     annotationProcessor("org.projectlombok:lombok")
