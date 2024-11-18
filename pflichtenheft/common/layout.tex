@@ -85,16 +85,18 @@
 \newenvironment{data}[2]{\refsetcounter{datacount}{#1}\textbf{#2} \namedlabel{D#1}{$\langle D#1\rangle$}\\}{}
 
 %Kriterien im Pflichtenheft
-\newcounter{mustcount} 
-\newcommand{\must}[2]{\refsetcounter{mustcount}{#1}\namedlabel{RM#1}{$\langle RM#1\rangle$} #2\\}
+\newcounter{mustcount}
+\newcommand{\must}[2]{\refsetcounter{mustcount}{#1}\namedlabel{MK#1}{$\langle MK#1\rangle$} #2\\}
 
 \newcounter{wishcount}
-\newcommand{\wish}[2]{\refsetcounter{wishcount}{#1}\namedlabel{RW#1}{$\langle RW#1\rangle$} #2\\}
+\newcommand{\wish}[2]{\refsetcounter{wishcount}{#1}\namedlabel{WK#1}{$\langle WK#1\rangle$} #2\\}
+
+\newcounter{wontcount}
+\newcommand{\wont}[2]{\refsetcounter{wontcount}{#1}\namedlabel{RN#1}{$\langle AK#1\rangle$} #2\\}
 
 \newcounter{notfunctional}
 \newcommand{\notfunctional}[2]{\refsetcounter{notfunctional}{#1}\namedlabel{NF#1}{$\langle NF#1\rangle$} #2\\}
 
-\newcommand{\wont}[2]{\refsetcounter{datacount}{#1}\namedlabel{RN#1}{$\langle RN#1\rangle$} #2\\}
 
 %Qualitätsanforderungen im Pflichtenheft
 \newcommand{\qualityReq}[2]{\refsetcounter{datacount}{#1}\namedlabel{Q#1}{$\langle Q#1\rangle$} #2\\}

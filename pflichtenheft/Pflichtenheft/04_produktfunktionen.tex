@@ -13,9 +13,9 @@
 %    \caption{Überblick von allen Funktionen.}
     \begin{tabularx}{\textwidth}{ l|X|l }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
-        \ref{F10} & Landeseite besuchen &~\ref{RM1}, ~\ref{RW1}, ~\ref{RM4} \\
-        \ref{F20} & Login &~\ref{RM2} \\
-        \ref{F70} & Anzeige des Raumstatus &~\ref{RM18} \\
+        \ref{F10} & Landeseite besuchen &~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4} \\
+        \ref{F20} & Login &~\ref{MK2} \\
+        \ref{F70} & Anzeige des Raumstatus &~\ref{MK18} \\
     \end{tabularx}
     \label{tab:non_loggedin_functions}
 \end{table}
@@ -26,12 +26,12 @@
 %    \caption{Überblick von allen Funktionen.}
     \begin{tabularx}{\textwidth}{ l|X|l }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
-        \ref{F10} & Landeseite besuchen &~\ref{RM1}, ~\ref{RW1}, ~\ref{RM4} \\
-        \ref{F20} & Login &~\ref{RM2} \\
-        \ref{F30} & Reservieren &~\ref{RM3}, ~\ref{RM8}, ~\ref{RM9}, ~\ref{RM10} \\
-        \ref{F60} & Benachrichtigung bei freiem Raum &~\ref{RM17} \\
-        \ref{F70} & Anzeige des Raumstatus &~\ref{RM18} \\
-        \ref{F80} & Stornierung einer Reservierung &~\ref{RM14} \\
+        \ref{F10} & Landeseite besuchen &~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4} \\
+        \ref{F20} & Login &~\ref{MK2} \\
+        \ref{F30} & Reservieren &~\ref{MK3}, ~\ref{MK8}, ~\ref{MK9}, ~\ref{MK10} \\
+        \ref{F60} & Benachrichtigung bei freiem Raum &~\ref{MK17} \\
+        \ref{F70} & Anzeige des Raumstatus &~\ref{MK18} \\
+        \ref{F80} & Stornierung einer Reservierung &~\ref{MK14} \\
     \end{tabularx}
     \label{tab:loggedin_functions}
 \end{table}
@@ -43,14 +43,14 @@
 %    \caption{Überblick von allen Funktionen.}
     \begin{tabularx}{\textwidth}{ l|X|l }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
-        \ref{F10} & Landeseite besuchen &~\ref{RM1}, ~\ref{RW1}, ~\ref{RM4} \\
-        \ref{F20} & Login &~\ref{RM2} \\
-        \ref{F30} & Reservieren &~\ref{RM3}, ~\ref{RM8}, ~\ref{RM9}, ~\ref{RM10} \\
-        \ref{F40} & Löschen von Terminen durch Administratoren &~\ref{RM16} \\
-        \ref{F50} & Deaktivierung von Gastbenutzern &~\ref{RM16} \\
-        \ref{F60} & Benachrichtigung bei freiem Raum &~\ref{RM17} \\
-        \ref{F70} & Anzeige des Raumstatus &~\ref{RM18} \\
-        \ref{F80} & Stornierung einer Reservierung &~\ref{RM14} \\
+        \ref{F10} & Landeseite besuchen &~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4} \\
+        \ref{F20} & Login &~\ref{MK2} \\
+        \ref{F30} & Reservieren &~\ref{MK3}, ~\ref{MK8}, ~\ref{MK9}, ~\ref{MK10} \\
+        \ref{F40} & Löschen von Terminen durch Administratoren &~\ref{MK16} \\
+        \ref{F50} & Deaktivierung von Gastbenutzern &~\ref{MK16} \\
+        \ref{F60} & Benachrichtigung bei freiem Raum &~\ref{MK17} \\
+        \ref{F70} & Anzeige des Raumstatus &~\ref{MK18} \\
+        \ref{F80} & Stornierung einer Reservierung &~\ref{MK14} \\
     \end{tabularx}
     \label{tab:adminfunctions}
 \end{table}
@@ -58,7 +58,7 @@
 
 \iffalse
 In Abhängigkeit von den gewählten Konzepten erfolgt hier eine Konkretisierung
-und Detaillierung der Funktionen aus den Use-Case-Diagrammen und ggf. dem
+und Detaillierung der Funktionen aus den Use-Case-Diagrammen und ggf.\ dem
 Angebot.
 
 Die Produktfunktionen müssen die Kriterien aus den Zielbestimmungen abdecken.
@@ -68,11 +68,12 @@ Das nachfolgende Format sollte für einige Funktionsbeschreibungen übernommen w
 Beispiel:\\
 \begin{function}{10}{Lagerverwaltung}
     \item[Anwendungsfall:] Automatisches Einlagern
-    \item[Anforderung:] \lfk{20} (Wenn kein Lastenheft vorhanden, dann Kriterium aus den Zielbestimmungen, z.B.: \ref{RM1})
+    \item[Anforderung:] \lfk{20} (Wenn kein Lastenheft vorhanden, dann Kriterium aus den Zielbestimmungen, z.B.: \ref{MK1})
     \item[Ziel:] Ein Reifen erscheint am Systemeingang (Scanner), erhält einen Lagerplatz
     zugewiesen und wird dort eingelagert.
     \item[Vorbedingung:] Das Scannen des Barcode-Reifens muss erfolgreich sein, sonst kann
-    der Typ nicht ermittelt werden. Solche unbekannten Reifen werden direkt in den
+    der Typ nicht ermittelt werden.
+    Solche unbekannten Reifen werden direkt in den
     Überlauf gefördert.
     \item[Nachbedingung Erfolg:] Reifen ist physikalisch eingelagert und logisch in der
     Datenbank verbucht.
@@ -109,7 +110,7 @@ Beispiel:\\
 
 \begin{function}{10}{Landeseite}
     \item[Anwendungsfall:] Initiales besuchen der Webseite
-    \item[Anforderung:]~\ref{RM1}, ~\ref{RW1}, ~\ref{RM4}
+    \item[Anforderung:]~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4}
     \item[Ziel:] Dem Benutzer wird ohne Anmeldung die Kalenderansicht gezeigt.
     \item[Vorbedingung:] Der Benutzer hat eine Internetverbindung und hat im \gls{Browser}~die Webseite geöffnet.
     \item[Nachbedingung Erfolg:] Der Benutzer sieht die Kalenderansicht mit zukünftigen Reservierungen.
@@ -128,7 +129,7 @@ Beispiel:\\
 
 \begin{function}{20}{Anmelden}
     \item[Anwendungsfall:] Anmelden bzw.\ Registrieren
-    \item[Anforderung:]~\ref{RM2}
+    \item[Anforderung:]~\ref{MK2}
     \item[Ziel:] Der Benutzer kann sich mit seinem KIT-Konto oder einem lokalen Gastkonto anmelden.
     \item[Vorbedingung:] Der Benutzer hat eine Internetverbindung und die Anwendung ist gestartet.
     \item[Nachbedingung Erfolg:] Der Benutzer ist angemeldet und kann Ereignisse ansehen und bearbeiten.
@@ -149,7 +150,7 @@ Beispiel:\\
 
 \begin{function}{30}{Reservierung}
     \item[Anwendungsfall:] Reservierung
-    \item[Anforderung:]~\ref{RM3},~\ref{RM8},~\ref{RM9} und~\ref{RM10}
+    \item[Anforderung:]~\ref{MK3},~\ref{MK8},~\ref{MK9} und~\ref{MK10}
     \item[Ziel:] Der Benutzer kann einen Raum reservieren.
     \item[Vorbedingung:] Der Benutzer ist angemeldet und hat eine Internetverbindung.
     \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und der Benutzer zur Buchungsseite weitergeleitet.
@@ -173,7 +174,7 @@ Beispiel:\\
 
 \begin{function}{40}{Löschen von Terminen durch Administratoren}
     \item[Anwendungsfall:] Löschen von Terminen durch Administratoren
-    \item[Anforderung:] ~\ref{RM16}
+    \item[Anforderung:] ~\ref{MK16}
     \item[Ziel:] Der Administrator kann bestehende Termine löschen.
     \item[Vorbedingung:] Der Administrator ist angemeldet.
     \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und der Administrator erhält eine Bestätigungsmeldung.
@@ -193,7 +194,7 @@ Beispiel:\\
 
 \begin{function}{50}{Deaktivierung von Gastbenutzern}
     \item[Anwendungsfall:] Deaktivierung von Gastbenutzern
-    \item[Anforderung:] ~\ref{RM16}
+    \item[Anforderung:] ~\ref{MK16}
     \item[Ziel:] Der Administrator kann Gastbenutzer deaktivieren.
     \item[Vorbedingung:] Der Administrator ist angemeldet und hat die entsprechenden Berechtigungen.
     \item[Nachbedingung Erfolg:] Der Gastbenutzer wird deaktiviert und ist nicht mehr im System aktiv.
@@ -213,8 +214,8 @@ Beispiel:\\
 
 \begin{function}{60}{Benachrichtigung bei freiem Raum}
     \item[Anwendungsfall:] Benachrichtigung über freigewordenen Raum
-    \item[Anforderung:] ~\ref{RW10}
-    \unsure{RM17 was removed, discuss on Monday!}
+    \item[Anforderung:] ~\ref{WK10}
+    \unsure{MK17 was removed, discuss on Monday!}
     \item[Ziel:] Die Anwendung informiert Benutzer, wenn ein Raum wieder frei wird.
     \item[Vorbedingung:] Der Benutzer hat sich für den Raum interessiert und hat eine Benachrichtigung angefordert.
     \item[Nachbedingung Erfolg:] Der Benutzer wird über die Freigabe des Raums per E-Mail oder Benachrichtigung informiert.
@@ -234,7 +235,7 @@ Beispiel:\\
 
 \begin{function}{70}{Anzeige des Raumstatus}
     \item[Anwendungsfall:] Anzeige des Raumstatus
-    \item[Anforderung:] ~\ref{RM18}
+    \item[Anforderung:] ~\ref{MK18}
     \item[Ziel:] Die Anwendung stellt den Raumstatus, einschließlich der aktuellen Belegung und Priorität, übersichtlich dar.
     \item[Vorbedingung:] Der Benutzer ist nicht eingeloggt. \unsure{Aber eingeloggte benutzer soll dies doch auch sehen?!}
     \item[Nachbedingung Erfolg:] Der Raumstatus wird auf einer öffentlichen Seite korrekt angezeigt, inklusive Belegung und Priorität (z.B.\ durch farbige Banner).
@@ -254,7 +255,7 @@ Beispiel:\\
 
 \begin{function}{80}{Stornierung einer Reservierung}
     \item[Anwendungsfall:] Stornierung einer Reservierung
-    \item[Anforderung:] ~\ref{RM14}
+    \item[Anforderung:] ~\ref{MK14}
     \item[Ziel:] Der Benutzer kann eine bestehende Reservierung stornieren.
     \item[Vorbedingung:] Der Benutzer ist angemeldet und hat eine aktive Reservierung.
     \item[Nachbedingung Erfolg:] Die Reservierung wird storniert und der Benutzer erhält eine Bestätigungsmeldung.
