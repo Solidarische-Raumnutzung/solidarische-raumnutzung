@@ -110,152 +110,173 @@ Beispiel:\\
         Einlagerförderer wird niemals angehalten!).
 \end{function}
 \fi
-\newpage
-\begin{function}{10}{Landeseite}
+
+\begin{function}{10}{Startseite}
     \item[Anwendungsfall:] Initiales besuchen der Webseite
-    \item[Anforderung:]~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4}
-    \item[Ziel:] Dem Benutzer wird ohne Anmeldung die Kalenderansicht gezeigt.
-    \item[Vorbedingung:] Der Benutzer hat eine Internetverbindung und hat im \gls{Browser}~die Webseite geöffnet.
-    \item[Nachbedingung Erfolg:] Der Benutzer sieht die Kalenderansicht mit zukünftigen Reservierungen.
-    \item[Nachbedingung Fehlschlag:] Der Benutzer ist nicht in der Lage mit der Webseite weiter zu interagieren.
-    \item[Auslösendes Ereignis:] Der Benutzer nutzt seinen \gls{Browser}~, um die Webseite aufzurufen.
+    \item[Anforderung:]~\ref{MK1}, ~\ref{MK4}, ~\ref{WK1}
+    \item[Ziel:] Den Nutzenden wird ohne Anmeldung die Kalenderansicht gezeigt.
+    \item[Vorbedingung:] Die Nutzenden haben eine Internetverbindung und im \gls{Browser}~die Webseite geöffnet.
+    \item[Nachbedingung Erfolg:] Die Nutzenden sehen die Kalenderansicht mit zukünftigen Reservierungen.
+    \item[Nachbedingung Fehlschlag:] Die Nutzenden sind nicht in der Lage mit der Webseite weiter zu interagieren.
+    \item[Auslösendes Ereignis:] Die Nutzenden verwenden ihre \gls{Browser}~, um die Webseite aufzurufen.
     \item[Beschreibung:]~
     \begin{enumerate}
         \item Der Benutzer navigiert in seinem Browser auf die Webseite.
-        \item Die Landeseite lädt und zeigt dem Benutzer die Kalenderansicht an.
-        \item Ebenfalls wird dem Benutzer wird eine Schaltfläche angezeigt zum Erstellen eines Termines, sowie zum Anmelden/Registrieren.
+        \item Die Startseite lädt und zeigt dem Benutzer die Kalenderansicht an.
     \end{enumerate}
-    \item[Erweiterung:] Sollte es mehr als ein Arbeitsraum geben, so sollte hier vom Nutzer die Auswahl getroffen werden, bevor die Kalenderansicht angezeigt wird.
+    \item[Erweiterung:] Sollte es mehr als ein Arbeitsraum geben, so sollte hier vom Nutzenden die Auswahl getroffen werden, bevor die Kalenderansicht angezeigt wird.
 \end{function}
 
 \pagebreak
 
 \begin{function}{20}{Anmelden}
     \item[Anwendungsfall:] Anmelden bzw.\ Registrieren
-    \item[Anforderung:]~\ref{MK2}
-    \item[Ziel:] Der Benutzer kann sich mit seinem KIT-Konto oder einem lokalen Gastkonto anmelden.
-    \item[Vorbedingung:] Der Benutzer hat eine Internetverbindung und die Anwendung ist gestartet.
-    \item[Nachbedingung Erfolg:] Der Benutzer ist angemeldet und kann Ereignisse ansehen und bearbeiten.
-    \item[Nachbedingung Fehlschlag:] Der Benutzer ist nicht angemeldet und kann keine Ereignisse ansehen oder bearbeiten.
-    \item[Auslösendes Ereignis:] Der Benutzer öffnet die Anwendung und versucht, mit einem Ereignis zu interagieren.
+    \item[Anforderung:]~\ref{MK2}, ~\ref{MK4}
+    \item[Ziel:] Die Nutzenden können sich mit ihren KIT-Konten oder lokalen Gastkonten anmelden.
+    \item[Vorbedingung:] Die Nutzenden haben eine Internetverbindung und die Anwendung ist gestartet.
+    \item[Nachbedingung Erfolg:] Die Nutzenden sind angemeldet und können Ereignisse ansehen und bearbeiten.
+    \item[Nachbedingung Fehlschlag:] Die Nutzenden sind nicht angemeldet und können keine Ereignisse ansehen oder bearbeiten.
+    \item[Auslösendes Ereignis:] Die Nutzenden öffnen die Anwendung und versuchen, mit einem Termin zu erstellen oder mit einem bereits existierenden Termin zu interagieren.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Der Benutzer wählt in einem Dialog die Anmeldemethode aus.
-        \item Sollte dieser noch keinen Account haben, so wird statt eine Anmeldung eine Registrierung vollzogen.
-        \item Der Benutzer wird, falls nötig, auf die KIT-Login-Seite weitergeleitet.
-        \item Falls keine lokale Anmeldung gewählt wurde, gibt der Benutzer seine Zugangsdaten ein.
-        \item Die Anwendung überprüft die Zugangsdaten und meldet den Benutzer an.
-        \item Der Benutzer wird zur nächsten Seite weitergeleitet.
+        \item Die Nutzenden wählen in einem Dialog die Anmeldemethode aus.
+        \item Sollten diese noch keinen Account haben, so wird statt eine Anmeldung eine Registrierung vollzogen.
+        \item Die Nutzenden werden, falls nötig, auf die KIT-Login-Seite weitergeleitet.
+        \item Falls keine lokale Gast-Anmeldung gewählt wurde, geben die Nutzenden ihre Zugangsdaten ein.
+        \item Die Anwendung überprüft die Zugangsdaten und meldet die Nutzenden an.
+        \item Bei einer Gast-Anmeldung wird zusätzlich noch eine E-Mail hinterlegt.
+        \item Die Nutzenden werden zur nächsten Seite weitergeleitet.
     \end{enumerate}
 \end{function}
 
 \pagebreak
 
-\begin{function}{30}{Reservierung}
+\begin{function}{30}{Abmelden}
+    \item[Anwendungsfall:] Abmelden
+    \item[Anforderung:]~\ref{MK3}
+    \item[Ziel:] Abmeldung eines Nutzenden
+    \item[Vorbedingung:] Die Nutzenden sind in der Anwendung angemeldet.
+    \item[Nachbedingung Erfolg:] Die Nutzenden sind nicht mehr angemeldet.
+    \item[Nachbedingung Fehlschlag:] Die Nutzenden bleiben angemeldet.
+    \item[Auslösendes Ereignis:] Die Nutzenden wählen die Option zum Abmelden aus.
+    \item[Beschreibung:] ~
+    \begin{enumerate}
+        \item Die Nutzenden wählen die Funktion zum Abmelden aus.
+        \item Die Nutzenden werden zur Startseite weitergeleitet.
+    \end{enumerate}
+\end{function}
+
+\pagebreak
+
+\begin{function}{40}{Reservierung}
     \item[Anwendungsfall:] Reservierung
-    \item[Anforderung:]~\ref{MK2},~\ref{MK8},~\ref{MK9} und~\ref{MK10}
-    \item[Ziel:] Der Benutzer kann einen Raum reservieren.
-    \item[Vorbedingung:] Der Benutzer ist angemeldet und hat eine Internetverbindung.
-    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und der Benutzer zur Buchungsseite weitergeleitet.
-    \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht gespeichert und der Benutzer erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Der Benutzer wählt einen Raum und einen Startzeitpunkt.
+    \item[Anforderung:]~\ref{MK9} und~\ref{MK10}, ~\ref{MK12}, ~\ref{MK13}, ~\ref{MK14}, ~\ref{WK4} und~\ref{WK11}
+    \item[Ziel:] Die nutzende Person kann einen Raum reservieren.
+    \item[Vorbedingung:] Die nutzende Person ist angemeldet und in der Kalender-Ansicht.
+    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und die nutzende Person zur Buchungsseite weitergeleitet.
+    \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht gespeichert und die nutzende Person erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Die nutzende Person wählt einen Startzeitpunkt.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Der Benutzer prüft einen Start- und Endzeitpunkt und kann sie gegebenenfalls anpassen.
-        \item Der Benutzer gibt optional eine Beschreibung an.
-        \item Der Benutzer gibt an, ob er bereit ist, die Reservierung zu teilen.
-        \item Der Benutzer gibt optional eine E-Mail-Adresse an, um über Änderungen informiert zu werden.
-        \item Falls eine E-Mail-Adresse angegeben wurde, kann der Benutzer diese als in der Oberfläche sichtbar oder unsichtbar markieren.
-        \item Der Benutzer bestätigt seine Eingaben.
+        \item Die nutzende Person wählt einen Start- und Endzeitpunkt und kann sie gegebenenfalls anpassen.
+        \item Die nutzende Person gibt optional eine Beschreibung an.
+        \item Die nutzende Person gibt an, ob sie bereit ist, den Raum mit weiteren zu teilen.
+        \item Die nutzende Person wählt eine Prioritätsstufe.
+        \item Die nutzende Person bestätigt ihre Eingaben.
         \item Die Anwendung prüft, ob der Raum in dem Zeitraum verfügbar ist.
-        \item Falls ja, wird die Reservierung gespeichert und der Nutzer weitergeleitet.
-              Wenn nötig, wird eine E-Mail an die Ersteller überschriebener Reservierungen gesendet.
+        \item Ist dies der Fall, wird die Reservierung gespeichert und die nutzende Person zur Kalender-Ansicht weitergeleitet.
+              Wenn nötig, wird eine E-Mail an die Ersteller*innen überschriebener Reservierungen gesendet.
+    \end{enumerate}
+    \item[Erweiterung:]
+    \begin{enumerate}
+        \item Nach dem Erstellen des Termins könnte dieser als iCal-Export zur verfügung gestellt werden.
+        \item Durch einen zusätzlichen Quick-Checkin-Button könnte dieser Prozess simpler und kürzer gemacht werden.
     \end{enumerate}
 \end{function}
 
 \pagebreak
 
-\begin{function}{40}{Löschen von Terminen durch Administratoren}
-    \item[Anwendungsfall:] Löschen von Terminen durch Administratoren
-    \item[Anforderung:] ~\ref{MK16}
-    \item[Ziel:] Der Administrator kann bestehende Termine löschen.
-    \item[Vorbedingung:] Der Administrator ist angemeldet.
-    \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und der Administrator erhält eine Bestätigungsmeldung.
-    \item[Nachbedingung Fehlschlag:] Der Termin wird nicht gelöscht und der Administrator erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Der Administrator wählt einen Termin aus, den er löschen möchte.
+\begin{function}{50}{Löschen von Terminen durch das Adminkonto}
+    \item[Anwendungsfall:] Löschen von Terminen durch das Adminkonto
+    \item[Anforderung:] ~\ref{MK18}
+    \item[Ziel:] Das Adminkonto kann bestehende Termine löschen.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Kalender-Ansicht wird angezeigt.
+    \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und das Adminkonto erhält eine Erfolgsmeldung.
+    \item[Nachbedingung Fehlschlag:] Der Termin wird nicht gelöscht und das Adminkonto erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Termin aus, welcher gelöscht werden soll.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Der Administrator öffnet die Liste der bestehenden Termine.
-        \item Der Administrator wählt den Termin aus, den er löschen möchte.
-        \item Der Administrator wird gefragt, ob er den Termin wirklich löschen möchte (Bestätigungsabfrage).
-        \item Falls der Administrator bestätigt, wird der Termin gelöscht.
+        \item Das Adminkonto öffnet die Kalender-Ansicht.
+        \item Das Adminkonto wählt den Termin aus, welcher gelöscht werden soll.
+        \item Das Adminkonto wird gefragt, ob es den Termin wirklich löschen möchte (Bestätigungsabfrage).
+        \item Falls das Adminkonto bestätigt, wird der Termin gelöscht.
         \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ `Termin erfolgreich gelöscht').
     \end{enumerate}
 \end{function}
 
 \pagebreak
 
-\begin{function}{50}{Deaktivierung von Gastbenutzern}
-    \item[Anwendungsfall:] Deaktivierung von Gastbenutzern
-    \item[Anforderung:] ~\ref{MK16}
-    \item[Ziel:] Der Administrator kann Gastbenutzer deaktivieren.
-    \item[Vorbedingung:] Der Administrator ist angemeldet und hat die entsprechenden Berechtigungen.
-    \item[Nachbedingung Erfolg:] Der Gastbenutzer wird deaktiviert und ist nicht mehr im System aktiv.
-    \item[Nachbedingung Fehlschlag:] Der Gastbenutzer bleibt aktiv und der Administrator erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Der Administrator wählt einen Gastbenutzer aus, den er deaktivieren möchte.
+\begin{function}{60}{Deaktivierung von Konten}
+    \item[Anwendungsfall:] Deaktivierung von Konten
+    \item[Anforderung:] ~\ref{MK19} \todo{remove this function or change MK19.}
+    \item[Ziel:] Das Gastkonto wird vom Admin gesperrt.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und in der Nutzer*innen-Ansicht.
+    \item[Nachbedingung Erfolg:] Der Gastbenutzer wird deaktiviert und kann sich nicht mehr Anmelden.
+    \item[Nachbedingung Fehlschlag:] Der Gastbenutzer bleibt aktiv und der Admin erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Gastbenutzer aus, den es deaktivieren möchte.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Der Administrator öffnet die Liste der Gastbenutzer.
-        \item Der Administrator wählt einen Gastbenutzer aus, den er deaktivieren möchte.
-        \item Der Administrator bestätigt die Deaktivierung.
-        \item Der Gastbenutzer wird deaktiviert und aus der aktiven Liste entfernt.
-        \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ "Gastbenutzer erfolgreich deaktiviert").
+        \item Das Adminkonto öffnet die Liste der Konten (Nutzer*innen-Ansicht).
+        \item Der Admin wählt einen Gastbenutzer aus, welcher deaktiviert werden soll.
+        \item Das Adminkonto bestätigt die Deaktivierung.
+        \item Das Konto wird deaktiviert und aus der aktiven Liste entfernt.
+        \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ \textit{Gastbenutzer erfolgreich deaktiviert}).
     \end{enumerate}
 \end{function}
 
 \pagebreak
 
-\begin{function}{60}{Benachrichtigung bei freiem Raum}
+\begin{function}{70}{Benachrichtigung bei freiem Raum}
     \item[Anwendungsfall:] Benachrichtigung über freigewordenen Raum
     \item[Anforderung:] ~\ref{WK10}
-    \item[Ziel:] Die Anwendung informiert Benutzer, wenn ein Raum wieder frei wird.
-    \item[Vorbedingung:] Der Benutzer hat sich für den Raum interessiert und hat eine Benachrichtigung angefordert.
-    \item[Nachbedingung Erfolg:] Der Benutzer wird über die Freigabe des Raums per E-Mail oder Benachrichtigung informiert.
-    \item[Nachbedingung Fehlschlag:] Der Benutzer erhält keine Benachrichtigung, und eine Fehlermeldung wird angezeigt.
+    \item[Ziel:] Die Anwendung informiert Nutzende, wenn ein Raum wieder frei wird.
+    \item[Vorbedingung:] Die Nutzenden haben sich für den Raum interessiert und haben eine Benachrichtigung angefordert.
+    \item[Nachbedingung Erfolg:] Die Nutzenden werden über die Freigabe des Raums per E-Mail oder Benachrichtigung informiert.
+    \item[Nachbedingung Fehlschlag:] Die Nutzenden erhalten keine Benachrichtigung, und eine Fehlermeldung wird angezeigt.
     \item[Auslösendes Ereignis:] Der Raum wird freigegeben, nachdem eine vorherige Reservierung aufgehoben oder geändert wurde.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Der Benutzer wählt aus ob er für den Raum Benachrichtigungen erhalten möchte, wenn er wieder frei wird.
-        \item Der Benutzer gibt eine E-Mail-Adresse an, um die Benachrichtigungen zu empfangen (Sollte keine hinterlegt sein über KIT-Account).
-        \item Sobald der Raum wieder verfügbar ist, prüft das System, ob Benutzer für den Raum eine Benachrichtigung angefordert haben.
-        \item Den betroffenen Benutzern wird eine E-Mail oder Benachrichtigung zugeschickt, dass der Raum nun wieder verfügbar ist.
+        \item Die Nutzenden wählen aus, ob sie für den Raum Benachrichtigungen erhalten möchten, wenn er wieder frei wird.
+        \item Die Nutzenden geben eine E-Mail-Adresse an, um die Benachrichtigungen zu empfangen (Sollte keine hinterlegt sein über KIT-Account).
+        \item Sobald der Raum wieder verfügbar ist, prüft das System, ob Nutzende für den Raum eine Benachrichtigung angefordert haben.
+        \item Den betroffenen Nutzenden wird eine E-Mail oder Benachrichtigung zugeschickt, dass der Raum nun wieder verfügbar ist.
         \item Eine Bestätigung der erfolgreichen Benachrichtigung wird im System protokolliert.
     \end{enumerate}
 \end{function}
 
 \pagebreak
 
-\begin{function}{70}{Anzeige des Raumstatus}
+\begin{function}{80}{Anzeige des Raumstatus}
     \item[Anwendungsfall:] Anzeige des Raumstatus
-    \item[Anforderung:] ~\ref{MK18}
+    \item[Anforderung:] \todo{Add crits}
     \item[Ziel:] Die Anwendung stellt den Raumstatus, einschließlich der aktuellen Belegung und Priorität, übersichtlich dar.
-    \item[Vorbedingung:] Der Benutzer ist nicht eingeloggt. \unsure{Aber eingeloggte benutzer soll dies doch auch sehen?!}
+    \item[Vorbedingung:] Die Nutzenden sind auf der Kalender-Ansicht und müssen nicht angemeldet sein.
     \item[Nachbedingung Erfolg:] Der Raumstatus wird auf einer öffentlichen Seite korrekt angezeigt, inklusive Belegung und Priorität (z.B.\ durch farbige Banner).
     \item[Nachbedingung Fehlschlag:] Der Raumstatus wird nicht angezeigt oder ist unvollständig.
-    \item[Auslösendes Ereignis:] Der Benutzer öffnet die Seite mit den Informationen zu den Räumen.
+    \item[Auslösendes Ereignis:] Die Nutzenden öffnen die Kalender-Ansicht.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Der Benutzer öffnet die Seite.
-        \item Der Raum wird mit dem entsprechenden Status angezeigt, der die aktuelle Belegung widerspiegelt.
-        \item Falls der Raum belegt ist, wird dies deutlich sichtbar gemacht (z.B.\ durch ein rotes Banner oder ein entsprechendes Symbol).
-        \item Falls der Raum eine höhere Priorität hat, wird diese Information ebenfalls angezeigt, z.B.\ durch ein farbiges Banner oder ein Symbol, das den Raum hervorhebt.
-        \item Der Raumstatus ist für alle Benutzer sichtbar, ohne dass eine Anmeldung erforderlich ist.
+        \item Die Nutzenden öffnen die Seite.
+        \item Die Belegung des Raumes wird mit dem entsprechenden Status angezeigt, der die aktuelle Belegung widerspiegelt.
+        \item Falls der Raum belegt ist, wird dies deutlich sichtbar gemacht (z.B.\ durch ein Banner oder ein entsprechendes Symbol).
+        \item Dabei wird die Priorität klar dargestellt.
+        \item Der Raumstatus ist für alle Nutzenden sichtbar, ohne dass eine Anmeldung erforderlich ist.
     \end{enumerate}
 \end{function}
 
 \pagebreak
 
-\begin{function}{80}{Stornierung einer Reservierung}
+\begin{function}{90}{Stornierung einer Reservierung}
     \item[Anwendungsfall:] Stornierung einer Reservierung
     \item[Anforderung:] ~\ref{MK14}
     \item[Ziel:] Der Benutzer kann eine bestehende Reservierung stornieren.
