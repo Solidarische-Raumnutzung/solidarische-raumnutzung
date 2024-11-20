@@ -45,30 +45,31 @@ Auf dem Client werden nur temporäre Daten gespeichert, die für die Funktionali
 
 \subsection*{Clientdaten}
 \begin{itemize}
-    \item Anmeldungscookie (falls der Benutzer anonym angemeldet ist)
+    \item Anmeldungscookie (falls der Benutzer anonym angemeldet ist).
+          Diese laufen nach 30 Tagen ab.
     \item Zustand der Anwendung (z.B.\ aktuelle Seite, geöffnete Dialoge)
 \end{itemize}
 
 \subsection*{Serverdaten}
 \begin{itemize}
-    \item Benutzerdaten
+    \item Benutzerdaten (dauerhaft gespeichert)
     \begin{itemize}
         \item Benutzername (oder \textit{Anonym} für anonyme Benutzer)
         \item (optional) E-Mail-Adresse
         \item OAuth- oder Cookie-Token
     \end{itemize}
-    \item Ereignisdaten
+    \item Ereignisdaten (30 Tage nach dem Termin werden diese Daten anonymisiert)
     \begin{itemize}
         \item Start- und Endzeitpunkt \unsure{Wie kodieren wir die Zeit? Fixe Slots oder Unix-Timestamp?}
         \item Beschreibung
         \item Raum
         \item Ersteller
         \item Priorität
-        \item Kollaborativität
+        \item Kollaborationsmodus
         \item (optional) E-Mail-Adresse
         \item Sichtbarkeit der E-Mail-Adresse
     \end{itemize}
-    \item Raumdaten
+    \item Raumdaten (dauerhaft gespeichert)
     \begin{itemize}
         \item Raumname
         \item Raumbeschreibung
