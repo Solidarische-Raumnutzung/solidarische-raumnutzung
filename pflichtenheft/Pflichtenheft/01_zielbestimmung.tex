@@ -8,49 +8,50 @@
 
 \todo[inline]{Hier fallen uns noch sicherliche mehr Kriterien ein.}
 \must{1}{Die Anwendung muss als Web-Applikation realisiert werden.}
-\must{2}{Nutzende der Anwendung müssen in der Lage sein, sich mit ihrem KIT-Konto per \gls{OIDC} oder einem lokalen Gastkonto anzumelden.}
-\must{3}{Nutzende müssen in der Lage sein sich abzumelden.}
+\must{2}{Nutzende der Anwendung müssen sich mit ihrem KIT-Konto per \gls{OIDC} oder einem lokalen Gastkonto anmelden können.}
+\must{3}{Nutzende müssen sich abmelden können.}
 \must{4}{Die Anwendung muss die Ansichten Kalender, Termine, Termin-erstellen, Login, Nutzer*innen und Buchungsübersicht anbieten.}
-\must{5}{Die Kalender-Ansicht muss einen klaren Überblick der bereits reservierte Zeiten geben.}
-\must{6}{Die Kalender-Ansicht muss die Öffnungszeiten des Raumes zur Darstellung bringen.}
+\must{5}{Die Kalender-Ansicht muss einen klaren Überblick über die bereits reservierten Zeiten geben.}
+\must{6}{Die Kalender-Ansicht muss die Öffnungszeiten des Raumes darstellen.}
 \must{7}{Die Kalender-Ansicht soll angemeldeten Nutzenden ihre eigenen Termine hervorgehoben kennzeichnen.}
 \must{8}{Die Termin-Ansicht muss die Möglichkeit bieten, genauere Informationen über einen Termin darzustellen.}
-\must{9}{Die Termin-Erstellen-Ansicht muss die Möglichkeit bieten, einen Raum für eine gewisse Zeitperiode zu reservieren.}
-\must{10}{DIe Buchungsübersicht bietet den Nutzenden die möglichkeit all ihre Termine zu kontrollieren.}
-\must{12}{Bei der Reservierung eines Raumes muss die optionale Möglichkeit bestehen eine Beschreibung zu hinterlegen. Hierbei müssen die Nutzenden klar darauf hingewiesen werden, wer diese Daten einsehen kann.}
-\must{20}{Die Priorität ist in drei Stufen gegeliedert.}
-\must{21}{Beim erstellen eines Termines wählen die Nutzenden aus ob sie ihren Raum mit anderen Personen teilen möchten. Dabei steht zur auswahl: \textit{Ja}, \textit{Nein}, \textit{Auf Anfrage}.}
+\must{9}{Die Termin-Erstellen-Ansicht muss die Möglichkeit bieten, einen Raum für eine bestimmte Zeitperiode zu reservieren.}
+\must{10}{Bei der Reservierung eines Raumes muss optional die Möglichkeit bestehen eine Beschreibung zu hinterlegen. Hierbei müssen die Nutzenden klar darauf hingewiesen werden, wer diese Daten einsehen kann.}
+\must{11}{Die Buchungsübersicht muss den Nutzenden die Möglichkeit bieten, all ihre Termine zu verwalten.}
+\must{12}{Die Priorität ist in drei Stufen gegliedert.}
+\must{13}{Beim Erstellen eines Termins wählen die Nutzenden aus, ob sie ihren Raum mit anderen Personen teilen möchten. Dabei stehen die Optionen \textit{Ja}, \textit{Nein} und \textit{Auf Anfrage} zur Auswahl.}
 \must{14}{Die Anwendung muss Terminkonflikte reibungslos mithilfe der Prioritäten lösen können. Dabei überschreiben Termine mit höherer Priorität andere.}
-\must{15}{Die Anwendung muss in der Lage sein, Nutzende per Email darüber zu informieren, wenn ihre Buchung durch eine Buchung mit höherer Priorität überschrieben wurde.}
+\must{15}{Die Anwendung muss in der Lage sein, Nutzende per E-Mail darüber zu informieren, wenn ihre Buchung durch eine Buchung mit höherer Priorität überschrieben wurde.}
 \must{16}{Nutzende der Anwendung müssen in der Lage sein, eine Reservierung zu stornieren.}
-\must{17}{Es muss einen Admin-Nutzer geben, welcher sich per Passwort sich authentifiziert. Alleine der Serveradmin darf dieses Passwort ändern können.}
-\must{18}{Die Nutzer*innen-Ansicht bietet den Admins die Möglichkeit, Termine zu löschen, Gastnutzer zu deaktivieren und Öffnungszeiten einzustellen.}
+\must{17}{Es muss einen Admin-Nutzer geben, welcher sich per Passwort authentifiziert. Nur der Server-Admin darf dieses Passwort ändern können.}
+\must{18}{Die Nutzer*innen-Ansicht muss den Admins die Möglichkeit bieten, Accounts von Nutzer*innen zu löschen sowie die Anmeldung per Gastkonto zu deaktivieren.}
+\must{19}{Admins müssen in der Termin-Ansicht Termine löschen und die Öffnungszeiten einstellen können.}
 
 
 \section{Wunschkriterien}\label{sec:wunschkriterien}
 
 \todo[inline]{Hier fallen uns noch sicherlich mehr Kriterien ein.}
 
-\wish{1}{Es könnte die Möglichkeit geben mehr als einen Raum zur Buchung anzubieten. Dabei kann eine Arbeitsraum-Auswahl vor der Kalender -Ansicht den Nutzenden die verschiedenen Möglichkeiten Präsentieren. Existiert nur ein Arbeitsraum wird diese Auswahl übersprungen.}
+\wish{1}{Es könnte die Möglichkeit geben, mehr als einen Raum zur Buchung anzubieten. Dabei kann eine Arbeitsraum-Auswahl vor der Kalender -Ansicht den Nutzenden die verschiedenen Möglichkeiten präsentieren. Existiert nur ein Arbeitsraum, wird diese Auswahl übersprungen.}
 \wish{2}{In der Kalenderansicht könnten Feiertage automatisch eingebunden werden.}
-\wish{3}{Admins könnten die Möglichkeit haben geplante Wartungs- und Sperrzeiten einzurichten.}
+\wish{3}{Admins könnten die Möglichkeit haben, geplante Wartungs- und Sperrzeiten einzurichten.}
 \wish{4}{Termine könnten nach dem Einrichten im \gls{iCal}-Format zum Export angeboten werden.}
-\wish{5}{Nutzende könnten bei der Ereignis-Ansicht die Möglichkeit haben, ihre eigenen Termine zu editieren.}
-\wish{6}{Die Kalender-Ansicht könnte visualisieren, welche Termine bereits in der Vergangenheit liegen und wo der Übergang von der Vergangenheit zur Zukunft liegt.}
-\wish{7}{Tooltips könnten Nutzenden erklären wofür bestimmte Elemente der \gls{UI} sind.}
-\wish{9}{Es könnte in Software/Hardware einen Panik-Button und Hinweise zum aktuellen Raumstatus geben.}
-\wish{10}{Die Anwendung könnte in der Lage sein, Nutzende zu informieren, sollte der gewünschte Termin frei werden.}
-\wish{11}{Es könnte einen Quick-Checkin-Button geben, welcher eine vorausgefüllte Terminerstellung öffnet. Dieser bietet auch eine alternative zur Interaktion mit dem Kalender.}
-\wish{12}{Es könnte einen Quick-Checkout-Button geben, welcher erfrühtes beenden eines Termines ermöglicht.}
+\wish{5}{Nutzende könnten in der Termin-Ansicht die Möglichkeit haben, ihre eigenen Termine zu bearbeiten.}
+\wish{6}{Die Kalender-Ansicht könnte visualisieren, welche Termine bereits in der Vergangenheit liegen und wo der Übergang von der Vergangenheit zur Zukunft stattfindet.}
+\wish{7}{Tooltips könnten Nutzenden erklären, wofür bestimmte Elemente der \gls{UI} verwendet werden.}
+\wish{9}{Es könnte in Software als auch in Hardware einen Panik-Button, sowie ein am Raum sichtbaren Hinweis zum aktuellen Raumstatus geben.}
+\wish{10}{Die Anwendung könnte in der Lage sein, Nutzende zu informieren, falls der gewünschte Termin frei wird.}
+\wish{11}{Es könnte einen Quick-Checkin-Button geben, welcher eine vorausgefüllte Terminerstellung öffnet. Dieser bietet auch eine Alternative zur Interaktion mit dem Kalender.}
+\wish{12}{Es könnte einen Quick-Checkout-Button geben, der vorzeitiges Beenden eines Termines ermöglicht.}
 \wish{13}{Admins könnten eine Statistik-Ansicht nutzen.}
 
 
 \section{Abgrenzungskriterien}\label{sec:abgrenzungskriterien}
 
 \wont{1}{Die Verteilung von Buchungen zwischen ähnlichen Räumen ist nicht Teil des Projekts.}
-\wont{2}{Das Skalieren der Anwendung auf große Raumzahlen ist nicht vorgesehen.}
+\wont{2}{Das Skalieren der Anwendung auf eine große Anzahl von Räumen ist nicht vorgesehen.}
 \wont{3}{Die Buchung von Räumen für mehrere Tage ist nicht vorgesehen.}
 \wont{4}{Die Verwaltung von Räumen, die mehrere Arbeitsplätze umfassen, ist nicht vorgesehen.}
-\wont{5}{Die Entwicklung platfformspezifischer Anwendungen und der dafür notwendigen \gls{API}s ist nicht vorgesehen.}
-\wont{6}{Die Reservierung ist nur für die nahe Zukunft gedacht, also keine Langzeitplanung.}
-\wont{7}{Emails werden nicht verifiziert.}
+\wont{5}{Die Entwicklung plattformspezifischer Anwendungen und der dafür notwendigen \gls{API}s ist nicht vorgesehen.}
+\wont{6}{Die Reservierung ist nur für die nahe Zukunft gedacht, eine Langzeitplanung ist nicht vorgesehen.}
+\wont{7}{Gastkonto E-Mail-Adressen werden nicht verifiziert.}
