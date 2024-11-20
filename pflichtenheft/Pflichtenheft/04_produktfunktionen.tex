@@ -278,21 +278,21 @@ Beispiel:\\
 
 \begin{function}{90}{Stornierung einer Reservierung}
     \item[Anwendungsfall:] Stornierung einer Reservierung
-    \item[Anforderung:] ~\ref{MK14}
-    \item[Ziel:] Der Benutzer kann eine bestehende Reservierung stornieren.
-    \item[Vorbedingung:] Der Benutzer ist angemeldet und hat eine aktive Reservierung.
-    \item[Nachbedingung Erfolg:] Die Reservierung wird storniert und der Benutzer erhält eine Bestätigungsmeldung.
-    \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht storniert und der Benutzer erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Der Benutzer wählt die Option zur Stornierung einer bestehenden Reservierung.
+    \item[Anforderung:] ~\ref{MK16}
+    \item[Ziel:] Die Nutzenden können eine bestehende Reservierung stornieren.
+    \item[Vorbedingung:] Die Nutzenden sind angemeldet und haben eine aktive Reservierung.
+    \item[Nachbedingung Erfolg:] Die Reservierung wird storniert und die Nutzenden erhalten eine Erfolgsmeldung.
+    \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht storniert und die Nutzenden erhalten eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Die Nutzenden wählen die Option zur Stornierung einer bestehenden Reservierung.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Der Benutzer öffnet die Seite mit seinen aktuellen Reservierungen.
-        \item Der Benutzer wählt die Reservierung aus, die er stornieren möchte.
-        \item Der Benutzer bestätigt die Stornierung der Reservierung (z. B. durch Klick auf „Reservierung stornieren“).
-        \item Eine Bestätigungsabfrage erscheint, in der der Benutzer die Stornierung bestätigen muss.
-        \item Falls der Benutzer bestätigt, wird die Reservierung storniert.
-        \item Das System aktualisiert die Raumverfügbarkeit und zeigt dem Benutzer eine Bestätigungsmeldung (z. B. "Reservierung erfolgreich storniert").
-        \item Der Benutzer erhält ggf.\ eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
+        \item Die Nutzenden öffnen die Seite mit ihren aktuellen Reservierungen.
+        \item Die Nutzenden wählen die Reservierung aus, die sie stornieren möchten.
+        \item Die Nutzenden bestätigen die Stornierung der Reservierung (z.B.\ durch Klick auf \textit{Reservierung stornieren}).
+        \item Eine Bestätigungsabfrage erscheint, in der die Nutzenden die Stornierung bestätigen müssen.
+        \item Falls die Nutzenden bestätigen, wird die Reservierung storniert.
+        \item Das System aktualisiert die Raumverfügbarkeit und zeigt den Nutzenden eine Bestätigungsmeldung (z.B.\ \textit{Reservierung erfolgreich storniert}).
+        \item Die Nutzenden erhalten ggf.\ eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
     \end{enumerate}
 \end{function}
 
