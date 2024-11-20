@@ -16,6 +16,7 @@ Neben dieser Möglichkeit, den Raum zu buchen, gibt es je nach Anmeldungsstatus 
 für die die Verwendung des Kalenders Probleme bereitet.
 Falls zur Zeit der Verwendung eine Buchung des Nutzenden stattfindet, wird ein Quick-Checkout Button angezeigt,
 der es ermöglicht, den Raum schnell freizugeben.
+Siehe dazu auch \ref{fig:checkout}.
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.15]{figures/ui/startseite}
@@ -68,7 +69,10 @@ Nach einer erfolgreichen Anmeldung werden Nutzende auf die nächste Seite weiter
 
 Sind Nutzende eingeloggt und belegen den Raum,
 so wird ihnen die in Abbildung \ref{fig:checkout} dargestellte Ansicht angezeigt.
-Hier können NutzerInnen den Raum wieder über den Quick-Checkout Button freigeben.
+Hier können Nutzende den Raum wieder über den Quick-Checkout Button freigeben.
+
+Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnötigen Mehraufwand zu ermöglichen.
+\todo[inline]{Diese Pflichtenheftseite sollte vlt näher bei der Kalenderansicht sein oder sogar integriert werden.}
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.15]{figures/ui/checkout}
@@ -78,8 +82,18 @@ Hier können NutzerInnen den Raum wieder über den Quick-Checkout Button freigeb
 \clearpage
 
 \section{Buchungsverwaltung}
-Sollte ein Benutzer eine Buchung vorgenommen haben, so kann dieser in der Reservierungsübersicht,
-die in Abbildung \ref{fig:overview} dargestellt ist, seine Buchungen einsehen und verwalten.
+Nutzende, die eine Buchung vorgenommen haben, können diese in der Reservierungsübersicht,
+die in Abbildung \ref{fig:overview} dargestellt ist, einsehen und verwalten.
+
+Die Buchungen in dieser Ansicht werden, anders als in der Kalenderansicht, in Form einer sortierten Liste dargestellt.
+Dabei werden die Start- und Endzeitpunkte der Buchungen, wie auch die Priorität und die Beschreibung angezeigt.
+
+Nutzende haben die Möglichkeit, eine Buchung zu stornieren, indem sie auf den Stornieren-Button klicken.
+
+Außerdem können Nutzende die Buchungsansicht zu einer Buchung öffnen, indem sie auf die Buchung klicken.
+
+\todo[inline]{Haben wir ein Mockup für die Buchungsansicht (Dialog mit Beschreibung, Löschen, Kontaktieren?)}
+\todo[inline]{Suche nach Buchungen scheint mir nicht sinnvoll, vorallem wenn wir vergangene Buchungen anonymisieren.}
 
 \begin{figure}[ht]
     \includegraphics[scale=0.15]{figures/ui/reservierungsübersicht}
@@ -90,8 +104,15 @@ die in Abbildung \ref{fig:overview} dargestellt ist, seine Buchungen einsehen un
 
 \section{Adminstration}
 Ein Administrator hat die Möglichkeit, über die Benutzeradminstrationsoberfläche,
-die in Abbildung \ref{fig:adminuser} dargestellt ist, NutzerInnen einzusehen und zu verwalten.
-So dient diese Ansicht z.B. dazu, Nutzende zu sperren oder zu entsperren.
+die in Abbildung \ref{fig:adminuser} dargestellt ist, Nutzende einzusehen und zu verwalten.
+
+In dieser Ansicht werden alle Nutzenden angezeigt, die sich in der Anwendung registriert haben.
+Ein Administrator kann die Accounts von Nutzenden deaktivieren und somit ihre Anmeldung verhindern.
+
+Um die Suche nach einem bestimmten Nutzer zu erleichtern, kann ein Administrator nach Nutzernamen filtern.
+
+Außerdem kann ein Administrator die Anmeldung per Gastkonto deaktivieren.
+Zweck dieser Funktion ist es, den Missbrauch von Gastkonten z.B. durch Bots in vorübergehenden Zeiten zu verhindern.
 
 \begin{figure}[ht]
     \centering
