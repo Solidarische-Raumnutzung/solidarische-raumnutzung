@@ -7,15 +7,15 @@
 
 Die Startseite der Anwendung ist in \ref{fig:startseite} dargestellt.
 Auf dieser haben NutzerInnen die Möglichkeit, dem Raum zu buchen oder auf andere Ansichten zu wechseln.
-
 Der Banner in allen Ansichten zeigt den aktuellen Raumstatus an.
 Insbesondere wird dadurch die Priorität der aktuellen Buchung mithilfe der Farbe des Banners angezeigt.
 
 Rechts in dieser Ansicht befindet sich ein Kalender, der die aktuelle Woche und die Buchungen in diesem Zeitraum anzeigt.
 Die Buchungen sind farblich nach Priorität gekennzeichnet, weitere Informationen können durch Klicken auf die Buchung eingesehen werden.
-
-Neben dieser Möglichkeit, den Raum zu buchen, gibt es einen Anmeldebutton und einen separaten Buchungsbutton für NutzerInnen,
+Neben dieser Möglichkeit, den Raum zu buchen, gibt es je nach Anmeldungsstatus einen Anmelde- oder Abmeldebutton und einen separaten Buchungsbutton für NutzerInnen,
 für die die Verwendung des Kalenders Probleme bereitet.
+Falls zur Zeit der Verwendung eine Buchung des Nutzenden stattfindet, wird ein Quick-Checkout Button angezeigt,
+der es ermöglicht, den Raum schnell freizugeben.
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.15]{figures/ui/startseite}
@@ -24,7 +24,7 @@ für die die Verwendung des Kalenders Probleme bereitet.
 \end{figure}
 \clearpage
 
-Sollten NuterInnen eine Buchung vornehmen wollen, so klicken diese in den gewünschten Zeitraum
+Sollten Nutzende eine Buchung vornehmen wollen, so klicken diese in den gewünschten Zeitraum
 und es wird der Dialog in \ref{fig:buchung} dargestellt.
 
 Der Dialog bietet Nutzenden die Möglichkeit, den genauen Start- und Endzeitpunkt der Buchung festzulegen.
@@ -43,7 +43,7 @@ Letztlich können Nutzende eine Beschreibung für die Buchung hinterlegen, die a
 \end{figure}
 \clearpage
 
-Tätigen NutzerInnen eine Buchung, so werden diese aufgefordert, sich anzumelden.
+Tätigen Nutzende eine Buchung, so werden diese aufgefordert, sich anzumelden.
 Der hierzu gehörige Dialog ist in \ref{fig:login} dargestellt.
 Alternativ ist dieser Dialog auch über den Anmeldungsbutton, der in Abbildung \ref{fig:startseite} zu sehen ist, erreichbar.
 \begin{figure}[ht]
@@ -54,7 +54,7 @@ Alternativ ist dieser Dialog auch über den Anmeldungsbutton, der in Abbildung \
 \end{figure}
 \clearpage
 
-Sind NutzerInnen eingeloggt und belegen den Raum,
+Sind Nutzende eingeloggt und belegen den Raum,
 so wird ihnen die in Abbildung \ref{fig:checkout} dargestellte Ansicht angezeigt.
 Hier können NutzerInnen den Raum wieder über den Quick-Checkout Button freigeben.
 \begin{figure}[ht]
@@ -77,9 +77,9 @@ die in Abbildung \ref{fig:overview} dargestellt ist, seine Buchungen einsehen un
 \clearpage
 
 \section{Adminstration}
-Ein Adminitrator hat die Möglichkeit, über die Benutzeradminstrationsoberfläche,
+Ein Administrator hat die Möglichkeit, über die Benutzeradminstrationsoberfläche,
 die in Abbildung \ref{fig:adminuser} dargestellt ist, NutzerInnen einzusehen und zu verwalten.
-So dient diese Ansicht z.B. dazu, NuterInnen zu sperren oder zu entsperren.
+So dient diese Ansicht z.B. dazu, Nutzende zu sperren oder zu entsperren.
 
 \begin{figure}[ht]
     \centering
