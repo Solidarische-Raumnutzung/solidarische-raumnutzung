@@ -122,5 +122,5 @@
 \newenvironment{interface}[2]{\refsetcounter{interfacecount}{#1}\textbf{Schnittstelle \namedlabel{I#1}{$\langle I#1\rangle$}: #2}\\}{}
 
 % Testfall
-\newcounter{testcasecount}
-\newenvironment{testcase}[2]{\refsetcounter{testcasecount}{#1}\textbf{Testfall #2}\namedlabel{T#1}{$\langle T#1\rangle$}\normalsize\begin{description}\setlength{\itemsep}{-5pt}}{\end{description}\hspace{7.5em}}
+\newcounter{scenariocount}
+\newenvironment{scenario}[2]{\refsetcounter{scenariocount}{#1}\textbf{Szenario: #2}\namedlabel{S#1}{$\langle S#1\rangle$}\normalsize\begin{description}\setlength{\itemsep}{-5pt}}{\end{description}\hspace{7.5em}}

@@ -1,20 +1,76 @@
-\chapter{Testfallbeschreibungen}
+\chapter{Testfälle und Testeszzenarien}
 \label{chap:test}
+In diesem Kapitel definieren wir die Testfälle und Testfallszenarien.
 
-Hier wird notiert, \textbf{was} und \textbf{wie} getestet wird. Dazu sollte sich an den Use-Cases und Funktionalitätsbeschreibungen orientiert werden.
+\section{Basis-Testfälle}
 
-\begin{testcase}{10}{Login}
-  \item[Getestete Funktionalität] Authentifizierung registrierter Benutzer, <Anforderung> <Use-Case>, \ldots
-  \item[Testform] Unit-Test. Der Unit-Test kann auch in Form einer Pipeline-Stufe mit \gls{CI} Workflows getestet werden \ldots
-  \item[Vorbedingungen] Der zum Login willige Nutzer muss bereits registriert sein. Eine Registrierung umfasst u.a. die Angabe einer E-Mail-Adresse und das Wählen eines Passworts\ldots
-  \item[Nachbedingungen] \ldots
-  \item[Technik] Wie wird die Funktion getestet? Mock-Ups nötig? \ldots
-\end{testcase}
+Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sind uten aufgelistet.
 
-\begin{testcase}{10}{Login}
-  \item[Getestete Funktionalität] Authentifizierung registrierter Benutzer, <Anforderung> <Use-Case>, \ldots
-  \item[Testform] Unit-Test. Der Unit-Test kann auch in Form einer Pipeline-Stufe mit \gls{CI} Workflows getestet werden \ldots
-  \item[Vorbedingungen] Der zum Login willige Nutzer muss bereits registriert sein. Eine Registrierung umfasst u.a. die Angabe einer E-Mail-Adresse und das Wählen eines Passworts\ldots
-  \item[Nachbedingungen] \ldots
-  \item[Technik] Wie wird die Funktion getestet? Mock-Ups nötig? \ldots
-\end{testcase}
+
+\begin{table}[htbp]
+
+
+  \centering
+%    \caption{Überblick von allen Funktionen.}
+  \begin{tabularx}{\textwidth}{ l|X|l }
+      \textbf{Nr.} & \textbf{Beschreibung} & \textbf{Funktion} \\ \hline\hline
+      ⟨T10⟩ & Landeseite besuchen &\ref{F10}\\
+      ⟨T20⟩& Login &\ref{F20} \\
+      ⟨T30⟩ & Reservieren &\ref{F30} \\
+      ⟨T40⟩& Löschen von Terminen durch Administratoren &\ref{F40} \\
+      ⟨T50⟩ & Deaktivierung von Gastbenutzern &\ref{F50} \\
+      ⟨T60⟩ & Benachrichtigung bei freiem Raum &\ref{F60} \\
+      ⟨T70⟩ & Anzeige des Raumstatus &\ref{F70} \\
+      ⟨T80⟩ & Stornierung einer Reservierung &\ref{F80} \\
+      ⟨T90⟩ & Abmelden &\ref{F90} \\
+  \end{tabularx}
+\end{table}
+
+\section{Testfallszenarien}
+Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
+\begin{scenario}{10}{Besuch der Landeseite und Anmeldung/Abmeldung}
+  \item[Ziel:] Sicherstellen, dass Nutzende die Landeseite aufrufen und sich erfolgreich anmelden bzw. abmelden können.
+  \begin{enumerate}
+    \item Der Nutzende besucht die Landeseite. ⟨T10⟩
+    \item Der Nutzende loggt sich ein. ⟨T20⟩
+    \item Der Nutzende meldet sich ab. ⟨T90⟩
+  \end{enumerate}
+\end{scenario}
+
+\pagebreak
+
+\begin{scenario}{20}{Reservierung eines Raums und Stornierung}
+  \item[Ziel:] Überprüfen, ob ein angemeldeter Nutzende erfolgreich einen Raum reservieren kann.
+  \begin{enumerate}
+    \item Der Nutzende besucht die Landeseite ⟨T10⟩
+    \item Der Nutzende meldet sich an ⟨T20⟩
+    \item Der Nutzende wählt einen verfügbaren Raum aus und reserviert diesen ⟨T30⟩
+    \item Der Nutzende storniert die Reservierung ⟨T80⟩
+  \end{enumerate}
+\end{scenario}
+
+\begin{scenario}{30}{Verwaltung durch Administrator}
+  \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen und Deaktivieren von Gastbenutzern.
+  \begin{enumerate}
+    \item Der Administrator besucht die Landeseite ⟨T10⟩.
+    \item Der Administrator meldet sich an ⟨T20⟩.
+    \item Der Administrator löscht bestehende Termine ⟨T40⟩.
+    \item Der Administrator deaktiviert einen Gastnutzenden ⟨T50⟩.
+  \end{enumerate}
+\end{scenario}
+
+\begin{scenario}{40}{Raumstatus anzeigen}
+  \item[Ziel:] Überprüfen, ob der aktuelle Status eines Raumes korrekt angezeigt wird.
+  \begin{enumerate}
+    \item Der Nutzende besucht die Landeseite ⟨T10⟩.
+    \item Der Nutzende meldet sich an ⟨T20⟩.
+    \item Der Nutzende wählt einen Raum aus und überprüft dessen Status ⟨T20⟩.
+  \end{enumerate}
+\end{scenario}
+
+
+
+
+
+
+
