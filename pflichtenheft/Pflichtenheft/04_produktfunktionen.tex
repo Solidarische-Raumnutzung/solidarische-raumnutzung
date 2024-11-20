@@ -154,17 +154,17 @@ Beispiel:\\
 \begin{function}{30}{Abmelden}
     \item[Anwendungsfall:] Abmelden
     \item[Anforderung:]~\ref{MK3}
-    \item[Ziel:] Abmeldung eines Nutzenden
-    \item[Vorbedingung:] Die Nutzenden sind in der Anwendung angemeldet.
-    \item[Nachbedingung Erfolg:] Die Nutzenden sind nicht mehr angemeldet.
-    \item[Nachbedingung Fehlschlag:] Die Nutzenden bleiben angemeldet.
+    \item[Ziel:] Der Nutzende kann sich von der Anwendung abmelden.
+    \item[Vorbedingung:] Der Nutzende ist angemeldet.
+    \item[Nachbedingung Erfolg:] Der Nutzende ist abgemeldet und wird auf die Startseite weitergeleitet.
+    \item[Nachbedingung Fehlschlag:] Der Nutzende ist nicht abgemeldet und erhält eine Fehlermeldung.
     \item[Auslösendes Ereignis:] Die Nutzenden wählen die Option zum Abmelden aus.
-    \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Die Nutzenden wählen die Funktion zum Abmelden aus.
-        \item Die Nutzenden werden zur Startseite weitergeleitet.
+        \item Der Nutzende wählt die Funktion zum Abmelden aus.
+        \item Der Nutzende wird abgemeldet und auf die Startseite weitergeleitet.
     \end{enumerate}
 \end{function}
+
 
 \pagebreak
 
@@ -295,18 +295,3 @@ Beispiel:\\
         \item Die Nutzenden erhalten ggf.\ eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
     \end{enumerate}
 \end{function}
-
-\begin{function}{90}{Abmeldung}
-    \item[Anwendungsfall:] Abmeldung des Nutzenden
-    \item[Anforderung:] ~\ref{MK2}
-    \item[Ziel:] Der Nutzende kann sich von der Anwendung abmelden.
-    \item[Vorbedingung:] Der Nutzende ist angemeldet.
-    \item[Nachbedingung Erfolg:] Der Nutzende ist abgemeldet und wird auf die Landeseite weitergeleitet.
-    \item[Nachbedingung Fehlschlag:] Der Nutzende ist nicht abgemeldet und erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Der Nutzende wählt die Option zur Abmeldung.
-    \begin{enumerate}
-        \item Der Nutzende wählt die Abmelde Option.
-        \item Der Nutzende wird abgemeldet und auf die Landeseite weitergeleitet.
-    \end{enumerate}
-\end{function}
-
