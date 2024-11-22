@@ -242,3 +242,22 @@
         \item Die Nutzenden erhalten ggf.\ eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
     \end{enumerate}
 \end{function}
+\begin{function}{90}{Stornierung fsdfklsdjklfj Reservierung}
+    \item[Anwendungsfall:] Stornierung einer Reservierung
+    \item[Anforderung:] ~\ref{MK16}
+    \item[Ziel:] Die Nutzenden können eine bestehende Reservierung stornieren.
+    \item[Vorbedingung:] Die Nutzenden sind angemeldet und haben eine aktive Reservierung.
+    \item[Nachbedingung Erfolg:] Die Reservierung wird storniert und die Nutzenden erhalten eine Erfolgsmeldung.
+    \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht storniert und die Nutzenden erhalten eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Die Nutzenden wählen die Option zur Stornierung einer bestehenden Reservierung.
+    \item[Beschreibung:] ~
+    \begin{enumerate}
+        \item Die Nutzenden öffnen die Seite mit ihren aktuellen Reservierungen.
+        \item Die Nutzenden wählen die Reservierung aus, die sie stornieren möchten.
+        \item Die Nutzenden bestätigen die Stornierung der Reservierung (z.B.\ durch Klick auf \textit{Reservierung stornieren}).
+        \item Eine Bestätigungsabfrage erscheint, in der die Nutzenden die Stornierung bestätigen müssen.
+        \item Falls die Nutzenden bestätigen, wird die Reservierung storniert.
+        \item Das System aktualisiert die Raumverfügbarkeit und zeigt den Nutzenden eine Bestätigungsmeldung (z.B.\ \textit{Reservierung erfolgreich storniert}).
+        \item Die Nutzenden erhalten ggf.\ eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
+    \end{enumerate}
+\end{function}
