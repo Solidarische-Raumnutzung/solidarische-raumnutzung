@@ -20,7 +20,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(requests ->
                 requests
                     .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
             )
 //                .oidcLogout()
             .formLogin(form -> form

@@ -6,7 +6,7 @@
 @param JteContext context
 @param Content content
 
-<html lang="${context.localize("code")}">
+<html lang="${context.localize("code")}" data-theme="light">
     <head>
         @if(page.description() != null)
             <meta name="description" content="${page.description()}">
@@ -14,13 +14,57 @@
         <title>${page.title()}</title>
         <meta name="viewport" content="width=device-width"/>
         <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="30">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     </head>
+
     <body>
-        <main class="flex flex-col justify-center items-center p-4 h-screen">
-            ${content}
-        </main>
+
+        <div class="navbar bg-blue-600 text-primary-content">
+            <div class="drawer-content flex flex-col items-center justify-center">
+                <!-- Page content here -->
+                <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                    Open drawer
+                </label>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="flex flex-row flex-wrap">
+                <aside class="w-full sm:w-1/3 md:w-1/4">
+                    <div class="sticky w-full">
+                        <!-- navigation -->
+                            <div class="drawer lg:drawer-open">
+                                <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+
+                                <div class="drawer-side">
+                                    <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+                                    <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                                        <!-- Sidebar content here -->
+                                        <div class="avatar placeholder">
+                                            <div class="bg-neutral text-neutral-content w-20 rounded-full">
+                                                <span class="text-3xl">D</span>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="divider"></div>
+                                        <li><a>Raumbuchung</a></li>
+
+                                        <li><a>Meine Reservierung</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
+                </aside>
+                <main role="main" class="w-full  sm:w-full md:w-3/4 pt-2 px-2">
+                    ${content}
+                </main>
+            </div>
+        </div>
+
     </body>
 </html>
