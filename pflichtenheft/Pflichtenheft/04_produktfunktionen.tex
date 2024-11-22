@@ -13,8 +13,8 @@
 %    \caption{Überblick von allen Funktionen.}
     \begin{tabularx}{\textwidth}{ l|X|l }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
-        \ref{F10} & Landeseite besuchen &~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4} \\
-        \ref{F20} & Login &~\ref{MK2} \\
+        \ref{F10} & Startseite besuchen &~\ref{MK1}, ~\ref{MK4}, ~\ref{WK1} \\
+        \ref{F20} & Login &~\ref{MK2}, ~\ref{MK4} \\
         \ref{F70} & Anzeige des Raumstatus &~\ref{MK18} \\
     \end{tabularx}
     \label{tab:non_loggedin_functions}
@@ -26,13 +26,12 @@
 %    \caption{Überblick von allen Funktionen.}
     \begin{tabularx}{\textwidth}{ l|X|l }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
-        \ref{F10} & Landeseite besuchen &~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4} \\
-        \ref{F20} & Login &~\ref{MK2} \\
-        \ref{F30} & Reservieren &~\ref{MK2}, ~\ref{MK8}, ~\ref{MK9}, ~\ref{MK10} \\
-        \ref{F60} & Benachrichtigung bei freiem Raum &~\ref{MK17} \\
-        \ref{F70} & Anzeige des Raumstatus &~\ref{MK18} \\
-        \ref{F80} & Stornierung einer Reservierung &~\ref{MK14} \\
-        \ref{F90} & Abmeldung &~\ref{MK3} \\
+        \ref{F10} & Startseite besuchen &~\ref{MK1}, ~\ref{MK4}, ~\ref{WK1} \\
+        \ref{F30} & Abmelden &~\ref{MK3}, ~\ref{MK4} \\
+        \ref{F40} & Reservieren &~\ref{MK9}, ~\ref{MK10}, ~\ref{MK12}, ~\ref{MK13}, ~\ref{MK14}, ~\ref{WK4}, ~\ref{WK11} \\
+        \ref{F70} & Benachrichtigung bei freiem Raum &~\ref{WK10} \\
+        \ref{F80} & Anzeige des Raumstatus &~\ref{XXX} \\
+        \ref{F90} & Stornierung einer Reservierung &~\ref{MK16} \\
     \end{tabularx}
     \label{tab:loggedin_functions}
 \end{table}
@@ -44,16 +43,15 @@
 %    \caption{Überblick von allen Funktionen.}
     \begin{tabularx}{\textwidth}{ l|X|l }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
-        \ref{F10} & Landeseite besuchen &~\ref{MK1}, ~\ref{WK1}, ~\ref{MK4} \\
-        \ref{F20} & Login &~\ref{MK2} \\
-        \ref{F30} & Reservieren &~\ref{MK2}, ~\ref{MK8}, ~\ref{MK9}, ~\ref{MK10} \\
-        \ref{F40} & Löschen von Terminen durch Administratoren &~\ref{MK16} \\
-        \ref{F50} & Deaktivierung von Gastbenutzern &~\ref{MK16} \\
-        \ref{F60} & Benachrichtigung bei freiem Raum &~\ref{MK17} \\
-        \ref{F70} & Anzeige des Raumstatus &~\ref{MK18} \\
-        \ref{F80} & Stornierung einer Reservierung &~\ref{MK14} \\
-        \ref{F90} & Abmeldung &~\ref{MK3} \\
-
+        \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
+        \ref{F10} & Startseite besuchen &~\ref{MK1}, ~\ref{MK4}, ~\ref{WK1} \\
+        \ref{F30} & Abmelden &~\ref{MK3}, ~\ref{MK4} \\
+        \ref{F40} & Reservieren &~\ref{MK9}, ~\ref{MK10}, ~\ref{MK12}, ~\ref{MK13}, ~\ref{MK14}, ~\ref{WK4}, ~\ref{WK11} \\
+        \ref{F50} & Löschen von Terminen durch Administratoren &~\ref{MK18} \\
+        \ref{F60} & Deaktivierung von Konten &~\ref{MK19} \\
+        \ref{F70} & Benachrichtigung bei freiem Raum &~\ref{WK10} \\
+        \ref{F80} & Anzeige des Raumstatus &~\ref{XXX} \\
+        \ref{F90} & Stornierung einer Reservierung &~\ref{MK16} \\
     \end{tabularx}
     \label{tab:adminfunctions}
 \end{table}
@@ -185,7 +183,8 @@ Beispiel:\\
         \item Die nutzende Person bestätigt ihre Eingaben.
         \item Die Anwendung prüft, ob der Raum in dem Zeitraum verfügbar ist.
         \item Ist dies der Fall, wird die Reservierung gespeichert und die nutzende Person zur Kalender-Ansicht weitergeleitet.
-              Wenn nötig, wird eine E-Mail an die Ersteller*innen überschriebener Reservierungen gesendet.
+        Wenn nötig, wird eine E-Mail an die Ersteller*innen überschriebener Reservierungen gesendet.
+        \item Die Anwendung überprüft, ob die angegebene Priorität andere Termine beeinflusst und löst konflikte entsprechend.
     \end{enumerate}
     \item[Erweiterung:]
     \begin{enumerate}
@@ -198,7 +197,7 @@ Beispiel:\\
 
 \begin{function}{50}{Löschen von Terminen durch das Adminkonto}
     \item[Anwendungsfall:] Löschen von Terminen durch das Adminkonto
-    \item[Anforderung:] ~\ref{MK18}
+    \item[Anforderung:] ~\ref{MK19}
     \item[Ziel:] Das Adminkonto kann bestehende Termine löschen.
     \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Kalender-Ansicht wird angezeigt.
     \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und das Adminkonto erhält eine Erfolgsmeldung.
@@ -247,10 +246,8 @@ Beispiel:\\
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Die Nutzenden wählen aus, ob sie für den Raum Benachrichtigungen erhalten möchten, wenn er wieder frei wird.
-        \item Die Nutzenden geben eine E-Mail-Adresse an, um die Benachrichtigungen zu empfangen (Sollte keine hinterlegt sein über KIT-Account).
         \item Sobald der Raum wieder verfügbar ist, prüft das System, ob Nutzende für den Raum eine Benachrichtigung angefordert haben.
         \item Den betroffenen Nutzenden wird eine E-Mail oder Benachrichtigung zugeschickt, dass der Raum nun wieder verfügbar ist.
-        \item Eine Bestätigung der erfolgreichen Benachrichtigung wird im System protokolliert.
     \end{enumerate}
 \end{function}
 
