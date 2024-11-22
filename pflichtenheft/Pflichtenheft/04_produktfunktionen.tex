@@ -6,12 +6,14 @@
 \chapter{Produktfunktionen}
 \label{chap:product_functions}
 
+
+\todo{These functions are still needed: (alle ansichten), (Terminkonflikte auflösen)}
+
 \section{Unangemeldete Nutzer}\label{sec:unangemeldete-benutzer-funktionen}
-\unsure[inline]{irgendwie sollten wir unter den funktionen noch klarstellen, wer welche funktionen Benutzen darf, dachte das wäre am elegantesten, andere/bessere Vorschläge sind auch wilkommen}
 \begin{table}[htbp]
     \centering
 %    \caption{Überblick von allen Funktionen.}
-    \begin{tabularx}{\textwidth}{ l|X|l }
+    \begin{tabularx}{\textwidth}{ l|X|>{\raggedright\arraybackslash}X }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
         \ref{F10} & Startseite besuchen &~\ref{MK1}, ~\ref{MK4}, ~\ref{WK1} \\
         \ref{F20} & Login &~\ref{MK2}, ~\ref{MK4} \\
@@ -124,7 +126,7 @@
     \item[Auslösendes Ereignis:] Die nutzende Person wählt einen Startzeitpunkt.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Die nutzende Person wählt einen Start- und Endzeitpunkt und kann sie gegebenenfalls anpassen.
+        \item Die nutzende Person wählt einen Start- und Endzeitpunkt auf 15 minuten genau und kann sie gegebenenfalls anpassen.
         \item Die nutzende Person gibt optional eine Beschreibung an.
         \item Die nutzende Person gibt an, ob sie bereit ist, den Raum mit weiteren zu teilen.
         \item Die nutzende Person wählt eine Prioritätsstufe.
@@ -167,13 +169,13 @@
     \item[Anwendungsfall:] Deaktivierung von Konten
     \item[Anforderung:] ~\ref{MK18}
     \item[Ziel:] Das Gastkonto wird vom Admin gesperrt.
-    \item[Vorbedingung:] Das Adminkonto ist angemeldet und in der Nutzer*innen-Ansicht.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und in der Kontenlistenansicht.
     \item[Nachbedingung Erfolg:] Der Gastbenutzer wird deaktiviert und kann sich nicht mehr Anmelden.
     \item[Nachbedingung Fehlschlag:] Der Gastbenutzer bleibt aktiv und der Admin erhält eine Fehlermeldung.
     \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Gastbenutzer aus, den es deaktivieren möchte.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Das Adminkonto öffnet die Liste der Konten (Nutzer*innen-Ansicht).
+        \item Das Adminkonto öffnet die Liste der Konten (Kontenlistenansicht).
         \item Der Admin wählt einen Gastbenutzer aus, welcher deaktiviert werden soll.
         \item Das Adminkonto bestätigt die Deaktivierung.
         \item Das Konto wird deaktiviert und aus der aktiven Liste entfernt.
