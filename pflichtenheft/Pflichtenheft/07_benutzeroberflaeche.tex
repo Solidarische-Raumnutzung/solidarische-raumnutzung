@@ -17,13 +17,13 @@ für die die Verwendung des Kalenders Probleme bereitet.
 Falls zur Zeit der Verwendung eine Buchung des Nutzenden stattfindet, wird ein Quick-Checkout Button angezeigt,
 der es ermöglicht, den Raum schnell freizugeben.
 Siehe dazu auch \ref{fig:checkout}.
+\clearpage
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.15]{figures/ui/startseite}
     \caption{Startseite der Anwendung}
     \label{fig:startseite}
 \end{figure}
-\clearpage
 
 Sollten Nutzende eine Buchung vornehmen wollen, so klicken diese in den gewünschten Zeitraum
 und es wird der Dialog in \ref{fig:buchung} dargestellt.
@@ -36,6 +36,7 @@ Für diesen Zweck werden ihnen drei Optionen bereitgestellt: "Ja", "Nein" und "A
 Deren Bedeutung wird in \change{Wo definieren wir das?} genauer erläutert.
 
 Letztlich können Nutzende eine Beschreibung für die Buchung hinterlegen, die anderen angemeldeten Nutzenden angezeigt wird.
+\clearpage
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.15]{figures/ui/buchungsdialog}
@@ -71,6 +72,7 @@ Sind Nutzende eingeloggt und belegen den Raum,
 so wird ihnen die in Abbildung \ref{fig:checkout} dargestellte Ansicht angezeigt.
 Hier können Nutzende den Raum wieder über den Quick-Checkout Button freigeben.
 
+
 Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnötigen Mehraufwand zu ermöglichen.
 \todo[inline]{Diese Pflichtenheftseite sollte vlt näher bei der Kalenderansicht sein oder sogar integriert werden.}
 \begin{figure}[ht]
@@ -92,8 +94,8 @@ Nutzende haben die Möglichkeit, eine Buchung zu stornieren, indem sie auf den S
 
 Außerdem können Nutzende die Buchungsansicht zu einer Buchung öffnen, indem sie auf die Buchung klicken.
 
-\todo[inline]{Haben wir ein Mockup für die Buchungsansicht (Dialog mit Beschreibung, Löschen, Kontaktieren?)}
-\todo[inline]{Suche nach Buchungen scheint mir nicht sinnvoll, vorallem wenn wir vergangene Buchungen anonymisieren.}
+Alternativ können Nutzende eine beliebige Buchung auch im Kalender anzeigen lassen, sollte dabei Nutzende auf einen Termin klicken, so öffent sich die Ansicht in Abbildung \ref{fig:calendarviewbooking}.
+Dabei ist es dann möglich, die Buchung zu stornieren (sollte man selbt der Ersteller sein) oder mit dem Ersteller über den Termin zu verhandlen.
 
 \begin{figure}[ht]
     \includegraphics[scale=0.15]{figures/ui/reservierungsübersicht}
@@ -101,6 +103,12 @@ Außerdem können Nutzende die Buchungsansicht zu einer Buchung öffnen, indem s
     \label{fig:overview}
 \end{figure}
 \clearpage
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.15]{figures/ui/reservierunginkalendar}
+    \caption{Reserverierung im Kalender}
+    \label{fig:calendarviewbooking}
+\end{figure}
 
 \section{Adminstration}
 Ein Administrator hat die Möglichkeit, über die Benutzeradminstrationsoberfläche,

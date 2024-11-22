@@ -2,7 +2,8 @@
 
 \chapter{Produktübersicht}
 \label{chap:product_overview}
-
+Um sich einen Überblich über die im Produkt enthaltenen Funktionen zu verschaffen, wird in diesem Kapitel eine Übersicht über die grundlegegenden Funktionen in Form von Aktivitätsdiagrammen gegeben.
+Außerdem werden die Betriebsbedingungen beschrieben.
 \section{Betriebsbedingungen}
 \begin{itemize}
     \item Die Software soll in einem \gls{Docker}-\gls{Container} laufen.
@@ -12,44 +13,22 @@
     \item Die \gls{RAM}-Nutzung soll möglichst gering sein (Ideal: unter 1GB)
 \end{itemize}
 
-\section{Use-Cases}
-
-\todo[inline]{Are we still adding usecases?}
-\todo[inline]{remove template text when done.}
-
-Der folgende Abschnitt hat die Aufgabe, die Funktionalität des zu entwickelnden Systems grafisch mithilfe von Use-Case-Diagrammen und einer kurzen verbalen
-Beschreibung zu charakterisieren.
-Im Erklärungstext sollte darauf eingegangen werden, welcher Use-Case welches Kriterium erfüllt.
-Es sind so viele Use-Case-Diagramme einzufügen, wie zur vollständigen und übersichtlichen Beschreibung der Systemfunktionalität notwendig sind.
-
-Anmerkungen zu Use-Cases:
-
-\begin{itemize}
-	\item Der Zweck eines Use-Cases ist es, zu beschreiben wie ein Aktor das System benutzen kann, um ein bestimmtes Ziel zu erreichen.
-	\item Ein Use-Case ist nicht immer eine Funktion, sondern das Ziel des Systems und kann mehrere Funktionen umfassen.
-		In diesem Fall kann man dann die einzelnen Funktionen in Aktivitätsdiagrammen beschreiben.
-	\item Use-Cases werden klassischerweise so benannt, wie die Ziele aus Sicht der Akteure heißen.
-	\item Das Diagramm soll nur den groben Aufbau des Systems beschreiben, damit man sehen kann, ob das System das Richtige tut oder nicht.
-\end{itemize}
-
-
-Beispiel:
-
-\begin{figure}[ht]
-\centering
-\caption{Use-Case-Diagramm Buchungssystem}
-\end{figure}
-
-Dieses Diagramm zeigt ein minimales Use-Case-Diagramm für ein Buchungssystem.
-Der Akteur, hier ein Benutzer, der einen Flug buchen möchte, kann einen Flug buchen oder sein Benutzerkonto ansehen.
-Diese beiden Use-Cases sind für den Benutzer zielführend.
-Ein Use-Case \emph{Flug suchen} wäre hier falsch, denn das ist nicht das Ziel eines Buchungssystems. 
-Der Use-Case \emph{Flug buchen} beinhaltet mehrere Funktionen des zugehörigen Systems. 
-Diese wären \emph{Einloggen}, \emph{Flug reservieren} usw.\ und sollen im nächsten Kapitel beschrieben werden.
-In diesem Fall wäre nun ein Aktivitätsdiagramm zur Beschreibung der einzelnen Funktionen notwendig.
-
-
-Interessante Use-Cases können mit einem Aktivitätsdiagramm genauer erläutert werden.
 
 \section{Interaktions-Diagramme}
-\todo[inline]{Add interations-diagramme}
+
+\subsection{Admin Funktionalität}
+\begin{figure}
+    \centering
+    \caption{Aktivitätsdiagramm für die Admin-Funktionalität}
+    \label{fig:activity_diagram_admin}
+\end{figure}
+
+\clearpage
+
+\subsection{Anmeldeprozess}
+
+\subsection{Buchung erstellen}
+
+\subsection{Buchungen verwalten}
+\todo[inline]{Diagram entsprechend anpassen}
+\subsection{Termin Ansicht}
