@@ -173,15 +173,15 @@
 \begin{function}{60}{Deaktivierung von Konten}
     \item[Anwendungsfall:] Deaktivierung von Konten
     \item[Anforderung:] ~\ref{MK18}
-    \item[Ziel:] Das Gastkonto wird vom Admin gesperrt.
+    \item[Ziel:] Ein Gastkonto wird vom Adminkonto gesperrt.
     \item[Vorbedingung:] Das Adminkonto ist angemeldet und in der Kontenlistenansicht.
-    \item[Nachbedingung Erfolg:] Der Gastbenutzer wird deaktiviert und kann sich nicht mehr Anmelden.
-    \item[Nachbedingung Fehlschlag:] Der Gastbenutzer bleibt aktiv und der Admin erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Gastbenutzer aus, den es deaktivieren möchte.
+    \item[Nachbedingung Erfolg:] Das Gastkonto ist deaktiviert und Gastbenutzer*in kann sich nicht mehr Anmelden.
+    \item[Nachbedingung Fehlschlag:] Das Gastkonto bleibt aktiv und das Adminkonto erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Gastbenutzer aus und drückt auf deaktivieren.
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Das Adminkonto öffnet die Liste der Konten (Kontenlistenansicht).
-        \item Der Admin wählt einen Gastbenutzer aus, welcher deaktiviert werden soll.
+        \item Administrator*in wählt einen Gastbenutzer aus, welcher deaktiviert werden soll.
         \item Das Adminkonto bestätigt die Deaktivierung.
         \item Das Konto wird deaktiviert und aus der aktiven Liste entfernt.
         \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ \textit{Gastbenutzer erfolgreich deaktiviert}).
