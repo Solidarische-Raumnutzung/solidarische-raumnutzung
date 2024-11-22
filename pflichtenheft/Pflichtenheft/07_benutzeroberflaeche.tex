@@ -6,15 +6,15 @@
 \section{Haupseite und Buchung}
 
 Die Startseite der Anwendung ist in \ref{fig:startseite} dargestellt.
-Auf dieser haben NutzerInnen die Möglichkeit, dem Raum zu buchen oder auf andere Ansichten zu wechseln.
-Der Banner in allen Ansichten zeigt den aktuellen Raumstatus an.
-Insbesondere wird dadurch die Priorität der aktuellen Buchung mithilfe der Farbe des Banners angezeigt.
+Auf dieser haben Nutzende die Möglichkeit, dem Raum zu buchen oder auf andere Ansichten zu wechseln.
+Das Banner in allen Ansichten zeigt den aktuellen Raumstatus an.
+Insbesondere wird dadurch die Priorität des aktuellen Termins mithilfe der Farbe des Banners angezeigt.
 
-Rechts in dieser Ansicht befindet sich ein Kalender, der die aktuelle Woche und die Buchungen in diesem Zeitraum anzeigt.
-Die Buchungen sind farblich nach Priorität gekennzeichnet, weitere Informationen können durch Klicken auf die Buchung eingesehen werden.
+Rechts in dieser Ansicht befindet sich ein Kalender, der die aktuelle Woche und die Termine in diesem Zeitraum anzeigt.
+Die Termine sind farblich nach Priorität gekennzeichnet, weitere Informationen können durch Klicken auf den Termin eingesehen werden.
 Neben dieser Möglichkeit, den Raum zu buchen, gibt es je nach Anmeldungsstatus einen Anmelde- oder Abmeldebutton und einen separaten Buchungsbutton für NutzerInnen,
 für die die Verwendung des Kalenders Probleme bereitet.
-Falls zur Zeit der Verwendung eine Buchung des Nutzenden stattfindet, wird ein Quick-Checkout Button angezeigt,
+Falls zur Zeit der Verwendung ein Termin des Nutzenden stattfindet, wird ein Quick-Checkout Button angezeigt,
 der es ermöglicht, den Raum schnell freizugeben.
 Siehe dazu auch \ref{fig:checkout}.
 \clearpage
@@ -28,19 +28,19 @@ Siehe dazu auch \ref{fig:checkout}.
 Sollten Nutzende eine Buchung vornehmen wollen, so klicken diese in den gewünschten Zeitraum
 und es wird der Dialog in \ref{fig:buchung} dargestellt.
 
-Der Dialog bietet Nutzenden die Möglichkeit, den genauen Start- und Endzeitpunkt der Buchung festzulegen.
+Der Dialog bietet Nutzenden die Möglichkeit, den genauen Start- und Endzeitpunkt des Termins festzulegen.
 
-Außerdem können Nutzende die Priorität der Buchung in Form einer Zahl zwischen 1 und 3 festlegen.
+Außerdem können Nutzende die Priorität des Termins in Form einer Zahl zwischen 1 und 3 festlegen.
 Nutzende können auch angeben, ob sie bereit sind, den Raum mit anderen Nutzenden zu teilen.
 Für diesen Zweck werden ihnen drei Optionen bereitgestellt: \textit{Ja}, \textit{Nein} und \textit{Auf Anfrage}.
 Siehe dazu auch \ref{fig:buchung}.
 
-Letztlich können Nutzende eine Beschreibung für die Buchung hinterlegen, die anderen angemeldeten Nutzenden angezeigt wird.
+Letztlich können Nutzende eine Beschreibung für den Termin hinterlegen, die anderen angemeldeten Nutzenden angezeigt wird.
 \clearpage
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.15]{figures/ui/buchungsdialog}
-    \caption{Buchungsdialog}
+    \caption{Termin-erstellen}
     \label{fig:buchung}
 \end{figure}
 \clearpage
@@ -83,19 +83,16 @@ Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnö
 \end{figure}
 \clearpage
 
-\section{Buchungsverwaltung}
-Nutzende, die eine Buchung vorgenommen haben, können diese in der Reservierungsübersicht,
+\section{Terminübersicht}
+Nutzende, die eine Buchung vorgenommen haben, können diese in der Terminübersicht,
 die in Abbildung \ref{fig:overview} dargestellt ist, einsehen und verwalten.
 
-Die Buchungen in dieser Ansicht werden, anders als in der Kalenderansicht, in Form einer sortierten Liste dargestellt.
-Dabei werden die Start- und Endzeitpunkte der Buchungen, wie auch die Priorität und die Beschreibung angezeigt.
+Die Termine in dieser Ansicht werden, anders als in der Kalenderansicht, in Form einer sortierten Liste dargestellt.
+Dabei werden die Start- und Endzeitpunkte der Termine, wie auch die Priorität und die Beschreibung angezeigt.
 
 Nutzende haben die Möglichkeit, eine Buchung zu stornieren, indem sie auf den Stornieren-Button klicken.
 
-Außerdem können Nutzende die Buchungsansicht zu einer Buchung öffnen, indem sie auf die Buchung klicken.
-
-Alternativ können Nutzende eine beliebige Buchung auch im Kalender anzeigen lassen, sollte dabei Nutzende auf einen Termin klicken, so öffent sich die Ansicht in Abbildung \ref{fig:calendarviewbooking}.
-Dabei ist es dann möglich, die Buchung zu stornieren (sollte man selbt der Ersteller sein) oder mit dem Ersteller über den Termin zu verhandlen.
+Außerdem können Nutzende die Termin-Ansicht (\ref{fig:calendarviewbooking}) zu einem Termin öffnen, indem sie auf den Termin klicken.
 
 \begin{figure}[ht]
     \includegraphics[scale=0.15]{figures/ui/reservierungsübersicht}

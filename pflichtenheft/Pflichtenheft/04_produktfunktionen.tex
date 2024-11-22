@@ -7,7 +7,7 @@
 \label{chap:product_functions}
 
 
-\todo{These functions are still needed: (alle ansichten), (Terminkonflikte auflösen), (Admin fkt.: Anmelden)}
+\todo{These functions are still needed: (alle ansichten), (Terminkonflikte auflösen)}
 
 \section{Unangemeldete Nutzer}\label{sec:unangemeldete-benutzer-funktionen}
 \begin{table}[htbp]
@@ -53,7 +53,9 @@
         \ref{F70} & Benachrichtigung bei freiem Raum &~\ref{WK10} \\
         \ref{F80} & Anzeige des Raumstatus &~\ref{MK20} \\
         \ref{F90} & Stornierung einer Reservierung &~\ref{MK16} \\
-        \ref{F90} & Anmelden als Admin &~\ref{MK17} \\
+        \ref{F100} & Anmelden als Admin &~\ref{MK17} \\
+        \ref{F110} & Deaktivieren von Gastkonto-Anmeldung &~\ref{MK18} \\
+        \ref{F120} & Öffnungszeiten einstellen &~\ref{MK21} \\
     \end{tabularx}
     \label{tab:adminfunctions}
 \end{table}
@@ -122,7 +124,7 @@
     \item[Anforderung:]~\ref{MK9} und~\ref{MK10}, ~\ref{MK12}, ~\ref{MK13}, ~\ref{MK14}, ~\ref{WK4} und~\ref{WK11}
     \item[Ziel:] Die nutzende Person kann einen Raum reservieren.
     \item[Vorbedingung:] Die nutzende Person ist angemeldet und in der Kalender-Ansicht.
-    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und die nutzende Person zur Buchungsseite weitergeleitet.
+    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und die nutzende Person zur Termin-Ansicht weitergeleitet.
     \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht gespeichert und die nutzende Person erhält eine Fehlermeldung.
     \item[Auslösendes Ereignis:] Die nutzende Person wählt einen Startzeitpunkt.
     \item[Beschreibung:] ~
@@ -260,5 +262,38 @@
         \item Die Person gibt das Admin passwort ein.
         \item Die Anwendung überprüft die Zugangsdaten und lässt die anmeldung zu oder lehnt ab.
         \item Das Adminkonto ist eingeloggt und zeigt die Startseite an.
+    \end{enumerate}
+\end{function}
+
+\pagebreak
+
+\begin{function}{110}{Deaktivieren von Gastkonto-Anmeldung}
+    \item[Anwendungsfall:] Deaktivieren von Gastkonto-Anmeldung
+    \item[Anforderung:]~\ref{MK18}
+    \item[Ziel:] Die Anmeldung von Gastkontos zu deaktivieren.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Kontolisten-Ansicht ist geöffnet.
+    \item[Nachbedingung Erfolg:] Gastkontos können sich nicht mehr anmelden oder registrieren.
+    \item[Nachbedingung Fehlschlag:] Gastkontos können sich immer noch anmelden, als auch registrieren.
+    \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche \textit{Gastkonto-Anmeldung deaktivieren}.
+    \item[Beschreibung:] ~
+    \begin{enumerate}
+        \item Die Person wählt die Schaltfläche \textit{Gastkonto-Anmeldung deaktivieren} aus.
+        \item Die Gastkonto-Anmeldung ist nun deaktiviert.
+    \end{enumerate}
+\end{function}
+
+\pagebreak
+
+\begin{function}{120}{Öffnungszeiten einstellen}
+    \item[Anwendungsfall:] Öffnungszeiten einstellen
+    \item[Anforderung:]~\ref{MK21}
+    \item[Ziel:] Das Adminkonto passt die Öffnungszeiten an.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Kalender-Ansicht geöffnet.
+    \item[Nachbedingung Erfolg:] Die Öffnungszeiten sind geändert.
+    \item[Nachbedingung Fehlschlag:] Die Öffnungszeiten bleiben gleich.
+    \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche zum Ändern der Öffnungszeiten.
+    \item[Beschreibung:] ~
+    \begin{enumerate}
+        \item Die als Admin eingeloggte Person ändert die Öffnungszeiten (bzw.\ Schließzeiten) für einen gewählten Wochentag.
     \end{enumerate}
 \end{function}
