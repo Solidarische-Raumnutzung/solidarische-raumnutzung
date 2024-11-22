@@ -34,6 +34,7 @@
         \ref{F70} & Benachrichtigung &~\ref{WK10} \\
         \ref{F80} & Anzeige des Raumstatus &~\ref{MK20} \\
         \ref{F90} & Stornierung einer Reservierung &~\ref{MK16} \\
+        \ref{F130} & Terminkonfliktauflösung &~\ref{MK14} \\
     \end{tabularx}
     \label{tab:loggedin_functions}
 \end{table}
@@ -56,6 +57,7 @@
         \ref{F100} & Anmelden als Admin &~\ref{MK17} \\
         \ref{F110} & Deaktivieren von Gastkonto-Anmeldung &~\ref{MK18} \\
         \ref{F120} & Öffnungszeiten einstellen &~\ref{MK21} \\
+        \ref{F130} & Terminkonfliktauflösung &~\ref{MK14} \\
     \end{tabularx}
     \label{tab:adminfunctions}
 \end{table}
@@ -137,7 +139,8 @@
         \item Die Anwendung prüft, ob der Raum in dem Zeitraum verfügbar ist.
         \item Ist dies der Fall, wird die Reservierung gespeichert und die nutzende Person zur Kalender-Ansicht weitergeleitet.
         Wenn nötig, wird eine E-Mail an die Ersteller*innen überschriebener Reservierungen gesendet.
-        \item Die Anwendung überprüft, ob die angegebene Priorität andere Termine beeinflusst und löst konflikte entsprechend.
+        \item Die Anwendung überprüft, ob die angegebene Priorität andere Termine beeinflusst und löst konflikte entsprechend. (siehe \ref{F130})
+        \item Der nutzenden Person wird dieser Konflikt mitgeteilt und sobald dieser geklärt, wird den beteiligten Parteien der entschluss via E-Mail mitgeteilt.
     \end{enumerate}
     \item[Erweiterung:]
     \begin{enumerate}
@@ -295,5 +298,24 @@
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Die als Admin eingeloggte Person ändert die Öffnungszeiten (bzw.\ Schließzeiten) für einen gewählten Wochentag.
+    \end{enumerate}
+\end{function}
+
+\pagebreak
+
+\begin{function}{130}{Terminkonfliktauflösung}
+    \item[Anwendungsfall:] Terminkonfliktauflösung
+    \item[Anforderung:]~\ref{MK14}
+    \item[Ziel:] Die Anwendung löst Terminkonflikte automatisch.
+    \item[Vorbedingung:] Durch die Überlappung von einem neu gebuchten Termin entsteht ein Konflikt mit einem bereits existierenden Termin.
+    \item[Nachbedingung Erfolg:] Der Konflikt ist gelöst.
+    \item[Nachbedingung Fehlschlag:] Der Konflikt ist nicht gelöst und der neue Termin kann nicht hinzugefügt werden.
+    \item[Auslösendes Ereignis:] Ein neuer Termin wurde erstellt und überlappt mit einem weiteren.
+    \item[Beschreibung:] ~
+    \begin{enumerate}
+        \item Nachdem ein Termin erstellt worden ist, wird überprüft ob dieser überlappungen mit anderen Terminen hat.
+        \item Ist dies der Fall wird überprüft, ob diese Kriterien ein Überlappen der Termine erlauben.
+        \item Dabei wird ggf.\ den betroffenen Personen welche einen Termin \textit{Auf Anfrage} gestellt haben per E-Mail die Entscheidung zum Ablehnen oder Annehmen gegeben.
+        \item Der Termin wird als gültig oder nicht klassifiziert und die betroffenen Personen benachrichtigt.
     \end{enumerate}
 \end{function}
