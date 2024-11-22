@@ -1,10 +1,10 @@
-\chapter{Testfälle und Testeszzenarien}
+\chapter{Testfälle und Testszenarien}
 \label{chap:test}
 In diesem Kapitel definieren wir die Testfälle und Testfallszenarien.
 
 \section{Basis-Testfälle}
 
-Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sind uten aufgelistet.
+Jede Produktfunktion entspricht einem Basis-Testfall. Die Basis-Testfälle sind unten aufgelistet.
 
 
 \begin{table}[htbp]
@@ -17,13 +17,16 @@ Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sin
       ⟨T10⟩ & Landeseite besuchen &\ref{F10}\\
       ⟨T20⟩ & Login &\ref{F20} \\
       ⟨T100⟩& Login des Adminkontos &\ref{F100} \\
-      ⟨T30⟩ & Reservieren &\ref{F30} \\
-      ⟨T40⟩ & Löschen von Terminen durch Administratoren &\ref{F40} \\
-      ⟨T50⟩ & Deaktivierung von Gastbenutzern &\ref{F50} \\
-      ⟨T60⟩ & Benachrichtigung bei freiem Raum &\ref{F60} \\
-      ⟨T70⟩ & Anzeige des Raumstatus &\ref{F70} \\
-      ⟨T80⟩ & Stornierung einer Reservierung &\ref{F80} \\
+      ⟨T30⟩ & Reservieren &\ref{F40} \\
+      ⟨T40⟩ & Löschen von Terminen durch Administratoren &\ref{F50} \\
+      ⟨T50⟩ & Deaktivierung eines Gastkontos &\ref{F60} \\
+      ⟨T60⟩ & Benachrichtigung bei freiem Raum &\ref{F70} \\
+      ⟨T70⟩ & Anzeige des Raumstatus &\ref{F80} \\
+      ⟨T80⟩ & Stornierung einer Reservierung &\ref{F90} \\
       ⟨T90⟩ & Abmelden &\ref{F30} \\
+      ⟨T110⟩& Deaktivierung der Gastfunktion &\ref{F110} \\
+      ⟨T120⟩& Öffnungszeiten einstellen &\ref{F120} \\
+      ⟨T130⟩& Terminkonfliktauflösung &\ref{F130} \\
   \end{tabularx}\label{tab:test_table}
 \end{table}
 
@@ -32,9 +35,9 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
 \begin{scenario}{10}{Besuch der Landeseite und Anmeldung/Abmeldung}
   \item[Ziel:] Sicherstellen, dass Nutzende die Landeseite aufrufen und sich erfolgreich anmelden bzw. abmelden können.
   \begin{enumerate}
-    \item Der Nutzende besucht die Landeseite. ⟨T10⟩
-    \item Der Nutzende loggt sich ein. ⟨T20⟩
-    \item Der Nutzende meldet sich ab. ⟨T90⟩
+    \item Nutzer*in besucht die Landeseite. ⟨T10⟩
+    \item Nutzer*in loggt sich ein. ⟨T20⟩
+    \item Nutzer*in meldet sich ab. ⟨T90⟩
   \end{enumerate}
 \end{scenario}
 
@@ -43,22 +46,22 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
 \begin{scenario}{20}{Reservierung eines Raums und Stornierung}
   \item[Ziel:] Überprüfen, ob Nutzende erfolgreich Termine reservieren können.
   \begin{enumerate}
-    \item Der Nutzende besucht die Landeseite ⟨T10⟩
-    \item Der Nutzende meldet sich an ⟨T20⟩
-    \item Der Nutzende wählt einen verfügbaren Raum aus und reserviert diesen ⟨T30⟩
-    \item Der Nutzende storniert die Reservierung ⟨T80⟩
+    \item Nutzer*in besucht die Landeseite ⟨T10⟩
+    \item Nutzer*in meldet sich an ⟨T20⟩
+    \item Nutzer*in wählt einen verfügbaren Raum aus und reserviert diesen ⟨T30⟩
+    \item Nutzer*in storniert die Reservierung ⟨T80⟩
   \end{enumerate}
 \end{scenario}
 
 \begin{scenario}{30}{Verwaltung durch das Adminkonto}
   \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen und Deaktivieren von Gastbenutzern.
   \begin{enumerate}
-    \item Das Adminkonto besucht die Landeseite ⟨T10⟩.
-    \item Das Adminkonto meldet sich an ⟨T100⟩.
-    \item Das Adminkonto löscht bestehende Termine ⟨T40⟩.
-    \item Das Adminkonto deaktiviert die Anmeldung von Gastkonten ⟨T50⟩.
-    \item Das Adminkonto meldet sich ab ⟨T90⟩.
-    \item Versuch anmelden mit einem Gastkonto sollte nun fehlschlagen ⟨T20⟩.
+    \item Administrator*in besucht die Landeseite ⟨T10⟩.
+    \item Administrator*in meldet sich an ⟨T100⟩.
+    \item Administrator*in löscht bestehende Termine ⟨T40⟩.
+    \item Administrator*in deaktiviert die Anmeldung von Gastkonten ⟨T110⟩.
+    \item Administrator*in meldet sich ab ⟨T90⟩.
+    \item Versuch sich mit einem Gastkonto anzumelden sollte nun fehlschlagen ⟨T20⟩.
   \end{enumerate}
 \end{scenario}
 
@@ -66,9 +69,9 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
 \begin{scenario}{40}{Termin anzeigen}
   \item[Ziel:] Überprüfen, ob ein Termin richtig.
   \begin{enumerate}
-    \item Der Nutzende besucht die Landeseite ⟨T10⟩.
-    \item Der Nutzende meldet sich an ⟨T20⟩.
-    \item Der Nutzende wählt einen Raum aus und überprüft dessen Status ⟨T20⟩.
+    \item Nutzer*in besucht die Landeseite ⟨T10⟩.
+    \item Nutzer*in meldet sich an ⟨T20⟩.
+    \item Nutzer*in wählt einen Raum aus und überprüft dessen Status ⟨T20⟩.
   \end{enumerate}
 \end{scenario}
 
