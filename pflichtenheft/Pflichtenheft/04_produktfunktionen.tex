@@ -7,7 +7,7 @@
 \label{chap:product_functions}
 
 
-\todo{These functions are still needed: (alle ansichten), (Terminkonflikte auflösen)}
+\todo{These functions are still needed: (alle ansichten), (Terminkonflikte auflösen), (Admin fkt.: Anmelden)}
 
 \section{Unangemeldete Nutzer}\label{sec:unangemeldete-benutzer-funktionen}
 \begin{table}[htbp]
@@ -53,6 +53,7 @@
         \ref{F70} & Benachrichtigung bei freiem Raum &~\ref{WK10} \\
         \ref{F80} & Anzeige des Raumstatus &~\ref{MK20} \\
         \ref{F90} & Stornierung einer Reservierung &~\ref{MK16} \\
+        \ref{F90} & Anmelden als Admin &~\ref{MK17} \\
     \end{tabularx}
     \label{tab:adminfunctions}
 \end{table}
@@ -240,5 +241,24 @@
         \item Falls die Nutzenden bestätigen, wird die Reservierung storniert.
         \item Das System aktualisiert die Raumverfügbarkeit und zeigt den Nutzenden eine Bestätigungsmeldung (z.B.\ \textit{Reservierung erfolgreich storniert}).
         \item Die Nutzenden erhalten ggf.\ eine E-Mail oder eine Benachrichtigung über die Stornierung (optional).
+    \end{enumerate}
+\end{function}
+
+\pagebreak
+
+\begin{function}{100}{Anmelden des Adminkontos}
+    \item[Anwendungsfall:] Anmelden des Adminkontos
+    \item[Anforderung:]~\ref{MK17}
+    \item[Ziel:] Berechtigte Personen können sich mit Passwort authentifizieren um auf das Adminkonto zugreifen zu können.
+    \item[Vorbedingung:] Die nutzende Person befindet sich unangemeldet auf der Startseite.
+    \item[Nachbedingung Erfolg:] Das Adminkonto ist angemeldet und die nutzende Person kann auf die Admin funktionen zugreifen.
+    \item[Nachbedingung Fehlschlag:] Die nutzende Person bleibt unangemeldet auf der Startseite.
+    \item[Auslösendes Ereignis:] Die nutzende Person ist unangemeldet auf der Startseite und versucht sich als Admin anzumelden.
+    \item[Beschreibung:] ~
+    \begin{enumerate}
+        \item Die nutzende Person wählt die Admin-Anmeldemethode aus.
+        \item Die Person gibt das Admin passwort ein.
+        \item Die Anwendung überprüft die Zugangsdaten und lässt die anmeldung zu oder lehnt ab.
+        \item Das Adminkonto ist eingeloggt und zeigt die Startseite an.
     \end{enumerate}
 \end{function}
