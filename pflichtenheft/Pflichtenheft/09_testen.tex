@@ -15,15 +15,16 @@ Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sin
   \begin{tabularx}{\textwidth}{ l|X|l }
       \textbf{Nr.} & \textbf{Beschreibung} & \textbf{Funktion} \\ \hline\hline
       ⟨T10⟩ & Landeseite besuchen &\ref{F10}\\
-      ⟨T20⟩& Login &\ref{F20} \\
+      ⟨T20⟩ & Login &\ref{F20} \\
+      ⟨T100⟩& Login des Adminkontos &\ref{F100} \\
       ⟨T30⟩ & Reservieren &\ref{F30} \\
-      ⟨T40⟩& Löschen von Terminen durch Administratoren &\ref{F40} \\
+      ⟨T40⟩ & Löschen von Terminen durch Administratoren &\ref{F40} \\
       ⟨T50⟩ & Deaktivierung von Gastbenutzern &\ref{F50} \\
       ⟨T60⟩ & Benachrichtigung bei freiem Raum &\ref{F60} \\
       ⟨T70⟩ & Anzeige des Raumstatus &\ref{F70} \\
       ⟨T80⟩ & Stornierung einer Reservierung &\ref{F80} \\
-      ⟨T90⟩ & Abmelden &\ref{F90} \\
-  \end{tabularx}
+      ⟨T90⟩ & Abmelden &\ref{F30} \\
+  \end{tabularx}\label{tab:test_table}
 \end{table}
 
 \section{Testfallszenarien}
@@ -40,7 +41,7 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
 \pagebreak
 
 \begin{scenario}{20}{Reservierung eines Raums und Stornierung}
-  \item[Ziel:] Überprüfen, ob ein angemeldeter Nutzende erfolgreich einen Raum reservieren kann.
+  \item[Ziel:] Überprüfen, ob Nutzende erfolgreich Termine reservieren können.
   \begin{enumerate}
     \item Der Nutzende besucht die Landeseite ⟨T10⟩
     \item Der Nutzende meldet sich an ⟨T20⟩
@@ -49,18 +50,21 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
   \end{enumerate}
 \end{scenario}
 
-\begin{scenario}{30}{Verwaltung durch Administrator}
+\begin{scenario}{30}{Verwaltung durch das Adminkonto}
   \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen und Deaktivieren von Gastbenutzern.
   \begin{enumerate}
-    \item Der Administrator besucht die Landeseite ⟨T10⟩.
-    \item Der Administrator meldet sich an ⟨T20⟩.
-    \item Der Administrator löscht bestehende Termine ⟨T40⟩.
-    \item Der Administrator deaktiviert einen Gastnutzenden ⟨T50⟩.
+    \item Das Adminkonto besucht die Landeseite ⟨T10⟩.
+    \item Das Adminkonto meldet sich an ⟨T100⟩.
+    \item Das Adminkonto löscht bestehende Termine ⟨T40⟩.
+    \item Das Adminkonto deaktiviert die Anmeldung von Gastkonten ⟨T50⟩.
+    \item Das Adminkonto meldet sich ab ⟨T90⟩.
+    \item Versuch anmelden mit einem Gastkonto sollte nun fehlschlagen ⟨T20⟩.
   \end{enumerate}
 \end{scenario}
 
-\begin{scenario}{40}{Raumstatus anzeigen}
-  \item[Ziel:] Überprüfen, ob der aktuelle Status eines Raumes korrekt angezeigt wird.
+\todo{this is just wrong!}
+\begin{scenario}{40}{Termin anzeigen}
+  \item[Ziel:] Überprüfen, ob ein Termin richtig.
   \begin{enumerate}
     \item Der Nutzende besucht die Landeseite ⟨T10⟩.
     \item Der Nutzende meldet sich an ⟨T20⟩.
