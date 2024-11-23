@@ -52,9 +52,9 @@
 
                                         </div>
                                         <div class="divider"></div>
-                                        <li><a>Raumbuchung</a></li>
+                                        <li><a href="./">Raumbuchung</a></li>
 
-                                        <li><a>Meine Reservierung</a></li>
+                                        <li><a href="./bookings">Meine Reservierungen</a></li>
                                     </ul>
                                 </div>
                             </div>

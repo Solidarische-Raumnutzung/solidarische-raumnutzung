@@ -1,4 +1,4 @@
-@import edu.kit.hci.soli.DemoModel
+@import edu.kit.hci.soli.domain.DemoModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 

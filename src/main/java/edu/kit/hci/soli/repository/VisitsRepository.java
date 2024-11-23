@@ -1,4 +1,4 @@
-package edu.kit.hci.soli;
+package edu.kit.hci.soli.repository;
 
 import org.springframework.stereotype.Service;
 

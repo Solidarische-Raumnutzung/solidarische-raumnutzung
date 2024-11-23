@@ -1,4 +1,4 @@
-package edu.kit.hci.soli;
+package edu.kit.hci.soli.domain;
 
 public class DemoModel {
     public String name;

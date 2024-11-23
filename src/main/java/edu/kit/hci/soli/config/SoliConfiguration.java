@@ -1,4 +1,4 @@
-package edu.kit.hci.soli;
+package edu.kit.hci.soli.config;
 
 import lombok.Getter;
 import lombok.Setter;

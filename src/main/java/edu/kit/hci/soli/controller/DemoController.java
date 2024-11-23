@@ -1,5 +1,7 @@
-package edu.kit.hci.soli;
+package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.repository.VisitsRepository;
+import edu.kit.hci.soli.domain.DemoModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 
-@Controller
+@Controller("/")
 public class DemoController {
 
     private final Logger log = LoggerFactory.getLogger(DemoController.class);
