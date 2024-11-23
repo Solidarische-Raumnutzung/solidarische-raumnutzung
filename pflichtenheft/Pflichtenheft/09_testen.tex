@@ -16,7 +16,6 @@ Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sin
       \textbf{Nr.} & \textbf{Beschreibung} & \textbf{Funktion} \\ \hline\hline
       ⟨T10⟩ & Landeseite besuchen &\ref{F10}\\
       ⟨T20⟩ & Login &\ref{F20} \\
-      ⟨T100⟩& Login des Adminkontos &\ref{F100} \\
       ⟨T30⟩ & Reservieren &\ref{F30} \\
       ⟨T40⟩ & Löschen von Terminen durch Administratoren &\ref{F40} \\
       ⟨T50⟩ & Deaktivierung von Gastbenutzern &\ref{F50} \\
@@ -24,17 +23,19 @@ Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sin
       ⟨T70⟩ & Anzeige des Raumstatus &\ref{F70} \\
       ⟨T80⟩ & Stornierung einer Reservierung &\ref{F80} \\
       ⟨T90⟩ & Abmelden &\ref{F30} \\
+      ⟨T100⟩& Login des Adminkontos &\ref{F100} \\
+      ⟨T120⟩ & Terminkonfliktauflösung &\ref{F130} \\
   \end{tabularx}\label{tab:test_table}
 \end{table}
 
 \section{Testfallszenarien}
 Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
 \begin{scenario}{10}{Besuch der Landeseite und Anmeldung/Abmeldung}
-  \item[Ziel:] Sicherstellen, dass Nutzende die Landeseite aufrufen und sich erfolgreich anmelden bzw. abmelden können.
+  \item[Ziel:] Sicherstellen, dass Nutzende die Landeseite aufrufen und sich erfolgreich anmelden bzw.\ abmelden können.
   \begin{enumerate}
-    \item Der Nutzende besucht die Landeseite. ⟨T10⟩
-    \item Der Nutzende loggt sich ein. ⟨T20⟩
-    \item Der Nutzende meldet sich ab. ⟨T90⟩
+    \item Der Nutzende besucht die Landeseite ⟨T10⟩.
+    \item Der Nutzende loggt sich ein ⟨T20⟩.
+    \item Der Nutzende meldet sich ab ⟨T90⟩.
   \end{enumerate}
 \end{scenario}
 
@@ -43,10 +44,10 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
 \begin{scenario}{20}{Reservierung eines Raums und Stornierung}
   \item[Ziel:] Überprüfen, ob Nutzende erfolgreich Termine reservieren können.
   \begin{enumerate}
-    \item Der Nutzende besucht die Landeseite ⟨T10⟩
-    \item Der Nutzende meldet sich an ⟨T20⟩
-    \item Der Nutzende wählt einen verfügbaren Raum aus und reserviert diesen ⟨T30⟩
-    \item Der Nutzende storniert die Reservierung ⟨T80⟩
+    \item Der Nutzende besucht die Landeseite ⟨T10⟩.
+    \item Der Nutzende meldet sich an ⟨T20⟩.
+    \item Der Nutzende wählt einen verfügbaren Raum aus und reserviert diesen ⟨T30⟩.
+    \item Der Nutzende storniert die Reservierung ⟨T80⟩.
   \end{enumerate}
 \end{scenario}
 
@@ -69,6 +70,17 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
     \item Der Nutzende besucht die Landeseite ⟨T10⟩.
     \item Der Nutzende meldet sich an ⟨T20⟩.
     \item Der Nutzende wählt einen Raum aus und überprüft dessen Status ⟨T20⟩.
+  \end{enumerate}
+\end{scenario}
+
+\begin{scenario}{50}{Terminkonflikt auflösung}
+  \item[Ziel:] Überprüfen, ob ein Terminkonflikt richtig aufgelöst wird.
+  \begin{enumerate}
+    \item Konto 1 meldet sich an ⟨T20⟩.
+    \item Konto 1 erstellt einen Termin, und gibt die zu testende Priorität, Raumteilungsoption und Zeitperiode ein ⟨T20⟩.
+    \item Konto 1 meldet sich ab und Konto 2 meldet sich an.
+    \item Konto 2 erstellt einen Termin, welcher den anderen überlappt.
+    \item Es wird überprüft, ob die erwartete Konfliktauflösung stattgefunden hat und ggf.\ die dafür benötigten E-Mails versendet wurden ⟨T130⟩.
   \end{enumerate}
 \end{scenario}
 
