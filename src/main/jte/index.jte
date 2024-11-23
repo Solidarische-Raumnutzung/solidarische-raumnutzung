@@ -37,6 +37,7 @@
         });
     </script>
 
+
     <div id="calendar" class="w-full"></div>
 
 `)
