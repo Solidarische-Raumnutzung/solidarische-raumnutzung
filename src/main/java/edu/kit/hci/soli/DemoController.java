@@ -1,6 +1,8 @@
 package edu.kit.hci.soli;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,8 @@ import java.security.Principal;
 
 @Controller
 public class DemoController {
+
+    private final Logger log = LoggerFactory.getLogger(DemoController.class);
 
     final VisitsRepository visitsRepository;
 
@@ -31,7 +35,7 @@ public class DemoController {
     @GetMapping("/")
     public String index(Model model, HttpServletResponse response, Principal principal) {
         visitsRepository.increment();
-
+        log.info("Received request from {}", principal == null ? "Anonymous" : principal.getName());
         String username = principal == null ? "Anonymous" : principal.getName();
         model.addAttribute("model", new DemoModel(username, visitsRepository.getVisits()));
         return "index";
