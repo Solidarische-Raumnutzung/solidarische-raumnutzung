@@ -3,40 +3,6 @@
 \chapter{Produktdaten}
 \label{chap:product_data}
 
-\iffalse
-Die langfristig zu speichernden Daten sind aus Benutzersicht detaillierter zu beschreiben.
-Dabei bietet sich eine formale Beschreibung an, um eine größere Präzisierung zu erreichen.
-Es sollte eine Menge an erwarteten Daten angegeben werden.
-
-Es kann die Darstellung gemäß Beispiel verwendet werden (alternativ kann auch ein Klassendiagramm mit entsprechender Beschreibung erstellt werden):\\
-
-\begin{data}{10}{Lagerdaten}
-	Daten der Lagerplätze (max. 5.000):\\
-	-  Modulnummer,\\
-	-  Regalseite,\\
-	-  Regalspalte,\\
-	-  Regalzeile,\\
-	-  Fachhöhe,\\
-	-  Platzsperre (0 = nicht gesperrt, 1 = gesperrt für Einlagerung, 2 = gesperrt
-	   für Auslagerung, 3 = gesperrt für alle Zugriffe),\\
-	-  Reifenstatus (0 = frei,1 = reserviert für Einlagerung, 2= belegt, 3 =
-	   reserviert für Auslagerung),\\
-	-  Reifenseriennummer.\\
-\end{data}
-
-\begin{data}{20}{Moduldaten}
-	Daten der Module (max. 20):\\
-	-  Modulnummer,\\
-	-  Sperrkennzeichen (0 = nicht gesperrt, 1 = gesperrt für Einlagerung, 2 =
-	   gesperrt für Auslagerung, 3 = gesperrt für alle Zugriffe),\\
-	-  maximale Kapazität,\\
-	-  freie Kapazität,\\
-	-  belegte Plätze (ergibt sich aus Status und Zahl der zugeordneten
-	   Lagerplätze, wird aus Geschwindigkeitsgründen allerdings redundant
-	   mitgeführt).
-\end{data}
-\fi
-
 Die Anwendung verwendet den Server als zentralen Speicherort für alle Daten.
 Die Daten werden in einer \gls{PostgreSQL}-Datenbank gespeichert.
 Auf dem Client werden nur temporäre Daten gespeichert, die für die Funktionalität der Anwendung notwendig sind.
@@ -44,17 +10,17 @@ Auf dem Client werden nur temporäre Daten gespeichert, die für die Funktionali
 
 \subsection*{Clientdaten}
 \begin{itemize}
-    \item Anmeldungscookie (falls der Benutzer anonym angemeldet ist).
+    \item Anmeldungscookie (falls die anmeldung via Gastkonto ist).
           Diese laufen nach 30 Tagen ab.
     \item Zustand der Anwendung (z.B.\ aktuelle Seite, geöffnete Dialoge)
 \end{itemize}
 
 \subsection*{Serverdaten}
 \begin{itemize}
-    \item Benutzerdaten (dauerhaft gespeichert)
+    \item Daten der Nutzenden (dauerhaft gespeichert)
     \begin{itemize}
-        \item Benutzername (oder \textit{Anonym} für anonyme Benutzer)
-        \item (optional) E-Mail-Adresse
+        \item Kontoname (oder \textit{Gast} für Gastkonto)
+        \item E-Mail-Adresse
         \item OAuth- oder Cookie-Token
         \item Blockierungsstatus (wahr oder falsch)
     \end{itemize}
@@ -66,13 +32,11 @@ Auf dem Client werden nur temporäre Daten gespeichert, die für die Funktionali
         \item Ersteller
         \item Priorität
         \item Kollaborationsmodus
-        \item (optional) E-Mail-Adresse
-        \item Sichtbarkeit der E-Mail-Adresse
+        \item E-Mail-Adresse
     \end{itemize}
     \item Raumdaten (dauerhaft gespeichert)
     \begin{itemize}
         \item Raumname
-        \item Raumbeschreibung
-        \item Raumbild
+        \item Öffnungszeiten
     \end{itemize}
 \end{itemize}
