@@ -1,3 +1,4 @@
+@import edu.kit.hci.soli.domain.DemoModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 @import gg.jte.Content;
@@ -5,6 +6,7 @@
 @param PageSpec page
 @param JteContext context
 @param Content content
+@param DemoModel model
 
 <html lang="${context.localize("code")}" data-theme="light">
     <head>
@@ -51,6 +53,7 @@
                                             </div>
 
                                         </div>
+                                        <label>Welcome, ${model.name}</label>
                                         <div class="divider"></div>
                                         <li><a href="./">Raumbuchung</a></li>
 

@@ -2,10 +2,9 @@
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 
-@param DemoModel model
 @param JteContext context
-
-@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, content = @`
+@param DemoModel model
+@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, model=model, content = @`
     <div class="">
 
         <div class="overflow-x-auto">

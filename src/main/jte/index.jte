@@ -2,10 +2,9 @@
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 
-@param DemoModel model
 @param JteContext context
-
-@template.layout(page = new PageSpec("Index", "Soli"), context = context, content = @`
+@param DemoModel  model
+@template.layout(page = new PageSpec("Index", "Soli"), context = context, model=model,content = @`
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
@@ -36,7 +35,6 @@
             calendar.render();
         });
     </script>
-
 
     <div id="calendar" class="w-full"></div>
 

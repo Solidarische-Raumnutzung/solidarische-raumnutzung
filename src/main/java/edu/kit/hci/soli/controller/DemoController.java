@@ -7,6 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +23,11 @@ public class DemoController {
 
     private final Logger log = LoggerFactory.getLogger(DemoController.class);
 
-    final VisitsRepository visitsRepository;
+    @Autowired
+    private VisitsRepository visitsRepository;
 
     @Value("${spring.profiles.active}")
     private String profile;
-
-    public DemoController(@Autowired VisitsRepository visitsRepository) {
-        this.visitsRepository = visitsRepository;
-    }
 
     @ResponseBody
     @GetMapping("/profile")
@@ -35,10 +36,12 @@ public class DemoController {
     }
 
     @GetMapping("/")
-    public String index(Model model, HttpServletResponse response, Principal principal) {
+    public String index(Model model, HttpServletResponse response, Principal principal, @AuthenticationPrincipal OidcUser oidcUser) {
         visitsRepository.increment();
-        log.info("Received request from {}", principal == null ? "Anonymous" : principal.getName());
-        String username = principal == null ? "Anonymous" : principal.getName();
+
+        log.info("Received request from {}", principal == null ? "Anonymous" : oidcUser.getUserInfo().getFullName());
+
+        String username = oidcUser.getUserInfo().getFullName();
         model.addAttribute("model", new DemoModel(username, visitsRepository.getVisits()));
         return "index";
     }
