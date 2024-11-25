@@ -28,7 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core:10.21.0") // TODO: remove explicit version when Spring Boot 3.4 is released
-    implementation("org.flywaydb:flyway-database-postgresql:10.21.0")
+    implementation("org.flywaydb:flyway-database-postgresql:11.0.0")
 
     implementation("org.springframework.boot:spring-boot-starter-mail")
 
