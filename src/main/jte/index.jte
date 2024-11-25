@@ -42,4 +42,11 @@
 
     <div id="calendar" class="w-full"></div>
 
+    <noscript class="w-full">
+        <h1 class="text-center">
+            The calendar is only supported with JavaScript.<br>
+            Use the sidebar to book instead.
+        </h1>
+    </noscript>
+
 `)
