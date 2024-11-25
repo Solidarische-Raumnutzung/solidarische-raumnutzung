@@ -16,15 +16,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    container: ghcr.io/solidarische-raumnutzung/docker-texlive
     steps:
       - uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install texlive-latex-base texlive-lang-german texlive-science latexmk texlive-fonts-extra texlive-bibtex-extra biber
-          sudo apt-get install texlive-latex-extra --no-install-recommends   
       - name: Build
         run: |
           cd presi_template 
@@ -41,7 +37,7 @@ jobs:
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
           pip install mako
-          python .github/genindex.py pages
+          python3 .github/genindex.py pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
