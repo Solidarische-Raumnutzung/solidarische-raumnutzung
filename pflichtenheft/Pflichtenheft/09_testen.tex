@@ -4,7 +4,7 @@ In diesem Kapitel definieren wir die Testfälle und Testfallszenarien.
 
 \section{Basis-Testfälle}
 
-Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sind uten aufgelistet.
+Jeder Produktfunktion entspricht einem Basis-Testfall. Die Basis-Testfälle sind uten aufgelistet.
 
 
 \begin{table}[htbp]
@@ -24,9 +24,13 @@ Jeder Produktfunktion entspricht eineme Basis-Testfall. Die Basis-Testfälle sin
       ⟨T80⟩ & Stornierung einer Reservierung &\ref{F80} \\
       ⟨T90⟩ & Abmelden &\ref{F30} \\
       ⟨T100⟩& Login des Adminkontos &\ref{F100} \\
+      ⟨T110⟩& Deaktivierung der Gastfunktion &\ref{F110} \\
       ⟨T120⟩ & Terminkonfliktauflösung &\ref{F130} \\
+      ⟨T130⟩& Terminkonfliktauflösung &\ref{F130} \\
   \end{tabularx}\label{tab:test_table}
 \end{table}
+
+\pagebreak
 
 \section{Testfallszenarien}
 Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
@@ -38,8 +42,6 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
     \item Der Nutzende meldet sich ab ⟨T90⟩.
   \end{enumerate}
 \end{scenario}
-
-\pagebreak
 
 \begin{scenario}{20}{Reservierung eines Raums und Stornierung}
   \item[Ziel:] Überprüfen, ob Nutzende erfolgreich Termine reservieren können.

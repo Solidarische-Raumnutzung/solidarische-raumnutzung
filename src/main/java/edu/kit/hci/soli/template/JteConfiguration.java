@@ -3,6 +3,7 @@ package edu.kit.hci.soli.template;
 import edu.kit.hci.soli.SoliApplication;
 import gg.jte.*;
 import gg.jte.resolve.DirectoryCodeResolver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -17,9 +18,11 @@ public class JteConfiguration {
         return new JteViewResolver(templateEngine);
     }
 
+    @Value("${spring.profiles.active}")
+    private String profile;
+
     @Bean
     public TemplateEngine templateEngine() {
-        String profile = System.getenv("SPRING_ENV");
         if ("prod".equals(profile)) {
             return TemplateEngine.createPrecompiled(ContentType.Html);
         } else {
