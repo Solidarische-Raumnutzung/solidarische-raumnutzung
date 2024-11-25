@@ -33,6 +33,10 @@
             });
 
             calendar.render();
+
+            setInterval(() => {
+                calendar.refetchEvents();
+            }, 1000 * 60 * 5);
         });
     </script>
 

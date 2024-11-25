@@ -16,7 +16,6 @@
         <title>${page.title()}</title>
         <meta name="viewport" content="width=device-width"/>
         <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="30">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
