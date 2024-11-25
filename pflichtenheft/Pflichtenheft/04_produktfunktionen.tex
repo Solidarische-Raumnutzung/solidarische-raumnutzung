@@ -66,17 +66,17 @@
 \begin{function}{10}{Startseite}
     \item[Anwendungsfall:] Initiales besuchen der Webseite
     \item[Anforderung:]~\ref{MK1}, ~\ref{MK4}, ~\ref{WK1}
-    \item[Ziel:] Den Nutzenden wird ohne Anmeldung die Ansicht <Kalender> gezeigt.
+    \item[Ziel:] Den Nutzenden wird ohne Anmeldung die Ansicht \textit{Kalender} gezeigt.
     \item[Vorbedingung:] Die Nutzenden haben eine Internetverbindung und im \gls{Browser}~die Webseite geöffnet.
-    \item[Nachbedingung Erfolg:] Die Nutzenden sehen die Ansicht <Kalender> mit zukünftigen Reservierungen.
+    \item[Nachbedingung Erfolg:] Die Nutzenden sehen die Ansicht \textit{Kalender} mit zukünftigen Reservierungen.
     \item[Nachbedingung Fehlschlag:] Die Nutzenden sind nicht in der Lage mit der Webseite weiter zu interagieren.
     \item[Auslösendes Ereignis:] Die Nutzenden verwenden ihre \gls{Browser}~, um die Webseite aufzurufen.
     \item[Beschreibung:]~
     \begin{enumerate}
         \item Der Benutzer navigiert in seinem Browser auf die Webseite.
-        \item Die Startseite lädt und zeigt dem Benutzer die Ansicht <Kalender> an.
+        \item Die Startseite lädt und zeigt dem Benutzer die Ansicht \textit{Kalender} an.
     \end{enumerate}
-    \item[Erweiterung:] Sollte es mehr als ein Arbeitsraum geben, so sollte hier vom Nutzenden die Auswahl getroffen werden, bevor die Ansicht <Kalender> angezeigt wird.
+    \item[Erweiterung:] Sollte es mehr als ein Arbeitsraum geben, so sollte hier vom Nutzenden die Auswahl getroffen werden, bevor die Ansicht \textit{Kalender} angezeigt wird.
 \end{function}
 
 \pagebreak
@@ -124,8 +124,8 @@
     \item[Anwendungsfall:] Reservierung
     \item[Anforderung:]~\ref{MK9} und~\ref{MK10}, ~\ref{MK12}, ~\ref{MK13}, ~\ref{MK14}, ~\ref{WK4} und~\ref{WK11}
     \item[Ziel:] Die nutzende Person kann einen Raum reservieren.
-    \item[Vorbedingung:] Die nutzende Person ist angemeldet und in der Ansicht <Kalender>.
-    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und die nutzende Person zur Ansicht <Termin> weitergeleitet.
+    \item[Vorbedingung:] Die nutzende Person ist angemeldet und in der Ansicht \textit{Kalender}.
+    \item[Nachbedingung Erfolg:] Eine Reservierung wird gespeichert und die nutzende Person zur Ansicht \textit{Termin} weitergeleitet.
     \item[Nachbedingung Fehlschlag:] Die Reservierung wird nicht gespeichert und die nutzende Person erhält eine Fehlermeldung.
     \item[Auslösendes Ereignis:] Die nutzende Person wählt einen Startzeitpunkt.
     \item[Beschreibung:] ~
@@ -136,7 +136,7 @@
         \item Die nutzende Person wählt eine Prioritätsstufe.
         \item Die nutzende Person bestätigt ihre Eingaben.
         \item Die Anwendung prüft, ob der Raum in dem Zeitraum verfügbar ist.
-        \item Ist dies der Fall, wird die Reservierung gespeichert und die nutzende Person zur Ansicht <Kalender> weitergeleitet.
+        \item Ist dies der Fall, wird die Reservierung gespeichert und die nutzende Person zur Ansicht \textit{Kalender} weitergeleitet.
         Wenn nötig, wird eine E-Mail an die Ersteller*innen überschriebener Reservierungen gesendet.
         \item Die Anwendung überprüft, ob die angegebene Priorität andere Termine beeinflusst und löst konflikte entsprechend. (siehe \ref{F130})
         \item Der nutzenden Person wird dieser Konflikt mitgeteilt und sobald dieser geklärt, wird den beteiligten Parteien der entschluss via E-Mail mitgeteilt.
@@ -154,13 +154,13 @@
     \item[Anwendungsfall:] Löschen von Terminen durch das Adminkonto
     \item[Anforderung:] ~\ref{MK19}
     \item[Ziel:] Das Adminkonto kann bestehende Termine löschen.
-    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht <Kalender> wird angezeigt.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht \textit{Kalender} wird angezeigt.
     \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und das Adminkonto erhält eine Erfolgsmeldung.
     \item[Nachbedingung Fehlschlag:] Der Termin wird nicht gelöscht und das Adminkonto erhält eine Fehlermeldung.
     \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Termin aus, welcher gelöscht werden soll.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Das Adminkonto öffnet die Ansicht <Kalender>.
+        \item Das Adminkonto öffnet die Ansicht \textit{Kalender}.
         \item Das Adminkonto wählt den Termin aus, welcher gelöscht werden soll.
         \item Das Adminkonto wird gefragt, ob es den Termin wirklich löschen möchte (Bestätigungsabfrage).
         \item Falls das Adminkonto bestätigt, wird der Termin gelöscht.
@@ -174,13 +174,13 @@
     \item[Anwendungsfall:] Deaktivierung von Konten
     \item[Anforderung:] ~\ref{MK18}
     \item[Ziel:] Das Gastkonto wird vom Admin gesperrt.
-    \item[Vorbedingung:] Ein Administrator ist angemeldet und betrachtet die Ansicht <Kontoliste>.
+    \item[Vorbedingung:] Ein Administrator ist angemeldet und betrachtet die Ansicht \textit{Kontoliste}.
     \item[Nachbedingung Erfolg:] Der Gastbenutzer wird deaktiviert und kann sich nicht mehr Anmelden.
     \item[Nachbedingung Fehlschlag:] Der Gastbenutzer bleibt aktiv und der Admin erhält eine Fehlermeldung.
     \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Gastbenutzer aus, den es deaktivieren möchte.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Das Adminkonto öffnet die Liste der Konten (Ansicht <Kontoliste>).
+        \item Das Adminkonto öffnet die Liste der Konten (Ansicht \textit{Kontoliste}).
         \item Der Admin wählt einen Gastbenutzer aus, welcher deaktiviert werden soll.
         \item Das Adminkonto bestätigt die Deaktivierung.
         \item Das Konto wird deaktiviert und aus der aktiven Liste entfernt.
@@ -212,10 +212,10 @@
     \item[Anwendungsfall:] Anzeige des Raumstatus
     \item[Anforderung:] ~\ref{MK20} \ref{WK9}
     \item[Ziel:] Die Anwendung stellt den Raumstatus, einschließlich der aktuellen Belegung und Priorität, übersichtlich dar.
-    \item[Vorbedingung:] Die Nutzenden sind auf der Ansicht <Kalender> und müssen nicht angemeldet sein.
+    \item[Vorbedingung:] Die Nutzenden sind auf der Ansicht \textit{Kalender} und müssen nicht angemeldet sein.
     \item[Nachbedingung Erfolg:] Der Raumstatus wird auf einer öffentlichen Seite korrekt angezeigt, inklusive Belegung und Priorität (z.B.\ durch farbige Banner).
     \item[Nachbedingung Fehlschlag:] Der Raumstatus wird nicht angezeigt oder ist unvollständig.
-    \item[Auslösendes Ereignis:] Die Nutzenden öffnen die Ansicht <Kalender>.
+    \item[Auslösendes Ereignis:] Die Nutzenden öffnen die Ansicht \textit{Kalender}.
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Die Nutzenden öffnen die Seite.
@@ -273,7 +273,7 @@
     \item[Anwendungsfall:] Deaktivieren von Gastkonto-Anmeldung
     \item[Anforderung:]~\ref{MK18}
     \item[Ziel:] Die Anmeldung von Gastkonten zu deaktivieren.
-    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht <Kontoliste> geöffnet.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht \textit{Kontoliste} geöffnet.
     \item[Nachbedingung Erfolg:] Gastkonten können sich nicht mehr anmelden oder registrieren.
     \item[Nachbedingung Fehlschlag:] Gastkonten können sich immer noch anmelden, als auch registrieren.
     \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche \textit{Gastkonto-Anmeldung deaktivieren}.
@@ -290,7 +290,7 @@
     \item[Anwendungsfall:] Öffnungszeiten einstellen
     \item[Anforderung:]~\ref{MK21}
     \item[Ziel:] Das Adminkonto passt die Öffnungszeiten an.
-    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht <Kalender> geöffnet.
+    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht \textit{Kalender} geöffnet.
     \item[Nachbedingung Erfolg:] Die Öffnungszeiten sind geändert.
     \item[Nachbedingung Fehlschlag:] Die Öffnungszeiten bleiben gleich.
     \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche zum Ändern der Öffnungszeiten.
