@@ -27,7 +27,7 @@
     \begin{tabularx}{\textwidth}{ l|X|>{\raggedright\arraybackslash}X }
         \textbf{Nr.} & \textbf{Funktion} & \textbf{Kriterien} \\ \hline\hline
         \ref{F10} & Startseite besuchen &~\ref{MK1}, ~\ref{MK4}, ~\ref{WK1} \\
-        \ref{F100} & Login des Adminkontos &~\ref{MK17} \\
+        \ref{F100} & Login mit Adminkonto &~\ref{MK17} \\
         \ref{F30} & Abmelden &~\ref{MK3}, ~\ref{MK4} \\
         \ref{F40} & Reservieren &~\ref{MK9}, ~\ref{MK10}, ~\ref{MK12}, ~\ref{MK13}, ~\ref{MK14}, ~\ref{WK4}, ~\ref{WK11} \\
         \ref{F70} & Benachrichtigung &~\ref{WK10} \\
@@ -88,7 +88,7 @@
     \item[Vorbedingung:] Die Nutzenden haben eine Internetverbindung und die Anwendung ist gestartet.
     \item[Nachbedingung Erfolg:] Die Nutzenden sind angemeldet und können Ereignisse ansehen und bearbeiten.
     \item[Nachbedingung Fehlschlag:] Die Nutzenden sind nicht angemeldet und können keine Ereignisse ansehen oder bearbeiten.
-    \item[Auslösendes Ereignis:] Die Nutzenden öffnen die Anwendung und versuchen, mit einem Termin zu erstellen oder mit einem bereits existierenden Termin zu interagieren.
+    \item[Auslösendes Ereignis:] Die Nutzenden öffnen die Anwendung und versuchen, einem Termin zu erstellen oder mit einem bereits existierenden Termin zu interagieren.
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Die Nutzenden wählen in einem Dialog die Anmeldemethode aus.
@@ -153,17 +153,17 @@
 \begin{function}{50}{Löschen von Terminen durch das Adminkonto}
     \item[Anwendungsfall:] Löschen von Terminen durch das Adminkonto
     \item[Anforderung:] ~\ref{MK19}
-    \item[Ziel:] Das Adminkonto kann bestehende Termine löschen.
-    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht \textit{Kalender} wird angezeigt.
-    \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und das Adminkonto erhält eine Erfolgsmeldung.
-    \item[Nachbedingung Fehlschlag:] Der Termin wird nicht gelöscht und das Adminkonto erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Termin aus, welcher gelöscht werden soll.
+    \item[Ziel:] Ein Admin kann bestehende Termine löschen.
+    \item[Vorbedingung:] Ein Admin ist angemeldet und die Ansicht \textit{Kalender} wird angezeigt.
+    \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und der Admin erhält eine Erfolgsmeldung.
+    \item[Nachbedingung Fehlschlag:] Der Termin wird nicht gelöscht und der Admin erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Ein Admin wählt einen Termin aus, welcher gelöscht werden soll.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Das Adminkonto öffnet die Ansicht \textit{Kalender}.
-        \item Das Adminkonto wählt den Termin aus, welcher gelöscht werden soll.
-        \item Das Adminkonto wird gefragt, ob es den Termin wirklich löschen möchte (Bestätigungsabfrage).
-        \item Falls das Adminkonto bestätigt, wird der Termin gelöscht.
+        \item Ein Admin öffnet die Ansicht \textit{Kalender}.
+        \item Der Admin wählt den Termin aus, welcher gelöscht werden soll.
+        \item Der Admin wird gefragt, ob es den Termin wirklich löschen möchte (Bestätigungsabfrage).
+        \item Falls der Admin bestätigt, wird der Termin gelöscht.
         \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ `Termin erfolgreich gelöscht').
     \end{enumerate}
 \end{function}
@@ -174,15 +174,15 @@
     \item[Anwendungsfall:] Deaktivierung von Konten
     \item[Anforderung:] ~\ref{MK18}
     \item[Ziel:] Das Gastkonto wird vom Admin gesperrt.
-    \item[Vorbedingung:] Ein Administrator ist angemeldet und betrachtet die Ansicht \textit{Kontoliste}.
+    \item[Vorbedingung:] Ein Admin ist angemeldet und betrachtet die Ansicht \textit{Kontoliste}.
     \item[Nachbedingung Erfolg:] Der Gastbenutzer wird deaktiviert und kann sich nicht mehr Anmelden.
     \item[Nachbedingung Fehlschlag:] Der Gastbenutzer bleibt aktiv und der Admin erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Das Adminkonto wählt einen Gastbenutzer aus, den es deaktivieren möchte.
+    \item[Auslösendes Ereignis:] Der Admin wählt einen Gastbenutzer aus, den es deaktivieren möchte.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Das Adminkonto öffnet die Liste der Konten (Ansicht \textit{Kontoliste}).
+        \item Ein Admin öffnet die Liste der Konten (Ansicht \textit{Kontoliste}).
         \item Der Admin wählt einen Gastbenutzer aus, welcher deaktiviert werden soll.
-        \item Das Adminkonto bestätigt die Deaktivierung.
+        \item Der Admin bestätigt die Deaktivierung.
         \item Das Konto wird deaktiviert und aus der aktiven Liste entfernt.
         \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ \textit{Gastbenutzer erfolgreich deaktiviert}).
     \end{enumerate}
@@ -250,12 +250,12 @@
 
 \pagebreak
 
-\begin{function}{100}{Anmelden des Adminkontos}
-    \item[Anwendungsfall:] Anmelden des Adminkontos
+\begin{function}{100}{Anmelden mit Adminkonto}
+    \item[Anwendungsfall:] Anmelden mit Adminkonto
     \item[Anforderung:]~\ref{MK17}
     \item[Ziel:] Berechtigte Personen können sich mit Passwort authentifizieren um auf das Adminkonto zugreifen zu können.
     \item[Vorbedingung:] Die nutzende Person befindet sich unangemeldet auf der Startseite.
-    \item[Nachbedingung Erfolg:] Das Adminkonto ist angemeldet und die nutzende Person kann auf die Admin funktionen zugreifen.
+    \item[Nachbedingung Erfolg:] Der Admin ist angemeldet und auf administrative Funktionen zugreifen.
     \item[Nachbedingung Fehlschlag:] Die nutzende Person bleibt unangemeldet auf der Startseite.
     \item[Auslösendes Ereignis:] Die nutzende Person ist unangemeldet auf der Startseite und versucht sich als Admin anzumelden.
     \item[Beschreibung:] ~
@@ -263,7 +263,7 @@
         \item Die nutzende Person wählt die Admin-Anmeldemethode aus.
         \item Die Person gibt das Admin passwort ein.
         \item Die Anwendung überprüft die Zugangsdaten und lässt die anmeldung zu oder lehnt ab.
-        \item Das Adminkonto ist eingeloggt und zeigt die Startseite an.
+        \item Der Admin ist eingeloggt und zeigt die Startseite an.
     \end{enumerate}
 \end{function}
 
@@ -272,8 +272,8 @@
 \begin{function}{110}{Deaktivieren von Gastkonto-Anmeldung}
     \item[Anwendungsfall:] Deaktivieren von Gastkonto-Anmeldung
     \item[Anforderung:]~\ref{MK18}
-    \item[Ziel:] Die Anmeldung von Gastkonten zu deaktivieren.
-    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht \textit{Kontoliste} geöffnet.
+    \item[Ziel:] Die Anmeldung von Gastkonten wird deaktiviert.
+    \item[Vorbedingung:] Ein Admin ist angemeldet und die Ansicht \textit{Kontoliste} geöffnet.
     \item[Nachbedingung Erfolg:] Gastkonten können sich nicht mehr anmelden oder registrieren.
     \item[Nachbedingung Fehlschlag:] Gastkonten können sich immer noch anmelden, als auch registrieren.
     \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche \textit{Gastkonto-Anmeldung deaktivieren}.
@@ -289,8 +289,8 @@
 \begin{function}{120}{Öffnungszeiten einstellen}
     \item[Anwendungsfall:] Öffnungszeiten einstellen
     \item[Anforderung:]~\ref{MK21}
-    \item[Ziel:] Das Adminkonto passt die Öffnungszeiten an.
-    \item[Vorbedingung:] Das Adminkonto ist angemeldet und die Ansicht \textit{Kalender} geöffnet.
+    \item[Ziel:] Ein Admin passt die Öffnungszeiten an.
+    \item[Vorbedingung:] Der Admin ist angemeldet und die Ansicht \textit{Kalender} geöffnet.
     \item[Nachbedingung Erfolg:] Die Öffnungszeiten sind geändert.
     \item[Nachbedingung Fehlschlag:] Die Öffnungszeiten bleiben gleich.
     \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche zum Ändern der Öffnungszeiten.

@@ -23,7 +23,7 @@ Jeder Produktfunktion entspricht einem Basis-Testfall. Die Basis-Testfälle sind
       ⟨T70⟩ & Anzeige des Raumstatus &\ref{F70} \\
       ⟨T80⟩ & Stornierung einer Reservierung &\ref{F80} \\
       ⟨T90⟩ & Abmelden &\ref{F30} \\
-      ⟨T100⟩& Login des Adminkontos &\ref{F100} \\
+      ⟨T100⟩& Login mit Adminkonto &\ref{F100} \\
       ⟨T110⟩& Deaktivierung der Gastfunktion &\ref{F110} \\
       ⟨T120⟩ & Terminkonfliktauflösung &\ref{F130} \\
       ⟨T130⟩& Terminkonfliktauflösung &\ref{F130} \\
@@ -56,11 +56,11 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
 \begin{scenario}{30}{Verwaltung durch das Adminkonto}
   \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen und Deaktivieren von Gastkonten.
   \begin{enumerate}
-    \item Das Adminkonto besucht die Landeseite ⟨T10⟩.
-    \item Das Adminkonto meldet sich an ⟨T100⟩.
-    \item Das Adminkonto löscht bestehende Termine ⟨T40⟩.
-    \item Das Adminkonto deaktiviert die Anmeldung von Gastkonten ⟨T50⟩.
-    \item Das Adminkonto meldet sich ab ⟨T90⟩.
+    \item Ein Admin besucht die Landeseite ⟨T10⟩.
+    \item Der Admin meldet sich an ⟨T100⟩.
+    \item Der Admin löscht bestehende Termine ⟨T40⟩.
+    \item Der Admin deaktiviert die Anmeldung von Gastkonten ⟨T50⟩.
+    \item Der Admin meldet sich ab ⟨T90⟩.
     \item Versuch anmelden mit einem Gastkonto sollte nun fehlschlagen ⟨T20⟩.
   \end{enumerate}
 \end{scenario}
