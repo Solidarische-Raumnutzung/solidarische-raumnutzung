@@ -19,13 +19,18 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(requests ->
-                requests
+                    requests
                     .requestMatchers("/").authenticated()
-                        .anyRequest().authenticated()
-            ).oauth2Login(Customizer.withDefaults())
-            .formLogin(form -> form
-//                    .loginPage("/login") //TODO implement login page
-                    .permitAll());
+                            .requestMatchers("/*").authenticated()
+            )
+                .oauth2Login(form -> form
+                    .loginPage("/login")
+                    .permitAll()
+                )
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    .permitAll()
+            );
         return http.build();
     }
 
@@ -37,12 +42,7 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.builder()
-                        .username(username)
-                        .password(password)
-                        .roles("USER", "ADMIN")
-                        .build();
+        var user = User.withUsername("admin").password("{noop}admin").build();
 
         return new InMemoryUserDetailsManager(user);
     }
