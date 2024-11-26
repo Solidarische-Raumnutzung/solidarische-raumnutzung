@@ -2,15 +2,10 @@
 \label{chap:test}
 In diesem Kapitel definieren wir die Testfälle und Testfallszenarien.
 
-\section{Basis-Testfälle}
-
-Jeder Produktfunktion entspricht einem Basis-Testfall. Die Basis-Testfälle sind uten aufgelistet.
-
+\section{Testfälle}
 
 \begin{table}[htbp]
-
   \centering
-%    \caption{Überblick von allen Funktionen.}
   \begin{tabularx}{\textwidth}{ l|X|l }
       \textbf{Nr.} & \textbf{Beschreibung} & \textbf{Funktion} \\ \hline\hline
       ⟨T10⟩ & Landeseite besuchen &\ref{F10}\\
@@ -26,13 +21,14 @@ Jeder Produktfunktion entspricht einem Basis-Testfall. Die Basis-Testfälle sind
       ⟨T110⟩ & Deaktivierung von Gastkonten &\ref{F110} \\
       ⟨T120⟩& Öffnungszeiten einstellen &\ref{F120} \\
       ⟨T130⟩& Terminkonfliktauflösung &\ref{F130} \\
-  \end{tabularx}\label{tab:test_table}
+  \end{tabularx}
+  \caption{Überblick der Testfälle.}
+  \label{tab:test_table}
 \end{table}
 
 \pagebreak
 
-\section{Testfallszenarien}
-Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
+\section{Testfallszenarien}\label{sec:testfallszenarien}
 \begin{scenario}{10}{Besuch der Landeseite und Anmeldung/Abmeldung}
   \item[Ziel:] Sicherstellen, dass Nutzende die Landeseite aufrufen und sich erfolgreich anmelden bzw.\ abmelden können.
   \begin{enumerate}
@@ -54,27 +50,28 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
   \end{enumerate}
 \end{scenario}
 
-\begin{scenario}{30}{Verwaltung durch das Adminkonto}
-  \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen, Deaktivieren von Gastkonten und einstellen der Öffnungszeiten.
+\begin{scenario}{30}{Terminverwaltung durch das Adminkonto}
+  \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen.
   \begin{enumerate}
     \item Ein Admin besucht die Landeseite ⟨T10⟩.
     \item Der Admin meldet sich an ⟨T100⟩.
     \item Der Admin löscht bestehende Termine ⟨T50⟩.
+    \item Der Admin meldet sich ab ⟨T30⟩.
+  \end{enumerate}
+\end{scenario}
+
+\begin{scenario}{40}{Kontoverwaltung durch das Adminkonto}
+  \item[Ziel:] Testen der administrativen Funktionalitäten zum Deaktivieren von Gastkonten und einstellen der Öffnungszeiten.
+  \begin{enumerate}
+    \item Ein Admin besucht die Landeseite ⟨T10⟩.
+    \item Der Admin meldet sich an ⟨T100⟩.
     \item Der Admin deaktiviert die Anmeldung von Gastkonten ⟨T110⟩.
     \item Der Admin ändert die Öffnungszeiten für einen bestimmten Wochentag ⟨T120⟩.
     \item Der Admin öffnet die Ansicht \textit{Kontoliste} und deaktiviert ein Konto ⟨T60⟩.
     \item Der Admin meldet sich ab ⟨T30⟩.
     \item Das Anmelden mit einem Gastkonto sollte jetzt fehlschlagen ⟨T20⟩.
-  \end{enumerate}
-\end{scenario}
-
-\todo{this is just wrong!}
-\begin{scenario}{40}{Termin anzeigen}
-  \item[Ziel:] Überprüfen, ob ein Termin richtig.
-  \begin{enumerate}
-    \item Der Nutzende besucht die Landeseite ⟨T10⟩.
-    \item Der Nutzende meldet sich an ⟨T20⟩.
-    \item Der Nutzende wählt einen Raum aus und überprüft dessen Status ⟨T20⟩.
+    \item Das Anmelden mit dem deaktiviertem Konto sollte ebenfalls fehlschlagen ⟨T20⟩.
+    \item Die Ansicht \textit{Kalender} sollte die neuen Öffnungszeiten darstellen.
   \end{enumerate}
 \end{scenario}
 
@@ -88,10 +85,3 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
     \item Es wird überprüft, ob die erwartete Konfliktauflösung stattgefunden hat und ggf.\ die dafür benötigten E-Mails versendet wurden ⟨T130⟩.
   \end{enumerate}
 \end{scenario}
-
-
-
-
-
-
-
