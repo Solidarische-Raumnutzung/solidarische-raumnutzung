@@ -9,23 +9,22 @@ Jeder Produktfunktion entspricht einem Basis-Testfall. Die Basis-Testfälle sind
 
 \begin{table}[htbp]
 
-
   \centering
 %    \caption{Überblick von allen Funktionen.}
   \begin{tabularx}{\textwidth}{ l|X|l }
       \textbf{Nr.} & \textbf{Beschreibung} & \textbf{Funktion} \\ \hline\hline
       ⟨T10⟩ & Landeseite besuchen &\ref{F10}\\
       ⟨T20⟩ & Login &\ref{F20} \\
-      ⟨T30⟩ & Reservieren &\ref{F30} \\
-      ⟨T40⟩ & Löschen von Terminen durch Administratoren &\ref{F40} \\
-      ⟨T50⟩ & Deaktivierung von Gastkonten &\ref{F50} \\
-      ⟨T60⟩ & Benachrichtigung bei freiem Raum &\ref{F60} \\
-      ⟨T70⟩ & Anzeige des Raumstatus &\ref{F70} \\
-      ⟨T80⟩ & Stornierung einer Reservierung &\ref{F80} \\
-      ⟨T90⟩ & Abmelden &\ref{F30} \\
+      ⟨T30⟩ & Abmelden &\ref{F30} \\
+      ⟨T40⟩ & Reservieren &\ref{F40} \\
+      ⟨T50⟩ & Löschen von Terminen durch Administratoren &\ref{F50} \\
+      ⟨T60⟩ & Deaktivieren eines Kontos &\ref{F60} \\
+      ⟨T70⟩ & Benachrichtigung bei freiem Raum &\ref{F70} \\
+      %⟨T80⟩ & Anzeige des Raumstatus &\ref{F80} \\'
+      ⟨T90⟩ & Stornierung einer Reservierung &\ref{F90} \\
       ⟨T100⟩& Login mit Adminkonto &\ref{F100} \\
-      ⟨T110⟩& Deaktivierung der Gastfunktion &\ref{F110} \\
-      ⟨T120⟩ & Terminkonfliktauflösung &\ref{F130} \\
+      ⟨T110⟩ & Deaktivierung von Gastkonten &\ref{F110} \\
+      ⟨T120⟩& Öffnungszeiten einstellen &\ref{F120} \\
       ⟨T130⟩& Terminkonfliktauflösung &\ref{F130} \\
   \end{tabularx}\label{tab:test_table}
 \end{table}
@@ -39,7 +38,7 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
   \begin{enumerate}
     \item Der Nutzende besucht die Landeseite ⟨T10⟩.
     \item Der Nutzende loggt sich ein ⟨T20⟩.
-    \item Der Nutzende meldet sich ab ⟨T90⟩.
+    \item Der Nutzende meldet sich ab ⟨T30⟩.
   \end{enumerate}
 \end{scenario}
 
@@ -48,20 +47,24 @@ Die Testfallszenarien ergeben sich als Komposition der Basis-Testfälle.\\ \\
   \begin{enumerate}
     \item Der Nutzende besucht die Landeseite ⟨T10⟩.
     \item Der Nutzende meldet sich an ⟨T20⟩.
-    \item Der Nutzende wählt einen verfügbaren Raum aus und reserviert diesen ⟨T30⟩.
-    \item Der Nutzende storniert die Reservierung ⟨T80⟩.
+    \item Der Nutzende wählt einen verfügbaren Raum aus und reserviert diesen ⟨T40⟩.
+    \item Buchen ausserhalb der Öffnungszeiten sollte hierbei fehlschlagen.
+    \item Der Nutzende storniert die Reservierung ⟨T90⟩.
+    \item Andere Nutzende, welchen sich diesen Termin vorgemerkt hatten, werden benachrichtigt, dass der Raum nun Frei ist ⟨T70⟩.
   \end{enumerate}
 \end{scenario}
 
 \begin{scenario}{30}{Verwaltung durch das Adminkonto}
-  \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen und Deaktivieren von Gastkonten.
+  \item[Ziel:] Testen der administrativen Funktionalitäten zum Löschen von Terminen, Deaktivieren von Gastkonten und einstellen der Öffnungszeiten.
   \begin{enumerate}
     \item Ein Admin besucht die Landeseite ⟨T10⟩.
     \item Der Admin meldet sich an ⟨T100⟩.
-    \item Der Admin löscht bestehende Termine ⟨T40⟩.
-    \item Der Admin deaktiviert die Anmeldung von Gastkonten ⟨T50⟩.
-    \item Der Admin meldet sich ab ⟨T90⟩.
-    \item Versuch anmelden mit einem Gastkonto sollte nun fehlschlagen ⟨T20⟩.
+    \item Der Admin löscht bestehende Termine ⟨T50⟩.
+    \item Der Admin deaktiviert die Anmeldung von Gastkonten ⟨T110⟩.
+    \item Der Admin ändert die Öffnungszeiten für einen bestimmten Wochentag ⟨T120⟩.
+    \item Der Admin öffnet die Ansicht \textit{Kontoliste} und deaktiviert ein Konto ⟨T60⟩.
+    \item Der Admin meldet sich ab ⟨T30⟩.
+    \item Das Anmelden mit einem Gastkonto sollte jetzt fehlschlagen ⟨T20⟩.
   \end{enumerate}
 \end{scenario}
 
