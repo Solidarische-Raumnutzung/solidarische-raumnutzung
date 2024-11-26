@@ -40,7 +40,7 @@
     \label{tab:loggedin_functions}
 \end{table}
 \newpage
-\section{Administratoren}\label{sec:adminfunktionen}
+\section{Administrator*innen}\label{sec:adminfunktionen}
 
 \begin{table}[htbp]
     \centering
@@ -108,14 +108,14 @@
 \begin{function}{30}{Abmelden}
     \item[Anwendungsfall:] Abmelden
     \item[Anforderung:]~\ref{MK3}
-    \item[Ziel:] Der Nutzende kann sich von der Anwendung abmelden.
-    \item[Vorbedingung:] Der Nutzende ist angemeldet.
-    \item[Nachbedingung Erfolg:] Der Nutzende ist abgemeldet und wird auf die Startseite weitergeleitet.
-    \item[Nachbedingung Fehlschlag:] Der Nutzende ist nicht abgemeldet und erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Die Nutzenden wählen die Option zum Abmelden aus.
+    \item[Ziel:] Die Nutzenden können sich von der Anwendung abmelden.
+    \item[Vorbedingung:] Der/die Nutzende ist angemeldet.
+    \item[Nachbedingung Erfolg:] Der/die Nutzende ist abgemeldet und wird auf die Startseite weitergeleitet.
+    \item[Nachbedingung Fehlschlag:] Der/die Nutzende ist nicht abgemeldet und erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Die/der Nutzende wählt die Option zum Abmelden aus.
     \begin{enumerate}
-        \item Der Nutzende wählt die Funktion zum Abmelden aus.
-        \item Der Nutzende wird abgemeldet und auf die Startseite weitergeleitet.
+        \item Der/die Nutzende wählt die Funktion zum Abmelden aus.
+        \item Der/die Nutzende wird abgemeldet und auf die Startseite weitergeleitet.
     \end{enumerate}
 \end{function}
 
@@ -155,17 +155,17 @@
 \begin{function}{50}{Löschen von Terminen durch das Adminkonto}
     \item[Anwendungsfall:] Löschen von Terminen durch das Adminkonto
     \item[Anforderung:] ~\ref{MK19}
-    \item[Ziel:] Ein Admin kann bestehende Termine löschen.
-    \item[Vorbedingung:] Ein Admin ist angemeldet und die Ansicht \textit{Kalender} wird angezeigt.
-    \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und der Admin erhält eine Erfolgsmeldung.
-    \item[Nachbedingung Fehlschlag:] Der Termin wird nicht gelöscht und der Admin erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Ein Admin wählt einen Termin aus, welcher gelöscht werden soll.
+    \item[Ziel:] Ein/e Administrator*in kann bestehende Termine löschen.
+    \item[Vorbedingung:] Ein/e Administrator*in ist angemeldet und die Ansicht \textit{Kalender} wird angezeigt.
+    \item[Nachbedingung Erfolg:] Der Termin wird aus dem System entfernt und der/die Administrator*in erhält eine Erfolgsmeldung.
+    \item[Nachbedingung Fehlschlag:] Der Termin wird nicht gelöscht und der/die Administrator*in erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Ein/e Administrator*in wählt einen Termin aus, welcher gelöscht werden soll.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Ein Admin öffnet die Ansicht \textit{Kalender}.
-        \item Der Admin wählt den Termin aus, welcher gelöscht werden soll.
-        \item Der Admin wird gefragt, ob es den Termin wirklich löschen möchte (Bestätigungsabfrage).
-        \item Falls der Admin bestätigt, wird der Termin gelöscht.
+        \item Ein/e Administrator*in öffnet die Ansicht \textit{Kalender}.
+        \item Der/die Administrator*in wählt den Termin aus, welcher gelöscht werden soll.
+        \item Der/die Administrator*in wird gefragt, ob es den Termin wirklich löschen möchte (Bestätigungsabfrage).
+        \item Falls der/die Administrator*in bestätigt, wird der Termin gelöscht.
         \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ `Termin erfolgreich gelöscht').
     \end{enumerate}
 \end{function}
@@ -175,16 +175,16 @@
 \begin{function}{60}{Deaktivierung von Konten}
     \item[Anwendungsfall:] Deaktivierung von Konten
     \item[Anforderung:] ~\ref{MK18}
-    \item[Ziel:] Ein Konto wird vom Admin gesperrt.
-    \item[Vorbedingung:] Ein Admin ist angemeldet und betrachtet die Ansicht \textit{Kontoliste}.
+    \item[Ziel:] Ein Konto wird vom Adminkonto gesperrt.
+    \item[Vorbedingung:] Ein/e Administrator*in ist angemeldet und betrachtet die Ansicht \textit{Kontoliste}.
     \item[Nachbedingung Erfolg:] Das Konto wird deaktiviert und kann nicht mehr zum Anmelden verwendet werden.
-    \item[Nachbedingung Fehlschlag:] Das Konto bleibt aktiv und der Admin erhält eine Fehlermeldung.
-    \item[Auslösendes Ereignis:] Der Admin wählt ein Konto aus, welches deaktiviert werden soll.
+    \item[Nachbedingung Fehlschlag:] Das Konto bleibt aktiv und der/die Administrator*in erhält eine Fehlermeldung.
+    \item[Auslösendes Ereignis:] Der/die Administrator*in wählt ein Konto aus, welches deaktiviert werden soll.
     \item[Beschreibung:] ~
     \begin{enumerate}
-        \item Ein Admin öffnet die Liste der Konten (Ansicht \textit{Kontoliste}).
-        \item Der Admin wählt ein Konto aus, welches deaktiviert werden soll.
-        \item Der Admin bestätigt die Deaktivierung.
+        \item Ein/e Administrator*in öffnet die Liste der Konten (Ansicht \textit{Kontoliste}).
+        \item Der/die Administrator*in wählt ein Konto aus, welches deaktiviert werden soll.
+        \item Der/die Administrator*in bestätigt die Deaktivierung.
         \item Das Konto wird deaktiviert und aus der aktiven Liste entfernt.
         \item Eine Bestätigungsmeldung wird angezeigt (z.B.\ \textit{Konto erfolgreich deaktiviert}).
     \end{enumerate}
@@ -203,7 +203,7 @@
     \item[Beschreibung:] ~
     \begin{enumerate}
         \item Die Nutzenden wählen aus, ob sie für den Raum Benachrichtigungen erhalten möchten, wenn er wieder frei wird.
-        \item Sobald der Raum wieder verfügbar ist, prüft das System, ob Nutzende für den Raum eine Benachrichtigung angefordert haben.
+        \item Sobald der Raum wieder verfügbar ist, prüft das System, ob die nutzende Person für den Raum eine Benachrichtigung angefordert haben.
         \item Den betroffenen Nutzenden wird eine E-Mail oder Benachrichtigung zugeschickt, dass der Raum nun wieder verfügbar ist.
     \end{enumerate}
 \end{function}
@@ -275,7 +275,7 @@
     \item[Anwendungsfall:] Deaktivieren von Gastkonto-Anmeldung
     \item[Anforderung:]~\ref{MK18}
     \item[Ziel:] Die Anmeldung von Gastkonten wird deaktiviert.
-    \item[Vorbedingung:] Ein Admin ist angemeldet und die Ansicht \textit{Kontoliste} geöffnet.
+    \item[Vorbedingung:] Ein/e Administrator*in ist angemeldet und die Ansicht \textit{Kontoliste} geöffnet.
     \item[Nachbedingung Erfolg:] Gastkonten können sich nicht mehr anmelden oder registrieren.
     \item[Nachbedingung Fehlschlag:] Gastkonten können sich immer noch anmelden, als auch registrieren.
     \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche \textit{Gastkonto-Anmeldung deaktivieren}.
@@ -291,8 +291,8 @@
 \begin{function}{120}{Öffnungszeiten einstellen}
     \item[Anwendungsfall:] Öffnungszeiten einstellen
     \item[Anforderung:]~\ref{MK21}
-    \item[Ziel:] Ein Admin passt die Öffnungszeiten an.
-    \item[Vorbedingung:] Der Admin ist angemeldet und die Ansicht \textit{Kalender} geöffnet.
+    \item[Ziel:] Ein/e Administrator*in passt die Öffnungszeiten an.
+    \item[Vorbedingung:] Der/die Administrator*in ist angemeldet und die Ansicht \textit{Kalender} geöffnet.
     \item[Nachbedingung Erfolg:] Die Öffnungszeiten sind geändert.
     \item[Nachbedingung Fehlschlag:] Die Öffnungszeiten bleiben gleich.
     \item[Auslösendes Ereignis:] Die als Admin angemeldete Person wählt die Schaltfläche zum Ändern der Öffnungszeiten.
