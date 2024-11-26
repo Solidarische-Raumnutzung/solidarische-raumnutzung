@@ -15,12 +15,12 @@ In diesem Kapitel definieren wir die Testfälle und Testfallszenarien.
       ⟨T50⟩ & Löschen von Terminen durch Administratoren &\ref{F50} \\
       ⟨T60⟩ & Deaktivieren eines Kontos &\ref{F60} \\
       ⟨T70⟩ & Benachrichtigung bei freiem Raum &\ref{F70} \\
-      %⟨T80⟩ & Anzeige des Raumstatus &\ref{F80} \\'
+      ⟨T80⟩ & Anzeige des Raumstatus &\ref{F80} \\'
       ⟨T90⟩ & Stornierung einer Reservierung &\ref{F90} \\
-      ⟨T100⟩& Login mit Adminkonto &\ref{F100} \\
+      ⟨T100⟩ & Login mit Adminkonto &\ref{F100} \\
       ⟨T110⟩ & Deaktivierung von Gastkonten &\ref{F110} \\
-      ⟨T120⟩& Öffnungszeiten einstellen &\ref{F120} \\
-      ⟨T130⟩& Terminkonfliktauflösung &\ref{F130} \\
+      ⟨T120⟩ & Öffnungszeiten einstellen &\ref{F120} \\
+      ⟨T130⟩ & Terminkonfliktauflösung &\ref{F130} \\
   \end{tabularx}
   \caption{Überblick der Testfälle.}
   \label{tab:test_table}
@@ -45,6 +45,7 @@ In diesem Kapitel definieren wir die Testfälle und Testfallszenarien.
     \item Der Nutzende meldet sich an ⟨T20⟩.
     \item Der Nutzende wählt einen verfügbaren Raum aus und reserviert diesen ⟨T40⟩.
     \item Buchen ausserhalb der Öffnungszeiten sollte hierbei fehlschlagen.
+    \item Überprüfen, ob der Raumstatus korrekt angezeigt wird und sich ggf.\ geändert hat ⟨T80⟩.
     \item Der Nutzende storniert die Reservierung ⟨T90⟩.
     \item Andere Nutzende, welchen sich diesen Termin vorgemerkt hatten, werden benachrichtigt, dass der Raum nun Frei ist ⟨T70⟩.
   \end{enumerate}
