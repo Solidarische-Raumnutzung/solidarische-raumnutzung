@@ -19,10 +19,7 @@ public class BookingsController {
     private VisitsRepository visitsRepository;
 
     @GetMapping("/bookings")
-    public String bookings(Model model, HttpServletResponse response, Principal principal, @AuthenticationPrincipal OidcUser oidcUser) {
-
-        String username = oidcUser.getUserInfo().getFullName();
-        model.addAttribute("model", new LoginStateModel(username, visitsRepository.getVisits()));
+    public String bookings(Model model, HttpServletResponse response, Principal principal) {
         return "bookings";
     }
 }
