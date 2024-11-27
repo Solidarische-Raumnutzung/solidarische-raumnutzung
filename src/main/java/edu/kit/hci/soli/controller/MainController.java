@@ -29,11 +29,6 @@ public class MainController {
         return profile;
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
     @GetMapping("/")
     public String index(@ModelAttribute("login") LoginStateModel login) {
         if (!login.name.equals("")) log.info("Received request from {}", login.name);
