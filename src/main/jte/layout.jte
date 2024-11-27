@@ -1,4 +1,4 @@
-@import edu.kit.hci.soli.domain.DemoModel
+@import edu.kit.hci.soli.domain.LoginStateModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 @import gg.jte.Content;
@@ -6,7 +6,7 @@
 @param PageSpec page
 @param JteContext context
 @param Content content
-@param DemoModel model
+@param LoginStateModel login
 
 <html lang="${context.localize("code")}" data-theme="light">
     <head>
@@ -52,7 +52,7 @@
                                             </div>
 
                                         </div>
-                                        <label>Welcome, ${model.name}</label>
+                                        <label>Welcome, ${login.name}</label>
                                         <div class="divider"></div>
                                         <li><a href="./">Raumbuchung</a></li>
 
@@ -62,7 +62,7 @@
                             </div>
                     </div>
                 </aside>
-                <main role="main" class="w-full  sm:w-full md:w-3/4 pt-2 px-2">
+                <main role="main" class="w-full sm:w-full md:w-3/4 pt-2 px-2">
                     ${content}
                 </main>
             </div>

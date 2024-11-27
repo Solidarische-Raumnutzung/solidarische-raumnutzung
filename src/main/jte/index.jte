@@ -1,10 +1,10 @@
-@import edu.kit.hci.soli.domain.DemoModel
+@import edu.kit.hci.soli.domain.LoginStateModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 
 @param JteContext context
-@param DemoModel  model
-@template.layout(page = new PageSpec("Index", "Soli"), context = context, model=model,content = @`
+@param LoginStateModel login
+@template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, content = @`
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {

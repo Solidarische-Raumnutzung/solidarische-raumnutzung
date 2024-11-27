@@ -1,7 +1,7 @@
 package edu.kit.hci.soli.controller;
 
 
-import edu.kit.hci.soli.domain.DemoModel;
+import edu.kit.hci.soli.domain.LoginStateModel;
 import edu.kit.hci.soli.repository.VisitsRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class BookingsController {
     public String bookings(Model model, HttpServletResponse response, Principal principal, @AuthenticationPrincipal OidcUser oidcUser) {
 
         String username = oidcUser.getUserInfo().getFullName();
-        model.addAttribute("model", new DemoModel(username, visitsRepository.getVisits()));
+        model.addAttribute("model", new LoginStateModel(username, visitsRepository.getVisits()));
         return "bookings";
     }
 }

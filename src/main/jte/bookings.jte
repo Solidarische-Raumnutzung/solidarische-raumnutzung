@@ -1,10 +1,10 @@
-@import edu.kit.hci.soli.domain.DemoModel
+@import edu.kit.hci.soli.domain.LoginStateModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 
 @param JteContext context
-@param DemoModel model
-@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, model=model, content = @`
+@param LoginStateModel login
+@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
     <div class="">
 
         <div class="overflow-x-auto">

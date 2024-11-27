@@ -29,3 +29,8 @@ spring:
     compose:
       skip:
         in-tests: false
+server:
+  error:
+    path: /error
+    whitelabel:
+      enabled: false

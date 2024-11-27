@@ -42,7 +42,12 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        var user = User.withUsername("admin").password("{noop}admin").build();
+        UserDetails user =
+                User.builder()
+                        .username(username)
+                        .password(password)
+                        .roles("USER", "ADMIN")
+                        .build();
 
         return new InMemoryUserDetailsManager(user);
     }
