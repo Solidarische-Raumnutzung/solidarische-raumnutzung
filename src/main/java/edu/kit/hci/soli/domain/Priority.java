@@ -1,9 +1,9 @@
 package edu.kit.hci.soli.domain;
 
 public enum Priority {
-    ONE,
+    HIGHEST,
 
-    TWO,
+    MEDIUM,
 
-    THREE
+    LOWEST
 }
