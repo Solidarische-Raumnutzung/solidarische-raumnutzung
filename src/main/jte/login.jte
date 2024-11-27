@@ -22,13 +22,13 @@
                         <label for="email" class="label">
                             <span class="label-text">Benutzername</span>
                         </label>
-                        <input id="text" type="text" placeholder="Benutzername" class="input input-bordered" required/>
+                        <input id="username" name="username" type="text" placeholder="Benutzername" class="input input-bordered" required/>
                     </div>
                     <div class="form-control mt-6">
                         <label for="password" class="label">
                             <span class="label-text">Passwort</span>
                         </label>
-                        <input id="password" type="password" placeholder="Passwort" class="input input-bordered" required/>
+                        <input id="password" name="password" type="password" placeholder="Passwort" class="input input-bordered" required/>
                     </div>
                     <div class="form-control mt-6">
                         <button class="btn btn-secondary" type="submit">Anmelden</button>
