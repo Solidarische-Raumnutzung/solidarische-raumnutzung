@@ -5,7 +5,9 @@
 
 @param JteContext context
 @param LoginStateModel login
+@param String adminName
 @param CsrfToken csrf
+
 @template.layout(page = new PageSpec("Anmeldung", "Soli"), context = context, login = login, content = @`
     <div class="card bg-base-200 w-80 mx-auto">
         <div class="card-body">
@@ -23,12 +25,7 @@
                     @if(csrf != null)
                         <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                     @endif
-                    <div class="form-control mt-6">
-                        <label for="email" class="label">
-                            <span class="label-text">Benutzername</span>
-                        </label>
-                        <input id="username" name="username" type="text" placeholder="Benutzername" class="input input-bordered" required/>
-                    </div>
+                    <input id="username" name="username" type="hidden" value="${adminName}"/>
                     <div class="form-control mt-6">
                         <label for="password" class="label">
                             <span class="label-text">Passwort</span>
