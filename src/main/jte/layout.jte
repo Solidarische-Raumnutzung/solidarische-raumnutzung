@@ -1,7 +1,7 @@
 @import edu.kit.hci.soli.domain.LoginStateModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
-@import gg.jte.Content;
+@import gg.jte.Content
 
 @param PageSpec page
 @param JteContext context
@@ -53,10 +53,27 @@
 
                                         </div>
                                         <label>Welcome, ${login.name}</label>
-                                        <div class="divider"></div>
-                                        <li><a href="./">Raumbuchung</a></li>
 
-                                        <li><a href="./bookings">Meine Reservierungen</a></li>
+                                        <div class="divider"></div>
+
+                                        @if(login.kind == LoginStateModel.Kind.VISITOR)
+                                            <li><a href="/login">Login</a></li>
+                                        @else
+                                            <li>
+                                                <form action="/logout"
+                                                      method="post">
+                                                    <input type="hidden"
+                                                           name="${login.csrfToken.getParameterName()}"
+                                                           value="${login.csrfToken.getToken()}"/>
+                                                    <input type="submit"
+                                                           value="Logout"/>
+                                                </form>
+                                            </li>
+
+                                        @endif
+
+                                        <li><a href="/">Raumbuchung</a></li>
+                                        <li><a href="/bookings">Meine Reservierungen</a></li>
                                     </ul>
                                 </div>
                             </div>
