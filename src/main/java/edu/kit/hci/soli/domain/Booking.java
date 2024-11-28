@@ -27,6 +27,9 @@ public class Booking {
     private ShareRoomType shareRoomType;
 
     @ManyToOne
+    private Room room;
+
+    @ManyToOne
     private User user;
 
     private Priority priority;

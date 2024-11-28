@@ -16,7 +16,4 @@ public class Room {
     @Id
     private Long id;
 
-    @OneToOne
-    private Booking currentBooking;
-
 }
