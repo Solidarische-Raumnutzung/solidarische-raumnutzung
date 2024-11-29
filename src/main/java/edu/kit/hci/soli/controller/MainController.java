@@ -1,6 +1,6 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.domain.LoginStateModel;
+import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

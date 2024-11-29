@@ -1,6 +1,6 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.domain.KnownError;
+import edu.kit.hci.soli.dto.KnownError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.error.ErrorAttributeOptions;

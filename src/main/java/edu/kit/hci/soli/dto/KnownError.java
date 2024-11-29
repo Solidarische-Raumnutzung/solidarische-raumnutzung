@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.domain;
+package edu.kit.hci.soli.dto;
 
 import org.jetbrains.annotations.PropertyKey;
 

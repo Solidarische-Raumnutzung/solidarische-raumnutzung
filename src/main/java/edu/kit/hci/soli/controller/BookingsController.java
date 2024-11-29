@@ -1,6 +1,8 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.domain.*;
+import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletResponse;
