@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * The datamodel for a room as it is stored in the database
  */
-@Entity()
+@Entity
 @Data
 public class Room {
 

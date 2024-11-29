@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * The datamodel for a Booking as it is stored in the database
  */
-@Entity()
+@Entity
 @Data
 public class Booking {
 
