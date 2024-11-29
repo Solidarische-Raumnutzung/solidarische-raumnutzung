@@ -4,6 +4,7 @@
 
 @param JteContext context
 @param LoginStateModel login
+
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
     <div class="">
 
