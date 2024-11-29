@@ -9,7 +9,7 @@
 @param Date timestamp
 @param Integer status
 @param String message
-@param Throwable error
+@param String error
 
 @template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, content = @`
     <div class="hero-content text-center">
@@ -21,7 +21,7 @@
             <details class="collapse collapse-plus bg-base-200">
                 <summary class="collapse-title font-medium">Details</summary>
                 <div class="collapse-content">
-                    <p>${error == null ? message != null ? message : "Unknown Exception" : error.getMessage()}</p>
+                    <p>${error == null ? message != null ? message : "Unknown Exception" : error}</p>
                 </div>
             </details>
             <a class="btn btn-primary" href="/">Go Home</a>
