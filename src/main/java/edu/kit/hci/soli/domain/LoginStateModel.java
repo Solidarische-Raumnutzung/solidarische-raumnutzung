@@ -7,7 +7,7 @@ public record LoginStateModel(String name, Kind kind, CsrfToken csrfToken, @Null
     public enum Kind {
         VISITOR,
         OAUTH,
-        //        GUEST,
+//        GUEST,
         ADMIN
     }
 }
