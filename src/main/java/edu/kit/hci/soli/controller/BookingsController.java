@@ -65,7 +65,7 @@ public class BookingsController {
             @ModelAttribute("login") LoginStateModel loginStateModel,
             @ModelAttribute FormData formData
     ) {
-        if (roomService.existsById(id)) {
+        if (!roomService.existsById(id)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
