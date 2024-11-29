@@ -50,6 +50,7 @@ public class LoginControllerAdvice {
             user = new User();
             user.setEmail(email);
             user.setUsername(username);
+            user.setUserId(principal.getName());
             userService.create(user);
         }
         return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrfToken, user);

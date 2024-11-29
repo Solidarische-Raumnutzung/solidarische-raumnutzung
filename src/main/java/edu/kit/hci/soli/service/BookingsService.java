@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.service;
 
 import edu.kit.hci.soli.domain.Booking;
+import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,10 @@ public class BookingsService {
     public boolean create(Booking booking) {
         bookingsRepository.save(booking);
         return true;
+    }
+
+    public List<Booking> getBookingsByUser(User user) {
+        return bookingsRepository.findByUser(user);
     }
 
     @Transactional(readOnly = true)
