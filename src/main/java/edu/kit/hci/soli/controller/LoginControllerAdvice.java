@@ -6,6 +6,7 @@ import edu.kit.hci.soli.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import edu.kit.hci.soli.repository.VisitsRepository;
 import edu.kit.hci.soli.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -13,16 +14,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.security.Principal;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 @ControllerAdvice
+@Slf4j
 public class LoginControllerAdvice {
-
-    private final Logger logger = LoggerFactory.getLogger(LoginControllerAdvice.class.getName());
-
-
     private final VisitsRepository visitsRepository;
 
     private final UserService userService;
@@ -50,7 +45,7 @@ public class LoginControllerAdvice {
         String email = oidcUser.getUserInfo().getEmail();
         User user = userService.findByEmail(email);
         if (user == null) {
-            logger.info("Creating new OIDC user: " + username + " with email: " + email);
+            log.info("Creating new OIDC user: {} with email: {}", username, email);
             user = new User();
             user.setEmail(email);
             user.setUsername(username);
