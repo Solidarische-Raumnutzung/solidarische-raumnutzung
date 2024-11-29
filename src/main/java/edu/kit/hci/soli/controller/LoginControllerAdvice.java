@@ -1,7 +1,6 @@
 package edu.kit.hci.soli.controller;
 
-
-import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.domain.LoginStateModel;
 import edu.kit.hci.soli.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import edu.kit.hci.soli.repository.VisitsRepository;
