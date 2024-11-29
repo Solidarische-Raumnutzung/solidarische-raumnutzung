@@ -1,8 +1,8 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.domain.*;
-import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,17 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Controller("/bookings")
 public class BookingsController {
 
     private final BookingsService bookingsService;
-    private final RoomRepository roomRepository;
+    private final RoomService roomService;
 
-    public BookingsController(BookingsService bookingsService, RoomRepository roomRepository) {
+    public BookingsController(BookingsService bookingsService, RoomService roomService) {
         this.bookingsService = bookingsService;
-        this.roomRepository = roomRepository;
+        this.roomService = roomService;
     }
 
     @GetMapping("/bookings")
@@ -41,7 +40,7 @@ public class BookingsController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
     ) {
-        if (!roomRepository.existsById(id)) {
+        if (!roomService.existsById(id)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return "404";
         }
@@ -63,8 +62,7 @@ public class BookingsController {
             @ModelAttribute("login") LoginStateModel loginStateModel,
             @ModelAttribute FormData formData
     ) {
-        Optional<Room> optionalRoom = roomRepository.findById(id);
-        if (optionalRoom.isEmpty()) {
+        if (roomService.existsById(id)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return "404";
         }
@@ -73,7 +71,7 @@ public class BookingsController {
             return "401"; //TODO we should modify the LSM so this never happens
         }
         //TODO validate the form data
-        Room room = optionalRoom.get();
+        Room room = roomService.get();
         bookingsService.create(new Booking(
                 null,
                 "New booking",

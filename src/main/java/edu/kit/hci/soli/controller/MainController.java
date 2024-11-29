@@ -1,7 +1,7 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.domain.LoginStateModel;
-import edu.kit.hci.soli.repository.RoomRepository;
+import edu.kit.hci.soli.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -15,10 +15,10 @@ public class MainController {
     @Value("${spring.profiles.active}")
     private String profile;
 
-    private final RoomRepository roomRepository;
+    private final RoomService roomService;
 
-    public MainController(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
+    public MainController(RoomService roomService) {
+        this.roomService = roomService;
     }
 
     @ResponseBody
@@ -30,7 +30,7 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model, @ModelAttribute("login") LoginStateModel login) {
         if (!login.name().isEmpty()) log.info("Received request from {}", login.name());
-        model.addAttribute("room", roomRepository.findById(1L).orElseThrow()); //TODO allow other rooms
+        model.addAttribute("room", roomService.get());
         return "index";
     }
 }
