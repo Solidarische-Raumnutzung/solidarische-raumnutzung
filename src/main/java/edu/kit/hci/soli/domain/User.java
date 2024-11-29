@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * The datamodel for a User as it is stored in the database
  */
-@Entity(name = "tbl_user")
+@Entity()
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
