@@ -24,12 +24,12 @@
                     return event.display === 'background';
                 },
                 selectAllow: function(selectInfo) {
-                    return selectInfo.start < new Date(new Date().getTime() + 15 * 60 * 1000)
+                    return selectInfo.start > new Date(new Date().getTime() + 15 * 60 * 1000)
                         && selectInfo.end < new Date(selectInfo.start.getTime() + 4 * 60 * 60 * 1000);
                 },
                 nowIndicator: true,
                 slotDuration: '00:15:00',
-                events: 'https://fullcalendar.io/api/demo-feeds/events.json'
+                events: '/api/events'
             });
 
             calendar.render();
