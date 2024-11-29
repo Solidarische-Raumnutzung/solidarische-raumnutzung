@@ -42,7 +42,8 @@ public class BookingsController {
     ) {
         if (!roomService.existsById(id)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return "404";
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
         }
         if (start == null) {
             start = LocalDateTime.now();
@@ -64,11 +65,13 @@ public class BookingsController {
     ) {
         if (roomService.existsById(id)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return "404";
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
         }
         if (loginStateModel.user() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return "401"; //TODO we should modify the LSM so this never happens
+            model.addAttribute("error", KnownError.NO_USER);
+            return "error_known"; //TODO we should modify the LSM so this never happens
         }
         //TODO validate the form data
         Room room = roomService.get();

@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.domain.KnownError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -26,11 +27,15 @@ public class ErrorController extends AbstractErrorController {
                 MESSAGE,
                 PATH
         ));
+        if (errorAttributes.get("status").equals(404)) {
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
         model.addAttribute("timestamp", errorAttributes.get("timestamp"));
         model.addAttribute("status", errorAttributes.get("status"));
         model.addAttribute("error", errorAttributes.get("error"));
         model.addAttribute("message", errorAttributes.get("message"));
         model.addAttribute("path", errorAttributes.get("path"));
-        return errorAttributes.get("status").equals(404) ? "404" : "error";
+        return "error";
     }
 }
