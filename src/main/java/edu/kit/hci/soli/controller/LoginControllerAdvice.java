@@ -1,6 +1,6 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.domain.LoginStateModel;
+import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.VisitsRepository;
 import edu.kit.hci.soli.service.UserService;
@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.security.Principal;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @ControllerAdvice
 public class LoginControllerAdvice {
 
-    private final Logger logger = Logger.getLogger(LoginControllerAdvice.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(LoginControllerAdvice.class.getName());
 
 
     private final VisitsRepository visitsRepository;
