@@ -1,4 +1,10 @@
 spring:
+  jpa:
+    generate-ddl: true
+    hibernate:
+
+      ddl-auto: create
+    show-sql: true
   security:
     oauth2:
       client:

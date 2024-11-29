@@ -2,8 +2,8 @@ package edu.kit.hci.soli.domain;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 /**
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class Booking {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String description;
