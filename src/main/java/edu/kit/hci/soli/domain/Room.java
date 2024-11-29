@@ -1,6 +1,5 @@
 package edu.kit.hci.soli.domain;
 
-import edu.kit.hci.soli.controller.BookingsController;
 import jakarta.persistence.*;
 import lombok.Data;
 

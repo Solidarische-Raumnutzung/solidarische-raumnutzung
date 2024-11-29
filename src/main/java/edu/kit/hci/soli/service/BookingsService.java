@@ -18,8 +18,7 @@ public class BookingsService {
     }
 
     public boolean create(Booking booking) {
-        bookingsRepository.findAll();
-
+        bookingsRepository.save(booking);
         return true;
     }
 

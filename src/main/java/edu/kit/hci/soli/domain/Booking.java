@@ -2,8 +2,8 @@ package edu.kit.hci.soli.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 /**
@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Booking {
 
     @Id

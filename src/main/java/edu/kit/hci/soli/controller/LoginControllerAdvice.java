@@ -3,7 +3,6 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.domain.LoginStateModel;
 import edu.kit.hci.soli.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
-import edu.kit.hci.soli.repository.VisitsRepository;
 import edu.kit.hci.soli.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,13 +16,15 @@ import java.security.Principal;
 @ControllerAdvice
 @Slf4j
 public class LoginControllerAdvice {
-    private final VisitsRepository visitsRepository;
-
     private final UserService userService;
 
-    public LoginControllerAdvice(VisitsRepository visitsRepository, UserService userService) {
-        this.visitsRepository = visitsRepository;
+    public LoginControllerAdvice(UserService userService) {
         this.userService = userService;
+    }
+
+    @ModelAttribute("csrf")
+    public CsrfToken getCsrfToken(HttpServletRequest request) {
+        return (CsrfToken) request.getAttribute(CsrfToken.class.getName());
     }
 
     @ModelAttribute("login")
@@ -31,11 +32,12 @@ public class LoginControllerAdvice {
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         // TODO what if null?
 
+        //TODO the user should NOT be null, since we need it in templates
         if (principal == null) {
-            return new LoginStateModel("Visitor", visitsRepository.getVisits(), LoginStateModel.Kind.VISITOR, csrfToken);
+            return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrfToken, null);
         }
         if (oidcUser == null) {
-            return new LoginStateModel(principal.getName(), visitsRepository.getVisits(), LoginStateModel.Kind.ADMIN, csrfToken);
+            return new LoginStateModel(principal.getName(), LoginStateModel.Kind.ADMIN, csrfToken, null);
         }
 
 
@@ -50,6 +52,6 @@ public class LoginControllerAdvice {
             user.setUsername(username);
             userService.create(user);
         }
-        return new LoginStateModel(username, visitsRepository.getVisits(), LoginStateModel.Kind.OAUTH, csrfToken);
+        return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrfToken, user);
     }
 }
