@@ -4,9 +4,7 @@ package edu.kit.hci.soli.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * The datamodel for a Booking as it is stored in the database
@@ -21,13 +19,16 @@ public class Booking {
 
     private String description;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     private ShareRoomType shareRoomType;
 
-    @OneToOne
+    @ManyToOne
+    private Room room;
+
+    @ManyToOne
     private User user;
 
     private Priority priority;

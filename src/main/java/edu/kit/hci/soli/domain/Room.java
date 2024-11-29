@@ -15,7 +15,4 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    private Booking currentBooking;
-
 }
