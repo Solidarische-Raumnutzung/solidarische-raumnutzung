@@ -1,7 +1,7 @@
 package edu.kit.hci.soli.controller;
 
 
-import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.domain.LoginStateModel;
 import edu.kit.hci.soli.repository.VisitsRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,7 @@ public class BookingsController {
     private VisitsRepository visitsRepository;
 
     @GetMapping("/bookings")
-    public String bookings(Model model, HttpServletResponse response, Principal principal, @AuthenticationPrincipal OidcUser oidcUser) {
-
-
-
+    public String bookings(Model model, HttpServletResponse response, Principal principal) {
         return "bookings";
     }
 }
