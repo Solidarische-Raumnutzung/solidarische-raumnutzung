@@ -9,8 +9,8 @@
 @template.layout(page = new edu.kit.hci.soli.template.PageSpec("Not Found", "Soli"), context = context, login = login, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
-            <h1 class="text-5xl font-bold">${error.title}</h1>
-            <p class="py-6">${error.message}</p>
+            <h1 class="text-5xl font-bold">${context.localize(error.title)}</h1>
+            <p class="py-6">${context.localize(error.message)}</p>
             <a class="btn btn-primary" href="/">Go Home</a>
         </div>
     </div>

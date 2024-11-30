@@ -68,7 +68,23 @@ public class BookingsController {
         model.addAttribute("start", start);
         model.addAttribute("end", end);
 
+        model.addAttribute("minimumTime", minimumTime());
+        model.addAttribute("maximumTime", maximumTime());
+
         return "create_booking";
+    }
+
+    private LocalDateTime currentSlot() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.minusMinutes(now.getMinute() % 15);
+    }
+
+    private LocalDateTime minimumTime() {
+        return currentSlot().plusMinutes(15);
+    }
+
+    private LocalDateTime maximumTime() {
+        return currentSlot().plusDays(14);
     }
 
     @PostMapping(value = "/{id}/bookings/new", consumes = "application/x-www-form-urlencoded")
@@ -97,11 +113,10 @@ public class BookingsController {
         formData.description = formData.description == null ? "" : formData.description.trim();
 
         // Validate start and end times
-        LocalDateTime now = LocalDateTime.now();
         if (formData.start.isAfter(formData.end)
-                || formData.start.isBefore(now.plusMinutes(15))
+                || formData.start.isBefore(minimumTime())
                 || formData.end.isAfter(formData.start.plusHours(4)) // Keep these in sync with index.jte!
-                || formData.end.isAfter(now.plusDays(14))
+                || formData.end.isAfter(maximumTime())
                 || formData.start.getMinute() % 15 != 0
                 || formData.end.getMinute() % 15 != 0) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

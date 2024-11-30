@@ -11,6 +11,8 @@
 @param Long room
 @param LocalDateTime start
 @param LocalDateTime end
+@param LocalDateTime minimumTime
+@param LocalDateTime maximumTime
 @param CsrfToken csrf
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
@@ -22,20 +24,34 @@
             <label class="label" for="start">
                 <span class="label-text-alt">${context.localize("bookings.start")}</span>
             </label>
-            <input id="start" name="start" type="datetime-local" class="input input-bordered" value="${start.toString()}" />
+            <input id="start" name="start" type="datetime-local" class="input input-bordered"
+                   value="${start.toString()}"
+                   min="${minimumTime.toString()}"
+                   max="${maximumTime.toString()}"
+                   step="${60 * 15}"
+                   required
+            />
         </div>
         <div class="form-control">
             <label class="label" for="end">
                 <span class="label-text-alt">${context.localize("bookings.end")}</span>
             </label>
-            <input id="end" name="end" type="datetime-local" class="input input-bordered" value="${end.toString()}" />
+            <input id="end" name="end" type="datetime-local" class="input input-bordered"
+                   value="${end.toString()}"
+                   min="${minimumTime.toString()}"
+                   max="${maximumTime.toString()}"
+                   step="${60 * 15}"
+                   required
+            />
         </div>
         <br>
         <div class="form-control">
             <!--                <label class="label" for="description">-->
             <!--                    <span class="label-text">${context.localize("bookings.optional")}</span>-->
             <!--                </label>-->
-            <textarea id="description" name="description" class="textarea textarea-bordered" placeholder="${context.localize("bookings.description")}"></textarea>
+            <textarea id="description" name="description" class="textarea textarea-bordered"
+                      placeholder="${context.localize("bookings.description")}"
+            ></textarea>
             <label class="label">
                 <span class="label-text-alt">${context.localize("bookings.optional")}</span>
             </label>
@@ -44,7 +60,7 @@
             <div class="label">
                 <span class="label-text">${context.localize("bookings.priority")}</span>
             </div>
-            <select name="priority" class="select select-bordered">
+            <select name="priority" class="select select-bordered" required>
                 @for(Priority priority : Priority.values())
                     <option
                             value="${priority}"
