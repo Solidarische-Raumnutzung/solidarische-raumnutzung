@@ -1,4 +1,4 @@
-@import edu.kit.hci.soli.domain.LoginStateModel
+@import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 @import gg.jte.Content
@@ -52,19 +52,19 @@
                                             </div>
 
                                         </div>
-                                        <label>Welcome, ${login.name}</label>
+                                        <label>Welcome, ${login.name()}</label>
 
                                         <div class="divider"></div>
 
-                                        @if(login.kind == LoginStateModel.Kind.VISITOR)
+                                        @if(login.kind() == LoginStateModel.Kind.VISITOR)
                                             <li><a href="/login">Login</a></li>
                                         @else
                                             <li>
                                                 <form action="/logout"
                                                       method="post">
                                                     <input type="hidden"
-                                                           name="${login.csrfToken.getParameterName()}"
-                                                           value="${login.csrfToken.getToken()}"/>
+                                                           name="${login.csrfToken().getParameterName()}"
+                                                           value="${login.csrfToken().getToken()}"/>
                                                     <input type="submit"
                                                            value="Logout"/>
                                                 </form>

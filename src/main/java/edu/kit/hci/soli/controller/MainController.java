@@ -1,27 +1,25 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.domain.LoginStateModel;
-import edu.kit.hci.soli.repository.VisitsRepository;
-import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.service.RoomService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @Controller("/")
+@Slf4j
 public class MainController {
-
-    private final Logger log = LoggerFactory.getLogger(MainController.class);
 
     @Value("${spring.profiles.active}")
     private String profile;
+
+    private final RoomService roomService;
+
+    public MainController(RoomService roomService) {
+        this.roomService = roomService;
+    }
 
     @ResponseBody
     @GetMapping("/profile")
@@ -30,8 +28,9 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String index(@ModelAttribute("login") LoginStateModel login) {
-        if (!login.name.equals("")) log.info("Received request from {}", login.name);
+    public String index(Model model, @ModelAttribute("login") LoginStateModel login) {
+        if (!login.name().isEmpty()) log.info("Received request from {}", login.name());
+        model.addAttribute("room", roomService.get());
         return "index";
     }
 }

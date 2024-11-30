@@ -50,6 +50,8 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.projectlombok:lombok")
 
+    compileOnly("org.jetbrains:annotations:26.0.1")
+
     // https://docs.spring.io/spring-boot/reference/features/dev-services.html#features.dev-services.docker-compose
     testAndDevelopmentOnly("org.springframework.boot:spring-boot-docker-compose")
 

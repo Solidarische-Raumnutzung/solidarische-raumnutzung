@@ -28,11 +28,6 @@ public class LoginController {
             model.addAttribute("logout", "You have been logged out");
         }
 
-        CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-        if (csrf != null) {
-            model.addAttribute("csrf", csrf);
-        }
-
         return "login";
     }
 }

@@ -1,9 +1,6 @@
 package edu.kit.hci.soli.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
  * The datamodel for a User as it is stored in the database
  */
 @Entity
+@Table(name = "soli_users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

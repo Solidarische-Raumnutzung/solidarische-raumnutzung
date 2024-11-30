@@ -2,15 +2,18 @@ package edu.kit.hci.soli.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 /**
  * The datamodel for a Booking as it is stored in the database
  */
 @Entity
+@Table(name = "soli_bookings")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Booking {
 
     @Id
