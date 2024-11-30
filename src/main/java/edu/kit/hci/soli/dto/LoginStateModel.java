@@ -1,7 +1,6 @@
 package edu.kit.hci.soli.dto;
 
 import edu.kit.hci.soli.domain.User;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.security.web.csrf.CsrfToken;
 
