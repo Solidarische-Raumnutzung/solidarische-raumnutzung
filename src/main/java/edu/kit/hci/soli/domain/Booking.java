@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
  * The datamodel for a Booking as it is stored in the database
  */
 @Entity
+@Table(name = "soli_bookings")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
