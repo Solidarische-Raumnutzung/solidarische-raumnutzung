@@ -4,7 +4,6 @@ import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
-import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.ui.ExtendedModelMap;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -24,11 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @AutoConfigureTestDatabase
 public class BookingsControllerTest {
     @Autowired private UserService userService;
-    @Autowired private RoomService roomService;
     @Autowired private BookingsController bookingsController;
 
     private User testUser;
-    private Booking testBooking;
 
     @BeforeEach
     public void setUp() {
@@ -36,12 +31,6 @@ public class BookingsControllerTest {
         testUser.setUsername("testuser");
         testUser.setEmail("testuser@example.com");
         userService.create(testUser);
-
-        testBooking = new Booking();
-        testBooking.setUser(testUser);
-        testBooking.setStartDate(LocalDateTime.now().plusDays(1));
-        testBooking.setEndDate(LocalDateTime.now().plusDays(2));
-        testBooking.setPriority(Priority.HIGHEST);
     }
 
     private @Nullable KnownError lsmCreateBooking(BookingsController.FormData formData, User user, long room) {
