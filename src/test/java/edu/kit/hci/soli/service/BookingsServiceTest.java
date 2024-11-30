@@ -14,7 +14,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @SpringBootTest
 public class BookingsServiceTest {
 
@@ -46,7 +45,6 @@ public class BookingsServiceTest {
 
     @Test
     public void testCreateBooking() {
-
         boolean result = bookingsService.create(testBooking);
         assertThat(result).isTrue();
         assertThat(bookingsRepository.findById(testBooking.getId())).isPresent();
