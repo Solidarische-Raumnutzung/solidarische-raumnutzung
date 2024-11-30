@@ -35,12 +35,12 @@
             <!--                <label class="label" for="description">-->
             <!--                    <span class="label-text">${context.localize("bookings.optional")}</span>-->
             <!--                </label>-->
-            <textarea id="description" name="description" class="textarea textarea-bordered" placeholder="Beschreibung"></textarea>
+            <textarea id="description" name="description" class="textarea textarea-bordered" placeholder="${context.localize("bookings.description")}"></textarea>
             <label class="label">
                 <span class="label-text-alt">${context.localize("bookings.optional")}</span>
             </label>
         </div>
-        <label class="form-control tooltip text-left flex" data-tip="Wie kritisch die Buchung ist. z.B. rot für kritische medizinische Zwecke">
+        <label class="form-control tooltip text-left flex" data-tip="${context.localize("bookings.priority.tooltip")}">
             <div class="label">
                 <span class="label-text">${context.localize("bookings.priority")}</span>
             </div>
@@ -53,7 +53,7 @@
                 @endfor
             </select>
         </label>
-        <div class="tooltip text-left" data-tip="Dürfen andere den Raum zur gleichen Zeit nutzen?">
+        <div class="tooltip text-left" data-tip="${context.localize("bookings.share.tooltip")}">
             <span class="label-text">${context.localize("bookings.share")}</span>
             @for(ShareRoomType shareRoomType : ShareRoomType.values())
                 <div class="form-control">
