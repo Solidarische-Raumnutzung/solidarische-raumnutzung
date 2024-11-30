@@ -74,7 +74,7 @@ public class BookingsController {
         return "create_booking";
     }
 
-    private LocalDateTime currentSlot() {
+    public LocalDateTime currentSlot() {
         LocalDateTime now = LocalDateTime.now();
         return now.minusMinutes(now.getMinute() % 15);
     }
@@ -89,7 +89,7 @@ public class BookingsController {
 
     @PostMapping(value = "/{id}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
-            Model model, HttpServletResponse response, Principal principal, @PathVariable Long id,
+            Model model, HttpServletResponse response, @PathVariable Long id,
             @ModelAttribute("login") LoginStateModel loginStateModel,
             @ModelAttribute FormData formData
     ) {
@@ -140,6 +140,8 @@ public class BookingsController {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class FormData {
         public LocalDateTime start;
         public LocalDateTime end;
