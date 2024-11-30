@@ -33,7 +33,7 @@ public class BookingsController {
 
     @GetMapping("/bookings")
     public String userBookings(Model model, HttpServletResponse response, Principal principal) {
-        User user = userService.getCurrentlyLoggedInUserByUserId(principal.getName());
+        User user = userService.resolveLoggedInUser(principal);
         model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
 
         return "bookings";
@@ -41,7 +41,7 @@ public class BookingsController {
 
     @GetMapping("/{id}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, Principal principal, @PathVariable Long id) {
-        User user = userService.getCurrentlyLoggedInUserByUserId(principal.getName());
+        User user = userService.resolveLoggedInUser(principal);
         log.info("User: {}", user.getEmail());
         model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
 

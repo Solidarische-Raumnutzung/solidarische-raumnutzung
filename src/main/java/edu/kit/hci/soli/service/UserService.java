@@ -4,6 +4,8 @@ import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+
 @Service
 public class UserService {
 
@@ -29,7 +31,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getCurrentlyLoggedInUserByUserId(String userId) {
-        return userRepository.findByUserId(userId);
+    public User resolveLoggedInUser(Principal principal) {
+        return userRepository.findByUserId(principal.getName());
     }
 }
