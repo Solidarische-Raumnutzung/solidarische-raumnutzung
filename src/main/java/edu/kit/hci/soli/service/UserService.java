@@ -21,7 +21,15 @@ public class UserService {
         return userRepository.findByUsername(fullname);
     }
 
+    public User findByUserId(String userId) {
+        return userRepository.findByUserId(userId);
+    }
+
     public User create(User user) {
         return userRepository.save(user);
+    }
+
+    public User getCurrentlyLoggedInUserByUserId(String userId) {
+        return userRepository.findByUserId(userId);
     }
 }

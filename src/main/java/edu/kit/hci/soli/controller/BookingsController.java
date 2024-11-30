@@ -5,34 +5,48 @@ import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-
+@Slf4j
 @Controller("/bookings")
 public class BookingsController {
 
     private final BookingsService bookingsService;
     private final RoomService roomService;
+    private final UserService userService;
 
-    public BookingsController(BookingsService bookingsService, RoomService roomService) {
+    public BookingsController(BookingsService bookingsService, RoomService roomService, UserService userService) {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
+        this.userService = userService;
     }
 
     @GetMapping("/bookings")
     public String userBookings(Model model, HttpServletResponse response, Principal principal) {
+
+        User user = userService.getCurrentlyLoggedInUserByUserId(principal.getName());
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
+
+
         return "bookings";
     }
 
     @GetMapping("/{id}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, Principal principal, @PathVariable Long id) {
+        User user = userService.getCurrentlyLoggedInUserByUserId(principal.getName());
+        log.info("User: {}", user.getEmail());
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
+
         return "bookings";
     }
 
@@ -56,6 +70,7 @@ public class BookingsController {
         model.addAttribute("room", id);
         model.addAttribute("start", start);
         model.addAttribute("end", end);
+
         return "create_booking";
     }
 
@@ -87,6 +102,8 @@ public class BookingsController {
                 loginStateModel.user(),
                 Priority.valueOf(formData.priority)
         ));
+
+
         return "redirect:/" + id + "/bookings"; //TODO redirect to the new booking
     }
 
