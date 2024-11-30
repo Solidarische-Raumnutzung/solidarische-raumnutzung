@@ -1,3 +1,5 @@
+@import edu.kit.hci.soli.domain.Priority
+@import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
@@ -12,51 +14,58 @@
 @param CsrfToken csrf
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
-    <form class="card-body" method="post" action="/${room}/bookings/new">
+    <form class="card-body w-96 mx-auto" method="post" action="/${room}/bookings/new">
         @if(csrf != null)
             <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
         @endif
         <div class="form-control">
             <label class="label" for="start">
-                <span class="label-text-alt">Start</span>
+                <span class="label-text-alt">${context.localize("bookings.start")}</span>
             </label>
             <input id="start" name="start" type="datetime-local" class="input input-bordered" value="${start.toString()}" />
         </div>
         <div class="form-control">
             <label class="label" for="end">
-                <span class="label-text-alt">Ende</span>
+                <span class="label-text-alt">${context.localize("bookings.end")}</span>
             </label>
             <input id="end" name="end" type="datetime-local" class="input input-bordered" value="${end.toString()}" />
         </div>
         <br>
         <div class="form-control">
             <!--                <label class="label" for="description">-->
-            <!--                    <span class="label-text">Optional</span>-->
+            <!--                    <span class="label-text">${context.localize("bookings.optional")}</span>-->
             <!--                </label>-->
             <textarea id="description" name="description" class="textarea textarea-bordered" placeholder="Beschreibung"></textarea>
             <label class="label">
-                <span class="label-text-alt">Optional</span>
+                <span class="label-text-alt">${context.localize("bookings.optional")}</span>
             </label>
         </div>
-        <div class="form-control tooltip text-left" data-tip="Erlaube es anderen, dich per E-Mail zu kontaktieren">
-            <label class="label cursor-pointer" for="emailVisible">
-                <span class="label-text">E-Mail für andere sichtbar</span>
-                <input id="emailVisible" name="emailVisible" type="checkbox" checked class="toggle" />
-            </label>
-        </div>
-        <div class="form-control tooltip text-left flex" data-tip="Wie kritisch die Buchung ist. z.B. rot für kritische medizinische Zwecke">
-            <label class="label cursor-pointer rating gap-1">
-                <span class="label-text">Priorität</span>
-                <input type="radio" name="priority" class="mask mask-circle bg-green-400" checked="checked" value="LOWEST" />
-                <input type="radio" name="priority" class="mask mask-circle bg-yellow-400" value="MEDIUM" />
-                <input type="radio" name="priority" class="mask mask-circle bg-red-400" value="HIGHEST" />
-            </label>
-        </div>
-        <div class="form-control tooltip text-left" data-tip="Erlaube es anderen, den Raum gleichzeitig zu nutzen">
-            <label class="label cursor-pointer" for="cooperative">
-                <span class="label-text">Parallele Reservierungen</span>
-                <input name="cooperative" id="cooperative" type="checkbox" checked class="toggle" />
-            </label>
+        <label class="form-control tooltip text-left flex" data-tip="Wie kritisch die Buchung ist. z.B. rot für kritische medizinische Zwecke">
+            <div class="label">
+                <span class="label-text">${context.localize("bookings.priority")}</span>
+            </div>
+            <select name="priority" class="select select-bordered">
+                @for(Priority priority : Priority.values())
+                    <option
+                            value="${priority}"
+                            selected="${priority == Priority.LOWEST}"
+                    >${context.localize("bookings.priority." + priority)}</option>
+                @endfor
+            </select>
+        </label>
+        <div class="tooltip text-left" data-tip="Dürfen andere den Raum zur gleichen Zeit nutzen?">
+            <span class="label-text">${context.localize("bookings.share")}</span>
+            @for(ShareRoomType shareRoomType : ShareRoomType.values())
+                <div class="form-control">
+                    <label class="label cursor-pointer">
+                        <span class="label-text">${context.localize("bookings.share." + shareRoomType)}</span>
+                        <input type="radio" name="cooperative" class="radio"
+                               value="${shareRoomType}"
+                               checked="${shareRoomType == ShareRoomType.NO}"
+                        />
+                    </label>
+                </div>
+            @endfor
         </div>
         <div class="form-control mt-6">
             <input type="submit" class="btn btn-primary" value="OK">

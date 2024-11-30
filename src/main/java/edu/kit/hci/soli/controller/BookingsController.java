@@ -41,8 +41,7 @@ public class BookingsController {
 
     @GetMapping("/{id}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, Principal principal, @PathVariable Long id) {
-        User user = userService.resolveLoggedInUser(principal);
-        log.info("User: {}", user.getEmail());
+        User user = userService.resolveLoggedInUser(principal); //TODO user seems to be null here
         model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
 
         return "bookings";
@@ -78,27 +77,48 @@ public class BookingsController {
             @ModelAttribute("login") LoginStateModel loginStateModel,
             @ModelAttribute FormData formData
     ) {
+        // Validate exists
         if (!roomService.existsById(id)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
+        Room room = roomService.get();
         if (loginStateModel.user() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             model.addAttribute("error", KnownError.NO_USER);
             return "error_known"; //TODO we should modify the LSM so this never happens
         }
-        //TODO validate the form data
-        Room room = roomService.get();
+        if (formData.start == null || formData.end == null || formData.priority == null || formData.cooperative == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error_known";
+        }
+        formData.description = formData.description == null ? "" : formData.description.trim();
+
+        // Validate start and end times
+        LocalDateTime now = LocalDateTime.now();
+        if (formData.start.isAfter(formData.end)
+                || formData.start.isBefore(now.plusMinutes(15))
+                || formData.end.isAfter(formData.start.plusHours(4)) // Keep these in sync with index.jte!
+                || formData.end.isAfter(now.plusDays(14))
+                || formData.start.getMinute() % 15 != 0
+                || formData.end.getMinute() % 15 != 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.INVALID_TIME);
+            return "error_known";
+        }
+
+        //TODO check for overlapping bookings
         bookingsService.create(new Booking(
                 null,
-                "New booking",
+                formData.description,
                 formData.start,
                 formData.end,
-                formData.cooperative ? ShareRoomType.YES : ShareRoomType.NO,
+                formData.cooperative,
                 room,
                 loginStateModel.user(),
-                Priority.valueOf(formData.priority)
+                formData.priority
         ));
 
         return "redirect:/" + id + "/bookings"; //TODO redirect to the new booking
@@ -109,8 +129,7 @@ public class BookingsController {
         public LocalDateTime start;
         public LocalDateTime end;
         public String description;
-        public boolean emailVisible;
-        public String priority;
-        public boolean cooperative;
+        public Priority priority;
+        public ShareRoomType cooperative;
     }
 }
