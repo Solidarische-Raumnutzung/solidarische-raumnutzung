@@ -1,12 +1,15 @@
-package edu.kit.hci.soli.service;
+package edu.kit.hci.soli.test.service;
 
 import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.domain.Priority;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.BookingsRepository;
+import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
@@ -15,16 +18,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@AutoConfigureTestDatabase
 public class BookingsServiceTest {
-
-    @Autowired
-    private BookingsService bookingsService;
-
-    @Autowired
-    private BookingsRepository bookingsRepository;
-
-    @Autowired
-    private UserService userService;
+    @Autowired private BookingsService bookingsService;
+    @Autowired private BookingsRepository bookingsRepository;
+    @Autowired private UserService userService;
 
     private User testUser;
     private Booking testBooking;

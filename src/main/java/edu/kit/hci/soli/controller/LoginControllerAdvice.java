@@ -1,9 +1,9 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.domain.User;
-import jakarta.servlet.http.HttpServletRequest;
+import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;

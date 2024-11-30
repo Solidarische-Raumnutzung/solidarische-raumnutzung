@@ -13,6 +13,7 @@
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
                 timeZone: 'UTC',
                 initialView: 'timeGridWeek',
+                nowIndicator: true,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -29,10 +30,11 @@
                     return event.display === 'background';
                 },
                 selectAllow: function(selectInfo) {
+                    // Keep these in sync with BookingsController!
                     return selectInfo.start > new Date(new Date().getTime() + 15 * 60 * 1000)
-                        && selectInfo.end < new Date(selectInfo.start.getTime() + 4 * 60 * 60 * 1000);
+                        && selectInfo.end < new Date(selectInfo.start.getTime() + 4 * 60 * 60 * 1000)
+                        && selectInfo.end < new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
                 },
-                nowIndicator: true,
                 slotDuration: '00:15:00',
                 events: '/api/events'
             });

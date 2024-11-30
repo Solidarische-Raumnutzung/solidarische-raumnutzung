@@ -8,6 +8,7 @@
 @param Content content
 @param LoginStateModel login
 
+<!DOCTYPE html>
 <html lang="${context.localize("code")}" data-theme="light">
     <head>
         @if(page.description() != null)
