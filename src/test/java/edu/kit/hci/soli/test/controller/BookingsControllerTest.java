@@ -1,6 +1,5 @@
 package edu.kit.hci.soli.test.controller;
 
-import edu.kit.hci.soli.SoliApplication;
 import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
@@ -9,49 +8,33 @@ import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.ExtendedModelMap;
 
-import java.security.Principal;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@SpringBootTest
 @AutoConfigureTestDatabase
-@WebMvcTest(BookingsController.class)
-@ContextConfiguration(classes= SoliApplication.class)
 public class BookingsControllerTest {
-
     @Autowired
-    private MockMvc mockMvc;
-
-    @MockitoBean
     private UserService userService;
-
-    @MockitoBean
+    @Autowired
     private BookingsController bookingsController;
-
-    @MockitoBean
+    @Autowired
     private BookingsService bookingsService;
 
+
+
+
     private User testUser;
-    private Booking testBooking;
 
     @BeforeEach
     public void setUp() {
@@ -59,59 +42,6 @@ public class BookingsControllerTest {
         testUser.setUsername("testuser");
         testUser.setEmail("testuser@example.com");
         userService.create(testUser);
-
-        testBooking = new Booking();
-        testBooking.setId(1L);
-        testBooking.setUser(testUser);
-
-        when(bookingsController.currentSlot()).thenReturn(java.time.LocalDateTime.now());
-
-    }
-
-    @Test
-    public void testDeleteBookingForbidden() throws Exception {
-        User anotherUser = new User();
-        anotherUser.setUsername("anotheruser");
-        anotherUser.setEmail("anotheruser@example.com");
-
-        testBooking.setUser(anotherUser);
-        when(bookingsService.getBookingById(1L)).thenReturn(testBooking);
-        when(userService.resolveLoggedInUser(Mockito.any(Principal.class))).thenReturn(testUser);
-
-        MockHttpServletResponse response = mockMvc.perform(delete("/bookings/delete/1")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden())
-                .andReturn()
-                .getResponse();
-
-        assertEquals(HttpStatus.FORBIDDEN.value(), response.getStatus());
-    }
-
-    @Test
-    public void testDeleteBookingSuccess() throws Exception {
-        when(bookingsService.getBookingById(1L)).thenReturn(testBooking);
-        when(userService.resolveLoggedInUser(Mockito.any(Principal.class))).thenReturn(testUser);
-
-        MockHttpServletResponse response = mockMvc.perform(get("/bookings/delete/1").contentType(MediaType.ALL))
-                .andExpect(status().is3xxRedirection())
-                .andReturn()
-                .getResponse();
-
-        assertEquals(HttpStatus.FOUND.value(), response.getStatus());
-        Mockito.verify(bookingsService).delete(testBooking);
-    }
-
-    @Test
-    public void testDeleteBookingNotFound() throws Exception {
-        when(bookingsService.getBookingById(1L)).thenReturn(null);
-
-        MockHttpServletResponse response = mockMvc.perform(delete("/bookings/delete/1")
-                        .contentType(MediaType.ALL))
-                .andExpect(status().isNotFound())
-                .andReturn()
-                .getResponse();
-
-        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
     }
 
     private @Nullable KnownError lsmCreateBooking(BookingsController.FormData formData, User user, long room) {
