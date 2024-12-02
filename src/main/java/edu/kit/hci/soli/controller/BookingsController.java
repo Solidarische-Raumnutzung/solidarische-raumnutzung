@@ -54,18 +54,24 @@ public class BookingsController {
             return "error_known";
         }
 
-        // TODO: Allow exceptions for admins
-        if (!booking.getUser().equals(user)) {
-            log.info("User {} tried to delete booking {} of user {}", user, id, booking.getUser());
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            model.addAttribute("error", KnownError.NO_USER);
-            return "error_known";
+        User admin = userService.resolveAdminUser();
+
+        if (booking.getUser().equals(admin)) {
+            bookingsService.delete(booking);
+            log.info("Admin deleted booking {}", id);
+            return "redirect:/bookings";
         }
 
-        bookingsService.delete(booking);
-        log.info("Deleted booking {}", id);
+        if (booking.getUser().equals(user)) {
+            bookingsService.delete(booking);
+            log.info("User deleted booking {}", id);
+            return "redirect:/bookings";
+        }
 
-        return "redirect:/bookings";
+        log.info("User {} tried to delete booking {} of user {}", user, id, booking.getUser());
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        model.addAttribute("error", KnownError.NO_USER);
+        return "error_known";
     }
 
     @GetMapping("/{id}/bookings")
