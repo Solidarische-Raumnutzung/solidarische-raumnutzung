@@ -4,8 +4,6 @@ import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.UserRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -36,7 +34,7 @@ public class UserService {
     }
 
     public User resolveAdminUser() {
-        return userRepository.findByUsername("admin");
+        return userRepository.findByUserId("admin");
     }
 
     public User resolveLoggedInUser(Principal principal) {
