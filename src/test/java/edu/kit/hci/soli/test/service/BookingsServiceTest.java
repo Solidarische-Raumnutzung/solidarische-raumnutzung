@@ -6,8 +6,7 @@ import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -42,17 +41,17 @@ public class BookingsServiceTest {
     }
 
     @Test
-    public void testCreateBooking() {
-        boolean result = bookingsService.create(testBooking);
-        assertThat(result).isTrue();
-        assertThat(bookingsRepository.findById(testBooking.getId())).isPresent();
+    public void testAttemptToBookBooking() {
+        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking);
+        assertInstanceOf(BookingsService.BookingAttemptResult.Success.class, result);
+        assertTrue(bookingsRepository.existsById(testBooking.getId()));
     }
 
     @Test
     public void testGetBookingsByUser() {
         bookingsRepository.save(testBooking);
         List<Booking> bookings = bookingsService.getBookingsByUser(testUser);
-        assertThat(bookings).isNotEmpty();
-        assertThat(bookings.getFirst().getId()).isEqualTo(testBooking.getId());
+        assertNotEquals(0, bookings.size());
+        assertEquals(testBooking.getId(), bookings.getFirst().getId());
     }
 }

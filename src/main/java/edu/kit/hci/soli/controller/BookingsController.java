@@ -6,6 +6,7 @@ import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -89,7 +90,7 @@ public class BookingsController {
 
     @PostMapping(value = "/{id}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
-            Model model, HttpServletResponse response, @PathVariable Long id,
+            Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long id,
             @ModelAttribute("login") LoginStateModel loginStateModel,
             @ModelAttribute FormData formData
     ) {
@@ -124,8 +125,7 @@ public class BookingsController {
             return "error_known";
         }
 
-        //TODO check for overlapping bookings
-        bookingsService.create(new Booking(
+        Booking attemptedBooking = new Booking(
                 null,
                 formData.description,
                 formData.start,
@@ -134,9 +134,36 @@ public class BookingsController {
                 room,
                 loginStateModel.user(),
                 formData.priority
-        ));
+        );
+        return handleBookingAttempt(attemptedBooking, bookingsService.attemptToBook(attemptedBooking), request, model);
+    }
 
-        return "redirect:/" + id + "/bookings"; //TODO redirect to the new booking
+    @PostMapping(value = "/{id}/bookings/new/resolve", consumes = "application/x-www-form-urlencoded")
+    public String resolveConflict(
+            Model model, HttpServletRequest request, @PathVariable Long id,
+            @ModelAttribute("login") LoginStateModel loginStateModel
+    ) {
+        Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
+        BookingsService.BookingAttemptResult.PossibleCooperation bookingResult = (BookingsService.BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
+        return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
+    }
+
+    private String handleBookingAttempt(Booking attemptedBooking, BookingsService.BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {
+        return switch (bookingResult) {
+            case BookingsService.BookingAttemptResult.Failure result -> {
+                model.addAttribute("error", KnownError.EVENT_CONFLICT);
+                model.addAttribute("conflicts", result.conflict());
+                yield "error_known";
+            }
+            case BookingsService.BookingAttemptResult.Success result -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings"; //TODO redirect to the new booking
+            case BookingsService.BookingAttemptResult.PossibleCooperation result -> {
+                request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+                request.getSession().setAttribute("bookingResult", result);
+                model.addAttribute("attemptedBooking", attemptedBooking);
+                model.addAttribute("bookingResult", result);
+                yield "create_booking_conflict";
+            }
+        };
     }
 
     @Data
