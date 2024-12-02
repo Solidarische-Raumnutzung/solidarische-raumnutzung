@@ -11,7 +11,7 @@
 @param CsrfToken csrf
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
-   <div class="">
+    <div class="">
 
         <div class="overflow-x-auto">
             @if(bookings.isEmpty())
@@ -43,8 +43,8 @@
                                 <td>${booking.getDescription()}</td>
                                 <td>${booking.getStartDate().toString()}</td>
                                 <td>${booking.getEndDate().toString()}</td>
-                                <td>${booking.getShareRoomType()}</td>
-                                <td>${booking.getPriority()}</td>
+                                <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
+                                <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                                 <td>
                                     <form action="/bookings/delete/${booking.getId()}" method="post">
                                         @if(csrf != null)
