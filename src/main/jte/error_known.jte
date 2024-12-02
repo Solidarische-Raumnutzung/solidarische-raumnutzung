@@ -11,7 +11,7 @@
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize(error.title)}</h1>
             <p class="py-6">${context.localize(error.message)}</p>
-            <a class="btn btn-primary" href="/">Go Home</a>
+            <a class="btn btn-primary" href="/">${context.localize("index.go")}</a>
         </div>
     </div>
 `))

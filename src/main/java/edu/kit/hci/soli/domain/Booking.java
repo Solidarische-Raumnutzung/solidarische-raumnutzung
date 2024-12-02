@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * The datamodel for a Booking as it is stored in the database
@@ -34,4 +35,8 @@ public class Booking {
     private User user;
 
     private Priority priority;
+
+    public StagedBooking toStaged(Set<User> requests) {
+        return new StagedBooking(null, description, startDate, endDate, shareRoomType, room, user, priority, requests);
+    }
 }

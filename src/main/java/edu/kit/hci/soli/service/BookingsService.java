@@ -3,13 +3,15 @@ package edu.kit.hci.soli.service;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.repository.StagedBookingsRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BookingsService {
     private final BookingsRepository bookingsRepository;
@@ -43,8 +45,7 @@ public class BookingsService {
         if (!conflict.isEmpty()) return new BookingAttemptResult.Failure(conflict);
         if (!contact.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Deferred(override, contact, cooperate, overrideStaged, cooperateStaged);
         if (!cooperate.isEmpty() || !override.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Immediate(override, cooperate, overrideStaged, cooperateStaged);
-        bookingsRepository.save(booking);
-        return new BookingsService.BookingAttemptResult.Success();
+        return new BookingsService.BookingAttemptResult.Success(bookingsRepository.save(booking));
     }
 
     private ConflictType classifyConflict(Booking booking, Booking other) {
@@ -69,18 +70,17 @@ public class BookingsService {
     public BookingAttemptResult affirm(Booking booking, BookingAttemptResult.PossibleCooperation result) {
         BookingAttemptResult attemptResult = attemptToBook(booking);
         if (attemptResult.equals(result)) {
-            switch (result) {
+            return switch (result) {
                 case BookingAttemptResult.PossibleCooperation.Immediate(var override, var cooperate, var overrideStaged, var cooperateStaged) -> {
                     override.forEach(b -> deleteBooking(b, BookingDeleteReason.CONFLICT));
                     overrideStaged.forEach(this::unstage);
-                    bookingsRepository.save(booking);
-                    return new BookingAttemptResult.Success();
+                    yield new BookingAttemptResult.Success(bookingsRepository.save(booking));
                 }
-                case BookingAttemptResult.PossibleCooperation.Deferred(var override, var contact, var cooperate, var overrideStaged, var cooperateStaged) -> {
-                    //TODO send notifications, wait for response and save attempted booking
-                    throw new IllegalArgumentException("Not yet implemented");
-                }
-            }
+                case BookingAttemptResult.PossibleCooperation.Deferred(var override, var contact, var cooperate, var overrideStaged, var cooperateStaged) ->
+                        new BookingAttemptResult.Staged(stagedBookingsRepository.save(booking.toStaged(
+                                contact.stream().map(Booking::getUser).collect(Collectors.toSet())
+                        )));
+            };
         }
         return attemptResult;
     }
@@ -97,10 +97,20 @@ public class BookingsService {
 
     @Transactional
     public boolean confirmRequest(StagedBooking booking, User user) {
+        //TODO make this available in a controller and send the URL via E-Mail
         boolean result = booking.getOutstandingRequests().remove(user);
         if (booking.getOutstandingRequests().isEmpty()) {
-            bookingsRepository.save(booking.toBooking());
             stagedBookingsRepository.delete(booking);
+            Booking newBooking = booking.toBooking();
+            switch (attemptToBook(newBooking)) {
+                case BookingAttemptResult.Failure(var conflict) -> log.error("Failed to confirm request for booking {} by user {} due to conflict with: {}", newBooking, user, conflict);
+                case BookingAttemptResult.Staged staged -> log.error("Failed to confirm request for booking {} by user {} due to unexpected staging", newBooking, user);
+                case BookingAttemptResult.Success success -> log.info("Confirmed request for booking {} by user {}", newBooking, user);
+                case BookingAttemptResult.PossibleCooperation possible -> {
+                    possible.override().forEach(b -> deleteBooking(b, BookingDeleteReason.CONFLICT));
+                    possible.overrideStaged().forEach(this::unstage);
+                }
+            }
         }
         return result;
     }
@@ -132,7 +142,8 @@ public class BookingsService {
     public record CalendarEvent(String title, LocalDateTime start, LocalDateTime end, List<String> className) { }
 
     public sealed interface BookingAttemptResult {
-        record Success() implements BookingAttemptResult { }
+        record Success(Booking booking) implements BookingAttemptResult { }
+        record Staged(StagedBooking booking) implements BookingAttemptResult { }
         record Failure(List<Booking> conflict) implements BookingAttemptResult { }
         sealed interface PossibleCooperation extends BookingAttemptResult {
             List<Booking> override();

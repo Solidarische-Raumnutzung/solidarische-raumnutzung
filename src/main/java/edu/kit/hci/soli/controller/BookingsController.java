@@ -162,6 +162,10 @@ public class BookingsController {
                 model.addAttribute("bookingResult", result);
                 yield "create_booking_conflict";
             }
+            case BookingsService.BookingAttemptResult.Staged(var staged) -> {
+                model.addAttribute("stagedBooking", staged);
+                yield "create_booking_staged";
+            }
         };
     }
 

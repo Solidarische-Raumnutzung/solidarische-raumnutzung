@@ -14,17 +14,15 @@
 @template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
-            <h1 class="text-5xl font-bold">Something went wrong</h1>
-            <p class="py-6">
-                You are seeing this because an error occurred.
-            </p>
+            <h1 class="text-5xl font-bold">${context.localize("error.unknown.title")}</h1>
+            <p class="py-6">${context.localize("error.unknown.message")}</p>
             <details class="collapse collapse-plus bg-base-200">
-                <summary class="collapse-title font-medium">Details</summary>
+                <summary class="collapse-title font-medium">${context.localize("error.unknown.details")}</summary>
                 <div class="collapse-content">
-                    <p>${error == null ? message != null ? message : "Unknown Exception" : error}</p>
+                    <p>${error == null ? message != null ? message : context.lookup("error.unknown.fallback") : error}</p>
                 </div>
             </details>
-            <a class="btn btn-primary" href="/">Go Home</a>
+            <a class="btn btn-primary" href="/">${context.localize("index.go")}</a>
         </div>
     </div>
 `)
