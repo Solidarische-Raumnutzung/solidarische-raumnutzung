@@ -3,7 +3,6 @@ package edu.kit.hci.soli.test.service;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
-import edu.kit.hci.soli.service.UserService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -19,20 +18,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookingsServiceTest {
     @Autowired private BookingsService bookingsService;
     @Autowired private BookingsRepository bookingsRepository;
-    @Autowired private UserService userService;
+    @Autowired private TestService testService;
 
-    private User testUser;
     private Booking testBooking;
 
     @BeforeEach
     public void setUp() {
-        testUser = new User();
-        testUser.setUsername("testuser");
-        testUser.setEmail("testuser@example.com");
-        userService.create(testUser);
+        testService.reset();
 
         testBooking = new Booking();
-        testBooking.setUser(testUser);
+        testBooking.setUser(testService.user);
         testBooking.setStartDate(LocalDateTime.now().plusDays(1));
         testBooking.setEndDate(LocalDateTime.now().plusDays(2));
         testBooking.setPriority(Priority.HIGHEST);
@@ -49,7 +44,7 @@ public class BookingsServiceTest {
     @Test
     public void testGetBookingsByUser() {
         bookingsRepository.save(testBooking);
-        List<Booking> bookings = bookingsService.getBookingsByUser(testUser);
+        List<Booking> bookings = bookingsService.getBookingsByUser(testService.user);
         assertNotEquals(0, bookings.size());
         assertEquals(testBooking.getId(), bookings.getFirst().getId());
     }

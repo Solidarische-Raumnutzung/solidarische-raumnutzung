@@ -4,7 +4,7 @@ import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
-import edu.kit.hci.soli.service.UserService;
+import edu.kit.hci.soli.test.service.TestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @SpringBootTest
 @AutoConfigureTestDatabase
 public class BookingsControllerTest {
-    @Autowired private UserService userService;
+    @Autowired private TestService testService;
     @Autowired private BookingsController bookingsController;
-
-    private User testUser;
 
     @BeforeEach
     public void setUp() {
-        testUser = new User();
-        testUser.setUsername("testuser");
-        testUser.setEmail("testuser@example.com");
-        userService.create(testUser);
+        testService.reset();
     }
 
     private @Nullable KnownError lsmCreateBooking(BookingsController.FormData formData, User user, long room) {
@@ -68,7 +63,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.NOT_FOUND, lsmCreateBooking(formData, testUser, 2));
+        assertEquals(KnownError.NOT_FOUND, lsmCreateBooking(formData, testService.user, 2));
     }
 
     @Test
@@ -80,7 +75,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
@@ -92,7 +87,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
@@ -104,7 +99,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
@@ -116,7 +111,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
@@ -128,6 +123,6 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertNull(lsmCreateBooking(formData, testUser, 1));
+        assertNull(lsmCreateBooking(formData, testService.user, 1));
     }
 }
