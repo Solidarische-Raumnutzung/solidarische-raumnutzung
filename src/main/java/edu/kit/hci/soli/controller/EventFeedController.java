@@ -3,7 +3,6 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.service.BookingsService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ public class EventFeedController {
 
     // https://fullcalendar.io/docs/events-json-feed
     @GetMapping("/api/events")
-    @Transactional(readOnly = true)
     public List<BookingsService.CalendarEvent> getEvents(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
