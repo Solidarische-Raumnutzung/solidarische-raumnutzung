@@ -8,6 +8,4 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NonOidcUser extends User{
-
-    private String password;
 }
