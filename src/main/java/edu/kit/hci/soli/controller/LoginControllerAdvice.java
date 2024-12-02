@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.domain.NonOidcUser;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.UserService;
@@ -28,31 +29,35 @@ public class LoginControllerAdvice {
     }
 
     @ModelAttribute("login")
-    public LoginStateModel getLoginStateModel(Principal principal, @AuthenticationPrincipal OidcUser oidcUser, HttpServletRequest request) {
-        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-        // TODO what if null?
-
-        //TODO the user should NOT be null, since we need it in templates
+    public LoginStateModel getLoginStateModel(Principal principal, @AuthenticationPrincipal OidcUser oidcUser, HttpServletRequest request, @ModelAttribute("csrf") CsrfToken csrf) {
         if (principal == null) {
-            return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrfToken, null);
+            return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
         }
         if (oidcUser == null) {
-            return new LoginStateModel(principal.getName(), LoginStateModel.Kind.ADMIN, csrfToken, null);
+            User user = userService.resolveAdminUser();
+            if (user == null) {
+                log.error("No admin user found in database, creating new");
+                user = new NonOidcUser();
+                user.setEmail(null);
+                user.setUsername("admin");
+                user.setUserId("admin");
+                userService.create(user);
+            }
+            return new LoginStateModel(principal.getName(), LoginStateModel.Kind.ADMIN, csrf, user);
         }
-
 
         String username = oidcUser.getUserInfo().getFullName();
 
-        String email = oidcUser.getUserInfo().getEmail();
-        User user = userService.findByEmail(email);
+        String id = "kit/" + principal.getName();
+        User user = userService.findByUserId(id);
         if (user == null) {
-            log.info("Creating new OIDC user: {} with email: {}", username, email);
-            user = new User();
-            user.setEmail(email);
+            log.info("Creating new OIDC user: {} with id: {}", username, id);
+            user = new edu.kit.hci.soli.domain.OidcUser();
+            user.setEmail(oidcUser.getUserInfo().getEmail());
             user.setUsername(username);
             user.setUserId(principal.getName());
             userService.create(user);
         }
-        return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrfToken, user);
+        return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrf, user);
     }
 }

@@ -43,8 +43,8 @@
                                 <td>${booking.getDescription()}</td>
                                 <td>${booking.getStartDate().toString()}</td>
                                 <td>${booking.getEndDate().toString()}</td>
-                                <td>${booking.getShareRoomType()}</td>
-                                <td>${booking.getPriority()}</td>
+                                <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
+                                <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                             </tr>
                         @endfor
                         </tbody>
