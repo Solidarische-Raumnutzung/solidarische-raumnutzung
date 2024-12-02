@@ -74,8 +74,8 @@
 
                                         @endif
 
-                                        <li><a href="/">Raumbuchung</a></li>
-                                        <li><a href="/bookings">Meine Reservierungen</a></li>
+                                        <li><a href="/">${context.localize("calender")}</a></li>
+                                        <li><a href="/bookings">${context.localize("bookings.my_bookings")}</a></li>
                                     </ul>
                                 </div>
                             </div>
