@@ -58,18 +58,17 @@
                                         <div class="divider"></div>
 
                                         @if(login.kind() == LoginStateModel.Kind.VISITOR)
-                                            <li><a href="/login">Login</a></li>
+                                            <li><a href="/login">${context.localize("login.login")}</a></li>
                                         @else
-                                            <li>
-                                                <form action="/logout"
-                                                      method="post">
-                                                    <input type="hidden"
-                                                           name="${login.csrfToken().getParameterName()}"
-                                                           value="${login.csrfToken().getToken()}"/>
-                                                    <input type="submit"
-                                                           value="Logout"/>
-                                                </form>
-                                            </li>
+                                            <form action="/logout"
+                                                  method="post">
+                                                <input type="hidden"
+                                                       name="${login.csrfToken().getParameterName()}"
+                                                       value="${login.csrfToken().getToken()}"/>
+                                                <li>
+                                                    <button type="submit">${context.localize("login.logout")}</button>
+                                                </li>
+                                            </form>
 
                                         @endif
 
