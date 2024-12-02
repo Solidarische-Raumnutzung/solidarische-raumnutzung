@@ -39,8 +39,8 @@ public class BookingsController {
         return "bookings";
     }
 
-    // This is a bit hacky... but it works
-    @GetMapping("/bookings/delete/{id}")
+
+    @DeleteMapping("/bookings/delete/{id}")
     public String deleteBookings(@PathVariable("id") Long id, Model model, HttpServletResponse response, Principal principal) {
         log.info("Received delete request for booking {}", id);
         User user = userService.resolveLoggedInUser(principal);
