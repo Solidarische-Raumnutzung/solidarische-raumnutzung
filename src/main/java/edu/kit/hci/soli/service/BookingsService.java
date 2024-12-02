@@ -40,13 +40,14 @@ public class BookingsService {
     }
 
     private ConflictType classifyConflict(Booking booking, Booking other) {
-        final boolean mayCooperate = !booking.getShareRoomType().equals(ShareRoomType.NO);
+        final boolean mayCooperate = !ShareRoomType.NO.equals(booking.getShareRoomType());
         if (booking.getPriority().compareTo(other.getPriority()) < 0) {
-            return mayCooperate && other.getShareRoomType().equals(ShareRoomType.YES) ? ConflictType.COOPERATE : ConflictType.OVERRIDE;
+            return mayCooperate && ShareRoomType.YES.equals(other.getShareRoomType()) ? ConflictType.COOPERATE : ConflictType.OVERRIDE;
         } else {
             return mayCooperate ? switch (other.getShareRoomType()) {
                 case YES -> ConflictType.COOPERATE;
                 case NO -> ConflictType.CONFLICT;
+                case null -> ConflictType.CONFLICT;
                 case ON_REQUEST -> ConflictType.CONTACT;
             } : ConflictType.CONFLICT;
         }

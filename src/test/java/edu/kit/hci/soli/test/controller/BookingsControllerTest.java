@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.lang.Nullable;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.ui.ExtendedModelMap;
 
@@ -36,8 +37,9 @@ public class BookingsControllerTest {
     private @Nullable KnownError lsmCreateBooking(BookingsController.FormData formData, User user, long room) {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         LoginStateModel lsm = new LoginStateModel("testuser", LoginStateModel.Kind.OAUTH, null, user);
-        String result = bookingsController.createBooking(model, response, room, lsm, formData);
+        String result = bookingsController.createBooking(model, response, request, room, lsm, formData);
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }

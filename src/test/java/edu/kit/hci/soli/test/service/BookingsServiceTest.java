@@ -1,8 +1,6 @@
 package edu.kit.hci.soli.test.service;
 
-import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.Priority;
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.UserService;
@@ -38,6 +36,7 @@ public class BookingsServiceTest {
         testBooking.setStartDate(LocalDateTime.now().plusDays(1));
         testBooking.setEndDate(LocalDateTime.now().plusDays(2));
         testBooking.setPriority(Priority.HIGHEST);
+        testBooking.setShareRoomType(ShareRoomType.ON_REQUEST);
     }
 
     @Test
