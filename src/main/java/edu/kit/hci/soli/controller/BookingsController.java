@@ -34,16 +34,15 @@ public class BookingsController {
 
     @GetMapping("/bookings")
     public String userBookings(Model model, HttpServletResponse response, Principal principal) {
-        User user = userService.resolveLoggedInUser(principal);
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
-
-        return "bookings";
+        return roomBookings(model, response, principal, roomService.get().getId());
     }
 
     @GetMapping("/{id}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, Principal principal, @PathVariable Long id) {
-        User user = userService.resolveLoggedInUser(principal); //TODO user seems to be null here
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
+        User user = userService.resolveLoggedInUser(principal);
+        Room room = roomService.get(id);
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
+        model.addAttribute("stagedBookings", bookingsService.getStagedBookings(user, room));
 
         return "bookings";
     }

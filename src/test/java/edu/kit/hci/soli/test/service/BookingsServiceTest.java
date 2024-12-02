@@ -3,6 +3,7 @@ package edu.kit.hci.soli.test.service;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.RoomService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 public class BookingsServiceTest {
     @Autowired private BookingsService bookingsService;
+    @Autowired private RoomService roomService;
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private TestService testService;
 
@@ -44,7 +46,7 @@ public class BookingsServiceTest {
     @Test
     public void testGetBookingsByUser() {
         bookingsRepository.save(testBooking);
-        List<Booking> bookings = bookingsService.getBookingsByUser(testService.user);
+        List<Booking> bookings = bookingsService.getBookingsByUser(testService.user, roomService.get());
         assertNotEquals(0, bookings.size());
         assertEquals(testBooking.getId(), bookings.getFirst().getId());
     }

@@ -1,4 +1,5 @@
 @import edu.kit.hci.soli.domain.Booking
+@import edu.kit.hci.soli.domain.StagedBooking
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.service.BookingsService
 @import edu.kit.hci.soli.template.JteContext
@@ -28,7 +29,13 @@
                 @for(Booking booking : bookingResult.override())
                     <li>Lösche: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
                 @endfor
+                @for(StagedBooking booking : bookingResult.overrideStaged())
+                    <li>Lösche: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
+                @endfor
                 @for(Booking booking : bookingResult.cooperate())
+                    <li>Nutze gleichzeitig mit: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
+                @endfor
+                @for(StagedBooking booking : bookingResult.cooperateStaged())
                     <li>Nutze gleichzeitig mit: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
                 @endfor
             </ul>

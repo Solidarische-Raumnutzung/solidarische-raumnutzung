@@ -1,20 +1,17 @@
 package edu.kit.hci.soli.domain;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
-/**
- * The datamodel for a Booking as it is stored in the database
- */
 @Entity
-@Table(name = "soli_bookings")
+@Table(name = "soli_bookings_staged")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Booking {
+public class StagedBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,4 +31,11 @@ public class Booking {
     private User user;
 
     private Priority priority;
+
+    @ManyToMany
+    private Set<User> outstandingRequests;
+
+    public Booking toBooking() {
+        return new Booking(null, description, startDate, endDate, shareRoomType, room, user, priority);
+    }
 }
