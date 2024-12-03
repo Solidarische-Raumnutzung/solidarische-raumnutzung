@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,18 +33,20 @@ public class BookingsController {
     }
 
     @GetMapping("/bookings")
-    public String userBookings(Model model, HttpServletResponse response, Principal principal) {
-        User user = userService.resolveLoggedInUser(principal);
+    public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal User user) {
+        log.info("Received request for bookings of user {}", user);
+
         model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
+
+
 
         return "bookings";
     }
 
 
     @DeleteMapping("/bookings/delete/{id}")
-    public String deleteBookings(@PathVariable("id") Long id, Model model, HttpServletResponse response, Principal principal) {
+    public String deleteBookings(@PathVariable("id") Long id, Model model, HttpServletResponse response, @AuthenticationPrincipal User user) {
         log.info("Received delete request for booking {}", id);
-        User user = userService.resolveLoggedInUser(principal);
         Booking booking = bookingsService.getBookingById(id);
 
 
@@ -125,7 +128,7 @@ public class BookingsController {
     @PostMapping(value = "/{id}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
             Model model, HttpServletResponse response, @PathVariable Long id,
-            @ModelAttribute("login") LoginStateModel loginStateModel,
+            @AuthenticationPrincipal User user,
             @ModelAttribute FormData formData
     ) {
         // Validate exists
@@ -135,7 +138,7 @@ public class BookingsController {
             return "error_known";
         }
         Room room = roomService.get();
-        if (loginStateModel.user() == null) {
+        if (user == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             model.addAttribute("error", KnownError.NO_USER);
             return "error_known"; //TODO we should modify the LSM so this never happens
@@ -167,7 +170,7 @@ public class BookingsController {
                 formData.end,
                 formData.cooperative,
                 room,
-                loginStateModel.user(),
+                user,
                 formData.priority
         ));
 
