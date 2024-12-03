@@ -37,7 +37,7 @@ public class Booking {
 
     private Priority priority;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "soli_outstanding_requests")
     private Set<User> outstandingRequests = new HashSet<>();
 }

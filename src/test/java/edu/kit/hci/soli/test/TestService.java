@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.test.service;
+package edu.kit.hci.soli.test;
 
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.*;
@@ -15,6 +15,8 @@ public class TestService {
     @Autowired private UserService userService;
 
     public User user;
+    public User user2;
+    public User user3;
 
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
@@ -24,6 +26,16 @@ public class TestService {
         user = new User();
         user.setUsername("testuser");
         user.setEmail("testuser@example.com");
-        userService.create(user);
+        user = userService.create(user);
+
+        user2 = new User();
+        user2.setUsername("testuser2");
+        user2.setEmail("testuser2@example.com");
+        user2 = userService.create(user2);
+
+        user3 = new User();
+        user3.setUsername("testuser3");
+        user3.setEmail("testuser3@example.com");
+        user3 = userService.create(user3);
     }
 }

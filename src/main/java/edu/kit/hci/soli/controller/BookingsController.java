@@ -111,7 +111,7 @@ public class BookingsController {
 
     public LocalDateTime currentSlot() {
         LocalDateTime now = LocalDateTime.now();
-        return now.minusMinutes(now.getMinute() % 15);
+        return now.minusMinutes(now.getMinute() % 15).withSecond(0).withNano(0);
     }
 
     private LocalDateTime minimumTime() {

@@ -22,6 +22,7 @@ public class BookingsService {
     @Transactional
     public BookingAttemptResult attemptToBook(Booking booking) {
         if (!booking.getOutstandingRequests().isEmpty()) throw new IllegalArgumentException("Booking has outstanding requests");
+        if (booking.getId() != null) throw new IllegalArgumentException("Booking already saved");
         List<Booking> override = new ArrayList<>();
         List<Booking> contact = new ArrayList<>();
         List<Booking> cooperate = new ArrayList<>();
@@ -59,7 +60,7 @@ public class BookingsService {
 
     @Transactional
     public BookingAttemptResult affirm(Booking booking, BookingAttemptResult.PossibleCooperation result) {
-        BookingAttemptResult attemptResult = attemptToBook(booking);
+        BookingAttemptResult attemptResult = attemptToBook(booking); // Note: this also ensures that the booking is not already saved
         if (attemptResult.equals(result)) {
             return switch (result) {
                 case BookingAttemptResult.PossibleCooperation.Immediate(var override, var cooperate) -> {

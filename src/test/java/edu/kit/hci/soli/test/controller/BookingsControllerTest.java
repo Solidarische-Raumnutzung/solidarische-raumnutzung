@@ -4,9 +4,8 @@ import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
-import edu.kit.hci.soli.test.service.TestService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import edu.kit.hci.soli.test.TestService;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,8 +23,13 @@ public class BookingsControllerTest {
     @Autowired private TestService testService;
     @Autowired private BookingsController bookingsController;
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll
+    public static void clean(@Autowired TestService testService) {
+        testService.reset();
+    }
+
+    @AfterEach
+    public void tearDown() {
         testService.reset();
     }
 
