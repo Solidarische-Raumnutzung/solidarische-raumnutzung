@@ -109,6 +109,18 @@ public class BookingsController {
         return "create_booking";
     }
 
+    @GetMapping("/bookings/view/{eventId}")
+    public String viewEvent(@PathVariable("eventId") Long eventId, Model model, @ModelAttribute("login") LoginStateModel login) {
+        Booking booking = bookingsService.getBookingById(eventId);
+        if (booking == null) {
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        model.addAttribute("booking", booking);
+        model.addAttribute("login", login);
+        return "view_event";
+    }
+
     public LocalDateTime currentSlot() {
         LocalDateTime now = LocalDateTime.now();
         return now.minusMinutes(now.getMinute() % 15);

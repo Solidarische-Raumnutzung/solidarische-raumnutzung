@@ -2,6 +2,7 @@
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.template.JteContext
+@import edu.kit.hci.soli.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import java.time.LocalDateTime
 @import java.util.Objects
@@ -16,18 +17,19 @@
 @param LocalDateTime maximumTime
 @param CsrfToken csrf
 
+@template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, content = @`
 <div class="card-body w-96 mx-auto">
-    <div class="form-control">
-        <label class="label">
-            <span class="label-text">${context.localize("bookings.description")}</span>
-        </label>
-        <p class="textarea textarea-bordered">${booking.getDescription()}</p>
-    </div>
     <div class="form-control">
         <label class="label">
             <span class="label-text">${context.localize("bookings.priority")}</span>
         </label>
         <p class="input input-bordered">${context.localize("bookings.priority." + booking.getPriority())}</p>
+    </div>
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">${context.localize("bookings.description")}</span>
+        </label>
+        <p class="textarea textarea-bordered">${booking.getDescription()}</p>
     </div>
     @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
         && Objects.equals(login.user(), booking.getUser())))
@@ -45,7 +47,9 @@
             @if(csrf != null)
                 <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
             @endif
+            <input type="hidden" name="_method" value="shareRequest" /> <%--This line may cause errors as i dont know what the value should be--%>
             <button type="submit" class="btn btn-primary">${context.localize("bookings.request")}</button>
         </form>
     @endif
 </div>
+`)
