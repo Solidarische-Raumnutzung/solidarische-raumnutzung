@@ -70,7 +70,7 @@ public class BookingsController {
 
         log.info("User {} tried to delete booking {} of user {}", user, id, booking.getUser());
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        model.addAttribute("error", KnownError.NO_USER);
+        model.addAttribute("error", KnownError.DELETE_NO_PERMISSION);
         return "error_known";
     }
 
