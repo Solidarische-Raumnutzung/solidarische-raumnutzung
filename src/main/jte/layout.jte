@@ -19,12 +19,10 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     </head>
 
     <body>
-
         <div class="navbar bg-blue-600 text-primary-content">
             <div class="drawer-content flex flex-col items-center justify-center">
                 <!-- Page content here -->
@@ -33,7 +31,6 @@
                 </label>
             </div>
         </div>
-
 
         <div class="container">
             <div class="flex flex-row flex-wrap">
@@ -85,6 +82,6 @@
                 </main>
             </div>
         </div>
-
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
     </body>
 </html>

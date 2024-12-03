@@ -7,7 +7,7 @@ public enum KnownError {
     NO_USER("error.bad_login_method.title", "error.bad_login_method.message"),
     INVALID_TIME("error.invalid_time.title", "error.invalid_time.message"),
     MISSING_PARAMETER("error.missing_parameter.title", "error.missing_parameter.message"),
-    UNABLE_TO_DELETE_OTHERS_USER_BOOKING("error.unable_to_delete_others_user_booking.title", "error.unable_to_delete_others_user_booking.message"),;
+    DELETE_NO_PERMISSION("error.delete_no_permission.title", "error.delete_no_permission.message"),;
 
     public final @PropertyKey(resourceBundle = "messages") String title;
     public final @PropertyKey(resourceBundle = "messages") String message;
