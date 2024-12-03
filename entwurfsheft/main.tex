@@ -1,0 +1,40 @@
+%Dies ist die Hauptseite des Dokumentes. Es werden u. a. alle Kapitel,
+%Einstellung im Header eingebunden.  Veränderungen müssen in folgenden Dateien
+%vorgenommen werden:
+      %- config.tex
+      %- einzelne Kapitel (evtl. erweitern)
+
+\input{common/layout}           % Diese Datei enthält alle
+                                           % Layouteinstellungen
+\newcommand{\dokumentTitel}{Entwurfsheft}
+\input{common/config}
+
+\makeglossaries
+
+%------Beginn des Gesamtdokumentes----------------------------------------------
+\begin{document}
+
+%------Eingebundene Seiten, Verzeichnisse bzw. Kapitel--------------------------
+\include{common/titelseite}                       % Titelseite
+
+\include{chapters/10_glossar}
+
+\tableofcontents                           % Inhaltsverzeichnis wird automatisch
+                                           % generiert
+\listoffigures              
+\newpage
+\listoftodos[Notes]
+
+\include{chapters/01_einleitung}
+\include{chapters/02_abweichungen}
+\include{chapters/03_aufbau}
+\include{chapters/04_klassenbeschreibung}
+\include{chapters/05_tests} % ????
+\include{chapters/06_entwurfsmuster} % ????
+\include{chapters/07_daten} % Datenbank (-modell)
+\include{chapters/08_ablaeufe}
+
+\printglossaries
+
+%------Ende des Dokumentes------------------------------------------------------
+\end{document}

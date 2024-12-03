@@ -27,8 +27,11 @@ jobs:
           pdflatex presentation.tex
           biber presentation
           pdflatex presentation.tex
-          cd ..
-          cd pflichtenheft
+          cd ../pflichtenheft
+          pdflatex main.tex
+          makeglossaries main
+          pdflatex main.tex
+          cd ../entwurfsheft
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
@@ -36,6 +39,7 @@ jobs:
           mkdir -p pages
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
+          mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
           python3 .github/genindex.py pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
