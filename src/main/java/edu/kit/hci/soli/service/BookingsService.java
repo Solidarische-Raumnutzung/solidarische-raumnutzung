@@ -23,6 +23,15 @@ public class BookingsService {
         return true;
     }
 
+    public Booking getBookingById(Long id) {
+        return bookingsRepository.findById(id).orElse(null);
+    }
+
+    public boolean delete(Booking booking) {
+        bookingsRepository.delete(booking);
+        return true;
+    }
+
     public List<Booking> getBookingsByUser(User user) {
         return bookingsRepository.findByUser(user);
     }

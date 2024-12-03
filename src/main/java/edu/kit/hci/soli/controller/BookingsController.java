@@ -39,6 +39,41 @@ public class BookingsController {
         return "bookings";
     }
 
+
+    @DeleteMapping("/bookings/delete/{id}")
+    public String deleteBookings(@PathVariable("id") Long id, Model model, HttpServletResponse response, Principal principal) {
+        log.info("Received delete request for booking {}", id);
+        User user = userService.resolveLoggedInUser(principal);
+        Booking booking = bookingsService.getBookingById(id);
+
+
+        if (booking == null) {
+            log.info("Booking {} not found", id);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
+        User admin = userService.resolveAdminUser();
+
+        if (booking.getUser().equals(admin)) {
+            bookingsService.delete(booking);
+            log.info("Admin deleted booking {}", id);
+            return "redirect:/bookings";
+        }
+
+        if (booking.getUser().equals(user)) {
+            bookingsService.delete(booking);
+            log.info("User deleted booking {}", id);
+            return "redirect:/bookings";
+        }
+
+        log.info("User {} tried to delete booking {} of user {}", user, id, booking.getUser());
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        model.addAttribute("error", KnownError.NO_USER);
+        return "error_known";
+    }
+
     @GetMapping("/{id}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, Principal principal, @PathVariable Long id) {
         User user = userService.resolveLoggedInUser(principal); //TODO user seems to be null here
