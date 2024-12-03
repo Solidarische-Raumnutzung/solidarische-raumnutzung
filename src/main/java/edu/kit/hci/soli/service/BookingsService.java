@@ -72,7 +72,7 @@ public class BookingsService {
         if (attemptResult.equals(result)) {
             return switch (result) {
                 case BookingAttemptResult.PossibleCooperation.Immediate(var override, var cooperate, var overrideStaged, var cooperateStaged) -> {
-                    override.forEach(b -> deleteBooking(b, BookingDeleteReason.CONFLICT));
+                    override.forEach(b -> delete(b, BookingDeleteReason.CONFLICT));
                     overrideStaged.forEach(this::unstage);
                     yield new BookingAttemptResult.Success(bookingsRepository.save(booking));
                 }
@@ -85,7 +85,11 @@ public class BookingsService {
         return attemptResult;
     }
 
-    public void deleteBooking(Booking booking, BookingDeleteReason reason) {
+    public Booking getBookingById(Long id) {
+        return bookingsRepository.findById(id).orElse(null);
+    }
+
+    public void delete(Booking booking, BookingDeleteReason reason) {
         bookingsRepository.delete(booking);
         //TODO send notification to user
     }
@@ -107,7 +111,7 @@ public class BookingsService {
                 case BookingAttemptResult.Staged staged -> log.error("Failed to confirm request for booking {} by user {} due to unexpected staging", newBooking, user);
                 case BookingAttemptResult.Success success -> log.info("Confirmed request for booking {} by user {}", newBooking, user);
                 case BookingAttemptResult.PossibleCooperation possible -> {
-                    possible.override().forEach(b -> deleteBooking(b, BookingDeleteReason.CONFLICT));
+                    possible.override().forEach(b -> delete(b, BookingDeleteReason.CONFLICT));
                     possible.overrideStaged().forEach(this::unstage);
                 }
             }
@@ -116,7 +120,7 @@ public class BookingsService {
     }
 
     public enum BookingDeleteReason {
-        CONFLICT, ADMIN
+        CONFLICT, ADMIN, SELF
     }
 
     public List<Booking> getBookingsByUser(User user, Room room) {

@@ -3,10 +3,12 @@
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
+@import org.springframework.security.web.csrf.CsrfToken
 @import java.util.List
 
 @param JteContext context
 @param LoginStateModel login
+@param CsrfToken csrf
 @param List<Booking> bookings
 @param List<StagedBooking> stagedBookings
 
@@ -20,7 +22,6 @@
             </div>
         @else
             <table class="table table-zebra">
-                <!-- head -->
                 <thead>
                 <tr>
                     <th></th>
@@ -29,10 +30,11 @@
                     <th>${context.localize("bookings.end")}</th>
                     <th>${context.localize("bookings.share")}</th>
                     <th>${context.localize("bookings.priority")}</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- body -->
+
                 @for(Booking booking : bookings)
                     <tr>
                         <td>${booking.getId()}</td>
@@ -41,11 +43,12 @@
                         <td>${booking.getEndDate().toString()}</td>
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
+                        <td></td>
                     </tr>
                 @endfor
                 @if(!bookings.isEmpty() && !stagedBookings.isEmpty())
                     <tr>
-                        <td colspan="6"></td>
+                        <td colspan="7"></td>
                     </tr>
                 @endif
                 @for(StagedBooking booking : stagedBookings)
@@ -56,6 +59,15 @@
                         <td>${booking.getEndDate().toString()}</td>
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
+                        <td>
+                            <form action="/bookings/delete/${booking.getId()}" method="post">
+                                @if(csrf != null)
+                                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
+                                @endif
+                                <input type="hidden" name="_method" value="delete" />
+                                <button type="submit" class="btn btn-ghost fas fa-trash-alt">${context.localize("bookings.delete")}</button>
+                            </form>
+                        </td>
                     </tr>
                 @endfor
                 </tbody>
