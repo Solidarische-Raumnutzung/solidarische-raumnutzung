@@ -40,12 +40,6 @@
                 },
                 slotDuration: '00:15:00',
                 events: '/api/events',
-                eventClick: function(info) {
-                    // window.location.href = "/bookings/view/" + info.event.id;
-                    console.log(info.event);
-                    console.log(info.event.id);
-                    <%--window.location.href = "/bookings/view/${booking.getId()}";--%>
-                }
             });
 
             calendar.render();
