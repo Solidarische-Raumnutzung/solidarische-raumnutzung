@@ -29,6 +29,7 @@ public class BookingsServiceTest {
         testService.reset();
 
         testBooking = new Booking();
+        testBooking.setRoom(roomService.get());
         testBooking.setUser(testService.user);
         testBooking.setStartDate(LocalDateTime.now().plusDays(1));
         testBooking.setEndDate(LocalDateTime.now().plusDays(2));
@@ -47,7 +48,7 @@ public class BookingsServiceTest {
     public void testGetBookingsByUser() {
         bookingsRepository.save(testBooking);
         List<Booking> bookings = bookingsService.getBookingsByUser(testService.user, roomService.get());
-        assertNotEquals(0, bookings.size());
+        assertEquals(1, bookings.size());
         assertEquals(testBooking.getId(), bookings.getFirst().getId());
     }
 }

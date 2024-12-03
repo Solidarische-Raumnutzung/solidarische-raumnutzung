@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,5 +39,5 @@ public class Booking {
 
     @ManyToMany
     @JoinTable(name = "soli_outstanding_requests")
-    private Set<User> outstandingRequests;
+    private Set<User> outstandingRequests = new HashSet<>();
 }
