@@ -4,14 +4,18 @@ import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.lang.Nullable;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.ExtendedModelMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,8 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @SpringBootTest
 @AutoConfigureTestDatabase
 public class BookingsControllerTest {
-    @Autowired private UserService userService;
-    @Autowired private BookingsController bookingsController;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BookingsController bookingsController;
+    @Autowired
+    private BookingsService bookingsService;
+
+
+
 
     private User testUser;
 
