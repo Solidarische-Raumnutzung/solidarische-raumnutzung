@@ -23,22 +23,24 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         run: |
-          cd presi_template 
-          pdflatex presentation.tex
-          biber presentation
-          pdflatex presentation.tex
-          cd ../pflichtenheft
-          pdflatex main.tex
-          makeglossaries main
-          pdflatex main.tex
-          cd ../entwurfsheft
+#          cd presi_template
+#          pdflatex presentation.tex
+#          biber presentation
+#          pdflatex presentation.tex
+#          cd ..
+#          cd pflichtenheft
+#          pdflatex main.tex
+#          makeglossaries main
+#          pdflatex main.tex
+#          cd ..
+          cd entwurfsheft
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           cd ..
           mkdir -p pages
-          mv ./presi_template/presentation.pdf ./pages/presentation.pdf
-          mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
+#          mv ./presi_template/presentation.pdf ./pages/presentation.pdf
+#          mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
           mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
           python3 .github/genindex.py pages
       - name: Upload artifact
