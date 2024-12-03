@@ -4,17 +4,11 @@
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
-@import java.time.LocalDateTime
 @import java.util.Objects
 
 @param JteContext context
 @param LoginStateModel login
 @param Booking booking
-@param Long room
-@param LocalDateTime start
-@param LocalDateTime end
-@param LocalDateTime minimumTime
-@param LocalDateTime maximumTime
 @param CsrfToken csrf
 
 @template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, content = @`

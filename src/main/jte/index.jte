@@ -2,13 +2,10 @@
 @import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.template.JteContext
 @import edu.kit.hci.soli.template.PageSpec
-@import edu.kit.hci.soli.domain.Booking
-@import java.util.List
 
 @param JteContext context
 @param LoginStateModel login
 @param Room room
-@param List<Booking> bookings
 
 @template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, content = @`
     <script>
@@ -39,7 +36,7 @@
                         && selectInfo.end < new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
                 },
                 slotDuration: '00:15:00',
-                events: '/api/events',
+                events: '/api/events'
             });
 
             calendar.render();
