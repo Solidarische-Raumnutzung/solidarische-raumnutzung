@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -153,13 +154,13 @@ public class BookingsServiceTest {
         );
         result = bookingsService.affirm(testBooking3, immediate);
         testBooking3 = assertInstanceOf(BookingsService.BookingAttemptResult.Staged.class, result).booking();
-        assertIterableEquals(List.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
         assertFalse(bookingsService.confirmRequest(testBooking3, testService.user3));
-        assertIterableEquals(List.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
         assertTrue(bookingsService.confirmRequest(testBooking3, testService.user));
-        assertIterableEquals(List.of(testService.user2), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(testService.user2), testBooking3.getOutstandingRequests());
         assertTrue(bookingsService.confirmRequest(testBooking3, testService.user2));
-        assertIterableEquals(List.of(), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(), testBooking3.getOutstandingRequests());
     }
 
     @Test

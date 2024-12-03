@@ -110,16 +110,19 @@ public class BookingsController {
     }
 
     public LocalDateTime currentSlot() {
-        LocalDateTime now = LocalDateTime.now();
-        return now.minusMinutes(now.getMinute() % 15).withSecond(0).withNano(0);
+        return normalize(LocalDateTime.now());
     }
 
     private LocalDateTime minimumTime() {
-        return currentSlot().plusMinutes(15);
+        return normalize(LocalDateTime.now().plusMinutes(15));
     }
 
     private LocalDateTime maximumTime() {
-        return currentSlot().plusDays(14);
+        return normalize(LocalDateTime.now().plusDays(14));
+    }
+
+    private LocalDateTime normalize(LocalDateTime time) {
+        return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
     }
 
     @PostMapping(value = "/{id}/bookings/new", consumes = "application/x-www-form-urlencoded")

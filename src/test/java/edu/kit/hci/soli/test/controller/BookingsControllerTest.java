@@ -109,7 +109,7 @@ public class BookingsControllerTest {
     @Test
     public void testPastTime() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().minusMinutes(-15),
+                bookingsController.currentSlot().minusMinutes(15),
                 bookingsController.currentSlot().plusMinutes(15),
                 null,
                 Priority.HIGHEST,
