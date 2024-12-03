@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.template;
+package edu.kit.hci.soli.config.template;
 
 import gg.jte.TemplateEngine;
 import gg.jte.output.Utf8ByteOutput;

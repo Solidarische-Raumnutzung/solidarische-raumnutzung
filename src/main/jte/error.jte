@@ -1,6 +1,6 @@
 @import edu.kit.hci.soli.dto.LoginStateModel
-@import edu.kit.hci.soli.template.JteContext
-@import edu.kit.hci.soli.template.PageSpec
+@import edu.kit.hci.soli.config.template.JteContext
+@import edu.kit.hci.soli.config.template.PageSpec
 @import java.util.Date
 
 @param JteContext context

@@ -2,8 +2,8 @@
 @import edu.kit.hci.soli.domain.StagedBooking
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.service.BookingsService
-@import edu.kit.hci.soli.template.JteContext
-@import edu.kit.hci.soli.template.PageSpec
+@import edu.kit.hci.soli.config.template.JteContext
+@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 
 @param JteContext context

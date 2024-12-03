@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.template;
+package edu.kit.hci.soli.config.template;
 
 import edu.kit.hci.soli.SoliApplication;
 import gg.jte.*;

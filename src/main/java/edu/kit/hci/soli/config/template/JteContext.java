@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.template;
+package edu.kit.hci.soli.config.template;
 
 import gg.jte.Content;
 import gg.jte.support.LocalizationSupport;
