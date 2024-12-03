@@ -36,7 +36,7 @@ public class Booking {
 
     private Priority priority;
 
-    public StagedBooking toStaged(Set<User> requests) {
-        return new StagedBooking(null, description, startDate, endDate, shareRoomType, room, user, priority, requests);
-    }
+    @ManyToMany
+    @JoinTable(name = "soli_outstanding_requests")
+    private Set<User> outstandingRequests;
 }

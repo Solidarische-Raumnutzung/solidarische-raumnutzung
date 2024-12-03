@@ -1,5 +1,4 @@
 @import edu.kit.hci.soli.domain.Booking
-@import edu.kit.hci.soli.domain.StagedBooking
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
@@ -10,11 +9,10 @@
 @param LoginStateModel login
 @param CsrfToken csrf
 @param List<Booking> bookings
-@param List<StagedBooking> stagedBookings
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
     <div class="overflow-x-auto">
-        @if(bookings.isEmpty() && stagedBookings.isEmpty())
+        @if(bookings.isEmpty())
             <div class="card">
                 <div class="card-body">
                     <p class="text-center">Du hast noch keine Reservierungen.</p>
@@ -34,26 +32,9 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 @for(Booking booking : bookings)
                     <tr>
-                        <td>${booking.getId()}</td>
-                        <td>${booking.getDescription()}</td>
-                        <td>${booking.getStartDate().toString()}</td>
-                        <td>${booking.getEndDate().toString()}</td>
-                        <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
-                        <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
-                        <td></td>
-                    </tr>
-                @endfor
-                @if(!bookings.isEmpty() && !stagedBookings.isEmpty())
-                    <tr>
-                        <td colspan="7"></td>
-                    </tr>
-                @endif
-                @for(StagedBooking booking : stagedBookings)
-                    <tr>
-                        <td>${booking.getId()}</td>
+                        <td>${booking.getId()} ${booking.getOutstandingRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOutstandingRequests().size())}</td>
                         <td>${booking.getDescription()}</td>
                         <td>${booking.getStartDate().toString()}</td>
                         <td>${booking.getEndDate().toString()}</td>

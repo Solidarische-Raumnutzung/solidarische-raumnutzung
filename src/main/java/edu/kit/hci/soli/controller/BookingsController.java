@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Slf4j
 @Controller("/bookings")
@@ -77,7 +78,6 @@ public class BookingsController {
         User user = userService.resolveLoggedInUser(principal);
         Room room = roomService.get(id);
         model.addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
-        model.addAttribute("stagedBookings", bookingsService.getStagedBookings(user, room));
 
         return "bookings";
     }
@@ -167,7 +167,8 @@ public class BookingsController {
                 formData.cooperative,
                 room,
                 loginStateModel.user(),
-                formData.priority
+                formData.priority,
+                Set.of()
         );
         return handleBookingAttempt(attemptedBooking, bookingsService.attemptToBook(attemptedBooking), request, model);
     }

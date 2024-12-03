@@ -26,4 +26,8 @@ public class JteContext implements LocalizationSupport {
         String result = messageSource.getMessage(key, params, locale);
         return output -> output.writeUserContent(result);
     }
+
+    public Content empty() {
+        return output -> {};
+    }
 }

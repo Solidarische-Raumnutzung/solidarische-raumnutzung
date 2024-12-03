@@ -1,4 +1,4 @@
-@import edu.kit.hci.soli.domain.StagedBooking
+@import edu.kit.hci.soli.domain.Booking
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
@@ -6,7 +6,7 @@
 @param JteContext context
 @param LoginStateModel login
 
-@param StagedBooking stagedBooking
+@param Booking stagedBooking
 
 @template.layout(page = new PageSpec("Booking Staged", "Soli"), context = context, login = login, content = @`
     <div class="hero-content text-center">
