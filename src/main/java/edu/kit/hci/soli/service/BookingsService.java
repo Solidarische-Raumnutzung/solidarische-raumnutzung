@@ -89,13 +89,16 @@ public class BookingsService {
     public boolean confirmRequest(Booking stagedBooking, User user) {
         //TODO make this available in a controller and send the URL via E-Mail
         boolean result = stagedBooking.getOutstandingRequests().remove(user);
+        bookingsRepository.save(stagedBooking);
         if (stagedBooking.getOutstandingRequests().isEmpty()) {
-            switch (attemptToBook(stagedBooking)) {
-                case BookingAttemptResult.Failure(var conflict) -> log.error("Failed to confirm request for booking {} by user {} due to conflict with: {}", stagedBooking, user, conflict);
-                case BookingAttemptResult.Staged staged -> log.error("Failed to confirm request for booking {} by user {} due to unexpected staging", stagedBooking, user);
-                case BookingAttemptResult.Success success -> log.info("Confirmed request for booking {} by user {}", stagedBooking, user);
-                case BookingAttemptResult.PossibleCooperation possible -> possible.override().forEach(b -> delete(b, BookingDeleteReason.CONFLICT));
-            }
+            bookingsRepository.findOverlappingBookings(stagedBooking.getStartDate(), stagedBooking.getEndDate())
+                    .filter(s -> !s.getOutstandingRequests().isEmpty())
+                    .forEach(b -> {
+                        switch (classifyConflict(stagedBooking, b)) {
+                            case OVERRIDE, CONFLICT -> delete(b, BookingDeleteReason.CONFLICT);
+                            default -> {}
+                        }
+                    });
         }
         return result;
     }
