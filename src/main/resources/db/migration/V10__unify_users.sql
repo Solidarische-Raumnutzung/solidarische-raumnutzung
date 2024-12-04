@@ -1,0 +1,1 @@
+ALTER TABLE soli_users DROP COLUMN dtype;

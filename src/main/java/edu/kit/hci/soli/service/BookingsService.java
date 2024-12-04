@@ -139,6 +139,7 @@ public class BookingsService {
         return bookingsRepository.findOverlappingBookings(start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
+                        "/" + booking.getRoom().getId() + "/bookings/view/" + booking.getId(),
                         booking.getPriority().name(), //TODO we should localize this and/or insert it via CSS
                         booking.getStartDate(),
                         booking.getEndDate(),

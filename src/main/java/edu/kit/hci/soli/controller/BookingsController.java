@@ -54,7 +54,7 @@ public class BookingsController {
 
         User admin = userService.resolveAdminUser();
 
-        if (booking.getUser().equals(admin)) {
+        if (admin.equals(user)) {
             bookingsService.delete(booking, BookingDeleteReason.ADMIN);
             log.info("Admin deleted booking {}", id);
             return "redirect:/bookings";
@@ -106,6 +106,28 @@ public class BookingsController {
         model.addAttribute("maximumTime", maximumTime());
 
         return "create_booking";
+    }
+
+    @GetMapping("/{roomId}/bookings/view/{eventId}")
+    public String viewEvent(Model model, HttpServletResponse response,
+                            @PathVariable("roomId") Long roomId,
+                            @PathVariable("eventId") Long eventId,
+                            @ModelAttribute("login") LoginStateModel login) {
+
+        // Validate room exists
+        if (!roomService.existsById(roomId)) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
+        Booking booking = bookingsService.getBookingById(eventId);
+        if (booking == null) {
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        model.addAttribute("booking", booking);
+        return "view_event";
     }
 
     public LocalDateTime currentSlot() {
