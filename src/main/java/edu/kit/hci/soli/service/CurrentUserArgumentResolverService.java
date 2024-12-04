@@ -4,6 +4,7 @@ import com.sun.security.auth.UserPrincipal;
 import edu.kit.hci.soli.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -42,12 +43,29 @@ public class CurrentUserArgumentResolverService implements HandlerMethodArgument
                 user.setUsername((String) token.getPrincipal().getAttributes().get("name"));
                 user.setUserId("kit/" + principal.getName());
 
-                log.info("Creating new user {}" , user);
+                log.info("Creating new OIDC user {}", user);
 
                 user = userService.create(user);
             }
+
+            return user;
+
+        } else if (principal instanceof UsernamePasswordAuthenticationToken) {
+
+            User user = userService.resolveAdminUser();
+
+            if (user == null) {
+                log.info("No admin user found in database, creating new");
+                user = new User();
+                user.setEmail(null);
+                user.setUsername("admin");
+                user.setUserId("admin");
+                user = userService.create(user);
+            }
+
             return user;
         }
+
         return null;
     }
 }

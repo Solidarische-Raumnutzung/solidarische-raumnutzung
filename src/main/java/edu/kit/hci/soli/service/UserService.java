@@ -37,8 +37,14 @@ public class UserService {
         return userRepository.findByUserId("admin");
     }
 
+    public boolean isAdmin(User user) {
+        return user.getUserId().equals("admin");
+    }
+
+
     public User resolveLoggedInUser(Principal principal) {
         if (principal instanceof OAuth2AuthenticationToken) {
+
             return userRepository.findByUserId("kit/" + principal.getName());
         } else if (principal instanceof UsernamePasswordAuthenticationToken) {
             return userRepository.findByUsername(principal.getName());
