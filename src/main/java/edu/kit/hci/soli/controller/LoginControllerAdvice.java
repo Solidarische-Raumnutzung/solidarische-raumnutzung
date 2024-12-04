@@ -34,14 +34,6 @@ public class LoginControllerAdvice {
         }
         if (oidcUser == null) {
             User user = userService.resolveAdminUser();
-            if (user == null) {
-                log.error("No admin user found in database, creating new");
-                user = new User();
-                user.setEmail(null);
-                user.setUsername("admin");
-                user.setUserId("admin");
-                user = userService.create(user);
-            }
             return new LoginStateModel(principal.getName(), LoginStateModel.Kind.ADMIN, csrf, user);
         }
 
