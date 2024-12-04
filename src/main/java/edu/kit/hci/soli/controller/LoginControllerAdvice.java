@@ -33,6 +33,7 @@ public class LoginControllerAdvice {
         if (principal == null) {
             return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
         }
+
         if (oidcUser == null) {
             User user = userService.resolveAdminUser();
             if (user == null) {
@@ -50,14 +51,7 @@ public class LoginControllerAdvice {
 
         String id = "kit/" + principal.getName();
         User user = userService.findByUserId(id);
-        if (user == null) {
-            log.info("Creating new OIDC user: {} with id: {}", username, id);
-            user = new edu.kit.hci.soli.domain.OidcUser();
-            user.setEmail(oidcUser.getUserInfo().getEmail());
-            user.setUsername(username);
-            user.setUserId(principal.getName());
-            userService.create(user);
-        }
+
         return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrf, user);
     }
 }

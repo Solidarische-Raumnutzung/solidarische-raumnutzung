@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final UserService userService;
 
-    public WebConfig (UserService userService) {
+    public WebConfig(UserService userService) {
         this.userService = userService;
     }
 
