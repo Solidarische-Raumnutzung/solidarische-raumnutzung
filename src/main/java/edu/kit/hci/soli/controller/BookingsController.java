@@ -56,7 +56,7 @@ public class BookingsController {
 
         User admin = userService.resolveAdminUser();
 
-        if (booking.getUser().equals(admin)) {
+        if (admin.equals(user)) {
             bookingsService.delete(booking);
             log.info("Admin deleted booking {}", id);
             return "redirect:/bookings";
