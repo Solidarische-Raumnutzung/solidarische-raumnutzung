@@ -20,6 +20,14 @@ public class BookingsService {
         this.bookingsRepository = bookingsRepository;
     }
 
+    /**
+     * Attempts to book a room. If successful, the booking is saved and Success is returned.
+     * If there are unresolvable conflicts, Failure is returned.
+     * If the booking is possible but has effects the user should be informed about, PossibleCooperation is returned.
+     *
+     * @param booking the booking to be attempted
+     * @return the result of the booking attempt
+     */
     @Transactional
     public BookingAttemptResult attemptToBook(Booking booking) {
         if (!booking.getOutstandingRequests().isEmpty()) throw new IllegalArgumentException("Booking has outstanding requests");
@@ -59,6 +67,16 @@ public class BookingsService {
         OVERRIDE, CONTACT, COOPERATE, CONFLICT
     }
 
+    /**
+     * Affirms that a possible booking is to be made.
+     * This is equivalent to the user confirming the results of an attempt to book.
+     * If something has changed in the meantime, a new affirmation may be requested via a returned PossibleCooperation.
+     * If some conflicts require contact, a Staged result is returned.
+     *
+     * @param booking the booking to be affirmed
+     * @param result the result of the booking attempt
+     * @return the result of the affirmation
+     */
     @Transactional
     public BookingAttemptResult affirm(Booking booking, BookingAttemptResult.PossibleCooperation result) {
         BookingAttemptResult attemptResult = attemptToBook(booking); // Note: this also ensures that the booking is not already saved
@@ -86,6 +104,14 @@ public class BookingsService {
         //TODO send notification to user
     }
 
+    /**
+     * Confirms a request created as the result of an affirmation of a deferred booking.
+     * This is the action taken by a user that has an existing booking marked with {@link ShareRoomType#ON_REQUEST} and confirms that a different user may book the room.
+     *
+     * @param stagedBooking the booking to be confirmed
+     * @param user the user who confirms the booking
+     * @return true if the user was in the list of outstanding requests and was removed
+     */
     @Transactional
     public boolean confirmRequest(Booking stagedBooking, User user) {
         //TODO make this available in a controller and send the URL via E-Mail
