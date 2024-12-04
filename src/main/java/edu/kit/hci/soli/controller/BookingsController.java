@@ -128,7 +128,6 @@ public class BookingsController {
             return "error_known";
         }
         model.addAttribute("booking", booking);
-        model.addAttribute("login", login);
         return "view_event";
     }
 
