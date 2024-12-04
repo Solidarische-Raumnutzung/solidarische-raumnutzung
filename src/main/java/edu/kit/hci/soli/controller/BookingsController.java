@@ -38,6 +38,7 @@ public class BookingsController {
     }
 
 
+    // TODO: move this endpoint behind /{roomId}/
     @DeleteMapping("/bookings/delete/{id}")
     public String deleteBookings(@PathVariable("id") Long id, Model model, HttpServletResponse response, Principal principal) {
         log.info("Received delete request for booking {}", id);

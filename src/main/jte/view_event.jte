@@ -25,6 +25,7 @@
         </label>
         <p class="textarea textarea-bordered">${booking.getDescription()}</p>
     </div>
+    <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
     @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
         && Objects.equals(login.user(), booking.getUser())))
         <form action="/bookings/delete/${booking.getId()}" method="post">
