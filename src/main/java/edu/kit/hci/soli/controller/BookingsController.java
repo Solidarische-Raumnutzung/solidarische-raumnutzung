@@ -1,8 +1,7 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.domain.*;
-import edu.kit.hci.soli.dto.KnownError;
-import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
@@ -56,13 +55,13 @@ public class BookingsController {
         User admin = userService.resolveAdminUser();
 
         if (booking.getUser().equals(admin)) {
-            bookingsService.delete(booking, BookingsService.BookingDeleteReason.ADMIN);
+            bookingsService.delete(booking, BookingDeleteReason.ADMIN);
             log.info("Admin deleted booking {}", id);
             return "redirect:/bookings";
         }
 
         if (booking.getUser().equals(user)) {
-            bookingsService.delete(booking, BookingsService.BookingDeleteReason.SELF);
+            bookingsService.delete(booking, BookingDeleteReason.SELF);
             log.info("User deleted booking {}", id);
             return "redirect:/bookings";
         }
@@ -182,26 +181,26 @@ public class BookingsController {
             @ModelAttribute("login") LoginStateModel loginStateModel
     ) {
         Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
-        BookingsService.BookingAttemptResult.PossibleCooperation bookingResult = (BookingsService.BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
+        BookingAttemptResult.PossibleCooperation bookingResult = (BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
         return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
     }
 
-    private String handleBookingAttempt(Booking attemptedBooking, BookingsService.BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {
+    private String handleBookingAttempt(Booking attemptedBooking, BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {
         return switch (bookingResult) {
-            case BookingsService.BookingAttemptResult.Failure result -> {
+            case BookingAttemptResult.Failure result -> {
                 model.addAttribute("error", KnownError.EVENT_CONFLICT);
                 model.addAttribute("conflicts", result.conflict());
                 yield "error_known";
             }
-            case BookingsService.BookingAttemptResult.Success result -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings"; //TODO redirect to the new booking
-            case BookingsService.BookingAttemptResult.PossibleCooperation result -> {
+            case BookingAttemptResult.Success result -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings"; //TODO redirect to the new booking
+            case BookingAttemptResult.PossibleCooperation result -> {
                 request.getSession().setAttribute("attemptedBooking", attemptedBooking);
                 request.getSession().setAttribute("bookingResult", result);
                 model.addAttribute("attemptedBooking", attemptedBooking);
                 model.addAttribute("bookingResult", result);
                 yield "create_booking_conflict";
             }
-            case BookingsService.BookingAttemptResult.Staged(var staged) -> {
+            case BookingAttemptResult.Staged(var staged) -> {
                 model.addAttribute("stagedBooking", staged);
                 yield "create_booking_staged";
             }

@@ -1,6 +1,6 @@
 @import edu.kit.hci.soli.domain.Booking
+@import edu.kit.hci.soli.dto.BookingAttemptResult
 @import edu.kit.hci.soli.dto.LoginStateModel
-@import edu.kit.hci.soli.service.BookingsService
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
@@ -10,7 +10,7 @@
 @param CsrfToken csrf
 
 @param Booking attemptedBooking
-@param BookingsService.BookingAttemptResult.PossibleCooperation bookingResult
+@param BookingAttemptResult.PossibleCooperation bookingResult
 
 @template.layout(page = new PageSpec("Conflict", "Soli"), context = context, login = login, content = @`
     <div class="hero-content text-center">

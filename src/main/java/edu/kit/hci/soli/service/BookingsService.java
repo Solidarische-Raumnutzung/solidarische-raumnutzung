@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.service;
 
 import edu.kit.hci.soli.domain.*;
+import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class BookingsService {
         if (!conflict.isEmpty()) return new BookingAttemptResult.Failure(conflict);
         if (!contact.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Deferred(override, contact, cooperate);
         if (!cooperate.isEmpty() || !override.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Immediate(override, cooperate);
-        return new BookingsService.BookingAttemptResult.Success(bookingsRepository.save(booking));
+        return new BookingAttemptResult.Success(bookingsRepository.save(booking));
     }
 
     private ConflictType classifyConflict(Booking booking, Booking other) {
@@ -103,10 +104,6 @@ public class BookingsService {
         return result;
     }
 
-    public enum BookingDeleteReason {
-        CONFLICT, ADMIN, SELF
-    }
-
     public List<Booking> getBookingsByUser(User user, Room room) {
         return bookingsRepository.findByUser(user, room);
     }
@@ -115,32 +112,12 @@ public class BookingsService {
     public List<CalendarEvent> getCalendarEvents(LocalDateTime start, LocalDateTime end) {
         return bookingsRepository.findOverlappingBookings(start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
-                .map(booking -> new BookingsService.CalendarEvent(
+                .map(booking -> new CalendarEvent(
                         booking.getPriority().name(), //TODO we should localize this and/or insert it via CSS
                         booking.getStartDate(),
                         booking.getEndDate(),
                         List.of("event-" + booking.getPriority().name().toLowerCase()) //TODO if we own the event, we should add a class to highlight it
                 ))
                 .toList();
-    }
-
-    public record CalendarEvent(String title, LocalDateTime start, LocalDateTime end, List<String> className) { }
-
-    public sealed interface BookingAttemptResult {
-        record Success(Booking booking) implements BookingAttemptResult { }
-        record Staged(Booking booking) implements BookingAttemptResult { }
-        record Failure(List<Booking> conflict) implements BookingAttemptResult { }
-        sealed interface PossibleCooperation extends BookingAttemptResult {
-            List<Booking> override();
-            List<Booking> cooperate();
-            List<Booking> contact();
-            record Immediate(List<Booking> override, List<Booking> cooperate) implements PossibleCooperation {
-                @Override
-                public List<Booking> contact() {
-                    return List.of();
-                }
-            }
-            record Deferred(List<Booking> override, List<Booking> contact, List<Booking> cooperate) implements PossibleCooperation { }
-        }
     }
 }

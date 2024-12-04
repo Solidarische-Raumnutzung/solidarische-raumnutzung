@@ -2,6 +2,7 @@ package edu.kit.hci.soli.test.service;
 
 import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
+import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
@@ -76,8 +77,8 @@ public class BookingsServiceTest {
 
     @Test
     public void testAttemptToBookBookingSuccess() {
-        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking);
-        assertInstanceOf(BookingsService.BookingAttemptResult.Success.class, result);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking);
+        assertInstanceOf(BookingAttemptResult.Success.class, result);
         assertTrue(bookingsRepository.existsById(testBooking.getId()));
     }
 
@@ -85,10 +86,10 @@ public class BookingsServiceTest {
     public void testAttemptToBookFailure() {
         testBooking.setShareRoomType(ShareRoomType.NO);
         testBooking = bookingsRepository.save(testBooking);
-        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
         assertIterableEquals(
                 List.of(testBooking),
-                assertInstanceOf(BookingsService.BookingAttemptResult.Failure.class, result).conflict()
+                assertInstanceOf(BookingAttemptResult.Failure.class, result).conflict()
         );
         assertNull(testBooking2.getId());
     }
@@ -97,9 +98,9 @@ public class BookingsServiceTest {
     public void testAttemptToBookPossibleCooperationImmediate() {
         testBooking.setShareRoomType(ShareRoomType.YES);
         testBooking = bookingsRepository.save(testBooking);
-        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
-        BookingsService.BookingAttemptResult.PossibleCooperation.Immediate immediate = assertInstanceOf(
-                BookingsService.BookingAttemptResult.PossibleCooperation.Immediate.class,
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Immediate immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Immediate.class,
                 result
         );
         assertIterableEquals(List.of(), immediate.override());
@@ -107,7 +108,7 @@ public class BookingsServiceTest {
         assertNull(testBooking2.getId());
 
         result = bookingsService.affirm(testBooking2, immediate);
-        assertInstanceOf(BookingsService.BookingAttemptResult.Success.class, result);
+        assertInstanceOf(BookingAttemptResult.Success.class, result);
         assertTrue(bookingsRepository.existsById(testBooking.getId()));
         assertTrue(bookingsRepository.existsById(testBooking2.getId()));
     }
@@ -115,9 +116,9 @@ public class BookingsServiceTest {
     @Test
     public void testAttemptToBookPossibleCooperationDeferred() {
         testBooking = bookingsRepository.save(testBooking);
-        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
-        BookingsService.BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
-                BookingsService.BookingAttemptResult.PossibleCooperation.Deferred.class,
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Deferred.class,
                 result
         );
         assertIterableEquals(List.of(), immediate.override());
@@ -129,13 +130,13 @@ public class BookingsServiceTest {
     @Test
     public void testConfirmRequestSingle() {
         testBooking = bookingsRepository.save(testBooking);
-        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
-        BookingsService.BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
-                BookingsService.BookingAttemptResult.PossibleCooperation.Deferred.class,
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Deferred.class,
                 result
         );
         result = bookingsService.affirm(testBooking2, immediate);
-        testBooking2 = assertInstanceOf(BookingsService.BookingAttemptResult.Staged.class, result).booking();
+        testBooking2 = assertInstanceOf(BookingAttemptResult.Staged.class, result).booking();
         assertIterableEquals(List.of(testService.user), testBooking2.getOutstandingRequests());
         assertFalse(bookingsService.confirmRequest(testBooking2, testService.user2));
         assertIterableEquals(List.of(testService.user), testBooking2.getOutstandingRequests());
@@ -147,13 +148,13 @@ public class BookingsServiceTest {
     public void testConfirmRequestMultiple() {
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
-        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking3);
-        BookingsService.BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
-                BookingsService.BookingAttemptResult.PossibleCooperation.Deferred.class,
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking3);
+        BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Deferred.class,
                 result
         );
         result = bookingsService.affirm(testBooking3, immediate);
-        testBooking3 = assertInstanceOf(BookingsService.BookingAttemptResult.Staged.class, result).booking();
+        testBooking3 = assertInstanceOf(BookingAttemptResult.Staged.class, result).booking();
         assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
         assertFalse(bookingsService.confirmRequest(testBooking3, testService.user3));
         assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
@@ -167,13 +168,13 @@ public class BookingsServiceTest {
     public void testAffirmIllegal() {
         testBooking.setShareRoomType(ShareRoomType.YES);
         testBooking = bookingsRepository.save(testBooking);
-        BookingsService.BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
-        BookingsService.BookingAttemptResult.PossibleCooperation.Immediate immediate = assertInstanceOf(
-                BookingsService.BookingAttemptResult.PossibleCooperation.Immediate.class,
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Immediate immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Immediate.class,
                 result
         );
         result = bookingsService.affirm(testBooking2, immediate);
-        testBooking2 = assertInstanceOf(BookingsService.BookingAttemptResult.Success.class, result).booking();
+        testBooking2 = assertInstanceOf(BookingAttemptResult.Success.class, result).booking();
         assertThrows(IllegalArgumentException.class, () -> bookingsService.affirm(testBooking2, immediate));
     }
 
@@ -181,7 +182,7 @@ public class BookingsServiceTest {
     public void testDelete() {
         testBooking = bookingsRepository.save(testBooking);
         assertTrue(bookingsRepository.existsById(testBooking.getId()));
-        bookingsService.delete(testBooking, BookingsService.BookingDeleteReason.ADMIN);
+        bookingsService.delete(testBooking, BookingDeleteReason.ADMIN);
         assertFalse(bookingsRepository.existsById(testBooking.getId()));
     }
 
@@ -190,7 +191,7 @@ public class BookingsServiceTest {
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
         testBooking3 = bookingsRepository.save(testBooking3);
-        List<BookingsService.CalendarEvent> events = bookingsService.getCalendarEvents(bookingsController.currentSlot(), bookingsController.currentSlot().plusDays(3));
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsController.currentSlot(), bookingsController.currentSlot().plusDays(3));
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
