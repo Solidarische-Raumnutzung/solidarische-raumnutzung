@@ -20,6 +20,26 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+        <script>
+            // Check for saved user preference, if any, on load of the website
+            document.addEventListener('DOMContentLoaded', (event) => {
+                if (localStorage.getItem('theme') === 'dark' ||
+                    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            });
+            function toggleTheme() {
+                if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+        </script>
     </head>
 
     <body>
@@ -29,6 +49,9 @@
                 <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
                     Open drawer
                 </label>
+                <button onclick="toggleTheme()" class="btn btn-neutral btn-xs md:btn-md ml-4">
+                    ${context.localize("appearance.darkmode")}
+                </button>
             </div>
         </div>
 
