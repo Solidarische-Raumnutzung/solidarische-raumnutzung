@@ -1,14 +1,14 @@
 @import edu.kit.hci.soli.domain.Booking
 @import edu.kit.hci.soli.dto.LoginStateModel
-@import edu.kit.hci.soli.template.JteContext
-@import edu.kit.hci.soli.template.PageSpec
+@import edu.kit.hci.soli.config.template.JteContext
+@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import java.util.List
 
 @param JteContext context
 @param LoginStateModel login
-@param List<Booking> bookings
 @param CsrfToken csrf
+@param List<Booking> bookings
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
     <div class="overflow-x-auto">
@@ -32,10 +32,9 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 @for(Booking booking : bookings)
                     <tr>
-                        <td>${booking.getId()}</td>
+                        <td>${booking.getId()} ${booking.getOutstandingRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOutstandingRequests().size())}</td>
                         <td>${booking.getDescription()}</td>
                         <td>${booking.getStartDate().toString()}</td>
                         <td>${booking.getEndDate().toString()}</td>

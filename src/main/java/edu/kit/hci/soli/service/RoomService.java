@@ -21,4 +21,8 @@ public class RoomService {
     public Room get() {
         return roomRepository.findById(1L).orElseThrow();
     }
+
+    public Room get(long id) {
+        return roomRepository.findById(id).orElseThrow();
+    }
 }
