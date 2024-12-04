@@ -33,7 +33,7 @@ public class LoginControllerAdvice {
 
         if (principal == null) {
             return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
-        } else if (userService.isAdmin(user)) {
+        } else if (user.isAdmin()) {
             return new LoginStateModel(user.getUsername(), LoginStateModel.Kind.ADMIN, csrf, user);
         }
 
