@@ -28,7 +28,7 @@
     <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
     @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
         && Objects.equals(login.user(), booking.getUser())))
-        <form action="/bookings/delete/${booking.getId()}" method="post">
+        <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}/delete" method="post">
             @if(csrf != null)
                 <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
             @endif
@@ -39,7 +39,7 @@
     @if(Objects.equals(ShareRoomType.ON_REQUEST, booking.getShareRoomType()) && (login.user() != null
         && !Objects.equals(login.user(), booking.getUser())))
         <%-- TODO implement this endpoint --%>
-        <form action="/bookings/request/${booking.getId()}" method="post">
+        <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}/request" method="post">
             @if(csrf != null)
                 <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
             @endif

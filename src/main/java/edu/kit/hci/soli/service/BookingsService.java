@@ -139,12 +139,28 @@ public class BookingsService {
         return bookingsRepository.findOverlappingBookings(start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
-                        "/" + booking.getRoom().getId() + "/bookings/view/" + booking.getId(),
+                        "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
                         booking.getPriority().name(), //TODO we should localize this and/or insert it via CSS
                         booking.getStartDate(),
                         booking.getEndDate(),
                         List.of("event-" + booking.getPriority().name().toLowerCase()) //TODO if we own the event, we should add a class to highlight it
                 ))
                 .toList();
+    }
+
+    public LocalDateTime currentSlot() {
+        return normalize(LocalDateTime.now());
+    }
+
+    public LocalDateTime minimumTime() {
+        return normalize(LocalDateTime.now().plusMinutes(15));
+    }
+
+    public LocalDateTime maximumTime() {
+        return normalize(LocalDateTime.now().plusDays(14));
+    }
+
+    private LocalDateTime normalize(LocalDateTime time) {
+        return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
     }
 }

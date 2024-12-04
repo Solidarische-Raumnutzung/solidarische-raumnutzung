@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
 @Controller("/bookings")
 public class BookingsController {
-
     private final BookingsService bookingsService;
     private final RoomService roomService;
     private final UserService userService;
@@ -38,16 +38,22 @@ public class BookingsController {
     }
 
 
-    // TODO: move this endpoint behind /{roomId}/
-    @DeleteMapping("/bookings/delete/{id}")
-    public String deleteBookings(@PathVariable("id") Long id, Model model, HttpServletResponse response, Principal principal) {
-        log.info("Received delete request for booking {}", id);
+    @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
+    public String deleteBookings(Model model, HttpServletResponse response, Principal principal,
+                                 @PathVariable Long roomId, @PathVariable Long eventId) {
+        log.info("Received delete request for booking {}", eventId);
         User user = userService.resolveLoggedInUser(principal);
-        Booking booking = bookingsService.getBookingById(id);
-
+        Booking booking = bookingsService.getBookingById(eventId);
 
         if (booking == null) {
-            log.info("Booking {} not found", id);
+            log.info("Booking {} not found", eventId);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
+        if (!Objects.equals(booking.getRoom().getId(), roomId)) {
+            log.info("Booking {} not found in room {}", eventId, roomId);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
@@ -57,38 +63,39 @@ public class BookingsController {
 
         if (admin.equals(user)) {
             bookingsService.delete(booking, BookingDeleteReason.ADMIN);
-            log.info("Admin deleted booking {}", id);
+            log.info("Admin deleted booking {}", eventId);
             return "redirect:/bookings";
         }
 
         if (booking.getUser().equals(user)) {
             bookingsService.delete(booking, BookingDeleteReason.SELF);
-            log.info("User deleted booking {}", id);
+            log.info("User deleted booking {}", eventId);
             return "redirect:/bookings";
         }
 
-        log.info("User {} tried to delete booking {} of user {}", user, id, booking.getUser());
+        log.info("User {} tried to delete booking {} of user {}", user, eventId, booking.getUser());
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         model.addAttribute("error", KnownError.DELETE_NO_PERMISSION);
         return "error_known";
     }
 
-    @GetMapping("/{id}/bookings")
-    public String roomBookings(Model model, HttpServletResponse response, Principal principal, @PathVariable Long id) {
+    @GetMapping("/{roomId}/bookings")
+    public String roomBookings(Model model, HttpServletResponse response, Principal principal,
+                               @PathVariable Long roomId) {
         User user = userService.resolveLoggedInUser(principal);
-        Room room = roomService.get(id);
+        Room room = roomService.get(roomId);
         model.addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
 
         return "bookings";
     }
 
-    @GetMapping("/{id}/bookings/new")
+    @GetMapping("/{roomId}/bookings/new")
     public String newBooking(
-            Model model, HttpServletResponse response, Principal principal, @PathVariable Long id,
+            Model model, HttpServletResponse response, Principal principal, @PathVariable Long roomId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
     ) {
-        if (!roomService.existsById(id)) {
+        if (!roomService.existsById(roomId)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
@@ -99,20 +106,20 @@ public class BookingsController {
         if (end == null) {
             end = start.plusMinutes(30);
         }
-        model.addAttribute("room", id);
+        model.addAttribute("room", roomId);
         model.addAttribute("start", start);
         model.addAttribute("end", end);
 
-        model.addAttribute("minimumTime", minimumTime());
-        model.addAttribute("maximumTime", maximumTime());
+        model.addAttribute("minimumTime", bookingsService.minimumTime());
+        model.addAttribute("maximumTime", bookingsService.maximumTime());
 
         return "create_booking";
     }
 
-    @GetMapping("/{roomId}/bookings/view/{eventId}")
+    @GetMapping("/{roomId}/bookings/{eventId}")
     public String viewEvent(Model model, HttpServletResponse response,
-                            @PathVariable("roomId") Long roomId,
-                            @PathVariable("eventId") Long eventId,
+                            @PathVariable Long roomId,
+                            @PathVariable Long eventId,
                             @ModelAttribute("login") LoginStateModel login) {
 
         // Validate room exists
@@ -131,30 +138,14 @@ public class BookingsController {
         return "view_event";
     }
 
-    public LocalDateTime currentSlot() {
-        return normalize(LocalDateTime.now());
-    }
-
-    private LocalDateTime minimumTime() {
-        return normalize(LocalDateTime.now().plusMinutes(15));
-    }
-
-    private LocalDateTime maximumTime() {
-        return normalize(LocalDateTime.now().plusDays(14));
-    }
-
-    private LocalDateTime normalize(LocalDateTime time) {
-        return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
-    }
-
-    @PostMapping(value = "/{id}/bookings/new", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
-            Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long id,
+            Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long roomId,
             @ModelAttribute("login") LoginStateModel loginStateModel,
             @ModelAttribute FormData formData
     ) {
         // Validate exists
-        if (!roomService.existsById(id)) {
+        if (!roomService.existsById(roomId)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
@@ -174,9 +165,9 @@ public class BookingsController {
 
         // Validate start and end times
         if (formData.start.isAfter(formData.end)
-                || formData.start.isBefore(minimumTime())
+                || formData.start.isBefore(bookingsService.minimumTime())
                 || formData.end.isAfter(formData.start.plusHours(4)) // Keep these in sync with index.jte!
-                || formData.end.isAfter(maximumTime())
+                || formData.end.isAfter(bookingsService.maximumTime())
                 || formData.start.getMinute() % 15 != 0
                 || formData.end.getMinute() % 15 != 0) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -198,9 +189,9 @@ public class BookingsController {
         return handleBookingAttempt(attemptedBooking, bookingsService.attemptToBook(attemptedBooking), request, model);
     }
 
-    @PostMapping(value = "/{id}/bookings/new/resolve", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/{roomId}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
     public String resolveConflict(
-            Model model, HttpServletRequest request, @PathVariable Long id,
+            Model model, HttpServletRequest request, @PathVariable Long roomId,
             @ModelAttribute("login") LoginStateModel loginStateModel
     ) {
         Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
