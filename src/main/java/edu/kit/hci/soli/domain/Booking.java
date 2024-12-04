@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The datamodel for a Booking as it is stored in the database
@@ -15,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Booking {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -36,4 +37,7 @@ public class Booking {
 
     private Priority priority;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "soli_outstanding_requests")
+    private Set<User> outstandingRequests = new HashSet<>();
 }

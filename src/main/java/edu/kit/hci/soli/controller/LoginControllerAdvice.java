@@ -1,6 +1,5 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.domain.NonOidcUser;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.UserService;
@@ -33,16 +32,15 @@ public class LoginControllerAdvice {
         if (principal == null) {
             return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
         }
-
         if (oidcUser == null) {
             User user = userService.resolveAdminUser();
             if (user == null) {
                 log.error("No admin user found in database, creating new");
-                user = new NonOidcUser();
+                user = new User();
                 user.setEmail(null);
                 user.setUsername("admin");
                 user.setUserId("admin");
-                userService.create(user);
+                user = userService.create(user);
             }
             return new LoginStateModel(principal.getName(), LoginStateModel.Kind.ADMIN, csrf, user);
         }
@@ -51,7 +49,14 @@ public class LoginControllerAdvice {
 
         String id = "kit/" + principal.getName();
         User user = userService.findByUserId(id);
-
+        if (user == null) {
+            log.info("Creating new OIDC user: {} with id: {}", username, id);
+            user = new User();
+            user.setEmail(oidcUser.getUserInfo().getEmail());
+            user.setUsername(username);
+            user.setUserId(id);
+            user = userService.create(user);
+        }
         return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrf, user);
     }
 }

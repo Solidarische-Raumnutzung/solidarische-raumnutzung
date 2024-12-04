@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.template;
+package edu.kit.hci.soli.config.template;
 
 import gg.jte.Content;
 import gg.jte.support.LocalizationSupport;
@@ -25,5 +25,9 @@ public class JteContext implements LocalizationSupport {
     public Content localize(String key, Object... params) {
         String result = messageSource.getMessage(key, params, locale);
         return output -> output.writeUserContent(result);
+    }
+
+    public Content empty() {
+        return output -> {};
     }
 }
