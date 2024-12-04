@@ -4,6 +4,7 @@ import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class BookingsControllerTest {
     @Autowired private TestService testService;
     @Autowired private BookingsController bookingsController;
+    @Autowired private BookingsService bookingsService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -49,8 +51,8 @@ public class BookingsControllerTest {
     @Test
     public void testIllegalUser() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().plusMinutes(30),
-                bookingsController.currentSlot().plusHours(1),
+                bookingsService.currentSlot().plusMinutes(30),
+                bookingsService.currentSlot().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -61,8 +63,8 @@ public class BookingsControllerTest {
     @Test
     public void testIllegalRoom() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().plusMinutes(30),
-                bookingsController.currentSlot().plusHours(1),
+                bookingsService.currentSlot().plusMinutes(30),
+                bookingsService.currentSlot().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -85,8 +87,8 @@ public class BookingsControllerTest {
     @Test
     public void testMisalignedTime() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().minusMinutes(31),
-                bookingsController.currentSlot().plusHours(1),
+                bookingsService.currentSlot().minusMinutes(31),
+                bookingsService.currentSlot().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -97,8 +99,8 @@ public class BookingsControllerTest {
     @Test
     public void testLargeTime() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().minusMinutes(30),
-                bookingsController.currentSlot().plusHours(10),
+                bookingsService.currentSlot().minusMinutes(30),
+                bookingsService.currentSlot().plusHours(10),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -109,8 +111,8 @@ public class BookingsControllerTest {
     @Test
     public void testPastTime() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().minusMinutes(15),
-                bookingsController.currentSlot().plusMinutes(15),
+                bookingsService.currentSlot().minusMinutes(15),
+                bookingsService.currentSlot().plusMinutes(15),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -121,8 +123,8 @@ public class BookingsControllerTest {
     @Test
     public void testCreateBooking() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().plusMinutes(30),
-                bookingsController.currentSlot().plusHours(1),
+                bookingsService.currentSlot().plusMinutes(30),
+                bookingsService.currentSlot().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO

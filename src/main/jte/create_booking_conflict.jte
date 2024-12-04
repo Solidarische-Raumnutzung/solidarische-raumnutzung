@@ -32,7 +32,7 @@
                     <li>Nutze gleichzeitig mit: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
                 @endfor
             </ul>
-            <form method="post" action="/${attemptedBooking.getRoom().getId()}/bookings/new/resolve">
+            <form method="post" action="/${attemptedBooking.getRoom().getId()}/bookings/new/conflict">
                 @if(csrf != null)
                     <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                 @endif
