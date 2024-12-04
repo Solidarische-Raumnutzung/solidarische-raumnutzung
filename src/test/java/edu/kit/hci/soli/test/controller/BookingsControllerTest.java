@@ -37,7 +37,7 @@ public class BookingsControllerTest {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
         LoginStateModel lsm = new LoginStateModel("testuser", LoginStateModel.Kind.OAUTH, null, user);
-        String result = bookingsController.createBooking(model, response, room, lsm, formData);
+        String result = bookingsController.createBooking(model, response, room, user, formData);
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }
