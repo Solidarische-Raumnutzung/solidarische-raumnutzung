@@ -41,7 +41,6 @@
             @if(csrf != null)
                 <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
             @endif
-            <input type="hidden" name="_method" value="shareRequest" /> <%--This line may cause errors as i dont know what the value should be--%>
             <button type="submit" class="btn btn-primary">${context.localize("bookings.request")}</button>
         </form>
     @endif
