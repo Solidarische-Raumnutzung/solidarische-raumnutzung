@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.service.BookingsService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class EventFeedController {
 
     // https://fullcalendar.io/docs/events-json-feed
     @GetMapping("/api/events")
-    public List<BookingsService.CalendarEvent> getEvents(
+    public List<CalendarEvent> getEvents(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
     ) {

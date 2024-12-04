@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.template;
+package edu.kit.hci.soli.config.template;
 
 import gg.jte.TemplateEngine;
 import lombok.NonNull;

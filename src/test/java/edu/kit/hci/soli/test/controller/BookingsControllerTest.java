@@ -4,13 +4,13 @@ import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
-import edu.kit.hci.soli.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import edu.kit.hci.soli.test.TestService;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.lang.Nullable;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.ui.ExtendedModelMap;
 
@@ -20,24 +20,25 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @SpringBootTest
 @AutoConfigureTestDatabase
 public class BookingsControllerTest {
-    @Autowired private UserService userService;
+    @Autowired private TestService testService;
     @Autowired private BookingsController bookingsController;
 
-    private User testUser;
+    @BeforeAll
+    public static void clean(@Autowired TestService testService) {
+        testService.reset();
+    }
 
-    @BeforeEach
-    public void setUp() {
-        testUser = new User();
-        testUser.setUsername("testuser");
-        testUser.setEmail("testuser@example.com");
-        userService.create(testUser);
+    @AfterEach
+    public void tearDown() {
+        testService.reset();
     }
 
     private @Nullable KnownError lsmCreateBooking(BookingsController.FormData formData, User user, long room) {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         LoginStateModel lsm = new LoginStateModel("testuser", LoginStateModel.Kind.OAUTH, null, user);
-        String result = bookingsController.createBooking(model, response, room, lsm, formData);
+        String result = bookingsController.createBooking(model, response, request, room, lsm, formData);
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }
@@ -66,7 +67,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.NOT_FOUND, lsmCreateBooking(formData, testUser, 2));
+        assertEquals(KnownError.NOT_FOUND, lsmCreateBooking(formData, testService.user, 2));
     }
 
     @Test
@@ -78,7 +79,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
@@ -90,7 +91,7 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
@@ -102,19 +103,19 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
     public void testPastTime() {
         BookingsController.FormData formData = new BookingsController.FormData(
-                bookingsController.currentSlot().minusMinutes(-15),
+                bookingsController.currentSlot().minusMinutes(15),
                 bookingsController.currentSlot().plusMinutes(15),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testUser, 1));
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, 1));
     }
 
     @Test
@@ -126,6 +127,6 @@ public class BookingsControllerTest {
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
-        assertNull(lsmCreateBooking(formData, testUser, 1));
+        assertNull(lsmCreateBooking(formData, testService.user, 1));
     }
 }

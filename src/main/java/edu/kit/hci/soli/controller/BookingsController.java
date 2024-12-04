@@ -1,11 +1,11 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.domain.*;
-import edu.kit.hci.soli.dto.KnownError;
-import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Slf4j
 @Controller("/bookings")
@@ -33,10 +34,7 @@ public class BookingsController {
 
     @GetMapping("/bookings")
     public String userBookings(Model model, HttpServletResponse response, Principal principal) {
-        User user = userService.resolveLoggedInUser(principal);
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
-
-        return "bookings";
+        return roomBookings(model, response, principal, roomService.get().getId());
     }
 
 
@@ -57,13 +55,13 @@ public class BookingsController {
         User admin = userService.resolveAdminUser();
 
         if (admin.equals(user)) {
-            bookingsService.delete(booking);
+            bookingsService.delete(booking, BookingDeleteReason.ADMIN);
             log.info("Admin deleted booking {}", id);
             return "redirect:/bookings";
         }
 
         if (booking.getUser().equals(user)) {
-            bookingsService.delete(booking);
+            bookingsService.delete(booking, BookingDeleteReason.SELF);
             log.info("User deleted booking {}", id);
             return "redirect:/bookings";
         }
@@ -76,8 +74,9 @@ public class BookingsController {
 
     @GetMapping("/{id}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, Principal principal, @PathVariable Long id) {
-        User user = userService.resolveLoggedInUser(principal); //TODO user seems to be null here
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(user));
+        User user = userService.resolveLoggedInUser(principal);
+        Room room = roomService.get(id);
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
 
         return "bookings";
     }
@@ -132,21 +131,24 @@ public class BookingsController {
     }
 
     public LocalDateTime currentSlot() {
-        LocalDateTime now = LocalDateTime.now();
-        return now.minusMinutes(now.getMinute() % 15);
+        return normalize(LocalDateTime.now());
     }
 
     private LocalDateTime minimumTime() {
-        return currentSlot().plusMinutes(15);
+        return normalize(LocalDateTime.now().plusMinutes(15));
     }
 
     private LocalDateTime maximumTime() {
-        return currentSlot().plusDays(14);
+        return normalize(LocalDateTime.now().plusDays(14));
+    }
+
+    private LocalDateTime normalize(LocalDateTime time) {
+        return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
     }
 
     @PostMapping(value = "/{id}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
-            Model model, HttpServletResponse response, @PathVariable Long id,
+            Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long id,
             @ModelAttribute("login") LoginStateModel loginStateModel,
             @ModelAttribute FormData formData
     ) {
@@ -181,8 +183,7 @@ public class BookingsController {
             return "error_known";
         }
 
-        //TODO check for overlapping bookings
-        bookingsService.create(new Booking(
+        Booking attemptedBooking = new Booking(
                 null,
                 formData.description,
                 formData.start,
@@ -190,10 +191,42 @@ public class BookingsController {
                 formData.cooperative,
                 room,
                 loginStateModel.user(),
-                formData.priority
-        ));
+                formData.priority,
+                Set.of()
+        );
+        return handleBookingAttempt(attemptedBooking, bookingsService.attemptToBook(attemptedBooking), request, model);
+    }
 
-        return "redirect:/" + id + "/bookings"; //TODO redirect to the new booking
+    @PostMapping(value = "/{id}/bookings/new/resolve", consumes = "application/x-www-form-urlencoded")
+    public String resolveConflict(
+            Model model, HttpServletRequest request, @PathVariable Long id,
+            @ModelAttribute("login") LoginStateModel loginStateModel
+    ) {
+        Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
+        BookingAttemptResult.PossibleCooperation bookingResult = (BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
+        return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
+    }
+
+    private String handleBookingAttempt(Booking attemptedBooking, BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {
+        return switch (bookingResult) {
+            case BookingAttemptResult.Failure result -> {
+                model.addAttribute("error", KnownError.EVENT_CONFLICT);
+                model.addAttribute("conflicts", result.conflict());
+                yield "error_known";
+            }
+            case BookingAttemptResult.Success result -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings"; //TODO redirect to the new booking
+            case BookingAttemptResult.PossibleCooperation result -> {
+                request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+                request.getSession().setAttribute("bookingResult", result);
+                model.addAttribute("attemptedBooking", attemptedBooking);
+                model.addAttribute("bookingResult", result);
+                yield "create_booking_conflict";
+            }
+            case BookingAttemptResult.Staged(var staged) -> {
+                model.addAttribute("stagedBooking", staged);
+                yield "create_booking_staged";
+            }
+        };
     }
 
     @Data

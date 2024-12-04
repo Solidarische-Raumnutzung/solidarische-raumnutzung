@@ -40,7 +40,7 @@ public class LoginControllerAdvice {
                 user.setEmail(null);
                 user.setUsername("admin");
                 user.setUserId("admin");
-                userService.create(user);
+                user = userService.create(user);
             }
             return new LoginStateModel(principal.getName(), LoginStateModel.Kind.ADMIN, csrf, user);
         }
@@ -54,8 +54,8 @@ public class LoginControllerAdvice {
             user = new User();
             user.setEmail(oidcUser.getUserInfo().getEmail());
             user.setUsername(username);
-            user.setUserId(principal.getName());
-            userService.create(user);
+            user.setUserId(id);
+            user = userService.create(user);
         }
         return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrf, user);
     }
