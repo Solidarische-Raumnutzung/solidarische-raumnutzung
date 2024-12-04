@@ -201,12 +201,12 @@ public class BookingsController {
 
     private String handleBookingAttempt(Booking attemptedBooking, BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {
         return switch (bookingResult) {
-            case BookingAttemptResult.Failure result -> {
+            case BookingAttemptResult.Failure(var conflict) -> {
                 model.addAttribute("error", KnownError.EVENT_CONFLICT);
-                model.addAttribute("conflicts", result.conflict());
+                model.addAttribute("conflicts", conflict);
                 yield "error_known";
             }
-            case BookingAttemptResult.Success result -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings"; //TODO redirect to the new booking
+            case BookingAttemptResult.Success(var booking) -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings/" + booking.getId();
             case BookingAttemptResult.PossibleCooperation result -> {
                 request.getSession().setAttribute("attemptedBooking", attemptedBooking);
                 request.getSession().setAttribute("bookingResult", result);
