@@ -37,6 +37,7 @@
     @endif
     @if(Objects.equals(ShareRoomType.ON_REQUEST, booking.getShareRoomType()) && (login.user() != null
         && !Objects.equals(login.user(), booking.getUser())))
+        <%-- TODO implement this endpoint --%>
         <form action="/bookings/request/${booking.getId()}" method="post">
             @if(csrf != null)
                 <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
