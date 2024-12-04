@@ -1,6 +1,5 @@
 package edu.kit.hci.soli.test.service;
 
-import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
@@ -24,7 +23,6 @@ public class BookingsServiceTest {
     @Autowired private RoomService roomService;
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private TestService testService;
-    @Autowired private BookingsController bookingsController;
 
     private Booking testBooking;
     private Booking testBooking2;
@@ -40,24 +38,24 @@ public class BookingsServiceTest {
         testBooking = new Booking();
         testBooking.setRoom(roomService.get());
         testBooking.setUser(testService.user);
-        testBooking.setStartDate(bookingsController.currentSlot().plusDays(1));
-        testBooking.setEndDate(bookingsController.currentSlot().plusDays(2));
+        testBooking.setStartDate(bookingsService.currentSlot().plusDays(1));
+        testBooking.setEndDate(bookingsService.currentSlot().plusDays(2));
         testBooking.setPriority(Priority.HIGHEST);
         testBooking.setShareRoomType(ShareRoomType.ON_REQUEST);
 
         testBooking2 = new Booking();
         testBooking2.setRoom(roomService.get());
         testBooking2.setUser(testService.user2);
-        testBooking2.setStartDate(bookingsController.currentSlot().plusDays(1));
-        testBooking2.setEndDate(bookingsController.currentSlot().plusDays(2));
+        testBooking2.setStartDate(bookingsService.currentSlot().plusDays(1));
+        testBooking2.setEndDate(bookingsService.currentSlot().plusDays(2));
         testBooking2.setPriority(Priority.HIGHEST);
         testBooking2.setShareRoomType(ShareRoomType.ON_REQUEST);
 
         testBooking3 = new Booking();
         testBooking3.setRoom(roomService.get());
         testBooking3.setUser(testService.user3);
-        testBooking3.setStartDate(bookingsController.currentSlot().plusDays(1));
-        testBooking3.setEndDate(bookingsController.currentSlot().plusDays(2));
+        testBooking3.setStartDate(bookingsService.currentSlot().plusDays(1));
+        testBooking3.setEndDate(bookingsService.currentSlot().plusDays(2));
         testBooking3.setPriority(Priority.HIGHEST);
         testBooking3.setShareRoomType(ShareRoomType.ON_REQUEST);
     }
@@ -191,7 +189,7 @@ public class BookingsServiceTest {
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
         testBooking3 = bookingsRepository.save(testBooking3);
-        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsController.currentSlot(), bookingsController.currentSlot().plusDays(3));
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3));
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
