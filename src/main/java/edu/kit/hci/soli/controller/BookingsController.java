@@ -109,8 +109,19 @@ public class BookingsController {
         return "create_booking";
     }
 
-    @GetMapping("/bookings/view/{eventId}")
-    public String viewEvent(@PathVariable("eventId") Long eventId, Model model, @ModelAttribute("login") LoginStateModel login) {
+    @GetMapping("/{roomId}/bookings/view/{eventId}")
+    public String viewEvent(Model model, HttpServletResponse response,
+                            @PathVariable("roomId") Long roomId,
+                            @PathVariable("eventId") Long eventId,
+                            @ModelAttribute("login") LoginStateModel login) {
+
+        // Validate room exists
+        if (!roomService.existsById(roomId)) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
         Booking booking = bookingsService.getBookingById(eventId);
         if (booking == null) {
             model.addAttribute("error", KnownError.NOT_FOUND);

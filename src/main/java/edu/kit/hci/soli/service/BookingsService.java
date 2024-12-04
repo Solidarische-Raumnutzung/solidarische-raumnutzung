@@ -40,7 +40,7 @@ public class BookingsService {
     public List<CalendarEvent> getCalendarEvents(LocalDateTime start, LocalDateTime end) {
         return bookingsRepository.findOverlappingBookings(start, end)
                 .map(booking -> new BookingsService.CalendarEvent(
-                        "/bookings/view/" + booking.getId(),
+                        "/" + booking.getRoom().getId() + "/bookings/view/" + booking.getId(),
                         booking.getPriority().name(), //TODO we should localize this and/or insert it via CSS
                         booking.getStartDate(),
                         booking.getEndDate(),
