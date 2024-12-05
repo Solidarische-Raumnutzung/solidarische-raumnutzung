@@ -216,7 +216,7 @@ public class BookingsController {
                 model.addAttribute("conflicts", conflict);
                 yield "error_known";
             }
-            case BookingAttemptResult.Success(var booking) -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings/" + booking.getId();
+            case BookingAttemptResult.Success(var booking) -> "redirect:/" + attemptedBooking.getRoom().getId();
             case BookingAttemptResult.PossibleCooperation result -> {
                 request.getSession().setAttribute("attemptedBooking", attemptedBooking);
                 request.getSession().setAttribute("bookingResult", result);

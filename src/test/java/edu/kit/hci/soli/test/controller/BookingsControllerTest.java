@@ -15,7 +15,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.ui.ExtendedModelMap;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -45,7 +44,7 @@ public class BookingsControllerTest {
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }
-        assertThat(result).matches("redirect:/1/bookings/\\d+");
+        assertEquals("redirect:/1", result);
         return null;
     }
 
