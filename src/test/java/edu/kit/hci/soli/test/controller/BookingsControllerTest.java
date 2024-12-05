@@ -40,7 +40,7 @@ public class BookingsControllerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
         LoginStateModel lsm = new LoginStateModel("testuser", LoginStateModel.Kind.OAUTH, null, user);
-        String result = bookingsController.createBooking(model, response, request, room, lsm, formData);
+        String result = bookingsController.createBooking(model, response, request, room, user, formData);
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }

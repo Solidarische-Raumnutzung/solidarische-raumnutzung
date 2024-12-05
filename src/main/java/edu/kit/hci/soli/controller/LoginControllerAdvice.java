@@ -5,6 +5,7 @@ import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -28,27 +29,14 @@ public class LoginControllerAdvice {
     }
 
     @ModelAttribute("login")
-    public LoginStateModel getLoginStateModel(Principal principal, @AuthenticationPrincipal OidcUser oidcUser, HttpServletRequest request, @ModelAttribute("csrf") CsrfToken csrf) {
+    public LoginStateModel getLoginStateModel(Principal principal, @AuthenticationPrincipal User user, HttpServletRequest request, @ModelAttribute("csrf") CsrfToken csrf) {
+
         if (principal == null) {
-            return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
-        }
-        if (oidcUser == null) {
-            User user = userService.resolveAdminUser();
-            return new LoginStateModel(principal.getName(), LoginStateModel.Kind.ADMIN, csrf, user);
+            return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, user);
+        } else if (userService.isAdmin(user)) {
+            return new LoginStateModel(user.getUsername(), LoginStateModel.Kind.ADMIN, csrf, user);
         }
 
-        String username = oidcUser.getUserInfo().getFullName();
-
-        String id = "kit/" + principal.getName();
-        User user = userService.findByUserId(id);
-        if (user == null) {
-            log.info("Creating new OIDC user: {} with id: {}", username, id);
-            user = new User();
-            user.setEmail(oidcUser.getUserInfo().getEmail());
-            user.setUsername(username);
-            user.setUserId(id);
-            user = userService.create(user);
-        }
-        return new LoginStateModel(username, LoginStateModel.Kind.OAUTH, csrf, user);
+        return new LoginStateModel(user.getUsername(), LoginStateModel.Kind.OAUTH, csrf, user);
     }
 }
