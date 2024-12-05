@@ -15,6 +15,7 @@
 @template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, content = @`
 <div class="card-body w-96 mx-auto">
     <%-- TODO we should show the start and end time here somewhere --%>
+    <%-- TODO we should demarcate staged bookings (IE bookings that have open outstanding requests) --%>
     <div class="form-control">
         <label class="label">
             <span class="label-text">${context.localize("bookings.priority")}</span>
