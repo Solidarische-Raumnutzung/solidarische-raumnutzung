@@ -51,19 +51,7 @@ public class CurrentUserArgumentResolverService implements HandlerMethodArgument
             return user;
 
         } else if (principal instanceof UsernamePasswordAuthenticationToken) {
-
-            User user = userService.resolveAdminUser();
-
-            if (user == null) {
-                log.info("No admin user found in database, creating new");
-                user = new User();
-                user.setEmail(null);
-                user.setUsername("admin");
-                user.setUserId("admin");
-                user = userService.create(user);
-            }
-
-            return user;
+            return userService.resolveAdminUser();
         }
 
         return null;

@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +34,15 @@ public class BookingsController {
     }
 
     @GetMapping("/bookings")
-    public String userBookings(Model model, HttpServletResponse response, Principal principal) {
-        return roomBookings(model, response, principal, roomService.get().getId());
+    public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal User user) {
+        return roomBookings(model, response, user, roomService.get().getId());
     }
 
 
     @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
-    public String deleteBookings(Model model, HttpServletResponse response, Principal principal,
+    public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal User user,
                                  @PathVariable Long roomId, @PathVariable Long eventId) {
         log.info("Received delete request for booking {}", eventId);
-        User user = userService.resolveLoggedInUser(principal);
         Booking booking = bookingsService.getBookingById(eventId);
 
         if (booking == null) {
@@ -80,9 +80,8 @@ public class BookingsController {
     }
 
     @GetMapping("/{roomId}/bookings")
-    public String roomBookings(Model model, HttpServletResponse response, Principal principal,
+    public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal User user,
                                @PathVariable Long roomId) {
-        User user = userService.resolveLoggedInUser(principal);
         Room room = roomService.get(roomId);
         model.addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
 
@@ -91,7 +90,7 @@ public class BookingsController {
 
     @GetMapping("/{roomId}/bookings/new")
     public String newBooking(
-            Model model, HttpServletResponse response, Principal principal, @PathVariable Long roomId,
+            Model model, HttpServletResponse response, @AuthenticationPrincipal User user, @PathVariable Long roomId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
     ) {
@@ -141,7 +140,7 @@ public class BookingsController {
     @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long roomId,
-            @ModelAttribute("login") LoginStateModel loginStateModel,
+            @AuthenticationPrincipal User user,
             @ModelAttribute FormData formData
     ) {
         // Validate exists
@@ -151,7 +150,7 @@ public class BookingsController {
             return "error_known";
         }
         Room room = roomService.get();
-        if (loginStateModel.user() == null) {
+        if (user == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             model.addAttribute("error", KnownError.NO_USER);
             return "error_known"; //TODO we should modify the LSM so this never happens
@@ -182,7 +181,7 @@ public class BookingsController {
                 formData.end,
                 formData.cooperative,
                 room,
-                loginStateModel.user(),
+                user,
                 formData.priority,
                 Set.of()
         );

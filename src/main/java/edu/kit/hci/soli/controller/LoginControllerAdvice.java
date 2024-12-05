@@ -32,8 +32,8 @@ public class LoginControllerAdvice {
     public LoginStateModel getLoginStateModel(Principal principal, @AuthenticationPrincipal User user, HttpServletRequest request, @ModelAttribute("csrf") CsrfToken csrf) {
 
         if (principal == null) {
-            return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
-        } else if (user.isAdmin()) {
+            return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, user);
+        } else if (userService.isAdmin(user)) {
             return new LoginStateModel(user.getUsername(), LoginStateModel.Kind.ADMIN, csrf, user);
         }
 
