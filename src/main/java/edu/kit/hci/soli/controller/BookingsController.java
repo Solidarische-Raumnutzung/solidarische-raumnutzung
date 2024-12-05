@@ -89,33 +89,6 @@ public class BookingsController {
         return "bookings";
     }
 
-    @GetMapping("/{roomId}/bookings/new")
-    public String newBooking(
-            Model model, HttpServletResponse response, Principal principal, @PathVariable Long roomId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
-    ) {
-        if (!roomService.existsById(roomId)) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
-        }
-        if (start == null) {
-            start = LocalDateTime.now();
-        }
-        if (end == null) {
-            end = start.plusMinutes(30);
-        }
-        model.addAttribute("room", roomId);
-        model.addAttribute("start", start);
-        model.addAttribute("end", end);
-
-        model.addAttribute("minimumTime", bookingsService.minimumTime());
-        model.addAttribute("maximumTime", bookingsService.maximumTime());
-
-        return "create_booking";
-    }
-
     @GetMapping("/{roomId}/bookings/{eventId}")
     public String viewEvent(Model model, HttpServletResponse response,
                             @PathVariable Long roomId,
@@ -135,7 +108,44 @@ public class BookingsController {
             return "error_known";
         }
         model.addAttribute("booking", booking);
+        model.addAttribute("showRequestButton",
+                ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
+                        && booking.getUser().equals(login.user())
+                        && !bookingsService.minimumTime().isAfter(booking.getStartDate())
+        );
         return "view_event";
+    }
+
+    @GetMapping("/{roomId}/bookings/new")
+    public String newBooking(
+            Model model, HttpServletResponse response, Principal principal, @PathVariable Long roomId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            @RequestParam(required = false) Boolean cooperative
+    ) {
+        if (!roomService.existsById(roomId)) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        if (start == null) {
+            start = LocalDateTime.now();
+        }
+        if (end == null) {
+            end = start.plusMinutes(30);
+        }
+        if (cooperative == null) {
+            cooperative = false;
+        }
+        model.addAttribute("room", roomId);
+        model.addAttribute("start", start);
+        model.addAttribute("end", end);
+        model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
+
+        model.addAttribute("minimumTime", bookingsService.minimumTime());
+        model.addAttribute("maximumTime", bookingsService.maximumTime());
+
+        return "create_booking";
     }
 
     @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
@@ -201,12 +211,12 @@ public class BookingsController {
 
     private String handleBookingAttempt(Booking attemptedBooking, BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {
         return switch (bookingResult) {
-            case BookingAttemptResult.Failure result -> {
+            case BookingAttemptResult.Failure(var conflict) -> {
                 model.addAttribute("error", KnownError.EVENT_CONFLICT);
-                model.addAttribute("conflicts", result.conflict());
+                model.addAttribute("conflicts", conflict);
                 yield "error_known";
             }
-            case BookingAttemptResult.Success result -> "redirect:/" + attemptedBooking.getRoom().getId() + "/bookings"; //TODO redirect to the new booking
+            case BookingAttemptResult.Success(var booking) -> "redirect:/" + attemptedBooking.getRoom().getId();
             case BookingAttemptResult.PossibleCooperation result -> {
                 request.getSession().setAttribute("attemptedBooking", attemptedBooking);
                 request.getSession().setAttribute("bookingResult", result);
