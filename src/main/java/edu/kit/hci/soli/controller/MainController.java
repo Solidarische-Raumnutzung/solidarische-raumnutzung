@@ -1,7 +1,10 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.RoomService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,9 +31,20 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String index(Model model, @ModelAttribute("login") LoginStateModel login) {
+    public String calendar(Model model, HttpServletResponse response, @ModelAttribute("login") LoginStateModel login) {
+        return calendar(model, response, login, 1L);
+    }
+
+    @GetMapping("/{roomId}")
+    public String calendar(Model model, HttpServletResponse response, @ModelAttribute("login") LoginStateModel login, @PathVariable long roomId) {
         if (!login.name().isEmpty()) log.info("Received request from {}", login.name());
-        model.addAttribute("room", roomService.get());
-        return "index";
+        Room room = roomService.get(roomId);
+        if (room == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        model.addAttribute("room", room);
+        return "calendar";
     }
 }

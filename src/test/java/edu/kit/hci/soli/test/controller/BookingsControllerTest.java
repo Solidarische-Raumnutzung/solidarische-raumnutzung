@@ -44,7 +44,7 @@ public class BookingsControllerTest {
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }
-        assertEquals("redirect:/1/bookings", result);
+        assertEquals("redirect:/1", result);
         return null;
     }
 

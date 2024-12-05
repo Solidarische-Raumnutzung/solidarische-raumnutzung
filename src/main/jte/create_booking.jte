@@ -8,12 +8,15 @@
 
 @param JteContext context
 @param LoginStateModel login
+@param CsrfToken csrf
+
 @param Long room
 @param LocalDateTime start
 @param LocalDateTime end
+@param ShareRoomType cooperative
+
 @param LocalDateTime minimumTime
 @param LocalDateTime maximumTime
-@param CsrfToken csrf
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
     <form class="card-body w-96 mx-auto" method="post" action="/${room}/bookings/new">
@@ -77,7 +80,7 @@
                         <span class="label-text">${context.localize("bookings.share." + shareRoomType)}</span>
                         <input type="radio" name="cooperative" class="radio"
                                value="${shareRoomType}"
-                               checked="${shareRoomType == ShareRoomType.NO}"
+                               checked="${shareRoomType == cooperative}"
                         />
                     </label>
                 </div>
