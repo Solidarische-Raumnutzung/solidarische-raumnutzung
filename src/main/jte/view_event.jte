@@ -1,18 +1,20 @@
 @import edu.kit.hci.soli.domain.Booking
 @import edu.kit.hci.soli.dto.LoginStateModel
-@import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import java.time.format.DateTimeFormatter
 @import java.util.Objects
 
 @param JteContext context
 @param LoginStateModel login
 @param Booking booking
 @param CsrfToken csrf
+@param boolean showRequestButton
 
 @template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, content = @`
 <div class="card-body w-96 mx-auto">
+    <%-- TODO we should show the start and end time here somewhere --%>
     <div class="form-control">
         <label class="label">
             <span class="label-text">${context.localize("bookings.priority")}</span>
@@ -36,15 +38,8 @@
             <button type="submit" class="btn btn-ghost fas fa-trash-alt">${context.localize("bookings.delete")}</button>
         </form>
     @endif
-    @if(Objects.equals(ShareRoomType.ON_REQUEST, booking.getShareRoomType()) && (login.user() != null
-        && !Objects.equals(login.user(), booking.getUser())))
-        <%-- TODO implement this endpoint --%>
-        <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}/request" method="post">
-            @if(csrf != null)
-                <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-            @endif
-            <button type="submit" class="btn btn-primary">${context.localize("bookings.request")}</button>
-        </form>
+    @if(showRequestButton)
+        <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().format(DateTimeFormatter.ISO_DATE_TIME)}&cooperative=true">${context.localize("bookings.request")}</a>
     @endif
 </div>
 `)
