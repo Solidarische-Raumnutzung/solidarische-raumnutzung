@@ -168,7 +168,7 @@ public class BookingsController {
             return "error_known";
         }
         Room room = roomService.get();
-        if (user == null) {
+        if (user == null || user.getUser() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             model.addAttribute("error", KnownError.NO_USER);
             return "error_known"; //TODO we should modify the LSM so this never happens
