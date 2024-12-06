@@ -1,13 +1,22 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.domain.*;
-import edu.kit.hci.soli.dto.*;
+import edu.kit.hci.soli.config.security.SoliUserDetails;
+import edu.kit.hci.soli.domain.Booking;
+import edu.kit.hci.soli.domain.Priority;
+import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.domain.ShareRoomType;
+import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.dto.BookingAttemptResult;
+import edu.kit.hci.soli.dto.BookingDeleteReason;
+import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -34,13 +42,13 @@ public class BookingsController {
     }
 
     @GetMapping("/bookings")
-    public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal User user) {
-        return roomBookings(model, response, user, roomService.get().getId());
+    public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+        return roomBookings(model, response, principal, roomService.get().getId());
     }
 
 
     @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
-    public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal User user,
+    public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                  @PathVariable Long roomId, @PathVariable Long eventId) {
         log.info("Received delete request for booking {}", eventId);
         Booking booking = bookingsService.getBookingById(eventId);
@@ -61,38 +69,38 @@ public class BookingsController {
 
         User admin = userService.resolveAdminUser();
 
-        if (admin.equals(user)) {
+        if (admin.equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.ADMIN);
             log.info("Admin deleted booking {}", eventId);
             return "redirect:/bookings";
         }
 
-        if (booking.getUser().equals(user)) {
+        if (booking.getUser().equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.SELF);
             log.info("User deleted booking {}", eventId);
             return "redirect:/bookings";
         }
 
-        log.info("User {} tried to delete booking {} of user {}", user, eventId, booking.getUser());
+        log.info("User {} tried to delete booking {} of user {}", principal.getUsername(), eventId, booking.getUser());
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         model.addAttribute("error", KnownError.DELETE_NO_PERMISSION);
         return "error_known";
     }
 
     @GetMapping("/{roomId}/bookings")
-    public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal User user,
+    public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
         Room room = roomService.get(roomId);
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room));
 
         return "bookings";
     }
 
     @GetMapping("/{roomId}/bookings/{eventId}")
     public String viewEvent(Model model, HttpServletResponse response,
+                            @AuthenticationPrincipal SoliUserDetails principal,
                             @PathVariable Long roomId,
-                            @PathVariable Long eventId,
-                            @ModelAttribute("login") LoginStateModel login) {
+                            @PathVariable Long eventId) {
 
         // Validate room exists
         if (!roomService.existsById(roomId)) {
@@ -109,7 +117,7 @@ public class BookingsController {
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
                 ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
-                        && booking.getUser().equals(login.user())
+                        && booking.getUser().equals(principal.getUser())
                         && !bookingsService.minimumTime().isAfter(booking.getStartDate())
         );
         return "view_event";
@@ -117,7 +125,7 @@ public class BookingsController {
 
     @GetMapping("/{roomId}/bookings/new")
     public String newBooking(
-            Model model, HttpServletResponse response, @AuthenticationPrincipal User user, @PathVariable Long roomId,
+            Model model, HttpServletResponse response, @PathVariable Long roomId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
             @RequestParam(required = false) Boolean cooperative
@@ -150,7 +158,7 @@ public class BookingsController {
     @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long roomId,
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal SoliUserDetails principal,
             @ModelAttribute FormData formData
     ) {
         // Validate exists
@@ -160,7 +168,7 @@ public class BookingsController {
             return "error_known";
         }
         Room room = roomService.get();
-        if (user == null) {
+        if (principal == null || principal.getUser() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             model.addAttribute("error", KnownError.NO_USER);
             return "error_known"; //TODO we should modify the LSM so this never happens
@@ -191,7 +199,7 @@ public class BookingsController {
                 formData.end,
                 formData.cooperative,
                 room,
-                user,
+                principal.getUser(),
                 formData.priority,
                 Set.of()
         );
@@ -200,10 +208,21 @@ public class BookingsController {
 
     @PostMapping(value = "/{roomId}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
     public String resolveConflict(
-            Model model, HttpServletRequest request, @PathVariable Long roomId,
-            @ModelAttribute("login") LoginStateModel loginStateModel
+            Model model, HttpServletRequest request, @PathVariable Long roomId
     ) {
         Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
+        if (attemptedBooking == null) {
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        if (!roomService.existsById(roomId)) {
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        if (!Objects.equals(attemptedBooking.getRoom().getId(), roomId)) {
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
         BookingAttemptResult.PossibleCooperation bookingResult = (BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
         return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
     }
