@@ -4,3 +4,5 @@ soli:
     # Example: for "password" use {bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW
     # See https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html for details
     password: "${SOLI_ADMINISTRATOR_PASSWORD}"
+  guest:
+    marker: "guest"
