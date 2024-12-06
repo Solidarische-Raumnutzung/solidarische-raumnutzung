@@ -141,7 +141,7 @@ public class BookingsService {
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
                         "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
-                        booking.getPriority().name(), //TODO we should localize this and/or insert it via CSS
+                        "",
                         booking.getStartDate(),
                         booking.getEndDate(),
                         getEventClasses(booking, user)

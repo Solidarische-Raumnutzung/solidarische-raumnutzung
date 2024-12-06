@@ -63,9 +63,37 @@
             color: oklch(var(--erc));
         }
 
+        .calendar-event-highest .fc-event-title::before {
+            content: "p-${context.localize("bookings.priority.HIGHEST")}";
+            justify-content: center;
+            height: 1.25rem;
+            font-size: .875rem;
+            line-height: 1.25rem;
+            padding-left: .563rem;
+            padding-right: .563rem;
+            border-radius: var(--rounded-badge);
+            border-width: 1px;
+            /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+            color: oklch(var(--pc)/var(--tw-text-opacity));
+        }
+
         .calendar-event-medium {
             background-color: oklch(var(--wa));
             color: oklch(var(--wac));
+        }
+
+        .calendar-event-medium .fc-event-title::before {
+            content: "p-${context.localize("bookings.priority.MEDIUM")}";
+            justify-content: center;
+            height: 1.25rem;
+            font-size: .875rem;
+            line-height: 1.25rem;
+            padding-left: .563rem;
+            padding-right: .563rem;
+            border-radius: var(--rounded-badge);
+            border-width: 1px;
+            /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+            color: oklch(var(--pc)/var(--tw-text-opacity));
         }
 
         .calendar-event-lowest {
@@ -73,13 +101,36 @@
             color: oklch(var(--inc));
         }
 
+        .calendar-event-lowest .fc-event-title::before {
+            content: "p-${context.localize("bookings.priority.LOWEST")}";
+            justify-content: center;
+            height: 1.25rem;
+            font-size: .875rem;
+            line-height: 1.25rem;
+            padding-left: .563rem;
+            padding-right: .563rem;
+            border-radius: var(--rounded-badge);
+            border-width: 1px;
+            /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+            color: oklch(var(--pc)/var(--tw-text-opacity));
+        }
+
         .fc-event-main {
             color: inherit !important;
         }
 
-        .calendar-event-own {
-            border-color: oklch(var(--a));
-            border-width: 3px;
+        .calendar-event-own .fc-event-title::after {
+            content: "${context.localize("bookings.own")}";
+            justify-content: center;
+            height: 1.25rem;
+            font-size: .875rem;
+            line-height: 1.25rem;
+            padding-left: .563rem;
+            padding-right: .563rem;
+            border-radius: var(--rounded-badge);
+            border-width: 1px;
+            /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+            color: oklch(var(--pc)/var(--tw-text-opacity));
         }
 
         .calendar-event-yes {
@@ -99,9 +150,7 @@
 
     <noscript class="w-full">
         <h1 class="text-center">
-            The calendar is only supported with JavaScript.<br>
-            Use the sidebar to book instead.
+            ${context.localize("calendar.no_js")}
         </h1>
     </noscript>
-
 `)
