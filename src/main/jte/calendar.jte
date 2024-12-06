@@ -48,6 +48,40 @@
         });
     </script>
 
+    <style>
+        .calendar-event-highest {
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+
+        .calendar-event-medium {
+            background-color: #f0ad4e;
+            border-color: #eea236;
+        }
+
+        .calendar-event-lowest {
+            background-color: #5bc0de;
+            border-color: #46b8da;
+        }
+
+        .calendar-event-own {
+            border-color: #0F0;
+            border-width: 3px;
+        }
+
+        .calendar-event-yes {
+            /* TODO: add some form of icon? */
+        }
+
+        .calendar-event-no {
+            /* TODO: add some form of icon? */
+        }
+
+        .calendar-event-on_request {
+            /* TODO: add some form of icon? */
+        }
+    </style>
+
     <div id="calendar" class="w-full"></div>
 
     <noscript class="w-full">

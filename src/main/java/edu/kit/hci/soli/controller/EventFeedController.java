@@ -1,9 +1,11 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.service.BookingsService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -21,7 +23,8 @@ public class EventFeedController {
     @GetMapping("/api/events")
     public List<CalendarEvent> getEvents(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            @AuthenticationPrincipal User user
     ) {
         //TODO we should highlight events by ourselves WITHOUT exposing the ownership by allowing others to send requests as spoofed users
         if (end.isBefore(start)) {
@@ -31,7 +34,7 @@ public class EventFeedController {
             throw new IllegalArgumentException("Time range must be less than 3 months");
         }
 
-        return bookingsRepository.getCalendarEvents(start, end);
+        return bookingsRepository.getCalendarEvents(start, end, user);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
