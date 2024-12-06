@@ -9,16 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class LoginController {
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model) {
-        String error = request.getParameter("error");
-        String logout = request.getParameter("logout");
-
-        if (error != null) {
-            model.addAttribute("error", "Invalid username or password");
-        }
-
-        if (logout != null) {
-            model.addAttribute("logout", "You have been logged out");
-        }
+        if (request.getParameter("error") != null) model.addAttribute("error", "Invalid username or password");
+        if (request.getParameter("logout") != null) model.addAttribute("message", "You have been logged out");
 
         return "login";
     }
