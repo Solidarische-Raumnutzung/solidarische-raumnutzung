@@ -165,6 +165,14 @@
             text-rendering: auto;
             font-weight: 700;
         }
+
+        .fc-event-time {
+            display: none;
+        }
+
+        .fc-event-title {
+            padding-bottom: 1px;
+        }
     </style>
 
     <div id="calendar" class="w-full"></div>
