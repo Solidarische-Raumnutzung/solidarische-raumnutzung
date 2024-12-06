@@ -23,7 +23,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(cfg -> cfg
-                        .requestMatchers("/", "/{id:\\d+}", "/{id:\\d+}/", "/api/events").permitAll()
+                        .requestMatchers("/", "/{id:\\d+}", "/api/events").permitAll()
                         .requestMatchers("/**").authenticated()
                 )
                 .oauth2Login(cfg -> cfg
