@@ -133,16 +133,37 @@
             color: oklch(var(--pc)/var(--tw-text-opacity));
         }
 
-        .calendar-event-yes {
-            /* TODO: add some form of icon? */
+        .calendar-event-yes .fc-event-title-container::after {
+            content: "\f0c0"; /* fa-users */
+            font-family: 'Font Awesome 5 Free';
+            font-display: block;
+            font-style: normal;
+            font-variant: normal;
+            line-height: 1;
+            text-rendering: auto;
+            font-weight: 700;
         }
 
-        .calendar-event-no {
-            /* TODO: add some form of icon? */
+        .calendar-event-no .fc-event-title-container::after {
+            content: "\e073"; /* fa-users-slash */
+            font-family: 'Font Awesome 5 Free';
+            font-display: block;
+            font-style: normal;
+            font-variant: normal;
+            line-height: 1;
+            text-rendering: auto;
+            font-weight: 700;
         }
 
-        .calendar-event-on_request {
-            /* TODO: add some form of icon? */
+        .calendar-event-on_request .fc-event-title-container::after {
+            content: "\e592"; /* fa-users-line */
+            font-family: 'Font Awesome 5 Free';
+            font-display: block;
+            font-style: normal;
+            font-variant: normal;
+            line-height: 1;
+            text-rendering: auto;
+            font-weight: 700;
         }
     </style>
 
