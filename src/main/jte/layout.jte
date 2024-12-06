@@ -90,7 +90,7 @@
                 --bc: 74.6477% 0.0216 264.435964;
             }
             #color-scheme-text::before {
-                content: "Light Mode";
+                content: "${context.localize("appearance.darkmode")}";
             }
 
             @media (prefers-color-scheme: dark) {
@@ -159,9 +159,8 @@
                     --tab-border: 2px;
                     --tab-radius: 0.7rem;
                 }
-
                 #color-scheme-text::before {
-                    content: "Dark Mode";
+                    content: "${context.localize("appearance.lightmode")}";
                 }
             }
         </style>
