@@ -4,6 +4,7 @@ import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -145,17 +146,25 @@ public class BookingsService {
     }
 
     @Transactional(readOnly = true)
-    public List<CalendarEvent> getCalendarEvents(LocalDateTime start, LocalDateTime end) {
+    public List<CalendarEvent> getCalendarEvents(LocalDateTime start, LocalDateTime end, @Nullable User user) {
         return bookingsRepository.findOverlappingBookings(start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
                         "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
-                        booking.getPriority().name(), //TODO we should localize this and/or insert it via CSS
+                        "",
                         booking.getStartDate(),
                         booking.getEndDate(),
-                        List.of("event-" + booking.getPriority().name().toLowerCase()) //TODO if we own the event, we should add a class to highlight it
+                        getEventClasses(booking, user)
                 ))
                 .toList();
+    }
+
+    private List<String> getEventClasses(Booking booking, @Nullable User user) {
+        List<String> classes = new ArrayList<>();
+        classes.add("calendar-event-" + booking.getPriority().name().toLowerCase());
+        classes.add("calendar-event-" + booking.getShareRoomType().name().toLowerCase());
+        if (booking.getUser().equals(user)) classes.add("calendar-event-own");
+        return classes;
     }
 
     public LocalDateTime currentSlot() {

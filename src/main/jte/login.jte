@@ -6,8 +6,10 @@
 @param JteContext context
 @param LoginStateModel login
 @param CsrfToken csrf
+
 @param String error
 @param String message
+@param boolean guestEnabled
 
 @template.layout(page = new PageSpec("Anmeldung", "Soli"), context = context, login = login, content = @`
     <div class="card bg-base-200 w-80 mx-auto">
@@ -28,9 +30,11 @@
             <div class="form-control mt-6">
                 <a class="btn btn-primary" href="/oauth2/authorization/kit">per KIT</a>
             </div>
-            <div class="form-control mt-6">
-                <button class="btn btn-secondary">Anonym</button>
-            </div>
+            @if(guestEnabled)
+                <div class="form-control mt-6">
+                    <a class="btn btn-secondary" href="/login/guest">Anonym</a>
+                </div>
+            @endif
             <br>
             <details class="collapse collapse-plus bg-base-200">
                 <summary class="collapse-title font-medium">Administratoren</summary>

@@ -10,7 +10,10 @@ public class SoliUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
     @Value("${soli.administrator.password}")
-    private String password;
+    private String adminPassword;
+
+    @Value("${soli.guest.marker}")
+    private String guestMarker;
 
     public SoliUserDetailsService(UserService userService) {
         this.userService = userService;
@@ -18,7 +21,8 @@ public class SoliUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("admin".equals(username)) return new SoliAdminUserDetails(userService.resolveAdminUser(), password);
-        throw new UsernameNotFoundException("User not found");
+        if ("admin".equals(username)) return new SoliAdminUserDetails(userService.resolveAdminUser(), adminPassword);
+        else if (userService.isGuestEnabled()) return new SoliGuestUserDetails(userService.resolveGuestUser(username), "{noop}" + guestMarker);
+        else throw new UsernameNotFoundException("User not found: " + username);
     }
 }

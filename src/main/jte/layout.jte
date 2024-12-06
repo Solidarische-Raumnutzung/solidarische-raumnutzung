@@ -51,6 +51,8 @@
                 --rounded-btn: 1.9rem;
                 --tab-border: 2px;
                 --tab-radius: 0.7rem;
+                --tw-bg-opacity: 1;
+                --tw-text-opacity: 1;
             }
             @media (prefers-color-scheme: dark) {
                 :root {
@@ -138,7 +140,7 @@
 
                                         @endif
 
-                                        <li><a href="/">${context.localize("calender")}</a></li>
+                                        <li><a href="/">${context.localize("calendar")}</a></li>
                                         <li><a href="/bookings">${context.localize("bookings.my_bookings")}</a></li>
 
                                         @if(login.kind() == LoginStateModel.Kind.ADMIN)
