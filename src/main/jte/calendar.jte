@@ -171,7 +171,11 @@
         }
 
         .fc-event-title {
-            padding-bottom: 1px;
+            padding-bottom: 2px;
+        }
+
+        .fc-event-title-container {
+            padding-top: 1px;
         }
     </style>
 
