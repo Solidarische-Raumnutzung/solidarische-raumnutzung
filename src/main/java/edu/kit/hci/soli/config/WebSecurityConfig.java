@@ -22,7 +22,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(requests ->
                         requests
-                                .requestMatchers("/", "/api/events").permitAll()
+                                .requestMatchers("/", "/{id:\\d+}", "/{id:\\d+}/", "/api/events").permitAll()
                                 .requestMatchers("/**").authenticated()
                 )
                 .oauth2Login(form -> form
