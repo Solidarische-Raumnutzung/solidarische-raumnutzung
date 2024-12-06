@@ -138,8 +138,9 @@
 
                                         @endif
 
-                                        <li><a href="/">${context.localize("calender")}</a></li>
-                                        <li><a href="/bookings">${context.localize("bookings.my_bookings")}</a></li>
+                                        <li><a href="/1">${context.localize("calender")}</a></li>
+                                        <li><a href="/1/bookings">${context.localize("bookings.my_bookings")}</a></li>
+                                        <li><a href="/1/bookings/new">${context.localize("bookings.new")}</a></li>
                                     </ul>
                                 </div>
                             </div>
