@@ -1,6 +1,6 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.service.BookingsService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,7 +24,7 @@ public class EventFeedController {
     public List<CalendarEvent> getEvents(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal SoliUserDetails principal
     ) {
         //TODO we should highlight events by ourselves WITHOUT exposing the ownership by allowing others to send requests as spoofed users
         if (end.isBefore(start)) {
@@ -34,7 +34,7 @@ public class EventFeedController {
             throw new IllegalArgumentException("Time range must be less than 3 months");
         }
 
-        return bookingsRepository.getCalendarEvents(start, end, user);
+        return bookingsRepository.getCalendarEvents(start, end, principal == null ? null : principal.getUser());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
