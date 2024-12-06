@@ -14,5 +14,7 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     Stream<Booking> findOverlappingBookings(LocalDateTime start, LocalDateTime end);
 
     @Query("SELECT b FROM Booking b WHERE b.user = :user AND b.room = :room")
-    List<Booking> findByUser(User user, Room room);
+    List<Booking> findByUserAndRoom(User user, Room room);
+
+    List<Booking> findByUser(User user);
 }

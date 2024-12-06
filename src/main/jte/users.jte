@@ -16,7 +16,7 @@
         @if(users.isEmpty())
             <div class="card">
                 <div class="card-body">
-                    <p class="text-center">Es befinden sich keine Nutzer in der Datenbank</p>
+                    <p class="text-center">${context.localize("user.no_users_in_db")}</p>
                 </div>
             </div>
         @else
@@ -45,11 +45,24 @@
                                 @if(csrf != null)
                                     <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                                 @endif
-                                <input type="hidden" name="_method" value="put" />
+                                <input type="hidden" name="_method" value="put"/>
                                 @if(user.isDisabled())
                                     <button type="submit" class="btn btn-ghost">${context.localize("user.administration.allow")}</button>
                                 @else
-                                    <button type="submit" class="btn btn-ghost">${context.localize("user.administration.disable")}</button>
+
+                                    <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("user.administration.disable")}</a>
+                                    <dialog id="sure_modal" class="modal">
+                                        <div class="modal-box">
+                                            <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
+                                            <p class="py-4">${context.localize("user.disable.are_you_sure")}</p>
+                                            <div class="modal-action">
+                                                <form method="dialog">
+                                                    <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
+                                                </form>
+                                                <button type="submit" class="btn btn-warning">${context.localize("user.administration.disable")}</button>
+                                            </div>
+                                        </div>
+                                    </dialog>
                                 @endif
                             </form>
                         </td>

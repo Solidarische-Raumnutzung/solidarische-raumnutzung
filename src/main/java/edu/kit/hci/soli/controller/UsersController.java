@@ -34,9 +34,13 @@ public class UsersController {
             return "error_known";
         }
 
+        if (user.getUsername().equals("admin")) {
+            return "users";
+        }
+
         userService.disableOrRenableUser(user);
 
-        model.addAttribute("users", userService.getAll());
+        model.addAttribute("users", userService.getAllWithoutAdmin());
         return "users";
     }
 
@@ -49,7 +53,7 @@ public class UsersController {
     @GetMapping("/admin/users")
     public String getUsers(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails soliUserDetails) {
         log.info("User {} requested the users page", soliUserDetails);
-        model.addAttribute("users", userService.getAll());
+        model.addAttribute("users", userService.getAllWithoutAdmin());
         return "users";
     }
 

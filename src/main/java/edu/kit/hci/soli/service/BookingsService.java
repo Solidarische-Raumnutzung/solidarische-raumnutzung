@@ -63,6 +63,10 @@ public class BookingsService {
         }
     }
 
+    public void deleteAllBookingsForUser(User user) {
+        bookingsRepository.deleteAll(bookingsRepository.findByUser(user));
+    }
+
     private enum ConflictType {
         OVERRIDE, CONTACT, COOPERATE, CONFLICT
     }
@@ -99,6 +103,12 @@ public class BookingsService {
         return bookingsRepository.findById(id).orElse(null);
     }
 
+    public void deleteBookings(List<Booking> bookings, BookingDeleteReason reason) {
+        for (var booking: bookings) {
+            this.delete(booking, reason);
+        }
+    }
+
     public void delete(Booking booking, BookingDeleteReason reason) {
         bookingsRepository.delete(booking);
         //TODO send notification to user
@@ -131,7 +141,7 @@ public class BookingsService {
     }
 
     public List<Booking> getBookingsByUser(User user, Room room) {
-        return bookingsRepository.findByUser(user, room);
+        return bookingsRepository.findByUserAndRoom(user, room);
     }
 
     @Transactional(readOnly = true)

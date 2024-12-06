@@ -34,12 +34,17 @@ public class UserService {
     }
 
     public void disableOrRenableUser(User user) {
+
+        if(!user.isDisabled()) {
+            bookingsService.deleteAllBookingsForUser(user);
+        }
+
         user.setDisabled(!user.isDisabled());
         userRepository.save(user);
     }
 
-    public @NotNull List<User> getAll() {
-        return userRepository.findAll();
+    public @NotNull List<User> getAllWithoutAdmin() {
+        return userRepository.findAllWithoutAdmin();
     }
 
     public @Nullable User getById(Long userId) {
