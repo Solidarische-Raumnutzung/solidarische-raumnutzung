@@ -42,13 +42,13 @@ public class BookingsController {
     }
 
     @GetMapping("/bookings")
-    public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails user) {
-        return roomBookings(model, response, user, roomService.get().getId());
+    public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+        return roomBookings(model, response, principal, roomService.get().getId());
     }
 
 
     @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
-    public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails user,
+    public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                  @PathVariable Long roomId, @PathVariable Long eventId) {
         log.info("Received delete request for booking {}", eventId);
         Booking booking = bookingsService.getBookingById(eventId);
@@ -69,36 +69,36 @@ public class BookingsController {
 
         User admin = userService.resolveAdminUser();
 
-        if (admin.equals(user.getUser())) {
+        if (admin.equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.ADMIN);
             log.info("Admin deleted booking {}", eventId);
             return "redirect:/bookings";
         }
 
-        if (booking.getUser().equals(user.getUser())) {
+        if (booking.getUser().equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.SELF);
             log.info("User deleted booking {}", eventId);
             return "redirect:/bookings";
         }
 
-        log.info("User {} tried to delete booking {} of user {}", user.getUsername(), eventId, booking.getUser());
+        log.info("User {} tried to delete booking {} of user {}", principal.getUsername(), eventId, booking.getUser());
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         model.addAttribute("error", KnownError.DELETE_NO_PERMISSION);
         return "error_known";
     }
 
     @GetMapping("/{roomId}/bookings")
-    public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails user,
+    public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
         Room room = roomService.get(roomId);
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(user.getUser(), room));
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room));
 
         return "bookings";
     }
 
     @GetMapping("/{roomId}/bookings/{eventId}")
     public String viewEvent(Model model, HttpServletResponse response,
-                            @AuthenticationPrincipal SoliUserDetails user,
+                            @AuthenticationPrincipal SoliUserDetails principal,
                             @PathVariable Long roomId,
                             @PathVariable Long eventId) {
 
@@ -117,7 +117,7 @@ public class BookingsController {
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
                 ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
-                        && booking.getUser().equals(user.getUser())
+                        && booking.getUser().equals(principal.getUser())
                         && !bookingsService.minimumTime().isAfter(booking.getStartDate())
         );
         return "view_event";
@@ -158,7 +158,7 @@ public class BookingsController {
     @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long roomId,
-            @AuthenticationPrincipal SoliUserDetails user,
+            @AuthenticationPrincipal SoliUserDetails principal,
             @ModelAttribute FormData formData
     ) {
         // Validate exists
@@ -168,7 +168,7 @@ public class BookingsController {
             return "error_known";
         }
         Room room = roomService.get();
-        if (user == null || user.getUser() == null) {
+        if (principal == null || principal.getUser() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             model.addAttribute("error", KnownError.NO_USER);
             return "error_known"; //TODO we should modify the LSM so this never happens
@@ -199,7 +199,7 @@ public class BookingsController {
                 formData.end,
                 formData.cooperative,
                 room,
-                user.getUser(),
+                principal.getUser(),
                 formData.priority,
                 Set.of()
         );

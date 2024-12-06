@@ -31,13 +31,13 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails user) {
-        return calendar(model, response, user, 1L);
+    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+        return calendar(model, response, principal, 1L);
     }
 
     @GetMapping("/{roomId}")
-    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails user, @PathVariable long roomId) {
-        if (user != null) log.info("Received request from {}", user.getUsername());
+    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable long roomId) {
+        if (principal != null) log.info("Received request from {}", principal.getUsername());
         Room room = roomService.get(roomId);
         if (room == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
