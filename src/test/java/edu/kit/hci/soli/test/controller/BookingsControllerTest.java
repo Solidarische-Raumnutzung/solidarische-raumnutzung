@@ -3,7 +3,6 @@ package edu.kit.hci.soli.test.controller;
 import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
-import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.*;
@@ -39,8 +38,7 @@ public class BookingsControllerTest {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
-        LoginStateModel lsm = new LoginStateModel("testuser", LoginStateModel.Kind.OAUTH, null, user);
-        String result = bookingsController.createBooking(model, response, request, room, user, formData);
+        String result = bookingsController.createBooking(model, response, request, room, () -> user, formData);
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }

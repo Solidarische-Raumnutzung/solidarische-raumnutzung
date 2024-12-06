@@ -23,8 +23,4 @@ public class User {
     private String email;
 
     private String userId;
-
-    public boolean isAdmin() {
-        return userId.equals("admin");
-    }
 }
