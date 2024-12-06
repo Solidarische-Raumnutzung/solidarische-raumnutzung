@@ -28,7 +28,7 @@
                         + "&end=" + encodeURIComponent(info.end.toISOString());
                 },
                 selectOverlap: function(event) {
-                    return event.display === 'background';
+                    return !event.classNames.includes('calendar-event-no');
                 },
                 selectAllow: function(selectInfo) {
                     // Keep these in sync with BookingsController!
