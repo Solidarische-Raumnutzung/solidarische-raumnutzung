@@ -145,7 +145,10 @@
 
                                         <li><a href="/1">${context.localize("calendar")}</a></li>
                                         <li><a href="/1/bookings">${context.localize("bookings.my_bookings")}</a></li>
-                                        <li><a href="/1/bookings/new">${context.localize("bookings.new")}</a></li>
+
+                                        <div class="divider"></div>
+
+                                        <li><a class="btn btn-outline btn-primary" href="/1/bookings/new">${context.localize("bookings.new")}</a></li>
                                     </ul>
                                 </div>
                             </div>
