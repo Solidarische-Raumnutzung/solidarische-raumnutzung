@@ -49,23 +49,36 @@
     </script>
 
     <style>
+        :root {
+            --fc-border-color: oklch(var(--bc)/0.5);
+            --fc-now-indicator-color: oklch(var(--er));
+        }
+
+        .fc-timegrid-now-indicator-line {
+            border-width: 2px !important;
+        }
+
         .calendar-event-highest {
-            background-color: #d9534f;
-            border-color: #d43f3a;
+            background-color: oklch(var(--er));
+            color: oklch(var(--erc));
         }
 
         .calendar-event-medium {
-            background-color: #f0ad4e;
-            border-color: #eea236;
+            background-color: oklch(var(--wa));
+            color: oklch(var(--wac));
         }
 
         .calendar-event-lowest {
-            background-color: #5bc0de;
-            border-color: #46b8da;
+            background-color: oklch(var(--in));
+            color: oklch(var(--inc));
+        }
+
+        .fc-event-main {
+            color: inherit !important;
         }
 
         .calendar-event-own {
-            border-color: #0F0;
+            border-color: oklch(var(--a));
             border-width: 3px;
         }
 
