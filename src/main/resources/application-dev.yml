@@ -7,3 +7,5 @@ soli:
   development-mode: true
   administrator:
     password: "{noop}password"
+  guest:
+    marker: "guest"

@@ -25,14 +25,7 @@ public class SoliOidcUserService implements OAuth2UserService<OidcUserRequest, O
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser oidcUser = oidcUserService.loadUser(userRequest);
-        String userId = "kit/" + oidcUser.getName();
-
-        User user = userService.findByUserId(userId);
-        if (user == null) {
-            log.info("No OIDC user found in database for {}, creating new", userId);
-            user = userService.create(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId));
-        }
-
+        User user = userService.resolveOidcUser(oidcUser);
         return new SoliUserPrincipal(oidcUser, user);
     }
 

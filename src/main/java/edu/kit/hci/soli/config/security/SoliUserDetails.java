@@ -57,4 +57,31 @@ public interface SoliUserDetails extends UserDetails {
             return user;
         }
     }
+
+    class Guest implements SoliUserDetails {
+        private final User user;
+        private final String password;
+
+        public Guest(User user, String password) {
+            this.user = user;
+            this.password = password;
+        }
+
+        @Override
+        public List<SimpleGrantedAuthority> getAuthorities() {
+            List<SimpleGrantedAuthority> result = new ArrayList<>(1);
+            result.add(new SimpleGrantedAuthority("ROLE_GUEST"));
+            return result;
+        }
+
+        @Override
+        public String getPassword() {
+            return password;
+        }
+
+        @Override
+        public User getUser() {
+            return user;
+        }
+    }
 }
