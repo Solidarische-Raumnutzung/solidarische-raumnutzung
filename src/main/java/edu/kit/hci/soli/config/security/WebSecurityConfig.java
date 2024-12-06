@@ -24,6 +24,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(cfg -> cfg
                         .requestMatchers("/", "/api/events").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/**").authenticated()
                 )
                 .oauth2Login(cfg -> cfg

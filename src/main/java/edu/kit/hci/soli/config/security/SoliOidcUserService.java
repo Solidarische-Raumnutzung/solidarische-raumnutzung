@@ -30,7 +30,7 @@ public class SoliOidcUserService implements OAuth2UserService<OidcUserRequest, O
         User user = userService.findByUserId(userId);
         if (user == null) {
             log.info("No OIDC user found in database for {}, creating new", userId);
-            user = userService.create(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId));
+            user = userService.create(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId, false));
         }
 
         return new SoliOidcUserDetails(oidcUser, user);

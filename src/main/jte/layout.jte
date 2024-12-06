@@ -140,6 +140,11 @@
 
                                         <li><a href="/">${context.localize("calender")}</a></li>
                                         <li><a href="/bookings">${context.localize("bookings.my_bookings")}</a></li>
+
+                                        @if(login.kind() == LoginStateModel.Kind.ADMIN)
+                                            <div class="divider"></div>
+                                            <li><a href="/admin/users">${context.localize("user.administration")}</a></li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
