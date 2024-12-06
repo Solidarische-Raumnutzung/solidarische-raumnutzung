@@ -21,6 +21,11 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
         <style>
             :root {
+                --tw-bg-opacity: 1;
+                --tw-text-opacity: 1;
+            }
+
+            :root {
                 color-scheme: light;
                 --in: 72.06% 0.191 231.6;
                 --su: 64.8% 0.150 160;
@@ -138,7 +143,7 @@
 
                                         @endif
 
-                                        <li><a href="/1">${context.localize("calender")}</a></li>
+                                        <li><a href="/1">${context.localize("calendar")}</a></li>
                                         <li><a href="/1/bookings">${context.localize("bookings.my_bookings")}</a></li>
                                         <li><a href="/1/bookings/new">${context.localize("bookings.new")}</a></li>
                                     </ul>
