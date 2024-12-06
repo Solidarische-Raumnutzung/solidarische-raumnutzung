@@ -33,7 +33,7 @@ public class SoliOidcUserService implements OAuth2UserService<OidcUserRequest, O
             user = userService.create(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId));
         }
 
-        return new SoliUserPrincipal(oidcUser, user);
+        return new SoliOidcUserDetails(oidcUser, user);
     }
 
     public <T extends HttpSecurityBuilder<T>> OAuth2LoginConfigurer<T>.UserInfoEndpointConfig configure(OAuth2LoginConfigurer<T>.UserInfoEndpointConfig configurer) {

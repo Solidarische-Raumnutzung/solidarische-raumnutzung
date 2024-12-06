@@ -9,11 +9,11 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import java.util.List;
 import java.util.Map;
 
-public class SoliUserPrincipal implements OidcUser, SoliUserDetails {
+public class SoliOidcUserDetails implements OidcUser, SoliUserDetails {
     private final OidcUser oidcUser;
     private final User user;
 
-    public SoliUserPrincipal(OidcUser oidcUser, User user) {
+    public SoliOidcUserDetails(OidcUser oidcUser, User user) {
         this.oidcUser = oidcUser;
         this.user = user;
     }

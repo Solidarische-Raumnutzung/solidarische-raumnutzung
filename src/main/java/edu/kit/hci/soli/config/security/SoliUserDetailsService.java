@@ -18,7 +18,7 @@ public class SoliUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("admin".equals(username)) return new SoliUserDetails.Admin(userService.resolveAdminUser(), password);
+        if ("admin".equals(username)) return new SoliAdminUserDetails(userService.resolveAdminUser(), password);
         throw new UsernameNotFoundException("User not found");
     }
 }
