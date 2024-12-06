@@ -1,12 +1,13 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
-import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller("/")
 @Slf4j
 public class MainController {
-
     @Value("${spring.profiles.active}")
     private String profile;
 
@@ -31,13 +31,13 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String calendar(Model model, HttpServletResponse response, @ModelAttribute("login") LoginStateModel login) {
-        return calendar(model, response, login, 1L);
+    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails user) {
+        return calendar(model, response, user, 1L);
     }
 
     @GetMapping("/{roomId}")
-    public String calendar(Model model, HttpServletResponse response, @ModelAttribute("login") LoginStateModel login, @PathVariable long roomId) {
-        if (!login.name().isEmpty()) log.info("Received request from {}", login.name());
+    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails user, @PathVariable long roomId) {
+        if (user != null) log.info("Received request from {}", user.getUsername());
         Room room = roomService.get(roomId);
         if (room == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

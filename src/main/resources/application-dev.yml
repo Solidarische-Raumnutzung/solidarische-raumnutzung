@@ -6,5 +6,4 @@ spring:
 soli:
   development-mode: true
   administrator:
-    name: admin
     password: "{noop}password"
