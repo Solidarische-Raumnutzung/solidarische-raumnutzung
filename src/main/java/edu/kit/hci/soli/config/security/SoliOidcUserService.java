@@ -26,7 +26,7 @@ public class SoliOidcUserService implements OAuth2UserService<OidcUserRequest, O
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser oidcUser = oidcUserService.loadUser(userRequest);
         User user = userService.resolveOidcUser(oidcUser);
-        return new SoliUserPrincipal(oidcUser, user);
+        return new SoliOidcUserDetails(oidcUser, user);
     }
 
     public <T extends HttpSecurityBuilder<T>> OAuth2LoginConfigurer<T>.UserInfoEndpointConfig configure(OAuth2LoginConfigurer<T>.UserInfoEndpointConfig configurer) {

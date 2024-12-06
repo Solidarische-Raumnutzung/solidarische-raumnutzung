@@ -25,13 +25,13 @@ public class LoginControllerAdvice {
     }
 
     @ModelAttribute("login")
-    public LoginStateModel getLoginStateModel(@AuthenticationPrincipal SoliUserDetails user, @ModelAttribute("csrf") CsrfToken csrf) {
-        if (user == null) {
+    public LoginStateModel getLoginStateModel(@AuthenticationPrincipal SoliUserDetails principal, @ModelAttribute("csrf") CsrfToken csrf) {
+        if (principal == null) {
             return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
-        } else if (userService.isAdmin(user.getUser())) {
-            return new LoginStateModel(user.getDisplayName(), LoginStateModel.Kind.ADMIN, csrf, user.getUser());
+        } else if (userService.isAdmin(principal.getUser())) {
+            return new LoginStateModel(principal.getDisplayName(), LoginStateModel.Kind.ADMIN, csrf, principal.getUser());
         } else {
-            return new LoginStateModel(user.getDisplayName(), LoginStateModel.Kind.OAUTH, csrf, user.getUser());
+            return new LoginStateModel(principal.getDisplayName(), LoginStateModel.Kind.OAUTH, csrf, principal.getUser());
         }
     }
 }

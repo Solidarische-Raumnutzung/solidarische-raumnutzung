@@ -21,8 +21,8 @@ public class SoliUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("admin".equals(username)) return new SoliUserDetails.Admin(userService.resolveAdminUser(), adminPassword);
-        else if (userService.isGuestEnabled()) return new SoliUserDetails.Guest(userService.resolveGuestUser(username), "{noop}" + guestMarker);
+        if ("admin".equals(username)) return new SoliAdminUserDetails(userService.resolveAdminUser(), adminPassword);
+        else if (userService.isGuestEnabled()) return new SoliGuestUserDetails(userService.resolveGuestUser(username), "{noop}" + guestMarker);
         else throw new UsernameNotFoundException("User not found: " + username);
     }
 }
