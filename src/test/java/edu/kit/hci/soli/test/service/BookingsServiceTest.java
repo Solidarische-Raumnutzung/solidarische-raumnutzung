@@ -189,13 +189,34 @@ public class BookingsServiceTest {
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
         testBooking3 = bookingsRepository.save(testBooking3);
-        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3));
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), null);
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
+        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(0).classNames());
         assertEquals(testBooking2.getStartDate(), events.get(1).start());
         assertEquals(testBooking2.getEndDate(), events.get(1).end());
+        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(1).classNames());
         assertEquals(testBooking3.getStartDate(), events.get(2).start());
         assertEquals(testBooking3.getEndDate(), events.get(2).end());
+        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(2).classNames());
+    }
+
+    @Test
+    public void testGetCalendarEventsAs() {
+        testBooking = bookingsRepository.save(testBooking);
+        testBooking2 = bookingsRepository.save(testBooking2);
+        testBooking3 = bookingsRepository.save(testBooking3);
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), testService.user);
+        assertEquals(3, events.size());
+        assertEquals(testBooking.getStartDate(), events.get(0).start());
+        assertEquals(testBooking.getEndDate(), events.get(0).end());
+        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request", "calendar-event-own"), events.get(0).classNames());
+        assertEquals(testBooking2.getStartDate(), events.get(1).start());
+        assertEquals(testBooking2.getEndDate(), events.get(1).end());
+        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(1).classNames());
+        assertEquals(testBooking3.getStartDate(), events.get(2).start());
+        assertEquals(testBooking3.getEndDate(), events.get(2).end());
+        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(2).classNames());
     }
 }
