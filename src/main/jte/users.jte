@@ -16,7 +16,7 @@
         @if(users.isEmpty())
             <div class="card">
                 <div class="card-body">
-                    <p class="text-center">${context.localize("user.no_users_in_db")}</p>
+                    <p class="text-center">${context.localize("disabled.user.no_users_in_db")}</p>
                 </div>
             </div>
         @else
@@ -54,7 +54,7 @@
                                     <dialog id="sure_modal" class="modal">
                                         <div class="modal-box">
                                             <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
-                                            <p class="py-4">${context.localize("user.disable.are_you_sure")}</p>
+                                            <p class="py-4">${context.localize("disable.user.disable.are_you_sure")}</p>
                                             <div class="modal-action">
                                                 <form method="dialog">
                                                     <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
