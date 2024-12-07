@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -34,8 +33,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void disableOrRenableUser(User user) {
-
+    public void disableOrReenableUser(User user) {
         if(!user.isDisabled()) {
             bookingsService.deleteAllBookingsForUser(user);
         }
@@ -44,7 +42,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public @NotNull List<User> getAllWithoutAdmin() {
+    public @NotNull List<User> getManageableUsers() {
         return userRepository.findAllWithoutAdmin();
     }
 
@@ -57,7 +55,7 @@ public class UserService {
         User user = userRepository.findByUserId(userId);
         if (user == null) {
             log.info("No OIDC user found in database for {}, creating new", userId);
-            user = userRepository.save(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId));
+            user = userRepository.save(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId, false));
         }
         return user;
     }

@@ -65,7 +65,7 @@ public class BookingsService {
     }
 
     public void deleteAllBookingsForUser(User user) {
-        bookingsRepository.deleteAll(bookingsRepository.findByUser(user));
+        bookingsRepository.deleteAllByUser(user);
     }
 
     private enum ConflictType {
@@ -102,12 +102,6 @@ public class BookingsService {
 
     public Booking getBookingById(Long id) {
         return bookingsRepository.findById(id).orElse(null);
-    }
-
-    public void deleteBookings(List<Booking> bookings, BookingDeleteReason reason) {
-        for (var booking: bookings) {
-            this.delete(booking, reason);
-        }
     }
 
     public void delete(Booking booking, BookingDeleteReason reason) {

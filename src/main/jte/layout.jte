@@ -145,7 +145,7 @@
 
                                         @if(login.kind() == LoginStateModel.Kind.ADMIN)
                                             <div class="divider"></div>
-                                            <li><a href="/admin/users">${context.localize("user.administration")}</a></li>
+                                            <li><a href="/admin/users">${context.localize("administration.user")}</a></li>
                                         @endif
                                     </ul>
                                 </div>

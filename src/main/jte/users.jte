@@ -11,7 +11,7 @@
 @param CsrfToken csrf
 @param List<User> users
 
-@template.layout(page = new PageSpec("Benutzer Verwaltung", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Nutzende", "Soli"), context = context, login = login, content = @`
     <div class="overflow-x-auto">
         @if(users.isEmpty())
             <div class="card">
@@ -24,10 +24,10 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>${context.localize("user.administration.username")}</th>
-                    <th>${context.localize("user.administration.email")}</th>
-                    <th>${context.localize("user.administration.user_id")}</th>
-                    <th>${context.localize("user.administration.is_disabled")}</th>
+                    <th>${context.localize("administration.user.username")}</th>
+                    <th>${context.localize("administration.user.email")}</th>
+                    <th>${context.localize("administration.user.user_id")}</th>
+                    <th>${context.localize("administration.user.is_disabled")}</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -41,16 +41,16 @@
                         <td>${user.getUserId()}</td>
                         <td>${user.isDisabled()}</td>
                         <td>
-                            <form action="/admin/users/deactivate/${user.getId()}" method="post">
+                            <form action="/admin/users/${user.getId()}/deactivate" method="post">
                                 @if(csrf != null)
                                     <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                                 @endif
                                 <input type="hidden" name="_method" value="put"/>
                                 @if(user.isDisabled())
-                                    <button type="submit" class="btn btn-ghost">${context.localize("user.administration.allow")}</button>
+                                    <button type="submit" class="btn btn-ghost">${context.localize("administration.user.allow")}</button>
                                 @else
 
-                                    <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("user.administration.disable")}</a>
+                                    <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("administration.user.disable")}</a>
                                     <dialog id="sure_modal" class="modal">
                                         <div class="modal-box">
                                             <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
@@ -59,14 +59,13 @@
                                                 <form method="dialog">
                                                     <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
                                                 </form>
-                                                <button type="submit" class="btn btn-warning">${context.localize("user.administration.disable")}</button>
+                                                <button type="submit" class="btn btn-warning">${context.localize("administration.user.disable")}</button>
                                             </div>
                                         </div>
                                     </dialog>
                                 @endif
                             </form>
                         </td>
-
                     </tr>
                 @endfor
                 </tbody>

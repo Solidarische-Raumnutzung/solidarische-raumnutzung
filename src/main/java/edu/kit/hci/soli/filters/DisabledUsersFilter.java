@@ -18,7 +18,6 @@ import java.io.IOException;
 @Order(1)
 @Slf4j
 public class DisabledUsersFilter extends OncePerRequestFilter {
-
     private final UserService userService;
 
     public DisabledUsersFilter(UserService userService) {
@@ -47,8 +46,6 @@ public class DisabledUsersFilter extends OncePerRequestFilter {
             }
             return;
         }
-
         filterChain.doFilter(request, response);
-
     }
 }
