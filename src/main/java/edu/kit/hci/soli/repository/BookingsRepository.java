@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.repository;
 
 import edu.kit.hci.soli.domain.*;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,5 +15,8 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     Stream<Booking> findOverlappingBookings(LocalDateTime start, LocalDateTime end);
 
     @Query("SELECT b FROM Booking b WHERE b.user = :user AND b.room = :room")
-    List<Booking> findByUser(User user, Room room);
+    List<Booking> findByUserAndRoom(User user, Room room);
+
+    @Transactional
+    void deleteAllByUser(User user);
 }
