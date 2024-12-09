@@ -75,11 +75,6 @@ public class BookingCreateController {
             return "error_known";
         }
         Room room = roomService.get();
-        if (principal == null || principal.getUser() == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            model.addAttribute("error", KnownError.NO_USER);
-            return "error_known"; //TODO we should modify the LSM so this never happens
-        }
         if (formData.start == null || formData.end == null || formData.priority == null || formData.cooperative == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.MISSING_PARAMETER);
