@@ -86,4 +86,8 @@ public class UserService {
     public boolean isGuestEnabled() {
         return true;
     }
+
+    public boolean isGuest(User user) {
+        return user.getUserId().startsWith("guest/");
+    }
 }

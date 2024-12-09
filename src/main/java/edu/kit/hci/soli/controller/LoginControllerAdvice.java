@@ -30,6 +30,8 @@ public class LoginControllerAdvice {
             return new LoginStateModel("Visitor", LoginStateModel.Kind.VISITOR, csrf, null);
         } else if (userService.isAdmin(principal.getUser())) {
             return new LoginStateModel(principal.getDisplayName(), LoginStateModel.Kind.ADMIN, csrf, principal.getUser());
+        } else if (userService.isGuest(principal.getUser())) {
+            return new LoginStateModel(principal.getDisplayName(), LoginStateModel.Kind.GUEST, csrf, principal.getUser());
         } else {
             return new LoginStateModel(principal.getDisplayName(), LoginStateModel.Kind.OAUTH, csrf, principal.getUser());
         }
