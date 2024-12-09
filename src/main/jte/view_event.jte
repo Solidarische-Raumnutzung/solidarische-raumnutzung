@@ -13,7 +13,7 @@
 @param boolean showRequestButton
 
 @template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, content = @`
-<div class="card bg-neutral text-neutral-content w-96">
+<div class="card bg-neutral text-neutral-content w-96 mx-auto">
     <div class="card-body items-center text-center">
     <%-- TODO we should demarcate staged bookings (IE bookings that have open outstanding requests) --%>
         <h2 class="card-title">${context.localize("bookings.priority")}: ${context.localize("bookings.priority." + booking.getPriority())}</h2>
@@ -25,6 +25,7 @@
         </label>
         <p class="textarea textarea-bordered">${booking.getDescription()}</p>
     </div>
+    <div class="card-actions justify-end">
     <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
     @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
         && Objects.equals(login.user(), booking.getUser())))
@@ -42,6 +43,7 @@
     @if(showRequestButton)
         <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().format(DateTimeFormatter.ISO_DATE_TIME)}&cooperative=true">${context.localize("bookings.request")}</a>
     @endif
+    </div>
     </div>
 </div>
 `)
