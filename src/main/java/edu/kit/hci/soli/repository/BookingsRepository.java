@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public interface BookingsRepository extends JpaRepository<Booking, Serializable> {
-    @Query("SELECT b FROM Booking b WHERE (b.startDate > :start AND b.startDate < :end) OR (b.endDate > :start AND b.endDate < :end) OR (b.startDate <= :start AND b.endDate >= :end)")
-    Stream<Booking> findOverlappingBookings(LocalDateTime start, LocalDateTime end);
+    @Query("SELECT b FROM Booking b WHERE b.room = :room AND ((b.startDate > :start AND b.startDate < :end) OR (b.endDate > :start AND b.endDate < :end) OR (b.startDate <= :start AND b.endDate >= :end))")
+    Stream<Booking> findOverlappingBookings(Room room, LocalDateTime start, LocalDateTime end);
 
     @Query("SELECT b FROM Booking b WHERE b.user = :user AND b.room = :room")
-    List<Booking> findByUserAndRoom(User user, Room room);
+    List<Booking> findByUserAndRoom(Room room, User user);
 
     @Transactional
     void deleteAllByUser(User user);

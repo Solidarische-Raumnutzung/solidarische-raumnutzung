@@ -37,7 +37,7 @@ public class BookingsService {
         List<Booking> contact = new ArrayList<>();
         List<Booking> cooperate = new ArrayList<>();
         List<Booking> conflict = new ArrayList<>();
-        bookingsRepository.findOverlappingBookings(booking.getStartDate(), booking.getEndDate())
+        bookingsRepository.findOverlappingBookings(booking.getRoom(), booking.getStartDate(), booking.getEndDate())
                 .forEach(b -> (switch (classifyConflict(booking, b)) {
                     case OVERRIDE -> override;
                     case CONFLICT -> b.getOutstandingRequests().isEmpty() ? conflict : override;
@@ -123,7 +123,7 @@ public class BookingsService {
         boolean result = stagedBooking.getOutstandingRequests().remove(user);
         bookingsRepository.save(stagedBooking);
         if (stagedBooking.getOutstandingRequests().isEmpty()) {
-            bookingsRepository.findOverlappingBookings(stagedBooking.getStartDate(), stagedBooking.getEndDate())
+            bookingsRepository.findOverlappingBookings(stagedBooking.getRoom(), stagedBooking.getStartDate(), stagedBooking.getEndDate())
                     .filter(s -> !s.getOutstandingRequests().isEmpty())
                     .forEach(b -> {
                         switch (classifyConflict(stagedBooking, b)) {
@@ -136,12 +136,12 @@ public class BookingsService {
     }
 
     public List<Booking> getBookingsByUser(User user, Room room) {
-        return bookingsRepository.findByUserAndRoom(user, room);
+        return bookingsRepository.findByUserAndRoom(room, user);
     }
 
     @Transactional(readOnly = true)
     public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
-        return bookingsRepository.findOverlappingBookings(start, end)
+        return bookingsRepository.findOverlappingBookings(room, start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
                         "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
