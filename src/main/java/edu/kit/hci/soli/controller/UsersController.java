@@ -36,7 +36,7 @@ public class UsersController {
             return "users";
         }
 
-        userService.disableOrReenableUser(user);
+        userService.toggleUserEnabled(user);
         log.info("User {} deactivated user {}", principal.getUser(), user);
 
         model.addAttribute("users", userService.getManageableUsers());
