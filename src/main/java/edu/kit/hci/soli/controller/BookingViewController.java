@@ -60,13 +60,13 @@ public class BookingViewController {
         if (admin.equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.ADMIN);
             log.info("Admin deleted booking {}", eventId);
-            return "redirect:/bookings";
+            return "redirect:/" + booking.getRoom().getId() + "/bookings";
         }
 
         if (booking.getUser().equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.SELF);
             log.info("User deleted booking {}", eventId);
-            return "redirect:/bookings";
+            return "redirect:/" + booking.getRoom().getId() + "/bookings";
         }
 
         log.info("User {} tried to delete booking {} of user {}", principal.getUsername(), eventId, booking.getUser());
