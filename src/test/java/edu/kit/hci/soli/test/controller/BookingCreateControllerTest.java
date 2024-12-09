@@ -1,6 +1,6 @@
 package edu.kit.hci.soli.test.controller;
 
-import edu.kit.hci.soli.controller.BookingsController;
+import edu.kit.hci.soli.controller.BookingCreateController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.BookingsService;
@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class BookingsControllerTest {
+public class BookingCreateControllerTest {
     @Autowired private TestService testService;
-    @Autowired private BookingsController bookingsController;
+    @Autowired private BookingCreateController bookingsController;
     @Autowired private BookingsService bookingsService;
 
     @BeforeAll
@@ -34,7 +34,7 @@ public class BookingsControllerTest {
         testService.reset();
     }
 
-    private @Nullable KnownError lsmCreateBooking(BookingsController.FormData formData, User user, long room) {
+    private @Nullable KnownError lsmCreateBooking(BookingCreateController.FormData formData, User user, long room) {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -48,7 +48,7 @@ public class BookingsControllerTest {
 
     @Test
     public void testIllegalUser() {
-        BookingsController.FormData formData = new BookingsController.FormData(
+        BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 bookingsService.currentSlot().plusMinutes(30),
                 bookingsService.currentSlot().plusHours(1),
                 null,
@@ -60,7 +60,7 @@ public class BookingsControllerTest {
 
     @Test
     public void testIllegalRoom() {
-        BookingsController.FormData formData = new BookingsController.FormData(
+        BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 bookingsService.currentSlot().plusMinutes(30),
                 bookingsService.currentSlot().plusHours(1),
                 null,
@@ -72,7 +72,7 @@ public class BookingsControllerTest {
 
     @Test
     public void testMissingArguments() {
-        BookingsController.FormData formData = new BookingsController.FormData(
+        BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 null,
                 null,
                 null,
@@ -84,7 +84,7 @@ public class BookingsControllerTest {
 
     @Test
     public void testMisalignedTime() {
-        BookingsController.FormData formData = new BookingsController.FormData(
+        BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 bookingsService.currentSlot().minusMinutes(31),
                 bookingsService.currentSlot().plusHours(1),
                 null,
@@ -96,7 +96,7 @@ public class BookingsControllerTest {
 
     @Test
     public void testLargeTime() {
-        BookingsController.FormData formData = new BookingsController.FormData(
+        BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 bookingsService.currentSlot().minusMinutes(30),
                 bookingsService.currentSlot().plusHours(10),
                 null,
@@ -108,7 +108,7 @@ public class BookingsControllerTest {
 
     @Test
     public void testPastTime() {
-        BookingsController.FormData formData = new BookingsController.FormData(
+        BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 bookingsService.currentSlot().minusMinutes(15),
                 bookingsService.currentSlot().plusMinutes(15),
                 null,
@@ -120,7 +120,7 @@ public class BookingsControllerTest {
 
     @Test
     public void testCreateBooking() {
-        BookingsController.FormData formData = new BookingsController.FormData(
+        BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 bookingsService.currentSlot().plusMinutes(30),
                 bookingsService.currentSlot().plusHours(1),
                 null,
