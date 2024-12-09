@@ -11,7 +11,7 @@
 @param CsrfToken csrf
 @param List<User> users
 
-@template.layout(page = new PageSpec("Nutzende", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, content = @`
     <div class="overflow-x-auto">
         @if(users.isEmpty())
             <div class="card">
