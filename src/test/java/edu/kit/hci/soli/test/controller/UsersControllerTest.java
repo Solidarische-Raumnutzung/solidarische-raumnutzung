@@ -1,7 +1,5 @@
 package edu.kit.hci.soli.test.controller;
 
-import edu.kit.hci.soli.config.security.SoliUserDetails;
-import edu.kit.hci.soli.controller.BookingsController;
 import edu.kit.hci.soli.controller.UsersController;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.KnownError;
@@ -14,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.ui.ExtendedModelMap;
 
@@ -27,7 +24,6 @@ public class UsersControllerTest {
     @Autowired private TestService testService;
     @Autowired private UsersController usersController;
     @Autowired private UserService userService;
-    @Autowired private BookingsController bookingsController;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -42,7 +38,6 @@ public class UsersControllerTest {
     private @Nullable KnownError lsmDeactivateUser(Long userId, User principal) {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        MockHttpServletRequest request = new MockHttpServletRequest();
         String result = usersController.deactivateUser(model, response, () -> principal, userId);
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
