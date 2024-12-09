@@ -31,6 +31,7 @@ public class ErrorController extends AbstractErrorController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
+
         model.addAttribute("timestamp", errorAttributes.get("timestamp"));
         model.addAttribute("status", errorAttributes.get("status"));
         model.addAttribute("error", errorAttributes.get("error"));

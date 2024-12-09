@@ -1,4 +1,5 @@
 @import edu.kit.hci.soli.domain.Booking
+@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
@@ -10,9 +11,10 @@
 @param LoginStateModel login
 @param Booking booking
 @param CsrfToken csrf
+@param Room room
 @param boolean showRequestButton
 
-@template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, room = room, content = @`
 <div class="card-body w-96 mx-auto">
     <%-- TODO we should show the start and end time here somewhere --%>
     <%-- TODO we should demarcate staged bookings (IE bookings that have open outstanding requests) --%>
