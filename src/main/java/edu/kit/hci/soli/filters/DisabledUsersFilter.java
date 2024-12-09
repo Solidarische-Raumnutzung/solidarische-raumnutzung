@@ -36,6 +36,7 @@ public class DisabledUsersFilter extends OncePerRequestFilter {
             return;
         }
 
+        // The principal is preserved throughout the session, but we always need to check latest user status
         User user = userService.findByUserId(request.getUserPrincipal().getName());
 
         if (user != null && user.isDisabled()) {

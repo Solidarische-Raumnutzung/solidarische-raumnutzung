@@ -143,10 +143,6 @@
 
                                         @endif
 
-
-                                        <li><a href="/">${context.localize("calendar")}</a></li>
-                                        <li><a href="/bookings">${context.localize("bookings.my_bookings")}</a></li>
-
                                         @if(login.kind() == LoginStateModel.Kind.ADMIN)
                                             <div class="divider"></div>
                                             <li><a href="/admin/users">${context.localize("administration.user")}</a></li>

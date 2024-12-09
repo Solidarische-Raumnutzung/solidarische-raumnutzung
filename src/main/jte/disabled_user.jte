@@ -5,13 +5,22 @@
 
 @param JteContext context
 @param LoginStateModel login
-
+@param String message
+@param String error
 @param Date timestamp
 
-@template.layout(page = new PageSpec("Account Disabled", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
-            ${context.localize("disable.user.disable.message")}
+            <h1 class="text-5xl font-bold">${context.localize("error.unknown.title")}</h1>
+            <p class="py-6">${context.localize("error.unknown.message")}</p>
+            <details class="collapse collapse-plus bg-base-200">
+                <summary class="collapse-title font-medium">${context.localize("error.unknown.details")}</summary>
+                <div class="collapse-content">
+                    ${context.localize("disable.user.disable.message")}
+                </div>
+            </details>
+            <a class="btn btn-primary" href="/">${context.localize("index.go")}</a>
         </div>
     </div>
 `)
