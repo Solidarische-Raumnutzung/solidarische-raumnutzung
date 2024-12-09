@@ -21,10 +21,6 @@ public class UserService {
         this.bookingsService = bookingsService;
     }
 
-    public @Nullable User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     public @Nullable User findByUserId(String userId) {
         return userRepository.findByUserId(userId);
     }
