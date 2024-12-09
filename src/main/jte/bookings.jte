@@ -3,6 +3,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import java.time.format.DateTimeFormatter
 @import java.util.List
 
 @param JteContext context
@@ -36,8 +37,8 @@
                     <tr>
                         <td>${booking.getId()} ${booking.getOutstandingRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOutstandingRequests().size())}</td>
                         <td>${booking.getDescription()}</td>
-                        <td>${booking.getStartDate().toString()}</td>
-                        <td>${booking.getEndDate().toString()}</td>
+                        <td>${booking.getStartDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))}</td>
+                        <td>${booking.getEndDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))}</td>
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                         <td>

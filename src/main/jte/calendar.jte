@@ -15,6 +15,19 @@
                 timeZone: 'UTC',
                 initialView: 'timeGridWeek',
                 nowIndicator: true,
+                weekends: false,
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    omitZeroMinute: false,
+                    hour12: false
+                },
+                dayHeaderFormat: {
+                    weekday: 'short',
+                    day: '2-digit',
+                    month: '2-digit',
+                    omitCommas: true
+                },
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -40,6 +53,8 @@
                 events: '/api/events'
             });
 
+            // set locale to german
+            calendar.setOption('locale', 'de');
             calendar.render();
 
             setInterval(() => {
