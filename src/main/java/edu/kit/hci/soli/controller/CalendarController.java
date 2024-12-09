@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Optional;
+
 /**
  * Controller for handling calendar-related requests.
  */
@@ -52,13 +54,13 @@ public class CalendarController {
     @GetMapping("/{roomId}")
     public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable long roomId) {
         if (principal != null) log.info("Received request from {}", principal.getUsername());
-        Room room = roomService.get(roomId);
-        if (room == null) {
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
-        model.addAttribute("room", room);
+        model.addAttribute("room", room.get());
         return "calendar";
     }
 }

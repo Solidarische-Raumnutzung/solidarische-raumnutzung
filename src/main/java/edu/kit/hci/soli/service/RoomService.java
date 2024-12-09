@@ -4,6 +4,8 @@ import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -42,7 +44,7 @@ public class RoomService {
      * @throws NoSuchElementException if the room is not found
      */
     public Room get() {
-        return roomRepository.findById(1L).orElseThrow();
+        return get(1L);
     }
 
     /**
@@ -53,6 +55,16 @@ public class RoomService {
      * @throws NoSuchElementException if the room is not found
      */
     public Room get(long id) {
-        return roomRepository.findById(id).orElseThrow();
+        return getOptional(id).orElseThrow();
+    }
+
+    /**
+     * Retrieves a room by its ID.
+     *
+     * @param id the ID of the room
+     * @return the room with the specified ID or {@link Optional#empty}
+     */
+    public Optional<Room> getOptional(long id) {
+        return roomRepository.findById(id);
     }
 }

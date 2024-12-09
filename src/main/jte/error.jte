@@ -1,3 +1,4 @@
+@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
@@ -11,7 +12,7 @@
 @param String message
 @param String error
 
-@template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, room = null, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize("error.unknown.title")}</h1>

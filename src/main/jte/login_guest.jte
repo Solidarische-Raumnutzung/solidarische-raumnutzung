@@ -9,7 +9,7 @@
 
 @param String guestMarker
 
-@template.layout(page = new PageSpec(context.lookup("login.login"), "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec(context.lookup("login.login"), "Soli"), context = context, login = login,  room = null, content = @`
     <div class="card bg-base-200 w-80 mx-auto">
         <div class="card-body">
             <h2 class="card-title">${context.localize("login.login")}</h2>

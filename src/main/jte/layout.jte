@@ -1,12 +1,15 @@
+@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import gg.jte.Content
+@import jakarta.annotation.Nullable
 
 @param PageSpec page
 @param JteContext context
 @param Content content
 @param LoginStateModel login
+@param Room room
 
 <!DOCTYPE html>
 <html lang="${context.localize("code")}" data-theme="light">
@@ -148,12 +151,14 @@
                                             <li><a href="/admin/users">${context.localize("administration.user")}</a></li>
                                         @endif
 
-                                        <li><a href="/1">${context.localize("calendar")}</a></li>
-                                        <li><a href="/1/bookings">${context.localize("bookings.my_bookings")}</a></li>
+                                        @if (room != null)
+                                            <li><a href="/${room.getId()}">${context.localize("calendar")}</a></li>
+                                            <li><a href="/${room.getId()}/bookings">${context.localize("bookings.my_bookings")}</a></li>
 
-                                        <div class="divider"></div>
+                                            <div class="divider"></div>
 
-                                        <li><a class="btn btn-outline btn-primary" href="/1/bookings/new">${context.localize("bookings.new")}</a></li>
+                                            <li><a class="btn btn-outline btn-primary" href="/${room.getId()}/bookings/new">${context.localize("bookings.new")}</a></li>
+                                        @endif
 
                                     </ul>
                                 </div>

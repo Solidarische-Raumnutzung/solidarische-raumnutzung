@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Controller for handling booking-related requests.
@@ -40,19 +41,6 @@ public class BookingViewController {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
         this.userService = userService;
-    }
-
-    /**
-     * Displays the bookings for the authenticated user.
-     *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
-     * @param principal the authenticated user details
-     * @return the view name
-     */
-    @GetMapping("/bookings")
-    public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
-        return roomBookings(model, response, principal, roomService.get().getId());
     }
 
     /**
@@ -85,18 +73,20 @@ public class BookingViewController {
             return "error_known";
         }
 
+        model.addAttribute("room", booking.getRoom());
+
         User admin = userService.resolveAdminUser();
 
         if (admin.equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.ADMIN);
             log.info("Admin deleted booking {}", eventId);
-            return "redirect:/bookings";
+            return "redirect:/" + booking.getRoom().getId() + "/bookings";
         }
 
         if (booking.getUser().equals(principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.SELF);
             log.info("User deleted booking {}", eventId);
-            return "redirect:/bookings";
+            return "redirect:/" + booking.getRoom().getId() + "/bookings";
         }
 
         log.info("User {} tried to delete booking {} of user {}", principal.getUsername(), eventId, booking.getUser());
@@ -117,8 +107,14 @@ public class BookingViewController {
     @GetMapping("/{roomId}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
-        Room room = roomService.get(roomId);
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room));
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        model.addAttribute("room", room.get());
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room.get()));
 
         return "bookings";
     }
@@ -139,8 +135,8 @@ public class BookingViewController {
                             @PathVariable Long roomId,
                             @PathVariable Long eventId) {
 
-        // Validate room exists
-        if (!roomService.existsById(roomId)) {
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
@@ -151,6 +147,7 @@ public class BookingViewController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
+        model.addAttribute("room", room.get());
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
                 ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())

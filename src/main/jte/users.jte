@@ -1,4 +1,3 @@
-@import edu.kit.hci.soli.domain.Booking
 @import edu.kit.hci.soli.domain.User
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
@@ -11,7 +10,7 @@
 @param CsrfToken csrf
 @param List<User> users
 
-@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
     <div class="overflow-x-auto">
         @if(users.isEmpty())
             <div class="card">
