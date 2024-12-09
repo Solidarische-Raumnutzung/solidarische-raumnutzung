@@ -10,9 +10,10 @@ import lombok.Data;
 @Table(name = "soli_rooms")
 @Data
 public class Room {
-
+    /**
+     * The unique identifier for the room.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
 }

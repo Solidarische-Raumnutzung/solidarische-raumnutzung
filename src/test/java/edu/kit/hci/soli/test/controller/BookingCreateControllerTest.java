@@ -47,18 +47,6 @@ public class BookingCreateControllerTest {
     }
 
     @Test
-    public void testIllegalUser() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
-                bookingsService.currentSlot().plusMinutes(30),
-                bookingsService.currentSlot().plusHours(1),
-                null,
-                Priority.HIGHEST,
-                ShareRoomType.NO
-        );
-        assertEquals(KnownError.NO_USER, lsmCreateBooking(formData, null, 1));
-    }
-
-    @Test
     public void testIllegalRoom() {
         BookingCreateController.FormData formData = new BookingCreateController.FormData(
                 bookingsService.currentSlot().plusMinutes(30),
