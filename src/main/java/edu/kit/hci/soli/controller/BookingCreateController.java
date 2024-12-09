@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -37,7 +38,8 @@ public class BookingCreateController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
             @RequestParam(required = false) Boolean cooperative
     ) {
-        if (!roomService.existsById(roomId)) {
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
@@ -51,7 +53,7 @@ public class BookingCreateController {
         if (cooperative == null) {
             cooperative = false;
         }
-        model.addAttribute("room", roomId);
+        model.addAttribute("room", room.get());
         model.addAttribute("start", start);
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
@@ -64,17 +66,17 @@ public class BookingCreateController {
 
     @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
-            Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long roomId,
+            Model model, HttpServletResponse response, HttpServletRequest request,
+            @PathVariable Long roomId,
             @AuthenticationPrincipal SoliUserDetails principal,
             @ModelAttribute FormData formData
     ) {
-        // Validate exists
-        if (!roomService.existsById(roomId)) {
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
-        Room room = roomService.get();
         if (principal == null || principal.getUser() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             model.addAttribute("error", KnownError.NO_USER);
@@ -85,6 +87,7 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.MISSING_PARAMETER);
             return "error_known";
         }
+        model.addAttribute("room", room.get());
         formData.description = formData.description == null ? "" : formData.description.trim();
 
         // Validate start and end times
@@ -105,7 +108,7 @@ public class BookingCreateController {
                 formData.start,
                 formData.end,
                 formData.cooperative,
-                room,
+                room.get(),
                 principal.getUser(),
                 formData.priority,
                 Set.of()
@@ -122,7 +125,8 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
-        if (!roomService.existsById(roomId)) {
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
@@ -130,6 +134,7 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
+        model.addAttribute("room", room.get());
         BookingAttemptResult.PossibleCooperation bookingResult = (BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
         return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
     }

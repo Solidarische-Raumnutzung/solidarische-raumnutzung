@@ -140,7 +140,7 @@ public class BookingsService {
     }
 
     @Transactional(readOnly = true)
-    public List<CalendarEvent> getCalendarEvents(LocalDateTime start, LocalDateTime end, @Nullable User user) {
+    public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
         return bookingsRepository.findOverlappingBookings(start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(

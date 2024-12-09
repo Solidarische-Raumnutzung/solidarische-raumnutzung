@@ -4,6 +4,8 @@ import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RoomService {
     // We currently only have one room, so we can hardcode the id
@@ -19,10 +21,14 @@ public class RoomService {
     }
 
     public Room get() {
-        return roomRepository.findById(1L).orElseThrow();
+        return getOptional(1L).orElseThrow();
     }
 
     public Room get(long id) {
-        return roomRepository.findById(id).orElseThrow();
+        return getOptional(id).orElseThrow();
+    }
+
+    public Optional<Room> getOptional(long id) {
+        return roomRepository.findById(id);
     }
 }
