@@ -19,17 +19,37 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Controller for handling booking creation requests.
+ */
 @Slf4j
 @Controller("/bookings/new")
 public class BookingCreateController {
     private final BookingsService bookingsService;
     private final RoomService roomService;
 
+    /**
+     * Constructs a BookingCreateController with the specified services.
+     *
+     * @param bookingsService the service for managing bookings
+     * @param roomService the service for managing rooms
+     */
     public BookingCreateController(BookingsService bookingsService, RoomService roomService) {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
     }
 
+    /**
+     * Displays the form for creating a new booking.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param roomId the ID of the room
+     * @param start the start date and time of the booking
+     * @param end the end date and time of the booking
+     * @param cooperative whether the booking is cooperative
+     * @return the view name
+     */
     @GetMapping("/{roomId}/bookings/new")
     public String newBooking(
             Model model, HttpServletResponse response, @PathVariable Long roomId,
@@ -62,6 +82,17 @@ public class BookingCreateController {
         return "create_booking";
     }
 
+    /**
+     * Creates a new booking.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param request the HTTP request
+     * @param roomId the ID of the room
+     * @param principal the authenticated user details
+     * @param formData the form data for the booking
+     * @return the view name
+     */
     @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable Long roomId,
@@ -108,6 +139,14 @@ public class BookingCreateController {
         return handleBookingAttempt(attemptedBooking, bookingsService.attemptToBook(attemptedBooking), request, model);
     }
 
+    /**
+     * Resolves a booking conflict.
+     *
+     * @param model the model to be used in the view
+     * @param request the HTTP request
+     * @param roomId the ID of the room
+     * @return the view name
+     */
     @PostMapping(value = "/{roomId}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
     public String resolveConflict(
             Model model, HttpServletRequest request, @PathVariable Long roomId
@@ -129,6 +168,15 @@ public class BookingCreateController {
         return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
     }
 
+    /**
+     * Handles the result of a booking attempt.
+     *
+     * @param attemptedBooking the attempted booking
+     * @param bookingResult the result of the booking attempt
+     * @param request the HTTP request
+     * @param model the model to be used in the view
+     * @return the view name
+     */
     private String handleBookingAttempt(Booking attemptedBooking, BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {
         return switch (bookingResult) {
             case BookingAttemptResult.Failure(var conflict) -> {
@@ -151,6 +199,9 @@ public class BookingCreateController {
         };
     }
 
+    /**
+     * Data class for event creation form data.
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
+/**
+ * Controller for handling booking-related requests.
+ */
 @Slf4j
 @Controller("/bookings")
 public class BookingViewController {
@@ -26,17 +29,42 @@ public class BookingViewController {
     private final RoomService roomService;
     private final UserService userService;
 
+    /**
+     * Constructs a BookingViewController with the specified services.
+     *
+     * @param bookingsService the service for managing bookings
+     * @param roomService the service for managing rooms
+     * @param userService the service for managing users
+     */
     public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService) {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
         this.userService = userService;
     }
 
+    /**
+     * Displays the bookings for the authenticated user.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @return the view name
+     */
     @GetMapping("/bookings")
     public String userBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         return roomBookings(model, response, principal, roomService.get().getId());
     }
 
+    /**
+     * Deletes a booking for a specific room and event.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @param roomId the ID of the room
+     * @param eventId the ID of the event
+     * @return the view name
+     */
     @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
     public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                  @PathVariable Long roomId, @PathVariable Long eventId) {
@@ -77,6 +105,15 @@ public class BookingViewController {
         return "error_known";
     }
 
+    /**
+     * Displays the bookings for a specific room.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @param roomId the ID of the room
+     * @return the view name
+     */
     @GetMapping("/{roomId}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
@@ -86,6 +123,16 @@ public class BookingViewController {
         return "bookings";
     }
 
+    /**
+     * Displays the details of a specific event.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @param roomId the ID of the room
+     * @param eventId the ID of the event
+     * @return the view name
+     */
     @GetMapping("/{roomId}/bookings/{eventId}")
     public String viewEvent(Model model, HttpServletResponse response,
                             @AuthenticationPrincipal SoliUserDetails principal,

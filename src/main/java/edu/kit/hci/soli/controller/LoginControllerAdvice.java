@@ -10,20 +10,41 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+/**
+ * Controller advice for injecting the login state.
+ */
 @ControllerAdvice
 @Slf4j
 public class LoginControllerAdvice {
     private final UserService userService;
 
+    /**
+     * Constructs a LoginControllerAdvice with the specified UserService.
+     *
+     * @param userService the service for managing users
+     */
     public LoginControllerAdvice(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Retrieves the CSRF token from the request.
+     *
+     * @param request the HTTP request
+     * @return the CSRF token
+     */
     @ModelAttribute("csrf")
     public CsrfToken getCsrfToken(HttpServletRequest request) {
         return (CsrfToken) request.getAttribute(CsrfToken.class.getName());
     }
 
+    /**
+     * Retrieves the login state model based on the authenticated user details.
+     *
+     * @param principal the authenticated user details
+     * @param csrf the CSRF token
+     * @return the login state model
+     */
     @ModelAttribute("login")
     public LoginStateModel getLoginStateModel(@AuthenticationPrincipal SoliUserDetails principal, @ModelAttribute("csrf") CsrfToken csrf) {
         if (principal == null) {

@@ -11,22 +11,36 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * REST controller for generating the FullCalendar event feed.
+ */
 @RestController("/api/events")
 public class EventFeedController {
     final BookingsService bookingsRepository;
 
+    /**
+     * Constructs an EventFeedController with the specified {@link BookingsService}.
+     *
+     * @param bookingsRepository the service for managing bookings
+     */
     public EventFeedController(BookingsService bookingsRepository) {
         this.bookingsRepository = bookingsRepository;
     }
 
-    // https://fullcalendar.io/docs/events-json-feed
+    /**
+     * Retrieves calendar events within the specified time range.
+     *
+     * @param start the start date and time
+     * @param end the end date and time
+     * @param principal the authenticated user details
+     * @return the list of calendar events
+     */
     @GetMapping("/api/events")
     public List<CalendarEvent> getEvents(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
             @AuthenticationPrincipal SoliUserDetails principal
     ) {
-        //TODO we should highlight events by ourselves WITHOUT exposing the ownership by allowing others to send requests as spoofed users
         if (end.isBefore(start)) {
             throw new IllegalArgumentException("End date must be after start date");
         }
@@ -37,6 +51,12 @@ public class EventFeedController {
         return bookingsRepository.getCalendarEvents(start, end, principal == null ? null : principal.getUser());
     }
 
+    /**
+     * Handles {@link IllegalArgumentException} and returns a bad request response with the exception message.
+     *
+     * @param e the IllegalArgumentException
+     * @return the response entity with the exception message
+     */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
