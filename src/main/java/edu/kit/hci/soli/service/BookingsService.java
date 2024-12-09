@@ -64,6 +64,10 @@ public class BookingsService {
         }
     }
 
+    public void deleteAllBookingsForUser(User user) {
+        bookingsRepository.deleteAllByUser(user);
+    }
+
     private enum ConflictType {
         OVERRIDE, CONTACT, COOPERATE, CONFLICT
     }
@@ -132,7 +136,7 @@ public class BookingsService {
     }
 
     public List<Booking> getBookingsByUser(User user, Room room) {
-        return bookingsRepository.findByUser(user, room);
+        return bookingsRepository.findByUserAndRoom(user, room);
     }
 
     @Transactional(readOnly = true)
