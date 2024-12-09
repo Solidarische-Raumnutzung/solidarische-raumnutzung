@@ -20,7 +20,7 @@
                 <input id="password" name="password" type="hidden" value="${guestMarker}"/>
                 <div class="form-control mt-6">
                     <label for="username" class="label">
-                        <span class="label-text">Passwort</span>
+                        <span class="label-text">E-Mail</span>
                     </label>
                     <input id="username" name="username" type="email" placeholder="E-Mail" class="input input-bordered" required/>
                 </div>
