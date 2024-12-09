@@ -5,6 +5,7 @@ import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  * Controller for handling calendar-related requests.
  */
+@Slf4j
 public class CalendarController {
     private final RoomService roomService;
 
