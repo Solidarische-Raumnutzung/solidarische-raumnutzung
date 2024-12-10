@@ -12,15 +12,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-                timeZone: 'UTC',
                 initialView: 'timeGridWeek',
                 nowIndicator: true,
                 weekends: false,
+                allDaySlot: false,
+                locale: navigator.language,
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
-                    omitZeroMinute: false,
-                    hour12: false
+                    omitZeroMinute: false
                 },
                 dayHeaderFormat: {
                     weekday: 'short',
@@ -53,8 +53,6 @@
                 events: '/api/events'
             });
 
-            // set locale to german
-            calendar.setOption('locale', 'de');
             calendar.render();
 
             setInterval(() => {
