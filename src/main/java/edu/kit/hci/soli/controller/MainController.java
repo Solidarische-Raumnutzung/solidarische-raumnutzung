@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Main controller for miscellaneous status requests.
  */
-@Controller("/")
+@Controller("/misc")
 @Slf4j
 public class MainController {
     @Value("${spring.profiles.active}")
