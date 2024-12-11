@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Locale;
+
 /**
  * The datamodel for a User as it is stored in the database
  */
@@ -47,4 +49,19 @@ public class User {
      * A disabled user cannot create bookings but can still view or delete them.
      */
     private boolean isDisabled;
+
+    /**
+     * The locale of the user.
+     * This is used to send mails in the user's preferred language.
+     */
+    private Locale locale;
+
+    public boolean equals(Object o) {
+        return o instanceof User u && u.getId().equals(getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }
