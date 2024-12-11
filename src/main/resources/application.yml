@@ -15,6 +15,7 @@ spring:
               authorization-uri: "https://oidc.scc.kit.edu/auth/realms/kit/protocol/openid-connect/auth"
               token-uri: "https://oidc.scc.kit.edu/auth/realms/kit/protocol/openid-connect/token"
               user-info-uri: "https://oidc.scc.kit.edu/auth/realms/kit/protocol/openid-connect/userinfo"
+
   application:
     name: Soli
   datasource:
@@ -28,17 +29,6 @@ spring:
     compose:
       skip:
         in-tests: false
-  mail:
-    host: smtp.kit.edu
-    port: 587
-    username: ${KIT_MAIL_USERNAME}
-    password: ${KIT_MAIL_PASSWORD}
-    properties:
-      kit:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 server:
   error:
     path: /error
