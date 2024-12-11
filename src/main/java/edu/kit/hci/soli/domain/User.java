@@ -161,10 +161,6 @@ public class User {
        return o instanceof User u && u.getId().equals(getId());
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof User;
-    }
-
     public int hashCode() {
         return getId().hashCode();
     }

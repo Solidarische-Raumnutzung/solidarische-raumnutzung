@@ -265,10 +265,6 @@ public class Booking {
         return o instanceof Booking b && getId().equals(b.getId());
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof Booking;
-    }
-
     public int hashCode() {
         if (getId() == null) {
             return 0;
