@@ -60,13 +60,15 @@ public class User {
      * @param email      the email address of the user
      * @param userId     the unique user ID
      * @param isDisabled whether the user is disabled
+     * @param locale     the locale of the user
      */
-    public User(Long id, String username, String email, String userId, boolean isDisabled) {
+    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.userId = userId;
         this.isDisabled = isDisabled;
+        this.locale = locale;
     }
 
     /**
