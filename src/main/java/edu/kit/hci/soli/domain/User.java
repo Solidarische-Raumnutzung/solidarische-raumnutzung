@@ -75,6 +75,7 @@ public class User {
      * Default constructor for User.
      */
     public User() {
+        this.locale = Locale.getDefault();
     }
 
     /**
