@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.domain;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "soli_bookings")
+@ToString
 public class Booking {
     /**
      * The internal unique identifier for the booking.
@@ -272,9 +274,5 @@ public class Booking {
             return 0;
         }
         return getId().hashCode();
-    }
-
-    public String toString() {
-        return "Booking(id=" + this.getId() + ", description=" + this.getDescription() + ", startDate=" + this.getStartDate() + ", endDate=" + this.getEndDate() + ", shareRoomType=" + this.getShareRoomType() + ", room=" + this.getRoom() + ", user=" + this.getUser() + ", priority=" + this.getPriority() + ", outstandingRequests=" + this.getOutstandingRequests() + ")";
     }
 }

@@ -1,12 +1,14 @@
 package edu.kit.hci.soli.domain;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 /**
  * The datamodel for a User as it is stored in the database.
  */
 @Entity
 @Table(name = "soli_users")
+@ToString
 public class User {
     /**
      * The internal identifier for the user.
@@ -165,9 +167,5 @@ public class User {
 
     public int hashCode() {
         return getId().hashCode();
-    }
-
-    public String toString() {
-        return "User(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", userId=" + this.getUserId() + ", isDisabled=" + this.isDisabled() + ")";
     }
 }

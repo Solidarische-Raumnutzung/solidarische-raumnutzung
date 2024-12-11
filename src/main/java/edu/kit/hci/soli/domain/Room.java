@@ -1,12 +1,14 @@
 package edu.kit.hci.soli.domain;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 /**
  * The datamodel for a room as it is stored in the database
  */
 @Entity
 @Table(name = "soli_rooms")
+@ToString
 public class Room {
     /**
      * The unique identifier for the room.
@@ -39,9 +41,5 @@ public class Room {
 
     public int hashCode() {
        return getId().hashCode();
-    }
-
-    public String toString() {
-        return "Room(id=" + this.getId() + ")";
     }
 }
