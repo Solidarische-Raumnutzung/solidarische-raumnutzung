@@ -4,6 +4,7 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.RoomService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,27 +36,32 @@ public class CalendarController {
      * Displays the calendar for the default room.
      *
      * @param model the model to be used in the view
+     * @param request the HTTP request
      * @param response the HTTP response
      * @param principal the authenticated user details
      * @return the view name
      */
     @GetMapping("/")
-    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
-        return calendar(model, response, principal, 1L);
+    public String calendar(Model model, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+        return calendar(model, request, response, principal, 1L);
     }
 
     /**
      * Displays the calendar for a specific room.
      *
      * @param model the model to be used in the view
+     * @param request the HTTP request
      * @param response the HTTP response
      * @param principal the authenticated user details
      * @param roomId the ID of the room
      * @return the view name
      */
     @GetMapping("/{roomId}")
-    public String calendar(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable long roomId) {
-        if (principal != null) log.info("Received request from {}", principal.getUsername());
+    public String calendar(Model model, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable long roomId) {
+        if (principal != null) {
+            principal.getUser().setLocale(request.getLocale());
+            log.info("Received request from {}", principal.getUsername());
+        }
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

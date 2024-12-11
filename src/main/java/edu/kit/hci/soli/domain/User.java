@@ -3,6 +3,8 @@ package edu.kit.hci.soli.domain;
 import jakarta.persistence.*;
 import lombok.ToString;
 
+import java.util.Locale;
+
 /**
  * The datamodel for a User as it is stored in the database.
  */
@@ -45,6 +47,12 @@ public class User {
     private boolean isDisabled;
 
     /**
+     * The locale of the user.
+     * This is used to send mails in the user's preferred language.
+     */
+    private Locale locale;
+
+    /**
      * Constructs a new User with the specified details.
      *
      * @param id         the unique identifier for the user
@@ -52,19 +60,22 @@ public class User {
      * @param email      the email address of the user
      * @param userId     the unique user ID
      * @param isDisabled whether the user is disabled
+     * @param locale     the locale of the user
      */
-    public User(Long id, String username, String email, String userId, boolean isDisabled) {
+    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.userId = userId;
         this.isDisabled = isDisabled;
+        this.locale = locale;
     }
 
     /**
      * Default constructor for User.
      */
     public User() {
+        this.locale = Locale.getDefault();
     }
 
     /**
@@ -113,6 +124,15 @@ public class User {
     }
 
     /**
+     * Gets the locale of the user.
+     *
+     * @return the locale of the user
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
      * Sets the unique identifier for the user.
      *
      * @param id the unique identifier for the user
@@ -155,6 +175,16 @@ public class User {
      */
     public void setDisabled(boolean isDisabled) {
         this.isDisabled = isDisabled;
+    }
+
+    /**
+     * Sets the locale of the user.
+     * This is used to send mails in the user's preferred language.
+     *
+     * @param locale the locale of the user
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public boolean equals(final Object o) {

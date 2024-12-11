@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
+@ActiveProfiles(profiles = {"dev", "test"})
 public class UsersControllerTest {
     @Autowired private TestService testService;
     @Autowired private UsersController usersController;
