@@ -1,18 +1,14 @@
 package edu.kit.hci.soli.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
- * The datamodel for a User as it is stored in the database
+ * The datamodel for a User as it is stored in the database.
  */
 @Entity
 @Table(name = "soli_users")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
 public class User {
     /**
      * The internal identifier for the user.
@@ -47,4 +43,125 @@ public class User {
      * A disabled user cannot create bookings but can still view or delete them.
      */
     private boolean isDisabled;
+
+    /**
+     * Constructs a new User with the specified details.
+     *
+     * @param id         the unique identifier for the user
+     * @param username   the username of the user
+     * @param email      the email address of the user
+     * @param userId     the unique user ID
+     * @param isDisabled whether the user is disabled
+     */
+    public User(Long id, String username, String email, String userId, boolean isDisabled) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.userId = userId;
+        this.isDisabled = isDisabled;
+    }
+
+    /**
+     * Default constructor for User.
+     */
+    public User() {
+    }
+
+    /**
+     * Gets the unique identifier for the user.
+     *
+     * @return the unique identifier for the user
+     */
+    public Long getId() {
+        return this.id;
+    }
+
+    /**
+     * Gets the username of the user.
+     *
+     * @return the username of the user
+     */
+    public String getUsername() {
+        return this.username;
+    }
+
+    /**
+     * Gets the email address of the user.
+     *
+     * @return the email address of the user
+     */
+    public String getEmail() {
+        return this.email;
+    }
+
+    /**
+     * Gets the unique user ID.
+     *
+     * @return the unique user ID
+     */
+    public String getUserId() {
+        return this.userId;
+    }
+
+    /**
+     * Checks if the user is disabled.
+     *
+     * @return true if the user is disabled, false otherwise
+     */
+    public boolean isDisabled() {
+        return this.isDisabled;
+    }
+
+    /**
+     * Sets the unique identifier for the user.
+     *
+     * @param id the unique identifier for the user
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the username of the user.
+     *
+     * @param username the username of the user
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Sets the email address of the user.
+     *
+     * @param email the email address of the user
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Sets the unique user ID.
+     *
+     * @param userId the unique user ID
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * Sets whether the user is disabled.
+     *
+     * @param isDisabled true if the user is disabled, false otherwise
+     */
+    public void setDisabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
+
+    public boolean equals(final Object o) {
+       return o instanceof User u && u.getId().equals(getId());
+    }
+
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }
