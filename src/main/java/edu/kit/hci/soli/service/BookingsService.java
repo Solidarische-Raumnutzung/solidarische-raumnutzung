@@ -5,6 +5,7 @@ import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +21,19 @@ import java.util.stream.Collectors;
 @Service
 public class BookingsService {
     private final BookingsRepository bookingsRepository;
+    private final EmailService emailService;
+    private final MailProperties mailProperties;
 
     /**
      * Constructs a BookingsService with the specified {@link BookingsRepository}.
      *
-     * @param roomRepository the repository for managing Room entities
+     * @param bookingsRepository the repository for managing Booking entities
+     * @param emailService the service for sending emails
      */
-    public BookingsService(BookingsRepository bookingsRepository) {
+    public BookingsService(BookingsRepository bookingsRepository, EmailService emailService, MailProperties mailProperties) {
         this.bookingsRepository = bookingsRepository;
+        this.emailService = emailService;
+        this.mailProperties = mailProperties;
     }
 
     /**
@@ -157,7 +163,15 @@ public class BookingsService {
      */
     public void delete(Booking booking, BookingDeleteReason reason) {
         bookingsRepository.delete(booking);
-        //TODO send notification to user
+        emailService.sendMail(
+                booking.getUser(),
+                "mail.booking_deleted.subject",
+                "mail/booking_deleted",
+                Map.of(
+                        "booking", booking,
+                        "reason", reason
+                )
+        );
     }
 
     /**
