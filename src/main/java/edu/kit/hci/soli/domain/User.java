@@ -1,18 +1,12 @@
 package edu.kit.hci.soli.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * The datamodel for a User as it is stored in the database
  */
 @Entity
 @Table(name = "soli_users")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
     /**
      * The internal identifier for the user.
@@ -47,4 +41,59 @@ public class User {
      * A disabled user cannot create bookings but can still view or delete them.
      */
     private boolean isDisabled;
+
+    public User(Long id, String username, String email, String userId, boolean isDisabled) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.userId = userId;
+        this.isDisabled = isDisabled;
+    }
+
+    public User() {
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public boolean isDisabled() {
+        return this.isDisabled;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setDisabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
+
+    public String toString() {
+        return "User(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", userId=" + this.getUserId() + ", isDisabled=" + this.isDisabled() + ")";
+    }
 }
