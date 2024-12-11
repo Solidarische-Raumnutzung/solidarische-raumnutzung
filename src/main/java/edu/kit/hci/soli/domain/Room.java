@@ -39,13 +39,4 @@ public class Room {
     public void setId(Long id) {
         this.id = id;
     }
-
-    /**
-     * Returns a string representation of the Room.
-     *
-     * @return a string representation of the Room
-     */
-    public String toString() {
-        return "Room(id=" + this.getId() + ")";
-    }
 }

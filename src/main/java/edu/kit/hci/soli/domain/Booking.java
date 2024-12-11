@@ -255,14 +255,4 @@ public class Booking {
     public void setOutstandingRequests(Set<User> outstandingRequests) {
         this.outstandingRequests = outstandingRequests;
     }
-
-    /**
-     * Returns a string representation of the booking.
-     *
-     * @return a string representation of the booking
-     */
-    @Override
-    public String toString() {
-        return "Booking(id=" + this.getId() + ", description=" + this.getDescription() + ", startDate=" + this.getStartDate() + ", endDate=" + this.getEndDate() + ", shareRoomType=" + this.getShareRoomType() + ", room=" + this.getRoom() + ", user=" + this.getUser() + ", priority=" + this.getPriority() + ", outstandingRequests=" + this.getOutstandingRequests() + ")";
-    }
 }

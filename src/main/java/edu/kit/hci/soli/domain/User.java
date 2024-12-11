@@ -154,14 +154,4 @@ public class User {
     public void setDisabled(boolean isDisabled) {
         this.isDisabled = isDisabled;
     }
-
-    /**
-     * Returns a string representation of the User.
-     *
-     * @return a string representation of the User
-     */
-    @Override
-    public String toString() {
-        return "User(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", userId=" + this.getUserId() + ", isDisabled=" + this.isDisabled() + ")";
-    }
 }
