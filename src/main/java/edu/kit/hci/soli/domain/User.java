@@ -45,10 +45,10 @@ public class User {
     /**
      * Constructs a new User with the specified details.
      *
-     * @param id the unique identifier for the user
-     * @param username the username of the user
-     * @param email the email address of the user
-     * @param userId the unique user ID
+     * @param id         the unique identifier for the user
+     * @param username   the username of the user
+     * @param email      the email address of the user
+     * @param userId     the unique user ID
      * @param isDisabled whether the user is disabled
      */
     public User(Long id, String username, String email, String userId, boolean isDisabled) {
@@ -153,5 +153,49 @@ public class User {
      */
     public void setDisabled(boolean isDisabled) {
         this.isDisabled = isDisabled;
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof User)) return false;
+        final User other = (User) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        final Object this$username = this.getUsername();
+        final Object other$username = other.getUsername();
+        if (this$username == null ? other$username != null : !this$username.equals(other$username)) return false;
+        final Object this$email = this.getEmail();
+        final Object other$email = other.getEmail();
+        if (this$email == null ? other$email != null : !this$email.equals(other$email)) return false;
+        final Object this$userId = this.getUserId();
+        final Object other$userId = other.getUserId();
+        if (this$userId == null ? other$userId != null : !this$userId.equals(other$userId)) return false;
+        if (this.isDisabled() != other.isDisabled()) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof User;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $id = this.getId();
+        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
+        final Object $username = this.getUsername();
+        result = result * PRIME + ($username == null ? 43 : $username.hashCode());
+        final Object $email = this.getEmail();
+        result = result * PRIME + ($email == null ? 43 : $email.hashCode());
+        final Object $userId = this.getUserId();
+        result = result * PRIME + ($userId == null ? 43 : $userId.hashCode());
+        result = result * PRIME + (this.isDisabled() ? 79 : 97);
+        return result;
+    }
+
+    public String toString() {
+        return "User(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", userId=" + this.getUserId() + ", isDisabled=" + this.isDisabled() + ")";
     }
 }
