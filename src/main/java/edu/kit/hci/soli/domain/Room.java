@@ -15,13 +15,6 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
-    /**
-     * Default constructor for Room.
-     */
-    public Room() {
-    }
-
     /**
      * Gets the unique identifier for the room.
      *

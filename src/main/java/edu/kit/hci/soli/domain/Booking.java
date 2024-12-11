@@ -257,41 +257,10 @@ public class Booking {
     }
 
     public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof Booking)) return false;
-        final Booking other = (Booking) o;
-        if (!other.canEqual((Object) this)) return false;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
-        final Object this$description = this.getDescription();
-        final Object other$description = other.getDescription();
-        if (this$description == null ? other$description != null : !this$description.equals(other$description))
+        if (getId() == null) {
             return false;
-        final Object this$startDate = this.getStartDate();
-        final Object other$startDate = other.getStartDate();
-        if (this$startDate == null ? other$startDate != null : !this$startDate.equals(other$startDate)) return false;
-        final Object this$endDate = this.getEndDate();
-        final Object other$endDate = other.getEndDate();
-        if (this$endDate == null ? other$endDate != null : !this$endDate.equals(other$endDate)) return false;
-        final Object this$shareRoomType = this.getShareRoomType();
-        final Object other$shareRoomType = other.getShareRoomType();
-        if (this$shareRoomType == null ? other$shareRoomType != null : !this$shareRoomType.equals(other$shareRoomType))
-            return false;
-        final Object this$room = this.getRoom();
-        final Object other$room = other.getRoom();
-        if (this$room == null ? other$room != null : !this$room.equals(other$room)) return false;
-        final Object this$user = this.getUser();
-        final Object other$user = other.getUser();
-        if (this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
-        final Object this$priority = this.getPriority();
-        final Object other$priority = other.getPriority();
-        if (this$priority == null ? other$priority != null : !this$priority.equals(other$priority)) return false;
-        final Object this$outstandingRequests = this.getOutstandingRequests();
-        final Object other$outstandingRequests = other.getOutstandingRequests();
-        if (this$outstandingRequests == null ? other$outstandingRequests != null : !this$outstandingRequests.equals(other$outstandingRequests))
-            return false;
-        return true;
+        }
+        return o instanceof Booking b && getId().equals(b.getId());
     }
 
     protected boolean canEqual(final Object other) {
@@ -299,27 +268,10 @@ public class Booking {
     }
 
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $id = this.getId();
-        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final Object $description = this.getDescription();
-        result = result * PRIME + ($description == null ? 43 : $description.hashCode());
-        final Object $startDate = this.getStartDate();
-        result = result * PRIME + ($startDate == null ? 43 : $startDate.hashCode());
-        final Object $endDate = this.getEndDate();
-        result = result * PRIME + ($endDate == null ? 43 : $endDate.hashCode());
-        final Object $shareRoomType = this.getShareRoomType();
-        result = result * PRIME + ($shareRoomType == null ? 43 : $shareRoomType.hashCode());
-        final Object $room = this.getRoom();
-        result = result * PRIME + ($room == null ? 43 : $room.hashCode());
-        final Object $user = this.getUser();
-        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
-        final Object $priority = this.getPriority();
-        result = result * PRIME + ($priority == null ? 43 : $priority.hashCode());
-        final Object $outstandingRequests = this.getOutstandingRequests();
-        result = result * PRIME + ($outstandingRequests == null ? 43 : $outstandingRequests.hashCode());
-        return result;
+        if (getId() == null) {
+            return 0;
+        }
+        return getId().hashCode();
     }
 
     public String toString() {
