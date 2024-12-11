@@ -44,6 +44,8 @@ public class LiveEmailService implements EmailService {
     }
 
     /**
+     * Sends an email to the specified user.
+     *
      * @param to the user to send the email to
      * @param subject the translation key of the subject
      * @param template the template to use
