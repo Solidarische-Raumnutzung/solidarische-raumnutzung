@@ -5,19 +5,20 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
-@import java.time.LocalDateTime
+@import java.time.ZonedDateTime
+@import java.time.format.DateTimeFormatter
 
 @param JteContext context
 @param LoginStateModel login
 @param CsrfToken csrf
 @param Room room
 
-@param LocalDateTime start
-@param LocalDateTime end
+@param ZonedDateTime start
+@param ZonedDateTime end
 @param ShareRoomType cooperative
 
-@param LocalDateTime minimumTime
-@param LocalDateTime maximumTime
+@param ZonedDateTime minimumTime
+@param ZonedDateTime maximumTime
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
     <form class="card-body w-96 mx-auto" method="post" action="/${room.getId()}/bookings/new">
@@ -29,7 +30,8 @@
                 <span class="label-text-alt">${context.localize("bookings.start")}</span>
             </label>
             <input id="start" name="start" type="datetime-local" class="input input-bordered"
-                   value="${start.toString()}"
+<%--                   value="${start.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))}"--%>
+                   value="${start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))}"
                    min="${minimumTime.toString()}"
                    max="${maximumTime.toString()}"
                    step="${60 * 15}"
@@ -41,7 +43,8 @@
                 <span class="label-text-alt">${context.localize("bookings.end")}</span>
             </label>
             <input id="end" name="end" type="datetime-local" class="input input-bordered"
-                   value="${end.toString()}"
+<%--                   value="${end.format(DateTimeFormatter.ISO_DATE_TIME)}"--%>
+                   value="${end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))}"
                    min="${minimumTime.toString()}"
                    max="${maximumTime.toString()}"
                    step="${60 * 15}"

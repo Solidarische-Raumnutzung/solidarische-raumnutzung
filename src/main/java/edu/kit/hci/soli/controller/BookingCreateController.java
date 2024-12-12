@@ -15,7 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -53,9 +54,11 @@ public class BookingCreateController {
      */
     @GetMapping("/{roomId}/bookings/new")
     public String newBooking(
-            Model model, HttpServletResponse response, @PathVariable Long roomId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            Model model, HttpServletResponse response,
+            @PathVariable Long roomId,
+            @AuthenticationPrincipal SoliUserDetails principal,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end,
             @RequestParam(required = false) Boolean cooperative
     ) {
         Optional<Room> room = roomService.getOptional(roomId);
@@ -65,7 +68,7 @@ public class BookingCreateController {
             return "error_known";
         }
         if (start == null) {
-            start = LocalDateTime.now();
+            start = ZonedDateTime.now();
         }
         if (end == null) {
             end = start.plusMinutes(30);
@@ -73,9 +76,11 @@ public class BookingCreateController {
         if (cooperative == null) {
             cooperative = false;
         }
+        ZoneId timezone = principal.getUser().getTimezone();
+
         model.addAttribute("room", room.get());
-        model.addAttribute("start", start);
-        model.addAttribute("end", end);
+        model.addAttribute("start", start.withZoneSameInstant(timezone));
+        model.addAttribute("end", end.withZoneSameInstant(timezone));
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
 
         model.addAttribute("minimumTime", bookingsService.minimumTime());
@@ -211,8 +216,8 @@ public class BookingCreateController {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class FormData {
-        public LocalDateTime start;
-        public LocalDateTime end;
+        public ZonedDateTime start;
+        public ZonedDateTime end;
         public String description;
         public Priority priority;
         public ShareRoomType cooperative;

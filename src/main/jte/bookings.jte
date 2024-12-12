@@ -39,8 +39,8 @@
                     <tr>
                         <td>${booking.getId()} ${booking.getOutstandingRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOutstandingRequests().size())}</td>
                         <td>${booking.getDescription()}</td>
-                        <td>${booking.getStartDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))}</td>
-                        <td>${booking.getEndDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))}</td>
+                        <td>${context.format(booking.getStartDate())}</td>
+                        <td>${context.format(booking.getEndDate())}</td>
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                         <td>

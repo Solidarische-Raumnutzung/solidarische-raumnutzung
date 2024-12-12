@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -220,7 +220,7 @@ public class BookingsService {
      * @return a list of calendar events within the specified time range
      */
     @Transactional(readOnly = true)
-    public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
+    public List<CalendarEvent> getCalendarEvents(Room room, ZonedDateTime start, ZonedDateTime end, @Nullable User user) {
         return bookingsRepository.findOverlappingBookings(room, start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
@@ -253,8 +253,8 @@ public class BookingsService {
      *
      * @return the current time slot
      */
-    public LocalDateTime currentSlot() {
-        return normalize(LocalDateTime.now());
+    public ZonedDateTime currentSlot() {
+        return normalize(ZonedDateTime.now());
     }
 
     /**
@@ -262,8 +262,8 @@ public class BookingsService {
      *
      * @return the minimum time for a booking
      */
-    public LocalDateTime minimumTime() {
-        return normalize(LocalDateTime.now().plusMinutes(15));
+    public ZonedDateTime minimumTime() {
+        return normalize(ZonedDateTime.now().plusMinutes(15));
     }
 
     /**
@@ -271,8 +271,8 @@ public class BookingsService {
      *
      * @return the maximum time for a booking
      */
-    public LocalDateTime maximumTime() {
-        return normalize(LocalDateTime.now().plusDays(14));
+    public ZonedDateTime maximumTime() {
+        return normalize(ZonedDateTime.now().plusDays(14));
     }
 
     /**
@@ -281,7 +281,7 @@ public class BookingsService {
      * @param time the time to be normalized
      * @return the normalized time
      */
-    private LocalDateTime normalize(LocalDateTime time) {
+    private ZonedDateTime normalize(ZonedDateTime time) {
         return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
     }
 }
