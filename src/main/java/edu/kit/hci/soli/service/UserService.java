@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
+
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
@@ -94,7 +96,7 @@ public class UserService {
         User user = userRepository.findByUserId(userId);
         if (user == null) {
             log.info("No OIDC user found in database for {}, creating new", userId);
-            user = userRepository.save(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId, false, Locale.getDefault()));
+            user = userRepository.save(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId, false, Locale.getDefault(), ZoneId.systemDefault()));
         }
         return user;
     }
@@ -108,7 +110,7 @@ public class UserService {
         User user = userRepository.findByUserId("admin");
         if (user == null) {
             log.error("No admin user found in database, creating new");
-            user = userRepository.save(new User(null, "admin", null, "admin", false, Locale.getDefault()));
+            user = userRepository.save(new User(null, "admin", null, "admin", false, Locale.getDefault(), ZoneId.systemDefault()));
         }
         return user;
     }
@@ -134,7 +136,7 @@ public class UserService {
         User user = userRepository.findByUserId(id);
         if (user == null) {
             log.error("No guest user found in database, creating new");
-            user = userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault()));
+            user = userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault(), ZoneId.systemDefault()));
         }
         return user;
     }

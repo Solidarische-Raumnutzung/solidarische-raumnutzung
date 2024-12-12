@@ -23,7 +23,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(cfg -> cfg
-                        .requestMatchers("/", "/{id:\\d+}", "/api/{id:\\d+}/events", "/login/guest").permitAll()
+                        .requestMatchers("/", "/{id:\\d+}", "/api/{id:\\d+}/events", "/login/guest", "/timezone").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
