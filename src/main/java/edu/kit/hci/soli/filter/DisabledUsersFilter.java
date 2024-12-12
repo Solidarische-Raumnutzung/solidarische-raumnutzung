@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.filters;
+package edu.kit.hci.soli.filter;
 
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.service.UserService;

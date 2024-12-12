@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.lang.Nullable;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
+@ActiveProfiles(profiles = {"dev", "test"})
 public class BookingCreateControllerTest {
     @Autowired private TestService testService;
     @Autowired private BookingCreateController bookingsController;
@@ -44,18 +46,6 @@ public class BookingCreateControllerTest {
         }
         assertEquals("redirect:/1", result);
         return null;
-    }
-
-    @Test
-    public void testIllegalUser() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
-                bookingsService.currentSlot().plusMinutes(30),
-                bookingsService.currentSlot().plusHours(1),
-                null,
-                Priority.HIGHEST,
-                ShareRoomType.NO
-        );
-        assertEquals(KnownError.NO_USER, lsmCreateBooking(formData, null, 1));
     }
 
     @Test

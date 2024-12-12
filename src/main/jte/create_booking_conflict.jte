@@ -12,7 +12,7 @@
 @param Booking attemptedBooking
 @param BookingAttemptResult.PossibleCooperation bookingResult
 
-@template.layout(page = new PageSpec("Conflict", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Conflict", "Soli"), context = context, login = login, room = attemptedBooking.getRoom(), content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">Konfliktlösung</h1>

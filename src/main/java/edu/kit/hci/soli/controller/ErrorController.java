@@ -13,12 +13,27 @@ import java.util.Map;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.*;
 
+/**
+ * Controller for handling errors in the application.
+ */
 @Controller
 public class ErrorController extends AbstractErrorController {
+    /**
+     * Constructs an ErrorController with the specified {@link DefaultErrorAttributes}.
+     *
+     * @param errorAttributes the default error attributes
+     */
     public ErrorController(DefaultErrorAttributes errorAttributes) {
         super(errorAttributes);
     }
 
+    /**
+     * Handles errors and returns the appropriate error view.
+     *
+     * @param model the model to be used in the view
+     * @param request the HTTP request
+     * @return the view name
+     */
     @RequestMapping("/error")
     public String handleError(Model model, HttpServletRequest request) {
         Map<String, Object> errorAttributes = getErrorAttributes(request, ErrorAttributeOptions.of(
@@ -31,6 +46,7 @@ public class ErrorController extends AbstractErrorController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
+
         model.addAttribute("timestamp", errorAttributes.get("timestamp"));
         model.addAttribute("status", errorAttributes.get("status"));
         model.addAttribute("error", errorAttributes.get("error"));
