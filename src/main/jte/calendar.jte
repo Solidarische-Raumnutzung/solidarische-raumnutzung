@@ -8,7 +8,7 @@
 
 @param Room room
 
-@template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, room = room, content = @`
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
@@ -50,7 +50,7 @@
                         && selectInfo.end < new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
                 },
                 slotDuration: '00:15:00',
-                events: '/api/events'
+                events: '/api/${room.getId()}/events'
             });
 
             calendar.render();

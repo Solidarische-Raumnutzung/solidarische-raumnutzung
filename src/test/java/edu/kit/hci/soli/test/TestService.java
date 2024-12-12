@@ -6,6 +6,8 @@ import edu.kit.hci.soli.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 @Service
 public class TestService {
     @Autowired private UserRepository userRepository;

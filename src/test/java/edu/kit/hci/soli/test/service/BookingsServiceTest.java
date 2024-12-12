@@ -10,6 +10,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
+@ActiveProfiles(profiles = {"dev", "test"})
 public class BookingsServiceTest {
     @Autowired private BookingsService bookingsService;
     @Autowired private RoomService roomService;
@@ -186,10 +188,12 @@ public class BookingsServiceTest {
 
     @Test
     public void testGetCalendarEvents() {
+        Room room = roomService.get();
+
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
         testBooking3 = bookingsRepository.save(testBooking3);
-        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), null);
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(room, bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), null);
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
@@ -204,10 +208,12 @@ public class BookingsServiceTest {
 
     @Test
     public void testGetCalendarEventsAs() {
+        Room room = roomService.get();
+
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
         testBooking3 = bookingsRepository.save(testBooking3);
-        List<CalendarEvent> events = bookingsService.getCalendarEvents(bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), testService.user);
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(room, bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), testService.user);
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());

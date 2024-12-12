@@ -5,6 +5,7 @@ import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,13 +13,27 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing {@link Booking} entities.
+ * Provides methods to register and retreive booking details.
+ */
 @Slf4j
 @Service
 public class BookingsService {
     private final BookingsRepository bookingsRepository;
+    private final EmailService emailService;
+    private final MailProperties mailProperties;
 
-    public  BookingsService(BookingsRepository bookingsRepository){
+    /**
+     * Constructs a BookingsService with the specified {@link BookingsRepository}.
+     *
+     * @param bookingsRepository the repository for managing Booking entities
+     * @param emailService the service for sending emails
+     */
+    public BookingsService(BookingsRepository bookingsRepository, EmailService emailService, MailProperties mailProperties) {
         this.bookingsRepository = bookingsRepository;
+        this.emailService = emailService;
+        this.mailProperties = mailProperties;
     }
 
     /**
@@ -37,7 +52,7 @@ public class BookingsService {
         List<Booking> contact = new ArrayList<>();
         List<Booking> cooperate = new ArrayList<>();
         List<Booking> conflict = new ArrayList<>();
-        bookingsRepository.findOverlappingBookings(booking.getStartDate(), booking.getEndDate())
+        bookingsRepository.findOverlappingBookings(booking.getRoom(), booking.getStartDate(), booking.getEndDate())
                 .forEach(b -> (switch (classifyConflict(booking, b)) {
                     case OVERRIDE -> override;
                     case CONFLICT -> b.getOutstandingRequests().isEmpty() ? conflict : override;
@@ -50,6 +65,13 @@ public class BookingsService {
         return new BookingAttemptResult.Success(bookingsRepository.save(booking));
     }
 
+    /**
+     * Classifies the conflict type between two bookings.
+     *
+     * @param booking the new booking
+     * @param other the existing booking
+     * @return the type of conflict
+     */
     private ConflictType classifyConflict(Booking booking, Booking other) {
         final boolean mayCooperate = !ShareRoomType.NO.equals(booking.getShareRoomType());
         if (booking.getPriority().compareTo(other.getPriority()) < 0) {
@@ -64,12 +86,35 @@ public class BookingsService {
         }
     }
 
-    public void deleteAllBookingsForUser(User user) {
-        bookingsRepository.deleteAllByUser(user);
+    /**
+     * Enum representing the types of conflicts that can occur between bookings.
+     */
+    private enum ConflictType {
+        /**
+         * Indicates that the new booking overrides the existing booking.
+         */
+        OVERRIDE,
+        /**
+         * Indicates that the new booking requires contact with the owner of the existing booking.
+         */
+        CONTACT,
+        /**
+         * Indicates that the new booking can cooperate with the existing booking.
+         */
+        COOPERATE,
+        /**
+         * Indicates that the new booking conflicts with the existing booking.
+         */
+        CONFLICT
     }
 
-    private enum ConflictType {
-        OVERRIDE, CONTACT, COOPERATE, CONFLICT
+    /**
+     * Deletes all bookings for a specified user.
+     *
+     * @param user the user whose bookings are to be deleted
+     */
+    public void deleteAllBookingsForUser(User user) {
+        bookingsRepository.deleteAllByUser(user);
     }
 
     /**
@@ -100,13 +145,33 @@ public class BookingsService {
         return attemptResult;
     }
 
+    /**
+     * Retrieves a booking by its ID.
+     *
+     * @param id the ID of the booking
+     * @return the booking with the specified ID, or null if not found
+     */
     public Booking getBookingById(Long id) {
         return bookingsRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Deletes a booking for a specified reason.
+     *
+     * @param booking the booking to be deleted
+     * @param reason the reason for deletion
+     */
     public void delete(Booking booking, BookingDeleteReason reason) {
         bookingsRepository.delete(booking);
-        //TODO send notification to user
+        emailService.sendMail(
+                booking.getUser(),
+                "mail.booking_deleted.subject",
+                "mail/booking_deleted",
+                Map.of(
+                        "booking", booking,
+                        "reason", reason
+                )
+        );
     }
 
     /**
@@ -123,7 +188,7 @@ public class BookingsService {
         boolean result = stagedBooking.getOutstandingRequests().remove(user);
         bookingsRepository.save(stagedBooking);
         if (stagedBooking.getOutstandingRequests().isEmpty()) {
-            bookingsRepository.findOverlappingBookings(stagedBooking.getStartDate(), stagedBooking.getEndDate())
+            bookingsRepository.findOverlappingBookings(stagedBooking.getRoom(), stagedBooking.getStartDate(), stagedBooking.getEndDate())
                     .filter(s -> !s.getOutstandingRequests().isEmpty())
                     .forEach(b -> {
                         switch (classifyConflict(stagedBooking, b)) {
@@ -135,13 +200,28 @@ public class BookingsService {
         return result;
     }
 
+    /**
+     * Retrieves bookings for a specified user and room.
+     *
+     * @param user the user associated with the bookings
+     * @param room the room associated with the bookings
+     * @return a list of bookings for the specified user and room
+     */
     public List<Booking> getBookingsByUser(User user, Room room) {
-        return bookingsRepository.findByUserAndRoom(user, room);
+        return bookingsRepository.findByUserAndRoom(room, user);
     }
 
+    /**
+     * Retrieves calendar events within a specified time range for a user.
+     *
+     * @param start the start of the time range
+     * @param end the end of the time range
+     * @param user the user associated with the events (nullable)
+     * @return a list of calendar events within the specified time range
+     */
     @Transactional(readOnly = true)
-    public List<CalendarEvent> getCalendarEvents(LocalDateTime start, LocalDateTime end, @Nullable User user) {
-        return bookingsRepository.findOverlappingBookings(start, end)
+    public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
+        return bookingsRepository.findOverlappingBookings(room, start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
                         "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
@@ -153,6 +233,13 @@ public class BookingsService {
                 .toList();
     }
 
+    /**
+     * Retrieves the CSS classes for a calendar event based on the booking and user.
+     *
+     * @param booking the booking associated with the event
+     * @param user the user associated with the event (nullable)
+     * @return a list of CSS classes for the event
+     */
     private List<String> getEventClasses(Booking booking, @Nullable User user) {
         List<String> classes = new ArrayList<>();
         classes.add("calendar-event-" + booking.getPriority().name().toLowerCase());
@@ -161,18 +248,39 @@ public class BookingsService {
         return classes;
     }
 
+    /**
+     * Retrieves the current time slot.
+     *
+     * @return the current time slot
+     */
     public LocalDateTime currentSlot() {
         return normalize(LocalDateTime.now());
     }
 
+    /**
+     * Retrieves the minimum starting time for a booking.
+     *
+     * @return the minimum time for a booking
+     */
     public LocalDateTime minimumTime() {
         return normalize(LocalDateTime.now().plusMinutes(15));
     }
 
+    /**
+     * Retrieves the maximum ending time for a booking, which is 14 days from now.
+     *
+     * @return the maximum time for a booking
+     */
     public LocalDateTime maximumTime() {
         return normalize(LocalDateTime.now().plusDays(14));
     }
 
+    /**
+     * Normalizes a given time to the nearest 15 minutes, computing the corresponding time slot.
+     *
+     * @param time the time to be normalized
+     * @return the normalized time
+     */
     private LocalDateTime normalize(LocalDateTime time) {
         return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
     }

@@ -1,4 +1,5 @@
 @import edu.kit.hci.soli.domain.Priority
+@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
@@ -9,8 +10,8 @@
 @param JteContext context
 @param LoginStateModel login
 @param CsrfToken csrf
+@param Room room
 
-@param Long room
 @param LocalDateTime start
 @param LocalDateTime end
 @param ShareRoomType cooperative
@@ -18,8 +19,8 @@
 @param LocalDateTime minimumTime
 @param LocalDateTime maximumTime
 
-@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
-    <form class="card-body w-96 mx-auto" method="post" action="/${room}/bookings/new">
+@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
+    <form class="card-body w-96 mx-auto" method="post" action="/${room.getId()}/bookings/new">
         @if(csrf != null)
             <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
         @endif

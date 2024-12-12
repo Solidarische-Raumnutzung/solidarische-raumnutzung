@@ -1,4 +1,5 @@
 @import edu.kit.hci.soli.domain.Booking
+@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
@@ -9,9 +10,10 @@
 @param JteContext context
 @param LoginStateModel login
 @param CsrfToken csrf
+@param Room room
 @param List<Booking> bookings
 
-@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
     <div class="overflow-x-auto">
         @if(bookings.isEmpty())
             <div class="card">

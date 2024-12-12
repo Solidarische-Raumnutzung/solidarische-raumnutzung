@@ -7,14 +7,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Controller for handling login-related requests.
+ */
 @Controller
 public class LoginController {
     private final UserService userService;
 
+    /**
+     * Constructs a LoginController with the specified {@link UserService}.
+     *
+     * @param userService the service for managing users
+     */
     public LoginController(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Displays the login UI.
+     *
+     * @param request the HTTP request
+     * @param model the model to be used in the view
+     * @return the view name
+     */
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model) {
         if (request.getParameter("error") != null) model.addAttribute("error", "Invalid username or password");
@@ -27,6 +42,12 @@ public class LoginController {
     @Value("${soli.guest.marker}")
     private String guestMarker;
 
+    /**
+     * Displays the login UI for guests.
+     *
+     * @param model the model to be used in the view
+     * @return the view name
+     */
     @GetMapping("/login/guest")
     public String loginGuest(Model model) {
         model.addAttribute("guestMarker", guestMarker);
