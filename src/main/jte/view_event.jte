@@ -14,7 +14,7 @@
 @param Room room
 @param boolean showRequestButton
 
-@template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, content = @`
+@template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, room = booking.getRoom(), content = @`
 <div class="card bg-neutral text-neutral-content w-96 mx-auto">
     <div class="card-body items-center text-center">
     <%-- TODO we should demarcate staged bookings (IE bookings that have open outstanding requests) --%>
