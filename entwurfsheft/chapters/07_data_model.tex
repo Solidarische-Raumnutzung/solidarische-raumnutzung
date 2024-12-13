@@ -19,7 +19,7 @@ Außerdem kann eine Buchung optional einen Kommentar enthalten, der von dem Nutz
 Zur Umsetzung von Buchungen des Kooperationstyps \textit{ON\_REQUEST} existiert außerdem eine automatisch verwaltete Tabelle von noch offenen Anfragen für eine Buchung.
 
 Da die Authentifikation von Nutzenden nicht durch das System selbst, sondern durch das \gls{OIDC}-System des KIT erfolgt, werden statt vollen Anmeldedaten nur die OIDC-IDs der Nutzenden gespeichert.
-Diese sind im \hyperref{edu.kit.hci.soli.domain.User}{\texttt{User}}-Objekt unter dem Namen \ŧexttt{userId} mit dem Präfix \texttt{kit/} abgelegt.
+Diese sind im \hyperref[edu.kit.hci.soli.domain.User]{\texttt{User}}-Objekt unter dem Namen \texttt{userId} mit dem Präfix \texttt{kit/} abgelegt.
 Gäste erhalten eine interne ID, welche mit dem Präfix \texttt{guest/} beginnt, und somit von den IDs der KIT-Nutzenden unterschieden werden kann.
 Der Administrator des Systems hat die fixe interne ID \texttt{admin}.
 Die Tabelle der Nutzenden ergänzt diese Information um die E-Mail-Adresse, den Namen, und die Sprache der Nutzenden, welche für die Kommunikation mit diesen (z.B. per E-Mail) genutzt werden.
