@@ -1,16 +1,16 @@
 @import edu.kit.hci.soli.domain.User
-@import edu.kit.hci.soli.dto.LoginStateModel
+@import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import java.util.List
 
 @param JteContext context
-@param LoginStateModel login
+@param LayoutParams layout
 @param CsrfToken csrf
 @param List<User> users
 
-@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
+@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, layout = layout, content = @`
     <div class="overflow-x-auto">
         @if(users.isEmpty())
             <div class="card">

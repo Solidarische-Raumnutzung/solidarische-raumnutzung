@@ -3,6 +3,7 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
@@ -39,11 +41,14 @@ public class CalendarController {
      * @param request the HTTP request
      * @param response the HTTP response
      * @param principal the authenticated user details
+     * @param layout state of the site layout
      * @return the view name
      */
     @GetMapping("/")
-    public String calendar(Model model, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
-        return calendar(model, request, response, principal, 1L);
+    public String calendar(Model model, HttpServletRequest request, HttpServletResponse response,
+                           @AuthenticationPrincipal SoliUserDetails principal,
+                           @ModelAttribute("layout") LayoutParams layout) {
+        return calendar(model, request, response, principal, 1L, layout);
     }
 
     /**
@@ -54,10 +59,14 @@ public class CalendarController {
      * @param response the HTTP response
      * @param principal the authenticated user details
      * @param roomId the ID of the room
+     * @param layout state of the site layout
      * @return the view name
      */
     @GetMapping("/{roomId}")
-    public String calendar(Model model, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable long roomId) {
+    public String calendar(Model model, HttpServletRequest request, HttpServletResponse response,
+                           @AuthenticationPrincipal SoliUserDetails principal,
+                           @PathVariable long roomId,
+                           @ModelAttribute("layout") LayoutParams layout) {
         if (principal != null) {
             principal.getUser().setLocale(request.getLocale());
             log.info("Received request from {}", principal.getUsername());
@@ -68,7 +77,7 @@ public class CalendarController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         return "calendar";
     }
 }

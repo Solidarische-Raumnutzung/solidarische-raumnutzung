@@ -1,15 +1,13 @@
-@import edu.kit.hci.soli.domain.Room
+@import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import gg.jte.Content
-@import jakarta.annotation.Nullable
 
 @param PageSpec page
+@param LayoutParams layout
 @param JteContext context
 @param Content content
-@param LoginStateModel login
-@param Room room
 
 <!DOCTYPE html>
 <html lang="${context.localize("code")}" data-theme="light">
@@ -127,18 +125,18 @@
                                             </div>
 
                                         </div>
-                                        <label>Welcome, ${login.name()}</label>
+                                        <label>Welcome, ${layout.getLogin().name()}</label>
 
                                         <div class="divider"></div>
 
-                                        @if(login.kind() == LoginStateModel.Kind.VISITOR)
+                                        @if(layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
                                             <li><a href="/login">${context.localize("login.login")}</a></li>
                                         @else
                                             <form action="/logout"
                                                   method="post">
                                                 <input type="hidden"
-                                                       name="${login.csrfToken().getParameterName()}"
-                                                       value="${login.csrfToken().getToken()}"/>
+                                                       name="${layout.getLogin().csrfToken().getParameterName()}"
+                                                       value="${layout.getLogin().csrfToken().getToken()}"/>
                                                 <li>
                                                     <button type="submit">${context.localize("login.logout")}</button>
                                                 </li>
@@ -146,18 +144,18 @@
 
                                         @endif
 
-                                        @if(login.kind() == LoginStateModel.Kind.ADMIN)
+                                        @if(layout.getLogin().kind() == LoginStateModel.Kind.ADMIN)
                                             <div class="divider"></div>
                                             <li><a href="/admin/users">${context.localize("administration.user")}</a></li>
                                         @endif
 
-                                        @if (room != null)
-                                            <li><a href="/${room.getId()}">${context.localize("calendar")}</a></li>
-                                            <li><a href="/${room.getId()}/bookings">${context.localize("bookings.my_bookings")}</a></li>
+                                        @if (layout.getRoom() != null)
+                                            <li><a href="/${layout.getRoom().getId()}">${context.localize("calendar")}</a></li>
+                                            <li><a href="/${layout.getRoom().getId()}/bookings">${context.localize("bookings.my_bookings")}</a></li>
 
                                             <div class="divider"></div>
 
-                                            <li><a class="btn btn-outline btn-primary" href="/${room.getId()}/bookings/new">${context.localize("bookings.new")}</a></li>
+                                            <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new">${context.localize("bookings.new")}</a></li>
                                         @endif
 
                                     </ul>

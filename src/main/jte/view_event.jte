@@ -1,5 +1,5 @@
 @import edu.kit.hci.soli.domain.Booking
-@import edu.kit.hci.soli.domain.Room
+@import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
@@ -8,13 +8,12 @@
 @import java.util.Objects
 
 @param JteContext context
-@param LoginStateModel login
+@param LayoutParams layout
 @param Booking booking
 @param CsrfToken csrf
-@param Room room
 @param boolean showRequestButton
 
-@template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, login = login, room = booking.getRoom(), content = @`
+@template.layout(page = new PageSpec("Terminansicht", "Soli"), context = context, layout = layout, content = @`
 <div class="card bg-neutral text-neutral-content w-96 mx-auto">
     <div class="card-body items-center text-center">
     <%-- TODO we should demarcate staged bookings (IE bookings that have open outstanding requests) --%>
@@ -29,8 +28,8 @@
     </div>
     <div class="card-actions justify-end">
     <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
-    @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
-        && Objects.equals(login.user(), booking.getUser())))
+    @if(layout.getLogin().kind().equals(LoginStateModel.Kind.ADMIN) || (layout.getLogin().user() != null
+        && Objects.equals(layout.getLogin().user(), booking.getUser())))
         <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}/delete" method="post">
             @if(csrf != null)
                 <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
