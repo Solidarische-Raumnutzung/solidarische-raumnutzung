@@ -35,9 +35,9 @@ public class EmailServiceImpl implements EmailService {
     /**
      * Constructs an EmailService with the specified services.
      *
-     * @param mailSender the mail sender to use
+     * @param mailSender     the mail sender to use
      * @param templateEngine the template engine to use
-     * @param messageSource the message source to use
+     * @param messageSource  the message source to use
      */
     public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine, MessageSource messageSource) {
         this.mailSender = mailSender;
@@ -48,10 +48,10 @@ public class EmailServiceImpl implements EmailService {
     /**
      * Sends an email to the specified user.
      *
-     * @param to the user to send the email to
-     * @param subject the translation key of the subject
+     * @param to       the user to send the email to
+     * @param subject  the translation key of the subject
      * @param template the template to use
-     * @param model the model to use for the template
+     * @param model    the model to use for the template
      */
     @Override
     public void sendMail(User to, @PropertyKey(resourceBundle = "messages") String subject, String template, Map<String, Object> model) {

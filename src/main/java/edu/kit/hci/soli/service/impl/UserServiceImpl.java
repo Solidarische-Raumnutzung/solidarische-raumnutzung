@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Constructs a UserService with the specified {@link UserRepository} and {@link BookingsService}.
      *
-     * @param userRepository the repository for managing User entities
+     * @param userRepository  the repository for managing User entities
      * @param bookingsService the service for managing bookings
      */
     public UserServiceImpl(UserRepository userRepository, BookingsService bookingsService) {

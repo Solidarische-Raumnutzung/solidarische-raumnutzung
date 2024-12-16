@@ -40,6 +40,6 @@ public class Room {
     }
 
     public int hashCode() {
-       return getId().hashCode();
+        return getId().hashCode();
     }
 }

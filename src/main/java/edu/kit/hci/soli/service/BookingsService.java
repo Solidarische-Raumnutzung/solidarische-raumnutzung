@@ -39,7 +39,7 @@ public interface BookingsService {
      * If some conflicts require contact, a Staged result is returned.
      *
      * @param booking the booking to be affirmed
-     * @param result the result of the booking attempt
+     * @param result  the result of the booking attempt
      * @return the result of the affirmation
      */
     BookingAttemptResult affirm(Booking booking, BookingAttemptResult.PossibleCooperation result);
@@ -56,7 +56,7 @@ public interface BookingsService {
      * Deletes a booking for a specified reason.
      *
      * @param booking the booking to be deleted
-     * @param reason the reason for deletion
+     * @param reason  the reason for deletion
      */
     void delete(Booking booking, BookingDeleteReason reason);
 
@@ -65,7 +65,7 @@ public interface BookingsService {
      * This is the action taken by a user that has an existing booking marked with {@link ShareRoomType#ON_REQUEST} and confirms that a different user may book the room.
      *
      * @param stagedBooking the booking to be confirmed
-     * @param user the user who confirms the booking
+     * @param user          the user who confirms the booking
      * @return true if the user was in the list of outstanding requests and was removed
      */
     boolean confirmRequest(Booking stagedBooking, User user);
@@ -83,8 +83,8 @@ public interface BookingsService {
      * Retrieves calendar events within a specified time range for a user.
      *
      * @param start the start of the time range
-     * @param end the end of the time range
-     * @param user the user associated with the events (nullable)
+     * @param end   the end of the time range
+     * @param user  the user associated with the events (nullable)
      * @return a list of calendar events within the specified time range
      */
     List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user);

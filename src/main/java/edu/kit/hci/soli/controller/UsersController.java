@@ -31,10 +31,10 @@ public class UsersController {
     /**
      * Deactivates a user by their ID.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param userId the ID of the user to be deactivated
+     * @param userId    the ID of the user to be deactivated
      * @return the view name
      */
     @PutMapping("/admin/users/{userId}/deactivate")
@@ -74,8 +74,8 @@ public class UsersController {
     /**
      * Retrieves all manageable users and returns the view for the users page.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
      * @return the view name
      */

@@ -28,7 +28,7 @@ public class BookingsServiceImpl implements BookingsService {
      * Constructs a BookingsService with the specified {@link BookingsRepository}.
      *
      * @param bookingsRepository the repository for managing Booking entities
-     * @param emailService the service for sending emails
+     * @param emailService       the service for sending emails
      */
     public BookingsServiceImpl(BookingsRepository bookingsRepository, EmailService emailService) {
         this.bookingsRepository = bookingsRepository;
@@ -199,5 +199,4 @@ public class BookingsServiceImpl implements BookingsService {
     public LocalDateTime maximumTime() {
         return normalize(LocalDateTime.now().plusDays(14));
     }
-
 }

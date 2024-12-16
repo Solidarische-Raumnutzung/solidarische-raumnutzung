@@ -42,7 +42,7 @@ public class LoginControllerAdvice {
      * Retrieves the login state model based on the authenticated user details.
      *
      * @param principal the authenticated user details
-     * @param csrf the CSRF token
+     * @param csrf      the CSRF token
      * @return the login state model
      */
     @ModelAttribute("login")

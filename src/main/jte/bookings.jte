@@ -47,7 +47,7 @@
                                 @if(csrf != null)
                                     <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                                 @endif
-                                <input type="hidden" name="_method" value="delete" />
+                                <input type="hidden" name="_method" value="delete"/>
                                 <button type="submit" class="btn btn-ghost">
                                     <i class="fas fa-trash-alt"></i>
                                     ${context.localize("bookings.delete")}

@@ -33,8 +33,8 @@ public class BookingViewController {
      * Constructs a BookingViewController with the specified services.
      *
      * @param bookingsService the service for managing bookings
-     * @param roomService the service for managing rooms
-     * @param userService the service for managing users
+     * @param roomService     the service for managing rooms
+     * @param userService     the service for managing users
      */
     public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService) {
         this.bookingsService = bookingsService;
@@ -45,11 +45,11 @@ public class BookingViewController {
     /**
      * Deletes a booking for a specific room and event.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param roomId the ID of the room
-     * @param eventId the ID of the event
+     * @param roomId    the ID of the room
+     * @param eventId   the ID of the event
      * @return the view name
      */
     @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
@@ -97,10 +97,10 @@ public class BookingViewController {
     /**
      * Displays the bookings for a specific room.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param roomId the ID of the room
+     * @param roomId    the ID of the room
      * @return the view name
      */
     @GetMapping("/{roomId}/bookings")
@@ -121,11 +121,11 @@ public class BookingViewController {
     /**
      * Displays the details of a specific event.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param roomId the ID of the room
-     * @param eventId the ID of the event
+     * @param roomId    the ID of the room
+     * @param eventId   the ID of the event
      * @return the view name
      */
     @GetMapping("/{roomId}/bookings/{eventId}")
