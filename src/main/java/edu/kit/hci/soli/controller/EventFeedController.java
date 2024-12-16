@@ -26,7 +26,7 @@ public class EventFeedController {
      * Constructs an EventFeedController with the specified {@link BookingsService}.
      *
      * @param bookingsRepository the service for managing bookings
-     * @param roomService the service for managing rooms
+     * @param roomService        the service for managing rooms
      */
     public EventFeedController(BookingsService bookingsRepository, RoomService roomService) {
         this.bookingsRepository = bookingsRepository;
@@ -36,9 +36,9 @@ public class EventFeedController {
     /**
      * Retrieves calendar events within the specified time range.
      *
-     * @param start the start date and time
-     * @param end the end date and time
-     * @param roomId the id of the room to show
+     * @param start     the start date and time
+     * @param end       the end date and time
+     * @param roomId    the id of the room to show
      * @param principal the authenticated user details
      * @return the list of calendar events
      */

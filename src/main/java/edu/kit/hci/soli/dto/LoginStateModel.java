@@ -7,10 +7,10 @@ import org.springframework.security.web.csrf.CsrfToken;
 /**
  * Record representing the login state model.
  *
- * @param name the name of the user
- * @param kind the kind of login
+ * @param name      the name of the user
+ * @param kind      the kind of login
  * @param csrfToken the CSRF token associated with the login
- * @param user the user associated with the login, can be null
+ * @param user      the user associated with the login, can be null
  */
 public record LoginStateModel(String name, Kind kind, CsrfToken csrfToken, @Nullable User user) {
     /**

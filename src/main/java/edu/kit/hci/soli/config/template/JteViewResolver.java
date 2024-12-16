@@ -20,13 +20,13 @@ public class JteViewResolver extends AbstractTemplateViewResolver {
         this.setExposeRequestAttributes(false);
     }
 
-    @Override @NonNull
-    protected AbstractUrlBasedView instantiateView() {
+    @Override
+    protected @NonNull AbstractUrlBasedView instantiateView() {
         return new JteView(templateEngine);
     }
 
-    @Override @NonNull
-    protected Class<?> requiredViewClass() {
+    @Override
+    protected @NonNull Class<?> requiredViewClass() {
         return JteView.class;
     }
 }

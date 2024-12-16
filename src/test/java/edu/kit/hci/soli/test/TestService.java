@@ -1,12 +1,12 @@
 package edu.kit.hci.soli.test;
 
 import edu.kit.hci.soli.domain.User;
-import edu.kit.hci.soli.repository.*;
+import edu.kit.hci.soli.repository.BookingsRepository;
+import edu.kit.hci.soli.repository.RoomRepository;
+import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Locale;
 
 @Service
 public class TestService {

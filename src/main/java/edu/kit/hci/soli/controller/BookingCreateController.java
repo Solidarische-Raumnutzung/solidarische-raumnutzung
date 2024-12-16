@@ -4,10 +4,13 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.KnownError;
-import edu.kit.hci.soli.service.*;
+import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,7 +37,7 @@ public class BookingCreateController {
      * Constructs a BookingCreateController with the specified services.
      *
      * @param bookingsService the service for managing bookings
-     * @param roomService the service for managing rooms
+     * @param roomService     the service for managing rooms
      */
     public BookingCreateController(BookingsService bookingsService, RoomService roomService) {
         this.bookingsService = bookingsService;
@@ -44,11 +47,11 @@ public class BookingCreateController {
     /**
      * Displays the form for creating a new booking.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
-     * @param roomId the ID of the room
-     * @param start the start date and time of the booking
-     * @param end the end date and time of the booking
+     * @param model       the model to be used in the view
+     * @param response    the HTTP response
+     * @param roomId      the ID of the room
+     * @param start       the start date and time of the booking
+     * @param end         the end date and time of the booking
      * @param cooperative whether the booking is cooperative
      * @return the view name
      */
@@ -92,12 +95,12 @@ public class BookingCreateController {
     /**
      * Creates a new booking.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
-     * @param request the HTTP request
-     * @param roomId the ID of the room
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
+     * @param request   the HTTP request
+     * @param roomId    the ID of the room
      * @param principal the authenticated user details
-     * @param formData the form data for the booking
+     * @param formData  the form data for the booking
      * @return the view name
      */
     @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
@@ -150,9 +153,9 @@ public class BookingCreateController {
     /**
      * Resolves a booking conflict.
      *
-     * @param model the model to be used in the view
+     * @param model   the model to be used in the view
      * @param request the HTTP request
-     * @param roomId the ID of the room
+     * @param roomId  the ID of the room
      * @return the view name
      */
     @PostMapping(value = "/{roomId}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
@@ -182,9 +185,9 @@ public class BookingCreateController {
      * Handles the result of a booking attempt.
      *
      * @param attemptedBooking the attempted booking
-     * @param bookingResult the result of the booking attempt
-     * @param request the HTTP request
-     * @param model the model to be used in the view
+     * @param bookingResult    the result of the booking attempt
+     * @param request          the HTTP request
+     * @param model            the model to be used in the view
      * @return the view name
      */
     private String handleBookingAttempt(Booking attemptedBooking, BookingAttemptResult bookingResult, HttpServletRequest request, Model model) {

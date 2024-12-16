@@ -214,7 +214,7 @@ public class User {
     }
 
     public boolean equals(final Object o) {
-       return o instanceof User u && u.getId().equals(getId());
+        return o instanceof User u && u.getId().equals(getId());
     }
 
     public int hashCode() {

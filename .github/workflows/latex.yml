@@ -39,7 +39,7 @@ jobs:
           makeglossaries main
           pdflatex main.tex
           cd ../entwurfsheft
-          curl -O https://solidarische-raumnutzung.github.io/DocTeX/doctex.jar
+          wget https://solidarische-raumnutzung.github.io/DocTeX/doctex.jar
           java -jar doctex.jar --output=./javadoc ../src/main/java edu.kit.hci.soli
           pdflatex main.tex
           makeglossaries main

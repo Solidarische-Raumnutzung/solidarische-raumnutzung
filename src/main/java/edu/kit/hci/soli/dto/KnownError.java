@@ -44,7 +44,7 @@ public enum KnownError {
     /**
      * Constructs a KnownError with the specified title and message.
      *
-     * @param title the title of the error message
+     * @param title   the title of the error message
      * @param message the detailed error message
      */
     KnownError(@PropertyKey(resourceBundle = "messages") String title, @PropertyKey(resourceBundle = "messages") String message) {

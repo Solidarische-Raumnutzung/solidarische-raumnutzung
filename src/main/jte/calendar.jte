@@ -12,7 +12,7 @@
 
 @template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, room = room, content = @`
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
                 initialView: 'timeGridWeek',
                 nowIndicator: true,
@@ -37,15 +37,15 @@
                 },
                 themeSystem: 'bootstrap5',
                 selectable: true,
-                select: function(info) {
+                select: function (info) {
                     window.location.href = "/${room.getId()}/bookings/new"
                         + "?start=" + encodeURIComponent(info.start.toISOString())
                         + "&end=" + encodeURIComponent(info.end.toISOString());
                 },
-                selectOverlap: function(event) {
+                selectOverlap: function (event) {
                     return !event.classNames.includes('calendar-event-no');
                 },
-                selectAllow: function(selectInfo) {
+                selectAllow: function (selectInfo) {
                     // Keep these in sync with BookingsController!
                     return selectInfo.start > new Date(new Date().getTime() + 15 * 60 * 1000)
                         && selectInfo.end < new Date(selectInfo.start.getTime() + 4 * 60 * 60 * 1000)
