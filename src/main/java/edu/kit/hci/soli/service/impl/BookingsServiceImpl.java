@@ -8,10 +8,10 @@ import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.repository.BookingsRepository;
+import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +25,9 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class BookingsServiceImpl implements edu.kit.hci.soli.service.BookingsService {
+public class BookingsServiceImpl implements BookingsService {
     private final BookingsRepository bookingsRepository;
     private final EmailService emailService;
-    private final MailProperties mailProperties;
 
     /**
      * Constructs a BookingsService with the specified {@link BookingsRepository}.
@@ -36,10 +35,9 @@ public class BookingsServiceImpl implements edu.kit.hci.soli.service.BookingsSer
      * @param bookingsRepository the repository for managing Booking entities
      * @param emailService the service for sending emails
      */
-    public BookingsServiceImpl(BookingsRepository bookingsRepository, EmailService emailService, MailProperties mailProperties) {
+    public BookingsServiceImpl(BookingsRepository bookingsRepository, EmailService emailService) {
         this.bookingsRepository = bookingsRepository;
         this.emailService = emailService;
-        this.mailProperties = mailProperties;
     }
 
     /**

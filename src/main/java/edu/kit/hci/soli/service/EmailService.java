@@ -9,7 +9,6 @@ import java.util.Map;
 /**
  * Service for sending emails
  */
-@Service
 public interface EmailService {
     /**
      * Sends an email to the specified user.

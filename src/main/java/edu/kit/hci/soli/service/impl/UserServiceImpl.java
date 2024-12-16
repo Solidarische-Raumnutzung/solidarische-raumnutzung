@@ -2,6 +2,8 @@ package edu.kit.hci.soli.service.impl;
 
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.UserRepository;
+import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,11 +16,11 @@ import java.util.Locale;
  * Service class for managing {@link User} entities.
  * Provides methods for user creation, retrieval, and management.
  */
-@Service
 @Slf4j
-public class UserServiceImpl implements edu.kit.hci.soli.service.UserService {
+@Service
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final BookingsServiceImpl bookingsService;
+    private final BookingsService bookingsService;
 
     /**
      * Constructs a UserService with the specified {@link UserRepository} and {@link BookingsServiceImpl}.
@@ -26,7 +28,7 @@ public class UserServiceImpl implements edu.kit.hci.soli.service.UserService {
      * @param userRepository the repository for managing User entities
      * @param bookingsService the service for managing bookings
      */
-    public UserServiceImpl(UserRepository userRepository, BookingsServiceImpl bookingsService) {
+    public UserServiceImpl(UserRepository userRepository, BookingsService bookingsService) {
         this.userRepository = userRepository;
         this.bookingsService = bookingsService;
     }

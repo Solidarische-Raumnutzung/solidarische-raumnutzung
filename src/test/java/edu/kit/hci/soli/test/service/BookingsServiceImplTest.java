@@ -3,7 +3,7 @@ package edu.kit.hci.soli.test.service;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
-import edu.kit.hci.soli.service.impl.BookingsServiceImpl;
+import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.*;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 @ActiveProfiles(profiles = {"dev", "test"})
 public class BookingsServiceImplTest {
-    @Autowired private BookingsServiceImpl bookingsService;
+    @Autowired private BookingsService bookingsService;
     @Autowired private RoomService roomService;
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private TestService testService;
