@@ -1,7 +1,8 @@
-package edu.kit.hci.soli.service;
+package edu.kit.hci.soli.service.impl;
 
 import edu.kit.hci.soli.config.template.JteContext;
 import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.service.EmailService;
 import gg.jte.TemplateEngine;
 import gg.jte.output.StringOutput;
 import jakarta.mail.internet.MimeMessage;
@@ -22,7 +23,7 @@ import java.util.*;
 @Slf4j
 @Service
 @Profile("!test")
-public class LiveEmailService implements EmailService {
+public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String mailFrom;
 
@@ -37,7 +38,7 @@ public class LiveEmailService implements EmailService {
      * @param templateEngine the template engine to use
      * @param messageSource the message source to use
      */
-    public LiveEmailService(JavaMailSender mailSender, TemplateEngine templateEngine, MessageSource messageSource) {
+    public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine, MessageSource messageSource) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
         this.messageSource = messageSource;

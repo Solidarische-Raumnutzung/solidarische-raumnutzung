@@ -4,6 +4,7 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.impl.RoomServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class CalendarController {
     private final RoomService roomService;
 
     /**
-     * Constructs a CalendarController with the specified {@link RoomService}.
+     * Constructs a CalendarController with the specified {@link RoomServiceImpl}.
      *
      * @param roomService the service for managing rooms
      */
