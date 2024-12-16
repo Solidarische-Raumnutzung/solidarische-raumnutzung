@@ -1,9 +1,6 @@
 package edu.kit.hci.soli.service.impl;
 
-import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.Room;
-import edu.kit.hci.soli.domain.ShareRoomType;
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.CalendarEvent;
@@ -16,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j

@@ -1,6 +1,8 @@
 package edu.kit.hci.soli.repository;
 
-import edu.kit.hci.soli.domain.*;
+import edu.kit.hci.soli.domain.Booking;
+import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.domain.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,11 +1,15 @@
 package edu.kit.hci.soli.test.controller;
 
 import edu.kit.hci.soli.controller.BookingCreateController;
-import edu.kit.hci.soli.domain.*;
+import edu.kit.hci.soli.domain.Priority;
+import edu.kit.hci.soli.domain.ShareRoomType;
+import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.test.TestService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;

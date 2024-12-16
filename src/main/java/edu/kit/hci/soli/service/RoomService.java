@@ -1,7 +1,6 @@
 package edu.kit.hci.soli.service;
 
 import edu.kit.hci.soli.domain.Room;
-import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

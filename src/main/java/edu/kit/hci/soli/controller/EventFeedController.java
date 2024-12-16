@@ -4,7 +4,6 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.service.BookingsService;
-import edu.kit.hci.soli.service.impl.BookingsServiceImpl;
 import edu.kit.hci.soli.service.RoomService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

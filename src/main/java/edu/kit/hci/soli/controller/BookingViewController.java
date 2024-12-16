@@ -1,21 +1,20 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.config.security.SoliUserDetails;
-import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.Room;
-import edu.kit.hci.soli.domain.ShareRoomType;
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.BookingsService;
-import edu.kit.hci.soli.service.UserService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Objects;
 import java.util.Optional;

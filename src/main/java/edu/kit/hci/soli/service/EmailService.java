@@ -2,7 +2,6 @@ package edu.kit.hci.soli.service;
 
 import edu.kit.hci.soli.domain.User;
 import org.jetbrains.annotations.PropertyKey;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 

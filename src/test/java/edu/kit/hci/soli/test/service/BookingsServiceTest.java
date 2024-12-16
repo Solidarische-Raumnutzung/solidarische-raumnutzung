@@ -1,7 +1,9 @@
 package edu.kit.hci.soli.test.service;
 
 import edu.kit.hci.soli.domain.*;
-import edu.kit.hci.soli.dto.*;
+import edu.kit.hci.soli.dto.BookingAttemptResult;
+import edu.kit.hci.soli.dto.BookingDeleteReason;
+import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
