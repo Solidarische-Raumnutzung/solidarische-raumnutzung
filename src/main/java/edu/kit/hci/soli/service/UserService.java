@@ -94,7 +94,7 @@ public class UserService {
         User user = userRepository.findByUserId(userId);
         if (user == null) {
             log.info("No OIDC user found in database for {}, creating new", userId);
-            user = userRepository.save(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId, false, Locale.getDefault()));
+            user = userRepository.save(new User(null, oidcUser.getUserInfo().getClaim("name"), oidcUser.getEmail(), userId, false, Locale.getDefault()));
         }
         return user;
     }
