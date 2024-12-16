@@ -4,6 +4,7 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -151,11 +152,13 @@ public class BookingCreateController {
      * @param model   the model to be used in the view
      * @param request the HTTP request
      * @param roomId  the ID of the room
+     * @param layout  state of the site layout
      * @return the view name
      */
     @PostMapping(value = "/{roomId}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
     public String resolveConflict(
-            Model model, HttpServletRequest request, @PathVariable Long roomId
+            Model model, HttpServletRequest request, @PathVariable Long roomId,
+            @ModelAttribute("layout") LayoutParams layout
     ) {
         Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
         if (attemptedBooking == null) {
@@ -171,7 +174,7 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error_known";
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         BookingAttemptResult.PossibleCooperation bookingResult = (BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
         return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
     }

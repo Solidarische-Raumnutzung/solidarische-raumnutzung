@@ -1,14 +1,11 @@
-@import edu.kit.hci.soli.dto.LoginStateModel
-@import edu.kit.hci.soli.domain.Room
+@import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 
 @param JteContext context
-@param LoginStateModel login
+@param LayoutParams layout
 
-@param Room room
-
-@template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, room = room, content = @`
+@template.layout(page = new PageSpec("Index", "Soli"), context = context, layout = layout, content = @`
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
@@ -23,7 +20,7 @@
                 themeSystem: 'bootstrap5',
                 selectable: true,
                 select: function (info) {
-                    window.location.href = "/${room.getId()}/bookings/new"
+                    window.location.href = "/${layout.getRoom().getId()}/bookings/new"
                         + "?start=" + encodeURIComponent(info.start.toISOString())
                         + "&end=" + encodeURIComponent(info.end.toISOString());
                 },
@@ -37,7 +34,7 @@
                         && selectInfo.end < new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
                 },
                 slotDuration: '00:15:00',
-                events: '/api/${room.getId()}/events'
+                events: '/api/${layout.getRoom().getId()}/events'
             });
 
             calendar.render();
