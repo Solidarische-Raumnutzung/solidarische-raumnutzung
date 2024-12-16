@@ -15,6 +15,7 @@ jobs:
       - uses: gradle/actions/wrapper-validation@v4.2.1
       - name: Validate charset
         run: |
+          set -x
           git config core.quotepath off
           for file in $(git ls-files); do
             encoding=$(file -b --mime-encoding "$file")
