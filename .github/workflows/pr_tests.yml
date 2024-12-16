@@ -15,8 +15,9 @@ jobs:
       - uses: gradle/actions/wrapper-validation@v4.2.1
       - name: Validate charset
         run: |
+          set -x
           git config core.quotepath off
-          for file in $(git ls-files); do
+          for file in $(git ls-files | grep -v '\.jpg$'); do
             encoding=$(file -b --mime-encoding "$file")
             if [ "$encoding" != "utf-8" ] && [ "$encoding" != "us-ascii" ] && [ "$encoding" != "binary" ]; then
               echo "$file has invalid encoding: $encoding"

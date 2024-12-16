@@ -1,10 +1,7 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.config.security.SoliUserDetails;
-import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.Room;
-import edu.kit.hci.soli.domain.ShareRoomType;
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LayoutParams;
@@ -16,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -35,8 +34,8 @@ public class BookingViewController {
      * Constructs a BookingViewController with the specified services.
      *
      * @param bookingsService the service for managing bookings
-     * @param roomService the service for managing rooms
-     * @param userService the service for managing users
+     * @param roomService     the service for managing rooms
+     * @param userService     the service for managing users
      */
     public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService) {
         this.bookingsService = bookingsService;
@@ -47,12 +46,12 @@ public class BookingViewController {
     /**
      * Deletes a booking for a specific room and event.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param roomId the ID of the room
-     * @param eventId the ID of the event
-     * @param layout state of the site layout
+     * @param roomId    the ID of the room
+     * @param eventId   the ID of the event
+     * @param layout    state of the site layout
      * @return the view name
      */
     @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
@@ -101,11 +100,11 @@ public class BookingViewController {
     /**
      * Displays the bookings for a specific room.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param roomId the ID of the room
-     * @param layout state of the site layout
+     * @param roomId    the ID of the room
+     * @param layout    state of the site layout
      * @return the view name
      */
     @GetMapping("/{roomId}/bookings")
@@ -127,12 +126,12 @@ public class BookingViewController {
     /**
      * Displays the details of a specific event.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param roomId the ID of the room
-     * @param eventId the ID of the event
-     * @param layout state of the site layout
+     * @param roomId    the ID of the room
+     * @param eventId   the ID of the event
+     * @param layout    state of the site layout
      * @return the view name
      */
     @GetMapping("/{roomId}/bookings/{eventId}")

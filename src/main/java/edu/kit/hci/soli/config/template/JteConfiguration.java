@@ -1,7 +1,9 @@
 package edu.kit.hci.soli.config.template;
 
 import edu.kit.hci.soli.SoliApplication;
-import gg.jte.*;
+import gg.jte.CodeResolver;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
 import gg.jte.resolve.DirectoryCodeResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

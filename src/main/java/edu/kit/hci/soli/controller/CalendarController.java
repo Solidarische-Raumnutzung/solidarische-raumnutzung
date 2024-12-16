@@ -37,11 +37,11 @@ public class CalendarController {
     /**
      * Displays the calendar for the default room.
      *
-     * @param model the model to be used in the view
-     * @param request the HTTP request
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param request   the HTTP request
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param layout state of the site layout
+     * @param layout    state of the site layout
      * @return the view name
      */
     @GetMapping("/")
@@ -54,12 +54,12 @@ public class CalendarController {
     /**
      * Displays the calendar for a specific room.
      *
-     * @param model the model to be used in the view
-     * @param request the HTTP request
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param request   the HTTP request
+     * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param roomId the ID of the room
-     * @param layout state of the site layout
+     * @param roomId    the ID of the room
+     * @param layout    state of the site layout
      * @return the view name
      */
     @GetMapping("/{roomId}")

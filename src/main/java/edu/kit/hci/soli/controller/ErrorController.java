@@ -30,7 +30,7 @@ public class ErrorController extends AbstractErrorController {
     /**
      * Handles errors and returns the appropriate error view.
      *
-     * @param model the model to be used in the view
+     * @param model   the model to be used in the view
      * @param request the HTTP request
      * @return the view name
      */

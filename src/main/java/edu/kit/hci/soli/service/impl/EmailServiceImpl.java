@@ -1,7 +1,8 @@
-package edu.kit.hci.soli.service;
+package edu.kit.hci.soli.service.impl;
 
 import edu.kit.hci.soli.config.template.JteContext;
 import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.service.EmailService;
 import gg.jte.TemplateEngine;
 import gg.jte.output.StringOutput;
 import jakarta.mail.internet.MimeMessage;
@@ -14,7 +15,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Service for sending emails
@@ -22,7 +24,7 @@ import java.util.*;
 @Slf4j
 @Service
 @Profile("!test")
-public class LiveEmailService implements EmailService {
+public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String mailFrom;
 
@@ -33,11 +35,11 @@ public class LiveEmailService implements EmailService {
     /**
      * Constructs an EmailService with the specified services.
      *
-     * @param mailSender the mail sender to use
+     * @param mailSender     the mail sender to use
      * @param templateEngine the template engine to use
-     * @param messageSource the message source to use
+     * @param messageSource  the message source to use
      */
-    public LiveEmailService(JavaMailSender mailSender, TemplateEngine templateEngine, MessageSource messageSource) {
+    public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine, MessageSource messageSource) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
         this.messageSource = messageSource;
@@ -46,10 +48,10 @@ public class LiveEmailService implements EmailService {
     /**
      * Sends an email to the specified user.
      *
-     * @param to the user to send the email to
-     * @param subject the translation key of the subject
+     * @param to       the user to send the email to
+     * @param subject  the translation key of the subject
      * @param template the template to use
-     * @param model the model to use for the template
+     * @param model    the model to use for the template
      */
     @Override
     public void sendMail(User to, @PropertyKey(resourceBundle = "messages") String subject, String template, Map<String, Object> model) {

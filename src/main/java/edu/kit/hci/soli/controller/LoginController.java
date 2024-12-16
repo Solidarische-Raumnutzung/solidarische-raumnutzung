@@ -27,7 +27,7 @@ public class LoginController {
      * Displays the login UI.
      *
      * @param request the HTTP request
-     * @param model the model to be used in the view
+     * @param model   the model to be used in the view
      * @return the view name
      */
     @GetMapping("/login")
