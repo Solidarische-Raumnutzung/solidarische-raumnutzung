@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @ActiveProfiles(profiles = {"dev", "test"})
-public class BookingsServiceImplTest {
+public class BookingsServiceTest {
     @Autowired private BookingsService bookingsService;
     @Autowired private RoomService roomService;
     @Autowired private BookingsRepository bookingsRepository;

@@ -24,7 +24,7 @@ public class EventFeedController {
     private final RoomService roomService;
 
     /**
-     * Constructs an EventFeedController with the specified {@link BookingsServiceImpl}.
+     * Constructs an EventFeedController with the specified {@link BookingsService}.
      *
      * @param bookingsRepository the service for managing bookings
      * @param roomService the service for managing rooms

@@ -3,7 +3,7 @@ package edu.kit.hci.soli.test.controller;
 import edu.kit.hci.soli.controller.BookingCreateController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.KnownError;
-import edu.kit.hci.soli.service.impl.BookingsServiceImpl;
+import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class BookingCreateControllerTest {
     @Autowired private TestService testService;
     @Autowired private BookingCreateController bookingsController;
-    @Autowired private BookingsServiceImpl bookingsService;
+    @Autowired private BookingsService bookingsService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
