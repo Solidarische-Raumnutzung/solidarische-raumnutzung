@@ -54,7 +54,7 @@ public class BookingCreateController {
      * @param cooperative whether the booking is cooperative
      * @return the view name
      */
-    @GetMapping("/{roomId}/bookings/new")
+    @GetMapping("/{roomId:\\d+}/bookings/new")
     public String newBooking(
             Model model, HttpServletResponse response, @PathVariable Long roomId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
@@ -98,7 +98,7 @@ public class BookingCreateController {
      * @param formData  the form data for the booking
      * @return the view name
      */
-    @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/{roomId:\\d+}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request,
             @PathVariable Long roomId,
@@ -153,7 +153,7 @@ public class BookingCreateController {
      * @param roomId  the ID of the room
      * @return the view name
      */
-    @PostMapping(value = "/{roomId}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/{roomId:\\d+}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
     public String resolveConflict(
             Model model, HttpServletRequest request, @PathVariable Long roomId
     ) {
