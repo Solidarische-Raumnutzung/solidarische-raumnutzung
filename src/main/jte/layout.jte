@@ -128,13 +128,12 @@
                         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                             <!-- Sidebar content here -->
-                            <div class="avatar placeholder">
-                                <div class="bg-neutral text-neutral-content w-20 rounded-full">
-                                    <span class="text-3xl">D</span>
-
+                            <a class="avatar placeholder" href="/">
+                                <div class="w-20 rounded-full">
+                                    <img src="/favicon.svg">
                                 </div>
+                            </a>
 
-                            </div>
                             <label>Welcome, ${login.name()}</label>
 
                             <div class="divider"></div>
