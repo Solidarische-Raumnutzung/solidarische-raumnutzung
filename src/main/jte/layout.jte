@@ -3,7 +3,6 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import gg.jte.Content
-@import jakarta.annotation.Nullable
 
 @param PageSpec page
 @param JteContext context
@@ -20,6 +19,14 @@
     <title>${page.title()}</title>
     <meta name="viewport" content="width=device-width"/>
     <meta charset="UTF-8">
+
+    <link rel="icon" href="/favicon.svg">
+    <link rel="mask-icon" href="/mask-icon.svg" color="#000000">
+    <link rel="apple-touch-icon" href="/favicon_180x180.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="icon" type="image/x-type" sizes="16x16" href="/favicon.ico">
+
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"/>
     <style>
