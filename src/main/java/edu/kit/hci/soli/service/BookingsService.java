@@ -9,7 +9,7 @@ import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -90,28 +90,28 @@ public interface BookingsService {
      * @param user  the user associated with the events (nullable)
      * @return a list of calendar events within the specified time range
      */
-    List<CalendarEvent> getCalendarEvents(Room room, ZonedDateTime start, ZonedDateTime end, @Nullable User user);
+    List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user);
 
     /**
      * Retrieves the current time slot.
      *
      * @return the current time slot
      */
-    ZonedDateTime currentSlot();
+    LocalDateTime currentSlot();
 
     /**
      * Retrieves the minimum starting time for a booking.
      *
      * @return the minimum time for a booking
      */
-    ZonedDateTime minimumTime();
+    LocalDateTime minimumTime();
 
     /**
      * Retrieves the maximum ending time for a booking, which is 14 days from now.
      *
      * @return the maximum time for a booking
      */
-    ZonedDateTime maximumTime();
+    LocalDateTime maximumTime();
 
     /**
      * Enum representing the types of conflicts that can occur between bookings.

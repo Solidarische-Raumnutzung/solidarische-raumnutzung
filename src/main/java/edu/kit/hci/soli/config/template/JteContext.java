@@ -5,9 +5,6 @@ import gg.jte.support.LocalizationSupport;
 import lombok.Getter;
 import org.springframework.context.MessageSource;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Locale;
 
 public class JteContext implements LocalizationSupport {
@@ -28,11 +25,6 @@ public class JteContext implements LocalizationSupport {
     public Content localize(String key, Object... params) {
         String result = messageSource.getMessage(key, params, locale);
         return output -> output.writeUserContent(result);
-    }
-
-    public String format(ZonedDateTime time) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).withLocale(locale);
-        return time.format(formatter);
     }
 
     public Content empty() {

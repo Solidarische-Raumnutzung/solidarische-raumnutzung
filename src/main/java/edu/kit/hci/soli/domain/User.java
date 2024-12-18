@@ -3,7 +3,6 @@ package edu.kit.hci.soli.domain;
 import jakarta.persistence.*;
 import lombok.ToString;
 
-import java.time.ZoneId;
 import java.util.Locale;
 
 /**
@@ -54,11 +53,6 @@ public class User {
     private Locale locale;
 
     /**
-     * The last recorded timezone of the user.
-     */
-    private ZoneId timezone;
-
-    /**
      * Constructs a new User with the specified details.
      *
      * @param id         the unique identifier for the user
@@ -68,40 +62,20 @@ public class User {
      * @param isDisabled whether the user is disabled
      * @param locale     the locale of the user
      */
-    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale, ZoneId timezone) {
+    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.userId = userId;
         this.isDisabled = isDisabled;
         this.locale = locale;
-        this.timezone = timezone;
     }
 
     /**
      * Default constructor for User.
      */
     public User() {
-        this.timezone = ZoneId.systemDefault();
         this.locale = Locale.getDefault();
-    }
-
-    /**
-     * Gets the last recorded timezone for the user.
-     *
-     * @return the last recorded timezone for the user.
-     */
-    public ZoneId getTimezone() {
-        return timezone;
-    }
-
-    /**
-     * Set the timezone for a user
-     *
-     * @param timezone the new timezone
-     */
-    public void setTimezone(ZoneId timezone) {
-        this.timezone = timezone;
     }
 
     /**

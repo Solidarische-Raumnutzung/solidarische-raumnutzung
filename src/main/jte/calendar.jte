@@ -2,11 +2,9 @@
 @import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
-@import org.springframework.security.web.csrf.CsrfToken
 
 @param JteContext context
 @param LoginStateModel login
-@param CsrfToken csrf
 
 @param Room room
 
@@ -61,18 +59,6 @@
                 calendar.refetchEvents();
             }, 1000 * 60 * 5);
         });
-
-        @if(!login.kind().equals(LoginStateModel.Kind.VISITOR))
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch(new Request("/timezone", {
-                method: "POST",
-                headers: {
-                    "X-Timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    "${csrf.getHeaderName()}": "${csrf.getToken()}",
-                },
-            }));
-        });
-        @endif
     </script>
 
     <style>

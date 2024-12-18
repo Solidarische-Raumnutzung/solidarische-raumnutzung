@@ -3,7 +3,7 @@ package edu.kit.hci.soli.domain;
 import jakarta.persistence.*;
 import lombok.ToString;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,12 +29,12 @@ public class Booking {
     /**
      * The start date and time of the booking.
      */
-    private ZonedDateTime startDate;
+    private LocalDateTime startDate;
 
     /**
      * The end date and time of the booking.
      */
-    private ZonedDateTime endDate;
+    private LocalDateTime endDate;
 
     /**
      * The kind of room sharing for the booking.
@@ -78,7 +78,7 @@ public class Booking {
      * @param priority            the priority level of the booking
      * @param outstandingRequests the set of share requests that must still be resolved
      */
-    public Booking(Long id, String description, ZonedDateTime startDate, ZonedDateTime endDate, ShareRoomType shareRoomType, Room room, User user, Priority priority, Set<User> outstandingRequests) {
+    public Booking(Long id, String description, LocalDateTime startDate, LocalDateTime endDate, ShareRoomType shareRoomType, Room room, User user, Priority priority, Set<User> outstandingRequests) {
         this.id = id;
         this.description = description;
         this.startDate = startDate;
@@ -119,7 +119,7 @@ public class Booking {
      *
      * @return the start date and time of the booking
      */
-    public ZonedDateTime getStartDate() {
+    public LocalDateTime getStartDate() {
         return this.startDate;
     }
 
@@ -128,7 +128,7 @@ public class Booking {
      *
      * @return the end date and time of the booking
      */
-    public ZonedDateTime getEndDate() {
+    public LocalDateTime getEndDate() {
         return this.endDate;
     }
 
@@ -200,7 +200,7 @@ public class Booking {
      *
      * @param startDate the start date and time of the booking
      */
-    public void setStartDate(ZonedDateTime startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
@@ -209,7 +209,7 @@ public class Booking {
      *
      * @param endDate the end date and time of the booking
      */
-    public void setEndDate(ZonedDateTime endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

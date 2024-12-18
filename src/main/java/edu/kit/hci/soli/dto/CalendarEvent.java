@@ -1,6 +1,6 @@
 package edu.kit.hci.soli.dto;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -12,5 +12,5 @@ import java.util.List;
  * @param end        the end date and time of the event
  * @param classNames the list of CSS classes to use for the generated HTML element of this event
  */
-public record CalendarEvent(String url, String title, ZonedDateTime start, ZonedDateTime end, List<String> classNames) {
+public record CalendarEvent(String url, String title, LocalDateTime start, LocalDateTime end, List<String> classNames) {
 }

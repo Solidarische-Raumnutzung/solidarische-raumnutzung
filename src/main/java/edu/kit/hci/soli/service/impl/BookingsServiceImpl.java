@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -163,7 +162,7 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<CalendarEvent> getCalendarEvents(Room room, ZonedDateTime start, ZonedDateTime end, @Nullable User user) {
+    public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
         return bookingsRepository.findOverlappingBookings(room, start, end)
                 .filter(s -> s.getOutstandingRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
@@ -182,22 +181,22 @@ public class BookingsServiceImpl implements BookingsService {
      * @param time the time to be normalized
      * @return the normalized time
      */
-    private ZonedDateTime normalize(ZonedDateTime time) {
+    private LocalDateTime normalize(LocalDateTime time) {
         return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
     }
 
     @Override
-    public ZonedDateTime currentSlot() {
-        return normalize(ZonedDateTime.now());
+    public LocalDateTime currentSlot() {
+        return normalize(LocalDateTime.now());
     }
 
     @Override
-    public ZonedDateTime minimumTime() {
-        return normalize(ZonedDateTime.now().plusMinutes(15));
+    public LocalDateTime minimumTime() {
+        return normalize(LocalDateTime.now().plusMinutes(15));
     }
 
     @Override
-    public ZonedDateTime maximumTime() {
-        return normalize(ZonedDateTime.now().plusDays(14));
+    public LocalDateTime maximumTime() {
+        return normalize(LocalDateTime.now().plusDays(14));
     }
 }

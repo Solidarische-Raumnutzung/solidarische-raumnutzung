@@ -1,1 +1,0 @@
-ALTER TABLE soli_users ADD COLUMN timezone VARCHAR(50) DEFAULT current_setting('TIMEZONE') NOT NULL;
