@@ -39,6 +39,8 @@ services:
       POSTGRES_DB: soli
 
   caddy:
+    depends_on:
+      - soli
     image: caddy:2.9-alpine
     restart: unless-stopped
     ports:
