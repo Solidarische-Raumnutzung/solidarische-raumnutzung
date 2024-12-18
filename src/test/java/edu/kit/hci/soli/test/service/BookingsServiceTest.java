@@ -139,11 +139,11 @@ public class BookingsServiceTest {
         );
         result = bookingsService.affirm(testBooking2, immediate);
         testBooking2 = assertInstanceOf(BookingAttemptResult.Staged.class, result).booking();
-        assertIterableEquals(List.of(testService.user), testBooking2.getOutstandingRequests());
+        assertIterableEquals(List.of(testService.user), testBooking2.getOpenRequests());
         assertFalse(bookingsService.confirmRequest(testBooking2, testService.user2));
-        assertIterableEquals(List.of(testService.user), testBooking2.getOutstandingRequests());
+        assertIterableEquals(List.of(testService.user), testBooking2.getOpenRequests());
         assertTrue(bookingsService.confirmRequest(testBooking2, testService.user));
-        assertIterableEquals(List.of(), testBooking2.getOutstandingRequests());
+        assertIterableEquals(List.of(), testBooking2.getOpenRequests());
     }
 
     @Test
@@ -157,13 +157,13 @@ public class BookingsServiceTest {
         );
         result = bookingsService.affirm(testBooking3, immediate);
         testBooking3 = assertInstanceOf(BookingAttemptResult.Staged.class, result).booking();
-        assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOpenRequests());
         assertFalse(bookingsService.confirmRequest(testBooking3, testService.user3));
-        assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(testService.user, testService.user2), testBooking3.getOpenRequests());
         assertTrue(bookingsService.confirmRequest(testBooking3, testService.user));
-        assertEquals(Set.of(testService.user2), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(testService.user2), testBooking3.getOpenRequests());
         assertTrue(bookingsService.confirmRequest(testBooking3, testService.user2));
-        assertEquals(Set.of(), testBooking3.getOutstandingRequests());
+        assertEquals(Set.of(), testBooking3.getOpenRequests());
     }
 
     @Test
