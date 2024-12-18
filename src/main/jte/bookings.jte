@@ -37,7 +37,7 @@
                 <tbody>
                 @for(Booking booking : bookings)
                     <tr>
-                        <td>${booking.getId()} ${booking.getOutstandingRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOutstandingRequests().size())}</td>
+                        <td>${booking.getId()} ${booking.getOpenRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOpenRequests().size())}</td>
                         <td>${booking.getDescription()}</td>
                         <td>${booking.getStartDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))}</td>
                         <td>${booking.getEndDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))}</td>

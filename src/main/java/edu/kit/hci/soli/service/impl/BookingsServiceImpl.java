@@ -74,7 +74,7 @@ public class BookingsServiceImpl implements BookingsService {
     @Transactional
     @Override
     public BookingAttemptResult attemptToBook(Booking booking) {
-        if (!booking.getOutstandingRequests().isEmpty()) throw new IllegalArgumentException("Booking has outstanding requests");
+        if (!booking.getOpenRequests().isEmpty()) throw new IllegalArgumentException("Booking has outstanding requests");
         if (booking.getId() != null) throw new IllegalArgumentException("Booking already saved");
         List<Booking> override = new ArrayList<>();
         List<Booking> contact = new ArrayList<>();
@@ -83,9 +83,9 @@ public class BookingsServiceImpl implements BookingsService {
         bookingsRepository.findOverlappingBookings(booking.getRoom(), booking.getStartDate(), booking.getEndDate())
                 .forEach(b -> (switch (classifyConflict(booking, b)) {
                     case OVERRIDE -> override;
-                    case CONFLICT -> b.getOutstandingRequests().isEmpty() ? conflict : override;
+                    case CONFLICT -> b.getOpenRequests().isEmpty() ? conflict : override;
                     case COOPERATE -> cooperate;
-                    case CONTACT -> b.getOutstandingRequests().isEmpty() ? contact : cooperate;
+                    case CONTACT -> b.getOpenRequests().isEmpty() ? contact : cooperate;
                 }).add(b));
         if (!conflict.isEmpty()) return new BookingAttemptResult.Failure(conflict);
         if (!contact.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Deferred(override, contact, cooperate);
@@ -109,7 +109,7 @@ public class BookingsServiceImpl implements BookingsService {
                     yield new BookingAttemptResult.Success(bookingsRepository.save(booking));
                 }
                 case BookingAttemptResult.PossibleCooperation.Deferred(var override, var contact, var cooperate) -> {
-                    booking.setOutstandingRequests(contact.stream().map(Booking::getUser).collect(Collectors.toSet()));
+                    booking.setOpenRequests(contact.stream().map(Booking::getUser).collect(Collectors.toSet()));
                     yield new BookingAttemptResult.Staged(bookingsRepository.save(booking));
                 }
             };
@@ -140,11 +140,11 @@ public class BookingsServiceImpl implements BookingsService {
     @Override
     public boolean confirmRequest(Booking stagedBooking, User user) {
         //TODO make this available in a controller and send the URL via E-Mail
-        boolean result = stagedBooking.getOutstandingRequests().remove(user);
+        boolean result = stagedBooking.getOpenRequests().remove(user);
         bookingsRepository.save(stagedBooking);
-        if (stagedBooking.getOutstandingRequests().isEmpty()) {
+        if (stagedBooking.getOpenRequests().isEmpty()) {
             bookingsRepository.findOverlappingBookings(stagedBooking.getRoom(), stagedBooking.getStartDate(), stagedBooking.getEndDate())
-                    .filter(s -> !s.getOutstandingRequests().isEmpty())
+                    .filter(s -> !s.getOpenRequests().isEmpty())
                     .forEach(b -> {
                         switch (classifyConflict(stagedBooking, b)) {
                             case OVERRIDE, CONFLICT -> delete(b, BookingDeleteReason.CONFLICT);
@@ -164,7 +164,7 @@ public class BookingsServiceImpl implements BookingsService {
     @Override
     public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
         return bookingsRepository.findOverlappingBookings(room, start, end)
-                .filter(s -> s.getOutstandingRequests().isEmpty())
+                .filter(s -> s.getOpenRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
                         "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
                         "",

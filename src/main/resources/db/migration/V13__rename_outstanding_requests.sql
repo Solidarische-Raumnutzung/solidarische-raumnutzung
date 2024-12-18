@@ -1,0 +1,3 @@
+ALTER TABLE soli_outstanding_requests RENAME TO soli_open_requests;
+ALTER TABLE soli_open_requests RENAME COLUMN outstanding_requests_id TO user_id;
+ALTER TABLE soli_open_requests RENAME CONSTRAINT fk_solboostaoutreq_on_staged_booking TO fk_solboostaoutreq_on_booking;

@@ -3,7 +3,6 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import gg.jte.Content
-@import jakarta.annotation.Nullable
 
 @param PageSpec page
 @param JteContext context
@@ -20,6 +19,14 @@
     <title>${page.title()}</title>
     <meta name="viewport" content="width=device-width"/>
     <meta charset="UTF-8">
+
+    <link rel="icon" href="/favicon.svg">
+    <link rel="mask-icon" href="/mask-icon.svg" color="#000000">
+    <link rel="apple-touch-icon" href="/favicon_180x180.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="icon" type="image/x-type" sizes="16x16" href="/favicon.ico">
+
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"/>
     <style>
@@ -121,13 +128,12 @@
                         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                             <!-- Sidebar content here -->
-                            <div class="avatar placeholder">
-                                <div class="bg-neutral text-neutral-content w-20 rounded-full">
-                                    <span class="text-3xl">D</span>
-
+                            <a class="avatar placeholder" href="/">
+                                <div class="w-20 rounded-full">
+                                    <img src="/favicon.svg">
                                 </div>
+                            </a>
 
-                            </div>
                             <label>Welcome, ${login.name()}</label>
 
                             <div class="divider"></div>

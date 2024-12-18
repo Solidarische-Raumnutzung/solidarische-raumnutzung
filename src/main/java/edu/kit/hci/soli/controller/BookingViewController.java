@@ -52,7 +52,7 @@ public class BookingViewController {
      * @param eventId   the ID of the event
      * @return the view name
      */
-    @DeleteMapping("/{roomId}/bookings/{eventId}/delete")
+    @DeleteMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/delete")
     public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                  @PathVariable Long roomId, @PathVariable Long eventId) {
         log.info("Received delete request for booking {}", eventId);
@@ -103,7 +103,7 @@ public class BookingViewController {
      * @param roomId    the ID of the room
      * @return the view name
      */
-    @GetMapping("/{roomId}/bookings")
+    @GetMapping("/{roomId:\\d+}/bookings")
     public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
         Optional<Room> room = roomService.getOptional(roomId);
@@ -128,7 +128,7 @@ public class BookingViewController {
      * @param eventId   the ID of the event
      * @return the view name
      */
-    @GetMapping("/{roomId}/bookings/{eventId}")
+    @GetMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}")
     public String viewEvent(Model model, HttpServletResponse response,
                             @AuthenticationPrincipal SoliUserDetails principal,
                             @PathVariable Long roomId,

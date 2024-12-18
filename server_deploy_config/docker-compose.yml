@@ -1,36 +1,58 @@
 version: "3"
 services:
-  cavo:
-    depends_on: 
+  soli:
+    depends_on:
       - database
     image: ghcr.io/solidarische-raumnutzung/solidarische-raumnutzung:latest
+    restart: unless-stopped
     ports:
-      - "443:3443"
       - "8080:8080"
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:postgresql://database:5432/soli",
-        "spring.datasource.username" : "soli",
-        "spring.datasource.password" : "john_soli",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update",
-        "soli.administrator.password" : "test"}'
     volumes:
       - .m2:/root/.m2
-    stdin_open: true
-    tty: true
+    environment:
+      SOLI_ADMINISTRATOR_PASSWORD: "{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW"
+      KIT_CLIENT_ID: ""
+      KIT_CLIENT_SECRET: ""
+      KIT_MAIL_USERNAME: ""
+      KIT_MAIL_PASSWORD: ""
+      DB_URL: jdbc:postgresql://database:5432/soli
+
   watchtower:
     image: containrrr/watchtower
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --interval 30
+
   database:
     image: postgres:17
+    restart: unless-stopped
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
     ports:
       - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: soli
       POSTGRES_PASSWORD: john_soli
       POSTGRES_DB: soli
+
+  caddy:
+    depends_on:
+      - soli
+    image: caddy:2.9-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
+  postgres:

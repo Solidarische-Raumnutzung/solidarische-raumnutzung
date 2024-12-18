@@ -56,7 +56,7 @@ public class CalendarController {
      * @param roomId    the ID of the room
      * @return the view name
      */
-    @GetMapping("/{roomId}")
+    @GetMapping("/{roomId:\\d+}")
     public String calendar(Model model, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable long roomId) {
         if (principal != null) {
             principal.getUser().setLocale(request.getLocale());
