@@ -1,7 +1,7 @@
 soli:
   administrator:
     # This should be a hashed environment variable
-    # Example: for "password" use {bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW
+    # Example: for "password" use {bcrypt}$2a$10$6o.zVr3j/soZPS77kXznXuRBauNdAGPDOm3F7QJimkVQ4LNZ6qws2
     # See https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html for details
     password: "${SOLI_ADMINISTRATOR_PASSWORD}"
   guest:
