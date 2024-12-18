@@ -19,7 +19,7 @@
 @param LocalDateTime minimumTime
 @param LocalDateTime maximumTime
 
-@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
+@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, status = "hohoho", content = @`
     <form class="card-body w-96 mx-auto" method="post" action="/${room.getId()}/bookings/new">
         @if(csrf != null)
             <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">

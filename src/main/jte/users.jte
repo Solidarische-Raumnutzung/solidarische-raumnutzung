@@ -10,7 +10,7 @@
 @param CsrfToken csrf
 @param List<User> users
 
-@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
+@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, status = "hey friend", content = @`
     <div class="overflow-x-auto">
         @if(users.isEmpty())
             <div class="card">

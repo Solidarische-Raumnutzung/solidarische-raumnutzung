@@ -12,7 +12,7 @@
 @param Room room
 @param List<Booking> bookings
 
-@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
+@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, status="fsdfdsjk", content = @`
     <div class="overflow-x-auto">
         @if(bookings.isEmpty())
             <div class="card">

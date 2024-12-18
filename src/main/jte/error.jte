@@ -12,7 +12,7 @@
 @param String message
 @param String error
 
-@template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, room = null, content = @`
+@template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, room = null, status = "404", content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize("error.unknown.title")}</h1>

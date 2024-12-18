@@ -7,8 +7,9 @@
 @param LoginStateModel login
 
 @param Room room
+@param String status
 
-@template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, room = room, content = @`
+@template.layout(page = new PageSpec("Index", "Soli"), context = context, login = login, room = room, status = status, content = @`
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {

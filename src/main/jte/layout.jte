@@ -10,6 +10,7 @@
 @param Content content
 @param LoginStateModel login
 @param Room room
+@param String status
 
 <!DOCTYPE html>
 <html lang="${context.localize("code")}" data-theme="light">
@@ -99,14 +100,52 @@
     </head>
 
     <body>
-        <div class="navbar bg-blue-600 text-primary-content">
-            <div class="drawer-content flex flex-col items-center justify-center">
-                <!-- Page content here -->
-                <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                    Open drawer
-                </label>
-            </div>
-        </div>
+        @if(login.kind() == LoginStateModel.Kind.VISITOR)
+            @if(status == "" || status == null)
+                <div class="navbar bg-green-500 text-primary-content">
+                    <text>Raum ist frei</text>
+                    <div class="drawer-content flex flex-col items-center justify-center">
+                        <!-- Page content here -->
+                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                            Open drawer
+                        </label>
+                    </div>
+                </div>
+            @else
+                <div class="navbar bg-red-500 text-primary-content">
+                    <text>Raum ist belegt</text>
+                    <div class="drawer-content flex flex-col items-center justify-center">
+                        <!-- Page content here -->
+                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                            Open drawer
+                        </label>
+                    </div>
+                </div>
+            @endif
+        @else
+            @if(status == "" || status == null)
+                <div class="navbar bg-green-500 text-primary-content">
+                    <text><a href="/login">Raum ist frei</a></text>
+                    <div class="drawer-content flex flex-col items-center justify-center">
+                        <!-- Page content here -->
+                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                            Open drawer
+                        </label>
+                    </div>
+                </div>
+            @else
+                <div class="navbar bg-red-500 text-primary-content">
+                    <text>${status}</text>
+                    <div class="drawer-content flex flex-col items-center justify-center">
+                        <!-- Page content here -->
+                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                            Open drawer
+                        </label>
+                    </div>
+                </div>
+            @endif
+        @endif
+
 
         <div class="container">
             <div class="flex flex-row flex-wrap">

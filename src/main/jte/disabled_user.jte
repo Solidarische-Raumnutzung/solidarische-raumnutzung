@@ -10,7 +10,7 @@
 @param String error
 @param Date timestamp
 
-@template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, room = null, content = @`
+@template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, room = null, status = "", content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize("error.unknown.title")}</h1>

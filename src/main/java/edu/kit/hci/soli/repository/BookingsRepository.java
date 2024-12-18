@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -43,4 +44,15 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      */
     @Transactional
     void deleteAllByUser(User user);
+
+    /**
+     * Gets the highest priority of all bookings that overlap with the specified time.
+     *
+     * @param time the time to check for overlapping bookings
+     * @return the highest priority of all bookings that overlap with the specified time
+     */
+    @Query("SELECT MAX(b.priority), MAX(b.shareRoomType) FROM Booking b WHERE b.room = :room AND b.startDate <= :time AND b.endDate >= :time")
+    Optional<Joe> getHighestPriority(Room room, LocalDateTime time);
+
+    record Joe(Priority p, ShareRoomType s) {}
 }
