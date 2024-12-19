@@ -74,6 +74,16 @@ public interface BookingsService {
     boolean confirmRequest(Booking stagedBooking, User user);
 
     /**
+     * Denies a request created as the result of an affirmation of a deferred booking.
+     * This is the action taken by a user that has an existing booking marked with {@link ShareRoomType#ON_REQUEST} and denies that a different user may book the room.
+     *
+     * @param stagedBooking the booking to be denied
+     * @param user          the user who denies the booking
+     * @return true if the user was in the list of outstanding requests, and the request was denied
+     */
+    boolean denyRequest(Booking stagedBooking, User user);
+
+    /**
      * Retrieves bookings for a specified user and room.
      *
      * @param user the user associated with the bookings
@@ -112,26 +122,4 @@ public interface BookingsService {
      * @return the maximum time for a booking
      */
     LocalDateTime maximumTime();
-
-    /**
-     * Enum representing the types of conflicts that can occur between bookings.
-     */
-    enum ConflictType {
-        /**
-         * Indicates that the new booking overrides the existing booking.
-         */
-        OVERRIDE,
-        /**
-         * Indicates that the new booking requires contact with the owner of the existing booking.
-         */
-        CONTACT,
-        /**
-         * Indicates that the new booking can cooperate with the existing booking.
-         */
-        COOPERATE,
-        /**
-         * Indicates that the new booking conflicts with the existing booking.
-         */
-        CONFLICT
-    }
 }

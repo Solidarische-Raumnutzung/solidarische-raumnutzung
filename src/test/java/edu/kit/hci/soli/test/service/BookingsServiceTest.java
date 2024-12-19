@@ -130,6 +130,23 @@ public class BookingsServiceTest {
     }
 
     @Test
+    public void testAttemptToBookPossibleCooperationDeferredOverride() {
+        testBooking.setShareRoomType(ShareRoomType.ON_REQUEST);
+        testBooking.setPriority(Priority.LOWEST);
+        testBooking = bookingsRepository.save(testBooking);
+        testBooking2 = bookingsRepository.save(testBooking2);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking3);
+        BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Deferred.class,
+                result
+        );
+        assertIterableEquals(List.of(testBooking), immediate.override());
+        assertIterableEquals(List.of(), immediate.cooperate());
+        assertIterableEquals(List.of(testBooking2), immediate.contact());
+        assertNull(testBooking3.getId());
+    }
+
+    @Test
     public void testConfirmRequestSingle() {
         testBooking = bookingsRepository.save(testBooking);
         BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
@@ -164,6 +181,39 @@ public class BookingsServiceTest {
         assertEquals(Set.of(testService.user2), testBooking3.getOpenRequests());
         assertTrue(bookingsService.confirmRequest(testBooking3, testService.user2));
         assertEquals(Set.of(), testBooking3.getOpenRequests());
+    }
+
+    @Test
+    public void testDenyRequest() {
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Deferred.class,
+                result
+        );
+        result = bookingsService.affirm(testBooking2, immediate);
+        testBooking2 = assertInstanceOf(BookingAttemptResult.Staged.class, result).booking();
+        assertIterableEquals(List.of(testService.user), testBooking2.getOpenRequests());
+        assertFalse(bookingsService.denyRequest(testBooking2, testService.user2));
+        assertIterableEquals(List.of(testService.user), testBooking2.getOpenRequests());
+        assertNotNull(bookingsService.getBookingById(testBooking2.getId()));
+        assertTrue(bookingsService.denyRequest(testBooking2, testService.user));
+        assertIterableEquals(List.of(), testBooking2.getOpenRequests());
+        assertFalse(bookingsService.denyRequest(testBooking2, testService.user));
+        assertNull(bookingsService.getBookingById(testBooking2.getId()));
+    }
+
+    @Test
+    public void testDenyRequestIllegal() {
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Deferred immediate = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Deferred.class,
+                result
+        );
+        result = bookingsService.affirm(testBooking2, immediate);
+        testBooking2 = assertInstanceOf(BookingAttemptResult.Staged.class, result).booking();
+        assertFalse(bookingsService.denyRequest(testBooking2, testService.user2));
     }
 
     @Test

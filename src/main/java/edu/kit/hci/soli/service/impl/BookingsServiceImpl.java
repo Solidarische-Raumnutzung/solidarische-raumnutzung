@@ -155,6 +155,18 @@ public class BookingsServiceImpl implements BookingsService {
         return result;
     }
 
+    @Transactional
+    @Override
+    public boolean denyRequest(Booking stagedBooking, User user) {
+        //TODO make this available in a controller and send the URL via E-Mail
+        if (stagedBooking.getOpenRequests().remove(user)) {
+            bookingsRepository.delete(stagedBooking);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public List<Booking> getBookingsByUser(User user, Room room) {
         return bookingsRepository.findByUserAndRoom(room, user);
@@ -198,5 +210,27 @@ public class BookingsServiceImpl implements BookingsService {
     @Override
     public LocalDateTime maximumTime() {
         return normalize(LocalDateTime.now().plusDays(14));
+    }
+
+    /**
+     * Enum representing the types of conflicts that can occur between bookings.
+     */
+    public enum ConflictType {
+        /**
+         * Indicates that the new booking overrides the existing booking.
+         */
+        OVERRIDE,
+        /**
+         * Indicates that the new booking requires contact with the owner of the existing booking.
+         */
+        CONTACT,
+        /**
+         * Indicates that the new booking can cooperate with the existing booking.
+         */
+        COOPERATE,
+        /**
+         * Indicates that the new booking conflicts with the existing booking.
+         */
+        CONFLICT
     }
 }
