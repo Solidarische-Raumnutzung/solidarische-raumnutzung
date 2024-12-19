@@ -67,13 +67,6 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void testGetDisabledPage() {
-        ExtendedModelMap model = new ExtendedModelMap();
-        String result = usersController.getDisabled(model);
-        assertEquals("disabled_user", result);
-    }
-
-    @Test
     public void testGetUsersPage() {
         ExtendedModelMap model = new ExtendedModelMap();
         User adminUser = userService.resolveAdminUser();
