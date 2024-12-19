@@ -39,29 +39,9 @@ public class BookingsServiceTest {
 
     @BeforeEach
     public void setUp() {
-        testBooking = new Booking();
-        testBooking.setRoom(roomService.get());
-        testBooking.setUser(testService.user);
-        testBooking.setStartDate(bookingsService.currentSlot().plusDays(1));
-        testBooking.setEndDate(bookingsService.currentSlot().plusDays(2));
-        testBooking.setPriority(Priority.HIGHEST);
-        testBooking.setShareRoomType(ShareRoomType.ON_REQUEST);
-
-        testBooking2 = new Booking();
-        testBooking2.setRoom(roomService.get());
-        testBooking2.setUser(testService.user2);
-        testBooking2.setStartDate(bookingsService.currentSlot().plusDays(1));
-        testBooking2.setEndDate(bookingsService.currentSlot().plusDays(2));
-        testBooking2.setPriority(Priority.HIGHEST);
-        testBooking2.setShareRoomType(ShareRoomType.ON_REQUEST);
-
-        testBooking3 = new Booking();
-        testBooking3.setRoom(roomService.get());
-        testBooking3.setUser(testService.user3);
-        testBooking3.setStartDate(bookingsService.currentSlot().plusDays(1));
-        testBooking3.setEndDate(bookingsService.currentSlot().plusDays(2));
-        testBooking3.setPriority(Priority.HIGHEST);
-        testBooking3.setShareRoomType(ShareRoomType.ON_REQUEST);
+        testBooking = testService.createBooking(testService.user);
+        testBooking2 = testService.createBooking(testService.user2);
+        testBooking3 = testService.createBooking(testService.user3);
     }
 
     @AfterEach

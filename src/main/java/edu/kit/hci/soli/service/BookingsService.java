@@ -93,6 +93,14 @@ public interface BookingsService {
     List<Booking> getBookingsByUser(User user, Room room);
 
     /**
+     * Checks if a user has any bookings.
+     *
+     * @param user the user to be checked
+     * @return true if the user has any bookings, false otherwise
+     */
+    boolean hasBookings(User user);
+
+    /**
      * Retrieves calendar events within a specified time range for a user.
      *
      * @param start the start of the time range

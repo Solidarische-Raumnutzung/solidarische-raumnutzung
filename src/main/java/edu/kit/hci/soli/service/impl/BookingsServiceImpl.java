@@ -172,6 +172,11 @@ public class BookingsServiceImpl implements BookingsService {
         return bookingsRepository.findByUserAndRoom(room, user);
     }
 
+    @Override
+    public boolean hasBookings(User user) {
+        return bookingsRepository.existsByUser(user);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {

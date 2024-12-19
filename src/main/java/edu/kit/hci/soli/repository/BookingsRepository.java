@@ -51,6 +51,14 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     List<Booking> findByUserAndRoom(Room room, User user);
 
     /**
+     * Checks if a booking exists for the specified user.
+     *
+     * @param user the user to check for
+     * @return true if a booking exists for the user, false otherwise
+     */
+    boolean existsByUser(User user);
+
+    /**
      * Deletes all bookings for the specified user.
      *
      * @param user the user whose bookings are to be deleted

@@ -21,14 +21,6 @@ public interface UserService {
     @Nullable User findByUserId(String userId);
 
     /**
-     * Creates a new user.
-     *
-     * @param user the user to be created
-     * @return the created user
-     */
-    @NotNull User create(User user);
-
-    /**
      * Disables or re-enables a user. If disabling, deletes all bookings for the user.
      *
      * @param user the user to be disabled or re-enabled
@@ -95,4 +87,13 @@ public interface UserService {
      * @return true if the user is a guest, false otherwise
      */
     boolean isGuest(User user);
+
+    /**
+     * Deletes a user.
+     * If the user has any bookings, this will not delete the user.
+     *
+     * @param user the user to be deleted
+     * @return true if the user was deleted, false otherwise
+     */
+    boolean deleteUser(User user);
 }
