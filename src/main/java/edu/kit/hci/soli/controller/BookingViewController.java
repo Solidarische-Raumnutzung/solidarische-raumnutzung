@@ -52,7 +52,7 @@ public class BookingViewController {
      * @param eventId   the ID of the event
      * @return the view name
      */
-    @DeleteMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/delete")
+    @DeleteMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}")
     public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
                                  @PathVariable Long roomId, @PathVariable Long eventId) {
         log.info("Received delete request for booking {}", eventId);

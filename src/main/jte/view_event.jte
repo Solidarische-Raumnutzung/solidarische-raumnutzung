@@ -31,7 +31,7 @@
                 <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
                 @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
                     && Objects.equals(login.user(), booking.getUser())))
-                    <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}/delete" method="post">
+                    <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}" method="post">
                         @if(csrf != null)
                             <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                         @endif

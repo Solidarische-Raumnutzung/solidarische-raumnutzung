@@ -43,7 +43,7 @@
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                         <td>
-                            <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}/delete" method="post">
+                            <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}" method="post">
                                 @if(csrf != null)
                                     <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                                 @endif

@@ -61,17 +61,6 @@ public class UsersController {
     }
 
     /**
-     * Returns the view for disabled users.
-     *
-     * @param model the model to be used in the view
-     * @return the view name
-     */
-    @RequestMapping("/disabled")
-    public String getDisabled(Model model) {
-        return "disabled_user";
-    }
-
-    /**
      * Retrieves all manageable users and returns the view for the users page.
      *
      * @param model     the model to be used in the view
