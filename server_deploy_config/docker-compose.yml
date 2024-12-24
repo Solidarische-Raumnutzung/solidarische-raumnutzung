@@ -5,6 +5,8 @@ services:
       - database
     image: ghcr.io/solidarische-raumnutzung/solidarische-raumnutzung:latest
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     ports:
       - "8080:8080"
     volumes:
@@ -22,13 +24,16 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --interval 30
+    environment:
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: "30"
+      WATCHTOWER_LABEL_ENABLE: "true"
 
   database:
     image: postgres:17
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=false"
+      - "com.centurylinklabs.watchtower.enable=true"
     ports:
       - "5432:5432"
     volumes:
@@ -43,6 +48,8 @@ services:
       - soli
     image: caddy:2.9-alpine
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     ports:
       - "80:80"
       - "443:443"
