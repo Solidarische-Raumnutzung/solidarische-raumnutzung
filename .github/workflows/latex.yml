@@ -30,7 +30,7 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         run: |
-          cd presi_template 
+          cd presi_template
           pdflatex presentation.tex
           biber presentation
           pdflatex presentation.tex

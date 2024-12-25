@@ -57,7 +57,7 @@ Beispiel: `\documentclass[de,16:9,navbarinline]{sdqbeamer}`
 Titelbild
 ---------
 
-Das Bild auf der Titelfolie kann mit dem Befehl 
+Das Bild auf der Titelfolie kann mit dem Befehl
 
 `\titleimage{myimage}` (ohne Dateiendung)
 
@@ -78,9 +78,9 @@ Der Gruppenname kann mit folgendem Befehl gesetzt werden:
 
 `\groupname{Software Design and Quality}`
 
-Der Gruppenname erscheint in der Fußzeile rechts unten. Lange Namen werden in zwei Zeilen umgebrochen. Falls der Gruppenname leer gelassen wird (`\groupname{}`), wird die volle Breite der Fußzeile für Autornamen und Titel verwendet. 
+Der Gruppenname erscheint in der Fußzeile rechts unten. Lange Namen werden in zwei Zeilen umgebrochen. Falls der Gruppenname leer gelassen wird (`\groupname{}`), wird die volle Breite der Fußzeile für Autornamen und Titel verwendet.
 
-Die Standardbreite des Gruppennamens sind 50 mm. Sie kann mit 
+Die Standardbreite des Gruppennamens sind 50 mm. Sie kann mit
 
 `\groupnamewidth{80mm}`
 

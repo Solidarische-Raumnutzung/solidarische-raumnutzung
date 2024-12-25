@@ -77,7 +77,7 @@
 \newcommand{\refsetcounter}[2]{\setcounter{#1}{#2}\addtocounter{#1}{-1}\refstepcounter{#1}}
 
 %Funktion im Pflichtenheft
-\newcounter{functioncount} 
+\newcounter{functioncount}
 \newenvironment{function}[2]{\refsetcounter{functioncount}{#1}\large\textbf{\sffamily{#2 }}\namedlabel{F#1}{$\langle F#1\rangle$}\normalsize\begin{description}\setlength{\itemsep}{-5pt}}{\end{description}}
 
 %Daten im Pflichtenheft
