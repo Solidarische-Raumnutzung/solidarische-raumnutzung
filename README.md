@@ -3,7 +3,7 @@
 - [Entwurfsheft](https://solidarische-raumnutzung.github.io/solidarische-raumnutzung/entwurfsheft.pdf)
 - [Beispielpräsentation](https://solidarische-raumnutzung.github.io/solidarische-raumnutzung/presentation.pdf)
 - [Andere Artefakte](https://solidarische-raumnutzung.github.io/solidarische-raumnutzung/)
-- [Deployment](http://193.196.39.22:8080)
+- [Deployment](https://cc415dc2-136a-4cfd-adc9-45a126ee849e.ka.bw-cloud-instance.org/)
 
 # Installation
 Zur Installation des Projekts wird Docker benötigt.
