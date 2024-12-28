@@ -27,6 +27,11 @@ configurations {
 
 val doctex by configurations.creating
 
+// Used to un-salt the credentials for the GitHub package repository
+// For some reason, GitHub does not allow anonymous access to public packages,
+// so we have to embed the credentials.
+// Salting them makes it harder to find the credentials and should prevent automatic discovery, but does not make them secure.
+// As such, a restricted token of a service account is used.
 private fun unsalt(data: String, salt: LongArray) = salt.map { Random(it shl 3 or 12) }.run { Base64.getDecoder().decode(data).mapIndexed { l, r -> ByteArray(5).let { get((l + 3 shr 5).mod(size - (l % 2))).nextBytes(it); it[l % 4] } xor r } }.toByteArray().let { dm -> dm.decodeToString(dm[11].toUByte().toInt() % 65, dm.size - dm[12].toUByte().toInt() % dm[11].toUByte().toInt(), false) }.replace('\uFFFD', '1')
 
 repositories {
@@ -90,6 +95,7 @@ tasks {
     }
 
     val patchJteSources by creating {
+        // By default, JTE does not mark its generated classes as such, which is a problem for our coverage
         fun String.markGenerated() = replace("""
                         @SuppressWarnings("unchecked")
                         public final class Jte
@@ -99,6 +105,7 @@ tasks {
                         public final class Jte
                     """.trimIndent().trim())
 
+        // This is necessary because JTE does not use lambdas here and inner classes cause performance issues and mess with our coverage
         fun String.lambdafy(): String {
             val head = "new gg.jte.html.HtmlContent() {\n\t\t\tpublic void writeTo(gg.jte.html.HtmlTemplateOutput jteOutput) {"
             val tail = "\n\t\t\t}"
@@ -111,6 +118,7 @@ tasks {
                     substring(tailIndex + tail.length)
         }
 
+        // Patch the generated JTE sources
         doLast {
             layout.buildDirectory.dir("generated-sources/jte").get()
                 .asFileTree
