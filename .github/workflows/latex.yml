@@ -17,6 +17,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     container: ghcr.io/solidarische-raumnutzung/docker-texlive
+    permissions:
+        contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
