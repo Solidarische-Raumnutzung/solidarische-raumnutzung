@@ -69,6 +69,18 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("gg/jte/generated/**")
+            }
+        })
+    )
+}
 val copyArtifact by tasks.creating(Copy::class) {
     dependsOn(tasks.bootJar)
     from(tasks.bootJar)
