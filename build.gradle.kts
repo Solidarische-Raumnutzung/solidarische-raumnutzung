@@ -7,7 +7,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     id("org.flywaydb.flyway") version "11.1.0"
     id("gg.jte.gradle") version "3.1.15"
-    id("jacoco")
+    jacoco
 }
 
 group = "edu.kit.hci"
@@ -71,6 +71,7 @@ dependencies {
 jte {
     generate()
     binaryStaticContent = true
+    packageName = "edu.kit.hci.soli.view.jte"
 }
 
 tasks {
@@ -88,17 +89,53 @@ tasks {
         dependsOn(copyArtifact)
     }
 
+    val patchJteSources by creating {
+        fun String.markGenerated() = replace("""
+                        @SuppressWarnings("unchecked")
+                        public final class Jte
+                    """.trimIndent().trim(), """
+                        @SuppressWarnings("unchecked")
+                        @edu.kit.hci.soli.config.Generated
+                        public final class Jte
+                    """.trimIndent().trim())
+
+        fun String.lambdafy(): String {
+            val head = "new gg.jte.html.HtmlContent() {\n\t\t\tpublic void writeTo(gg.jte.html.HtmlTemplateOutput jteOutput) {"
+            val tail = "\n\t\t\t}"
+            val headIndex = indexOf(head)
+            if (headIndex == -1) return this
+            val tailIndex = indexOf(tail, headIndex)
+            if (tailIndex == -1) throw Exception("Could not find tail of lambda in JTE source")
+            return substring(0, headIndex) + "(gg.jte.html.HtmlContent) jteOutput_ -> {" +
+                    substring(headIndex + head.length, tailIndex).replace("jteOutput", "jteOutput_") +
+                    substring(tailIndex + tail.length)
+        }
+
+        doLast {
+            layout.buildDirectory.dir("generated-sources/jte").get()
+                .asFileTree
+                .filter { it.isFile && it.extension == "java" }
+                .forEach {
+                    it.writeText(it.readText()
+                        .markGenerated()
+                        .lambdafy()
+                    )
+                }
+        }
+    }
+
+    generateJte {
+        finalizedBy(patchJteSources)
+    }
+    compileJava {
+        dependsOn(patchJteSources)
+    }
+
     jacocoTestReport {
+        dependsOn(test)
         reports {
             xml.required = true
         }
-        classDirectories.setFrom(
-            files(classDirectories.files.map {
-                fileTree(it) {
-                    exclude("gg/jte/generated/**")
-                }
-            })
-        )
     }
 
     val doctex by creating(JavaExec::class) {
