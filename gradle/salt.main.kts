@@ -1,3 +1,5 @@
+#!/usr/bin/env kotlin
+
 import java.util.*
 import kotlin.experimental.xor
 
@@ -39,7 +41,6 @@ private fun generateInvalidUnicodeSequence(random: Random): ByteArray {
 //        val ranges = codePointTable.poll()
 //        if (codePointTable.isEmpty() || random.nextBoolean()) {
 //            result += random.nextByteOutside(*ranges.toTypedArray())
-//            println(result.map { it.toUByte().toString(16) })
 //            return result.toByteArray()
 //        } else {
 //            result += random.nextByteInside(*ranges.drop(if (result.isEmpty()) 1 else 0).toTypedArray())
@@ -61,8 +62,7 @@ private fun addUntilWouldOverflow(value: UByte, add: UByte, maximumAdditions: In
 }
 
 private fun salt(data: String): Pair<String, LongArray> {
-    val envRandom = Random(data.hashCode().toLong() xor System.currentTimeMillis().apply { println(this) })
-//    val envRandom = Random(data.hashCode().toLong() xor 1735391363503L)
+    val envRandom = Random(data.hashCode().toLong() xor System.currentTimeMillis())
     val salt = LongArray(envRandom.nextInt(37, 58)) { envRandom.nextLong() }
     return Base64.getEncoder().encodeToString(salt(data.encodeToByteArray(), salt)) to salt
 }
@@ -80,7 +80,7 @@ private fun salt(data: ByteArray, salt: LongArray): ByteArray {
     return expandedBytes.mapIndexed { l, r -> ByteArray(5).let { rngs[(l + 3 shr 5).mod(rngs.size - (l % 2))].nextBytes(it); it[l % 4] } xor r }.toByteArray()
 }
 
-val data = "Hallo, Welt!"
+val data = args.joinToString(" ")
 val (saltedData, salt) = salt(data)
 println("Salted data: $saltedData")
 println("Salt: ${salt.joinToString()}")
