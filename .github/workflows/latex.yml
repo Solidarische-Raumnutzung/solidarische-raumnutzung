@@ -17,8 +17,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     container: ghcr.io/solidarische-raumnutzung/docker-texlive
-    permissions:
-        contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -54,14 +52,6 @@ jobs:
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
           mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
           python3 .github/genindex.py pages
-      - name : Commit javadoc
-        run: |
-          git config --global --add safe.directory '*'
-          git config --global user.name github-actions
-          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add -f ./entwurfsheft/javadoc
-          git commit -m '[ci: javadoc] ${{ github.event.head_commit.message }}'
-          git push
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
