@@ -1,8 +1,6 @@
 package edu.kit.hci.soli.test.repository;
 
 import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.ShareRoomType;
-import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.test.TestService;
@@ -14,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
