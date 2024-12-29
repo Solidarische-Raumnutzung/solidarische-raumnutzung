@@ -5,6 +5,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 @import java.time.LocalDateTime
 
 @param JteContext context
@@ -20,10 +21,7 @@
 @param LocalDateTime maximumTime
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
-    <form class="card-body w-96 mx-auto" method="post" action="/${room.getId()}/bookings/new">
-        @if(csrf != null)
-            <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-        @endif
+    @template.form(csrf = csrf, cssClass = "card-body w-96 mx-auto", action = "/" + room.getId() + "/bookings/new", method = POST, content = @`
         <div class="form-control">
             <label class="label" for="start">
                 <span class="label-text-alt">${context.localize("bookings.start")}</span>
@@ -90,5 +88,5 @@
         <div class="form-control mt-6">
             <input type="submit" class="btn btn-primary" value="OK">
         </div>
-    </form>
+    `)
 `)

@@ -4,6 +4,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 
 @param JteContext context
 @param LoginStateModel login
@@ -32,13 +33,9 @@
                     <li>Nutze gleichzeitig mit: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
                 @endfor
             </ul>
-            <form method="post" action="/${attemptedBooking.getRoom().getId()}/bookings/new/conflict">
-                @if(csrf != null)
-                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                @endif
-
+            @template.form(csrf = csrf, action = "/" + attemptedBooking.getRoom().getId() + "/bookings/new/conflict", method = POST, content = @`
                 <button class="btn btn-primary" type="submit">Lösen</button>
-            </form>
+            `)
         </div>
     </div>
 `)

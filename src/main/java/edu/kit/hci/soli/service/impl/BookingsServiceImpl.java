@@ -94,6 +94,7 @@ public class BookingsServiceImpl implements BookingsService {
     }
 
     @Override
+    @Transactional
     public void deleteAllBookingsForUser(User user) {
         bookingsRepository.deleteAllByUser(user);
     }
@@ -125,15 +126,17 @@ public class BookingsServiceImpl implements BookingsService {
     @Override
     public void delete(Booking booking, BookingDeleteReason reason) {
         bookingsRepository.delete(booking);
-        emailService.sendMail(
-                booking.getUser(),
-                "mail.booking_deleted.subject",
-                "mail/booking_deleted",
-                Map.of(
-                        "booking", booking,
-                        "reason", reason
-                )
-        );
+        if (booking.getUser().getEmail() != null) {
+            emailService.sendMail(
+                    booking.getUser(),
+                    "mail.booking_deleted.subject",
+                    "mail/booking_deleted",
+                    Map.of(
+                            "booking", booking,
+                            "reason", reason
+                    )
+            );
+        }
     }
 
     @Transactional

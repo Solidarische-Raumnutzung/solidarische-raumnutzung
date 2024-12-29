@@ -4,6 +4,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 @import java.time.format.DateTimeFormatter
 @import java.util.Objects
 
@@ -31,16 +32,12 @@
                 <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
                 @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
                     && Objects.equals(login.user(), booking.getUser())))
-                    <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}" method="post">
-                        @if(csrf != null)
-                            <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                        @endif
-                        <input type="hidden" name="_method" value="delete"/>
+                    @template.form(csrf = csrf, action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
                         <button type="submit" class="btn btn-ghost">
                             <i class="fas fa-trash-alt"></i>
                             ${context.localize("bookings.delete")}
                         </button>
-                    </form>
+                    `)
                 @endif
                 @if(showRequestButton)
                     <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().format(DateTimeFormatter.ISO_DATE_TIME)}&cooperative=true">${context.localize("bookings.request")}</a>

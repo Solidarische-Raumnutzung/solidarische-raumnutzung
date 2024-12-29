@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.service.SystemConfigurationService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,15 +13,15 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class LoginController {
-    private final UserService userService;
+    private final SystemConfigurationService systemConfigurationService;
 
     /**
-     * Constructs a LoginController with the specified {@link UserService}.
+     * Constructs a LoginController with the specified {@link SystemConfigurationService}.
      *
-     * @param userService the service for managing users
+     * @param systemConfigurationService the service for retrieving the system configuration
      */
-    public LoginController(UserService userService) {
-        this.userService = userService;
+    public LoginController(SystemConfigurationService systemConfigurationService) {
+        this.systemConfigurationService = systemConfigurationService;
     }
 
     /**
@@ -34,7 +35,7 @@ public class LoginController {
     public String login(HttpServletRequest request, Model model) {
         if (request.getParameter("error") != null) model.addAttribute("error", "Invalid username or password");
         if (request.getParameter("logout") != null) model.addAttribute("message", "You have been logged out");
-        model.addAttribute("guestEnabled", userService.isGuestEnabled());
+        model.addAttribute("guestEnabled", systemConfigurationService.isGuestLoginEnabled());
 
         return "login";
     }

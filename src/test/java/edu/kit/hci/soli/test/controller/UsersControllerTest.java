@@ -44,7 +44,7 @@ public class UsersControllerTest {
         if (result.equals("error_known")) {
             return (KnownError) model.get("error");
         }
-        assertEquals("users", result);
+        assertEquals("redirect:/admin/users", result);
         return null;
     }
 

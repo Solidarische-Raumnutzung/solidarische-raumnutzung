@@ -5,9 +5,7 @@ import edu.kit.hci.soli.domain.Priority;
 import edu.kit.hci.soli.domain.ShareRoomType;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
-import edu.kit.hci.soli.service.BookingsService;
-import edu.kit.hci.soli.service.RoomService;
-import edu.kit.hci.soli.service.UserService;
+import edu.kit.hci.soli.service.*;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,6 +27,8 @@ public class UserServiceTest {
     @Autowired private TestService testService;
     @Autowired private BookingsService bookingsService;
     @Autowired private RoomService roomService;
+    @Autowired
+    private SystemConfigurationService systemConfigurationService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -50,11 +50,11 @@ public class UserServiceTest {
 
     @Test
     public void testToggleUserEnabled() {
-        userService.toggleUserEnabled(testService.user2);
-        assertEquals(true, userService.findByUserId(testService.user2.getUserId()).isDisabled());
-        userService.toggleUserEnabled(testService.user2);
-        assertEquals(false, userService.findByUserId(testService.user2.getUserId()).isDisabled());
-        assertThrows(IllegalArgumentException.class, () -> userService.toggleUserEnabled(testService.user));
+        userService.setUserActive(testService.user2, false);
+        assertTrue(userService.findByUserId(testService.user2.getUserId()).isDisabled());
+        userService.setUserActive(testService.user2, true);
+        assertFalse(userService.findByUserId(testService.user2.getUserId()).isDisabled());
+        assertThrows(IllegalArgumentException.class, () -> userService.setUserActive(testService.user, false));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class UserServiceTest {
 
     @Test
     public void testIsGuest() {
-        assertTrue(userService.isGuestEnabled());
+        assertTrue(systemConfigurationService.isGuestLoginEnabled());
         assertFalse(userService.isGuest(testService.user));
         assertTrue(userService.isGuest(testService.user2));
         assertTrue(userService.isGuest(testService.user3));
@@ -103,7 +103,7 @@ public class UserServiceTest {
         bookingsService.delete(testBooking, BookingDeleteReason.SELF);
         assertTrue(userService.deleteUser(testService.user3));
 
-        assertThrows(IllegalArgumentException.class, () -> userService.toggleUserEnabled(testService.user3));
+        assertThrows(IllegalArgumentException.class, () -> userService.setUserActive(testService.user3, false));
 
         assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(testService.user));
     }

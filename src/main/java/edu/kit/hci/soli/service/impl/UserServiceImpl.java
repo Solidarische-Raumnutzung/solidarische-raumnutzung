@@ -36,17 +36,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void toggleUserEnabled(User user) {
-        if (isAdmin(user)) {
+    public void setUserActive(User user, boolean active) {
+        if (isAdmin(user) && !active) {
             throw new IllegalArgumentException("Cannot disable admin user");
         }
         if (!userRepository.existsById(user.getId())) {
             throw new IllegalArgumentException("User does not exist");
         }
-        if (!user.isDisabled()) {
+        if (user.isDisabled() != active) {
+            throw new IllegalArgumentException("User is not disabled");
+        }
+        if (!active) {
             bookingsService.deleteAllBookingsForUser(user);
         }
-        user.setDisabled(!user.isDisabled());
+        user.setDisabled(!active);
         userRepository.save(user);
     }
 
@@ -95,11 +98,6 @@ public class UserServiceImpl implements UserService {
             user = userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault()));
         }
         return user;
-    }
-
-    @Override
-    public boolean isGuestEnabled() {
-        return true; //TODO: make this configurable
     }
 
     @Override

@@ -2,6 +2,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 
 @param JteContext context
 @param LoginStateModel login
@@ -13,10 +14,7 @@
     <div class="card bg-base-200 w-80 mx-auto">
         <div class="card-body">
             <h2 class="card-title">${context.localize("login.login")}</h2>
-            <form name="f" action="/login" method="POST">
-                @if(csrf != null)
-                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                @endif
+            @template.form(csrf = csrf, action = "/login", method = POST, content = @`
                 <input id="password" name="password" type="hidden" value="${guestMarker}"/>
                 <div class="form-control mt-6">
                     <label for="username" class="label">
@@ -27,7 +25,7 @@
                 <div class="form-control mt-6">
                     <input class="btn btn-secondary" type="submit" value="${context.localize("login.login")}">
                 </div>
-            </form>
+            `)
         </div>
     </div>
 `)
