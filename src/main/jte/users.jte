@@ -8,10 +8,22 @@
 @param JteContext context
 @param LoginStateModel login
 @param CsrfToken csrf
+
 @param List<User> users
+@param boolean guestsEnabled
 
 @template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
     <div class="overflow-x-auto">
+        @if (guestsEnabled)
+            <a class="btn btn-error" href="/admin/users/disable-guests">${context.localize("administration.user.guests.disable")}</a>
+        @else
+            <form name="f" action="/admin/users/enable-guests" method="POST" class="card-actions justify-end">
+                @if(csrf != null)
+                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
+                @endif
+                <input class="btn btn-info" type="submit" value="${context.localize("administration.user.guests.enable")}">
+            </form>
+        @endif
         @if(users.isEmpty())
             <div class="card">
                 <div class="card-body">

@@ -3,6 +3,7 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.service.SystemConfigurationService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +19,16 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class UsersController {
     private final UserService userService;
+    private final SystemConfigurationService systemConfigurationService;
 
     /**
      * Constructs a UsersController with the specified {@link UserService}.
      *
      * @param userService the service for managing users
      */
-    public UsersController(UserService userService) {
+    public UsersController(UserService userService, SystemConfigurationService systemConfigurationService) {
         this.userService = userService;
+        this.systemConfigurationService = systemConfigurationService;
     }
 
     /**
@@ -50,14 +53,13 @@ public class UsersController {
         }
 
         if ("admin".equals(user.getUsername())) {
-            return "users";
+            return "redirect:/admin/users";
         }
 
         userService.toggleUserEnabled(user);
         log.info("User {} deactivated user {}", principal.getUser(), user);
 
-        model.addAttribute("users", userService.getManageableUsers());
-        return "users";
+        return "redirect:/admin/users";
     }
 
     /**
@@ -72,6 +74,45 @@ public class UsersController {
     public String getUsers(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} requested the users page", principal.getUser());
         model.addAttribute("users", userService.getManageableUsers());
+        model.addAttribute("guestsEnabled", systemConfigurationService.isGuestLoginEnabled());
         return "users";
+    }
+
+    @GetMapping("/admin/users/disable-guests")
+    public String disableGuestsConfirmation(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+        log.info("User {} opened the dialog to disable guest login", principal.getUser());
+        if (!systemConfigurationService.isGuestLoginEnabled()) {
+            log.warn("Guest login is already disabled");
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        return "disable_guests_confirmation";
+    }
+
+    @PostMapping("/admin/users/disable-guests")
+    public String disableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+        log.info("User {} requested to disable guests", principal.getUser());
+        if (!systemConfigurationService.isGuestLoginEnabled()) {
+            log.warn("Guest login is already disabled");
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        systemConfigurationService.setGuestLoginEnabled(false);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/enable-guests")
+    public String enableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+        log.info("User {} requested to enable guests", principal.getUser());
+        if (systemConfigurationService.isGuestLoginEnabled()) {
+            log.warn("Guest login is already enabled");
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+        systemConfigurationService.setGuestLoginEnabled(true);
+        return "redirect:/admin/users";
     }
 }
