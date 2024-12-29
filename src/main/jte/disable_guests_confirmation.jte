@@ -16,6 +16,7 @@
                 @if(csrf != null)
                     <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
                 @endif
+                <input type="hidden" name="_method" value="put"/>
                 <input class="btn btn-error" type="submit" value="${context.localize("administration.user.guests.disable")}">
             </form>
         </div>

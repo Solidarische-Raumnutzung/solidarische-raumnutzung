@@ -90,7 +90,7 @@ public class UsersController {
         return "disable_guests_confirmation";
     }
 
-    @PostMapping("/admin/users/disable-guests")
+    @PutMapping("/admin/users/disable-guests")
     public String disableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} requested to disable guests", principal.getUser());
         if (!systemConfigurationService.isGuestLoginEnabled()) {
@@ -103,7 +103,7 @@ public class UsersController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping("/admin/users/enable-guests")
+    @PutMapping("/admin/users/enable-guests")
     public String enableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} requested to enable guests", principal.getUser());
         if (systemConfigurationService.isGuestLoginEnabled()) {
