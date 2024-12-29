@@ -15,7 +15,7 @@
             <p>${context.localize("administration.user.guests.disable.description")}</p>
             <div class="modal-action">
                 <a class="btn" href="/admin/users">${context.localize("generic.cancel")}</a>
-                @template.form(csrf = csrf, cssClass = "card-actions justify-end", action = "//admin/users/disable-guests", method = PUT, content = @`
+                @template.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/disable-guests", method = PUT, content = @`
                     <input class="btn btn-error" type="submit" value="${context.localize("administration.user.guests.disable")}">
                 `)
             </div>
