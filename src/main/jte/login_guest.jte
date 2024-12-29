@@ -17,9 +17,7 @@
             <p>${context.localize("login.guest.description")}</p>
             @template.form(csrf = csrf, action = "/login", method = POST, content = @`
                 <input id="password" name="password" type="hidden" value="${guestMarker}"/>
-                <label>
-                    <input id="remember-me" name="remember-me" type="hidden" value="true">
-                </label>
+                <input id="remember-me" name="remember-me" type="hidden" value="true">
                 <div class="form-control mt-6">
                     <label for="username" class="label">
                         <span class="label-text">${context.localize("login.email")}</span>
