@@ -123,6 +123,14 @@ public class UsersController {
         return "users";
     }
 
+    /**
+     * Displays the confirmation dialog for disabling guest login.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @return the view name
+     */
     @GetMapping("/admin/users/disable-guests")
     public String disableGuestsConfirmation(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} opened the dialog to disable guest login", principal.getUser());
@@ -135,6 +143,14 @@ public class UsersController {
         return "disable_guests_confirmation";
     }
 
+    /**
+     * Disables guest login.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @return the view name
+     */
     @PutMapping("/admin/users/disable-guests")
     public String disableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} requested to disable guests", principal.getUser());
@@ -148,6 +164,14 @@ public class UsersController {
         return "redirect:/admin/users";
     }
 
+    /**
+     * Enables guest login.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @return the view name
+     */
     @PutMapping("/admin/users/enable-guests")
     public String enableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} requested to enable guests", principal.getUser());
