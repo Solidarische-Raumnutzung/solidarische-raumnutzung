@@ -55,8 +55,12 @@
                                     <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
                                 `)
                             @else
-                                <a href="/admin/users/${user.getId()}/deactivate" id="initial" class="btn btn-ghost">${context.localize("administration.user.deactivate")}</a>
-                                <%-- To reenable this, remove the href and add onclick="sure_modal.showModal()" to the <a> tag
+                                <%-- TODO: ideally, the code for the modal and non-modal versions should be unified and the same approach extended to disabling guest accounts --%>
+                                <noscript>
+                                    <a href="/admin/users/${user.getId()}/deactivate" id="initial" class="btn btn-ghost">${context.localize("administration.user.deactivate")}</a>
+                                </noscript>
+
+                                <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost needs-js">${context.localize("administration.user.deactivate")}</a>
                                 <dialog id="sure_modal" class="modal">
                                     <div class="modal-box">
                                         <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
@@ -70,7 +74,7 @@
                                             `)
                                         </div>
                                     </div>
-                                </dialog>--%>
+                                </dialog>
                             @endif
                         </td>
                     </tr>
