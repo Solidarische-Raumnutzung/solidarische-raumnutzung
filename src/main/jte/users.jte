@@ -50,25 +50,28 @@
                         <td>${user.getUserId()}</td>
                         <td>${user.isDisabled()}</td>
                         <td>
-                            @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + (user.isDisabled() ? "/reactivate" : "/deactivate"), method = GET, content = @`
-                                @if (user.isDisabled())
+                            @if (user.isDisabled())
+                                @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + "/reactivate", method = PUT, content = @`
                                     <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
-                                @else
-                                    <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("administration.user.deactivate")}</a>
-                                    <dialog id="sure_modal" class="modal">
-                                        <div class="modal-box">
-                                            <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
-                                            <p class="py-4">${context.localize("disable.user.disable.are_you_sure")}</p>
-                                            <div class="modal-action">
-                                                <form method="dialog">
-                                                    <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
-                                                </form>
+                                `)
+                            @else
+                                <a href="/admin/users/${user.getId()}/deactivate" id="initial" class="btn btn-ghost">${context.localize("administration.user.deactivate")}</a>
+                                <%-- To reenable this, remove the href and add onclick="sure_modal.showModal()" to the <a> tag
+                                <dialog id="sure_modal" class="modal">
+                                    <div class="modal-box">
+                                        <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
+                                        <p class="py-4">${context.localize("disable.user.disable.are_you_sure")}</p>
+                                        <div class="modal-action">
+                                            <form method="dialog">
+                                                <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
+                                            </form>
+                                            @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`
                                                 <button type="submit" class="btn btn-warning">${context.localize("administration.user.deactivate")}</button>
-                                            </div>
+                                            `)
                                         </div>
-                                    </dialog>
-                                @endif
-                            `)
+                                    </div>
+                                </dialog>--%>
+                            @endif
                         </td>
                     </tr>
                 @endfor

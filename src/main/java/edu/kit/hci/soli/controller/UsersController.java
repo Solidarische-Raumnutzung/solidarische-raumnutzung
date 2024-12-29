@@ -31,6 +31,26 @@ public class UsersController {
         this.systemConfigurationService = systemConfigurationService;
     }
 
+    @GetMapping("/admin/users/{userId}/deactivate")
+    public String deactivateUserConfirmation(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable Long userId) {
+        log.info("User {} opened the dialog to deactivate user {}", principal.getUser(), userId);
+        User user = userService.getById(userId);
+
+        if (user == null) {
+            log.info("User {} not found", userId);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
+        if ("admin".equals(user.getUsername())) {
+            return "redirect:/admin/users";
+        }
+
+        model.addAttribute("user", user);
+        return "deactivate_user_confirmation";
+    }
+
     /**
      * Deactivates a user by their ID.
      *
