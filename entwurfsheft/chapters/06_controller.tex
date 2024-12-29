@@ -59,7 +59,7 @@ Für die Ansicht \textit{Kontoliste} (implementiert in \hyperref[edu.kit.hci.sol
     \item \texttt{GET /admin/users} gibt die Kontoliste aller Nutzenden zurück. Das Administrationskonto wird dabei nicht angezeigt.
           Für jedes Konto wird ein Link zur Deaktivierung als \gls{HTML-Form} eingebettet (dies erlaubt die Nutzung von \texttt{PUT}-Anfragen).
     \item \texttt{PUT /admin/users/{userId}/deactivate} deaktiviert das Konto mit der ID \texttt{userId} und leitet Nutzende auf die Kontoliste weiter.
-          Falls ein Konto bereits deaktiviert ist, wird es reaktiviert.
+    \item \texttt{PUT /admin/users/{userId}/reactivate} reaktiviert das Konto mit der ID \texttt{userId} und leitet Nutzende auf die Kontoliste weiter.
     \item \texttt{GET /admin/users/disable-guests} gibt das Formular zur Deaktivierung der Anmeldung als Gast zurück.
     \item \texttt{PUT /admin/users/disable-guests} deaktiviert den Login durch Gastkonten und leitet Nutzende auf die Kontoliste weiter.
           Zudem werden alle Buchungen von Gastkonten gelöscht.
