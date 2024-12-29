@@ -70,6 +70,6 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      * Deletes all bookings for guests.
      */
     @Modifying
-    @Query("DELETE FROM Booking b WHERE b.user.userId LIKE 'guest/%'")
+    @Query("DELETE FROM Booking b WHERE b.id IN (SELECT b1.id FROM Booking b1 JOIN b1.user u WHERE u.userId LIKE 'guest/%')")
     void deleteAllBookingsByGuests();
 }
