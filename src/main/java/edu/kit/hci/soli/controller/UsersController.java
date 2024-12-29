@@ -31,6 +31,26 @@ public class UsersController {
         this.systemConfigurationService = systemConfigurationService;
     }
 
+    @GetMapping("/admin/users/{userId}/deactivate")
+    public String deactivateUserConfirmation(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable Long userId) {
+        log.info("User {} opened the dialog to deactivate user {}", principal.getUser(), userId);
+        User user = userService.getById(userId);
+
+        if (user == null) {
+            log.info("User {} not found", userId);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
+        if ("admin".equals(user.getUsername())) {
+            return "redirect:/admin/users";
+        }
+
+        model.addAttribute("user", user);
+        return "deactivate_user_confirmation";
+    }
+
     /**
      * Deactivates a user by their ID.
      *
@@ -52,12 +72,57 @@ public class UsersController {
             return "error_known";
         }
 
+        if (user.isDisabled()) {
+            log.info("User {} is already deactivated", user);
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
         if ("admin".equals(user.getUsername())) {
             return "redirect:/admin/users";
         }
 
-        userService.toggleUserEnabled(user);
+        userService.setUserActive(user, false);
         log.info("User {} deactivated user {}", principal.getUser(), user);
+
+        return "redirect:/admin/users";
+    }
+
+    /**
+     * Reactivates a user by their ID.
+     *
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
+     * @param principal the authenticated user details
+     * @param userId    the ID of the user to be deactivated
+     * @return the view name
+     */
+    @PutMapping("/admin/users/{userId}/reactivate")
+    public String reactivateUser(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal, @PathVariable Long userId) {
+        log.info("User {} requested to deactivate user {}", principal.getUser(), userId);
+        User user = userService.getById(userId);
+
+        if (user == null) {
+            log.info("User {} not found", userId);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
+        if (!user.isDisabled()) {
+            log.info("User {} is already active", user);
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error_known";
+        }
+
+        if ("admin".equals(user.getUsername())) {
+            return "redirect:/admin/users";
+        }
+
+        userService.setUserActive(user, true);
+        log.info("User {} reactivated user {}", principal.getUser(), user);
 
         return "redirect:/admin/users";
     }
@@ -78,6 +143,14 @@ public class UsersController {
         return "users";
     }
 
+    /**
+     * Displays the confirmation dialog for disabling guest login.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @return the view name
+     */
     @GetMapping("/admin/users/disable-guests")
     public String disableGuestsConfirmation(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} opened the dialog to disable guest login", principal.getUser());
@@ -90,6 +163,14 @@ public class UsersController {
         return "disable_guests_confirmation";
     }
 
+    /**
+     * Disables guest login.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @return the view name
+     */
     @PutMapping("/admin/users/disable-guests")
     public String disableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} requested to disable guests", principal.getUser());
@@ -103,6 +184,14 @@ public class UsersController {
         return "redirect:/admin/users";
     }
 
+    /**
+     * Enables guest login.
+     *
+     * @param model the model to be used in the view
+     * @param response the HTTP response
+     * @param principal the authenticated user details
+     * @return the view name
+     */
     @PutMapping("/admin/users/enable-guests")
     public String enableGuests(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
         log.info("User {} requested to enable guests", principal.getUser());

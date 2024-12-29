@@ -4,6 +4,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 @import java.util.List
 
 @param JteContext context
@@ -43,16 +44,12 @@
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                         <td>
-                            <form action="/${booking.getRoom().getId()}/bookings/${booking.getId()}" method="post">
-                                @if(csrf != null)
-                                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                                @endif
-                                <input type="hidden" name="_method" value="delete"/>
+                            @template.form(csrf = csrf, cssClass = "", action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
                                 <button type="submit" class="btn btn-ghost">
                                     <i class="fas fa-trash-alt"></i>
                                     ${context.localize("bookings.delete")}
                                 </button>
-                            </form>
+                            `)
                         </td>
                     </tr>
                 @endfor

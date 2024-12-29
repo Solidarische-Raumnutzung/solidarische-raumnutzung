@@ -3,6 +3,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 @import java.util.List
 
 @param JteContext context
@@ -17,15 +18,11 @@
         @if (guestsEnabled)
             <a class="btn btn-error" href="/admin/users/disable-guests">${context.localize("administration.user.guests.disable")}</a>
         @else
-            <form name="f" action="/admin/users/enable-guests" method="POST" class="card-actions justify-end">
-                @if(csrf != null)
-                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                @endif
-                <input type="hidden" name="_method" value="put"/>
+            @template.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/enable-guests", method = PUT, content = @`
                 <input class="btn btn-info" type="submit" value="${context.localize("administration.user.guests.enable")}">
-            </form>
+            `)
         @endif
-        @if(users.isEmpty())
+        @if (users.isEmpty())
             <div class="card">
                 <div class="card-body">
                     <p class="text-center">${context.localize("disabled.user.no_users_in_db")}</p>
@@ -45,7 +42,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for(User user : users)
+                @for (User user : users)
                     <tr>
                         <td>${user.getId()}</td>
                         <td>${user.getUsername()}</td>
@@ -53,30 +50,32 @@
                         <td>${user.getUserId()}</td>
                         <td>${user.isDisabled()}</td>
                         <td>
-                            <form action="/admin/users/${user.getId()}/deactivate" method="post">
-                                @if(csrf != null)
-                                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                                @endif
-                                <input type="hidden" name="_method" value="put"/>
-                                @if(user.isDisabled())
-                                    <button type="submit" class="btn btn-ghost">${context.localize("administration.user.allow")}</button>
-                                @else
+                            @if (user.isDisabled())
+                                @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + "/reactivate", method = PUT, content = @`
+                                    <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
+                                `)
+                            @else
+                                <%-- TODO: ideally, the code for the modal and non-modal versions should be unified and the same approach extended to disabling guest accounts --%>
+                                <noscript>
+                                    <a href="/admin/users/${user.getId()}/deactivate" id="initial" class="btn btn-ghost">${context.localize("administration.user.deactivate")}</a>
+                                </noscript>
 
-                                    <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("administration.user.disable")}</a>
-                                    <dialog id="sure_modal" class="modal">
-                                        <div class="modal-box">
-                                            <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
-                                            <p class="py-4">${context.localize("disable.user.disable.are_you_sure")}</p>
-                                            <div class="modal-action">
-                                                <form method="dialog">
-                                                    <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
-                                                </form>
-                                                <button type="submit" class="btn btn-warning">${context.localize("administration.user.disable")}</button>
-                                            </div>
+                                <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost needs-js">${context.localize("administration.user.deactivate")}</a>
+                                <dialog id="sure_modal" class="modal">
+                                    <div class="modal-box">
+                                        <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
+                                        <p class="py-4">${context.localize("disable.user.disable.are_you_sure")}</p>
+                                        <div class="modal-action">
+                                            <form method="dialog">
+                                                <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
+                                            </form>
+                                            @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`
+                                                <button type="submit" class="btn btn-warning">${context.localize("administration.user.deactivate")}</button>
+                                            `)
                                         </div>
-                                    </dialog>
-                                @endif
-                            </form>
+                                    </div>
+                                </dialog>
+                            @endif
                         </td>
                     </tr>
                 @endfor

@@ -21,11 +21,13 @@ public interface UserService {
     @Nullable User findByUserId(String userId);
 
     /**
-     * Disables or re-enables a user. If disabling, deletes all bookings for the user.
+     * Deactivates or Reactivates a user.
+     * If deactivating, deletes all bookings for the user.
      *
-     * @param user the user to be disabled or re-enabled
+     * @param user the user to be reactivated
+     * @param active the new active state of the user
      */
-    void toggleUserEnabled(User user);
+    void setUserActive(User user, boolean active);
 
     /**
      * Retrieves all users that can be managed.
