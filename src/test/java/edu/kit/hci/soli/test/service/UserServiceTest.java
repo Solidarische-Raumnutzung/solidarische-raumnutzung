@@ -76,8 +76,8 @@ public class UserServiceTest {
 
     @Test
     public void testResolveGuestUser() {
-        assertEquals(testService.user2, userService.createGuestUser("testuser2"));
-        assertEquals(testService.user3, userService.createGuestUser("testuser3"));
+        assertEquals(testService.user2, userService.resolveGuestUser(testService.user2.getUserId()));
+        assertEquals(testService.user3, userService.resolveGuestUser(testService.user3.getUserId()));
     }
 
     @Test
