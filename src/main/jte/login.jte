@@ -48,6 +48,12 @@
                         <input id="password" name="password" type="password" placeholder="Passwort" class="input input-bordered" required/>
                     </div>
                     <div class="form-control mt-6">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">${context.localize("login.remember")}</span>
+                            <input id="remember-me" name="remember-me" type="checkbox" class="checkbox" checked />
+                        </label>
+                    </div>
+                    <div class="form-control mt-6">
                         <input class="btn btn-secondary" type="submit" value="${context.localize("login.login")}">
                     </div>
                 `)

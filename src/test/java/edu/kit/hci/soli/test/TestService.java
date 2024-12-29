@@ -32,8 +32,8 @@ public class TestService {
         userRepository.deleteAll(userRepository.findAll());
 
         user = userService.resolveAdminUser();
-        user2 = userService.resolveGuestUser("testuser2");
-        user3 = userService.resolveGuestUser("testuser3");
+        user2 = userService.createGuestUser("testuser2");
+        user3 = userService.createGuestUser("testuser3");
     }
 
     public Booking createBooking(User user) {

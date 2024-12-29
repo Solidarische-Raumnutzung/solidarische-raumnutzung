@@ -68,12 +68,22 @@ public interface UserService {
     boolean isAdmin(User user);
 
     /**
-     * Resolves a guest user by their email. If the guest user does not exist, creates a new one.
+     * Resolves a guest user by their userId.
+     * If the guest user does not exist, creates a new one.
      *
-     * @param email the email of the guest user
+     * @param userId the email of the guest user
      * @return the resolved guest user
      */
-    @NotNull User resolveGuestUser(String email);
+    @NotNull User resolveGuestUser(String userId);
+
+    /**
+     * Creates a guest user with the given email.
+     * The user ID will be generated.
+     *
+     * @param email the email of the guest user
+     * @return the created guest user
+     */
+    @NotNull User createGuestUser(String email);
 
     /**
      * Checks if a user is a guest.

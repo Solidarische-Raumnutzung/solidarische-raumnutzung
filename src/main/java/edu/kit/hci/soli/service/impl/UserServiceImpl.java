@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -90,14 +91,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public @NotNull User resolveGuestUser(String email) {
-        String id = "guest/" + email;
-        User user = userRepository.findByUserId(id);
+    public @NotNull User resolveGuestUser(String userId) {
+        User user = userRepository.findByUserId(userId);
         if (user == null) {
             log.error("No guest user found in database, creating new");
-            user = userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault()));
+            String email = userId.substring("guest/".length());
+            email = email.substring(email.indexOf('/') + 1);
+            user = userRepository.save(new User(null, "Guest", email, userId, false, Locale.getDefault()));
         }
         return user;
+    }
+
+    @Override
+    public @NotNull User createGuestUser(String email) {
+        String id;
+        do {
+            id = "guest/" + UUID.randomUUID() + "/" + email;
+        } while (userRepository.existsByUserId(id));
+        log.error("Creating new guest user with ID {}", id);
+        return userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault()));
     }
 
     @Override
