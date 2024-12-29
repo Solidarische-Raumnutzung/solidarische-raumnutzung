@@ -42,7 +42,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for(User user : users)
+                @for (User user : users)
                     <tr>
                         <td>${user.getId()}</td>
                         <td>${user.getUsername()}</td>
@@ -54,8 +54,7 @@
                                 @if (user.isDisabled())
                                     <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
                                 @else
-
-                                    <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("administration.user.disable")}</a>
+                                    <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("administration.user.deactivate")}</a>
                                     <dialog id="sure_modal" class="modal">
                                         <div class="modal-box">
                                             <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
@@ -64,7 +63,7 @@
                                                 <form method="dialog">
                                                     <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
                                                 </form>
-                                                <button type="submit" class="btn btn-warning">${context.localize("administration.user.disable")}</button>
+                                                <button type="submit" class="btn btn-warning">${context.localize("administration.user.deactivate")}</button>
                                             </div>
                                         </div>
                                     </dialog>
