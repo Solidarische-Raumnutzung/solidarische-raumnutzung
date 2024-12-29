@@ -1,8 +1,6 @@
 package edu.kit.hci.soli.test.service;
 
 import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.Priority;
-import edu.kit.hci.soli.domain.ShareRoomType;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.service.*;
@@ -78,8 +76,8 @@ public class UserServiceTest {
 
     @Test
     public void testResolveGuestUser() {
-        assertEquals(testService.user2, userService.resolveGuestUser("testuser2"));
-        assertEquals(testService.user3, userService.resolveGuestUser("testuser3"));
+        assertEquals(testService.user2, userService.resolveGuestUser(testService.user2.getUserId()));
+        assertEquals(testService.user3, userService.resolveGuestUser(testService.user3.getUserId()));
     }
 
     @Test

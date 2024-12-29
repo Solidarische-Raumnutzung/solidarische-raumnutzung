@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.repository;
 
 import edu.kit.hci.soli.domain.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -26,4 +27,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return the user with the specified user ID
      */
     User findByUserId(String userId);
+
+    /**
+     * Checks if a user with the given userId exists.
+     *
+     * @param userId the user ID to check for
+     * @return true if a user with the given userId exists, false otherwise
+     */
+    boolean existsByUserId(@NotNull String userId);
 }
