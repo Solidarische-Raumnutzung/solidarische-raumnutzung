@@ -32,7 +32,7 @@
                 <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
                 @if(login.kind().equals(LoginStateModel.Kind.ADMIN) || (login.user() != null
                     && Objects.equals(login.user(), booking.getUser())))
-                    @template.form(csrf = csrf, cssClass = "", action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
+                    @template.form(csrf = csrf, action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
                         <button type="submit" class="btn btn-ghost">
                             <i class="fas fa-trash-alt"></i>
                             ${context.localize("bookings.delete")}

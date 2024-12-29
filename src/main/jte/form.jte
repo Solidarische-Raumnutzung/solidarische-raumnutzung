@@ -4,7 +4,7 @@
 @import static org.springframework.http.HttpMethod.*
 
 @param CsrfToken csrf
-@param String cssClass
+@param String cssClass = ""
 @param String action
 @param HttpMethod method
 @param Content content

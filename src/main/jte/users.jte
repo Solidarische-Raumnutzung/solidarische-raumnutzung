@@ -51,7 +51,7 @@
                         <td>${user.isDisabled()}</td>
                         <td>
                             @if (user.isDisabled())
-                                @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + "/reactivate", method = PUT, content = @`
+                                @template.form(csrf = csrf, action = "/admin/users/" + user.getId() + "/reactivate", method = PUT, content = @`
                                     <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
                                 `)
                             @else
@@ -69,7 +69,7 @@
                                             <form method="dialog">
                                                 <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
                                             </form>
-                                            @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`
+                                            @template.form(csrf = csrf, action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`
                                                 <button type="submit" class="btn btn-warning">${context.localize("administration.user.deactivate")}</button>
                                             `)
                                         </div>
