@@ -50,11 +50,11 @@ public class UserServiceTest {
 
     @Test
     public void testToggleUserEnabled() {
-        userService.toggleUserEnabled(testService.user2);
-        assertEquals(true, userService.findByUserId(testService.user2.getUserId()).isDisabled());
-        userService.toggleUserEnabled(testService.user2);
-        assertEquals(false, userService.findByUserId(testService.user2.getUserId()).isDisabled());
-        assertThrows(IllegalArgumentException.class, () -> userService.toggleUserEnabled(testService.user));
+        userService.setUserActive(testService.user2, false);
+        assertTrue(userService.findByUserId(testService.user2.getUserId()).isDisabled());
+        userService.setUserActive(testService.user2, true);
+        assertFalse(userService.findByUserId(testService.user2.getUserId()).isDisabled());
+        assertThrows(IllegalArgumentException.class, () -> userService.setUserActive(testService.user, false));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class UserServiceTest {
         bookingsService.delete(testBooking, BookingDeleteReason.SELF);
         assertTrue(userService.deleteUser(testService.user3));
 
-        assertThrows(IllegalArgumentException.class, () -> userService.toggleUserEnabled(testService.user3));
+        assertThrows(IllegalArgumentException.class, () -> userService.setUserActive(testService.user3, false));
 
         assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(testService.user));
     }
