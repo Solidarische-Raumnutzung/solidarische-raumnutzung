@@ -74,13 +74,6 @@ public interface UserService {
     @NotNull User resolveGuestUser(String email);
 
     /**
-     * Checks if guest users are enabled.
-     *
-     * @return true if guest users are enabled, false otherwise
-     */
-    boolean isGuestEnabled();
-
-    /**
      * Checks if a user is a guest.
      *
      * @param user the user to be checked

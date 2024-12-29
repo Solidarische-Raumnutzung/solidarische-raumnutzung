@@ -98,11 +98,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isGuestEnabled() {
-        return true; //TODO: make this configurable
-    }
-
-    @Override
     public boolean isGuest(User user) {
         return user.getUserId().startsWith("guest/");
     }
