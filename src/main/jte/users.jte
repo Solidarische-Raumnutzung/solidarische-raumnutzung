@@ -3,6 +3,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 @import java.util.List
 
 @param JteContext context
@@ -17,15 +18,11 @@
         @if (guestsEnabled)
             <a class="btn btn-error" href="/admin/users/disable-guests">${context.localize("administration.user.guests.disable")}</a>
         @else
-            <form name="f" action="/admin/users/enable-guests" method="POST" class="card-actions justify-end">
-                @if(csrf != null)
-                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                @endif
-                <input type="hidden" name="_method" value="put"/>
+            @template.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/enable-guests", method = PUT, content = @`
                 <input class="btn btn-info" type="submit" value="${context.localize("administration.user.guests.enable")}">
-            </form>
+            `)
         @endif
-        @if(users.isEmpty())
+        @if (users.isEmpty())
             <div class="card">
                 <div class="card-body">
                     <p class="text-center">${context.localize("disabled.user.no_users_in_db")}</p>
@@ -53,13 +50,9 @@
                         <td>${user.getUserId()}</td>
                         <td>${user.isDisabled()}</td>
                         <td>
-                            <form action="/admin/users/${user.getId()}/deactivate" method="post">
-                                @if(csrf != null)
-                                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                                @endif
-                                <input type="hidden" name="_method" value="put"/>
-                                @if(user.isDisabled())
-                                    <button type="submit" class="btn btn-ghost">${context.localize("administration.user.allow")}</button>
+                            @template.form(csrf = csrf, cssClass = "", action = "/admin/users/" + user.getId() + (user.isDisabled() ? "/reactivate" : "/deactivate"), method = GET, content = @`
+                                @if (user.isDisabled())
+                                    <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
                                 @else
 
                                     <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost">${context.localize("administration.user.disable")}</a>
@@ -76,7 +69,7 @@
                                         </div>
                                     </dialog>
                                 @endif
-                            </form>
+                            `)
                         </td>
                     </tr>
                 @endfor

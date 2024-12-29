@@ -2,6 +2,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 
 @param JteContext context
 @param LoginStateModel login
@@ -38,10 +39,7 @@
             <br>
             <details class="collapse collapse-plus bg-base-200">
                 <summary class="collapse-title font-medium">${context.localize("login.admin")}</summary>
-                <form name="f" action="/login" method="POST" class="collapse-content">
-                    @if(csrf != null)
-                        <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                    @endif
+                @template.form(csrf = csrf, cssClass = "collapse-content", action = "/login", method = POST, content = @`
                     <input id="username" name="username" type="hidden" value="admin"/>
                     <div class="form-control mt-6">
                         <label for="password" class="label">
@@ -52,7 +50,7 @@
                     <div class="form-control mt-6">
                         <input class="btn btn-secondary" type="submit" value="${context.localize("login.login")}">
                     </div>
-                </form>
+                `)
             </details>
         </div>
     </div>

@@ -2,6 +2,7 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
 
 @param JteContext context
 @param LoginStateModel login
@@ -12,13 +13,9 @@
         <div class="card-body">
             <h2 class="card-title">${context.localize("administration.user.guests.disable")}</h2>
             <p>${context.localize("administration.user.guests.disable.description")}</p>
-            <form name="f" action="/admin/users/disable-guests" method="POST" class="card-actions justify-end">
-                @if(csrf != null)
-                    <input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">
-                @endif
-                <input type="hidden" name="_method" value="put"/>
+            @template.form(csrf = csrf, cssClass = "card-actions justify-end", action = "//admin/users/disable-guests", method = PUT, content = @`
                 <input class="btn btn-error" type="submit" value="${context.localize("administration.user.guests.disable")}">
-            </form>
+            `)
         </div>
     </div>
 `)
