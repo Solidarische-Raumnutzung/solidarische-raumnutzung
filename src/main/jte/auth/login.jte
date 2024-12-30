@@ -39,7 +39,7 @@
             <br>
             <details class="collapse collapse-plus bg-base-200">
                 <summary class="collapse-title font-medium">${context.localize("login.admin")}</summary>
-                @template.form(csrf = csrf, cssClass = "collapse-content", action = "/login", method = POST, content = @`
+                @template.util.form(csrf = csrf, cssClass = "collapse-content", action = "/login", method = POST, content = @`
                     <input id="username" name="username" type="hidden" value="admin"/>
                     <div class="form-control mt-6">
                         <label for="password" class="label">

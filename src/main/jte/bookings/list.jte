@@ -44,7 +44,7 @@
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                         <td>
-                            @template.form(csrf = csrf, action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
+                            @template.util.form(csrf = csrf, action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
                                 <button type="submit" class="btn btn-ghost">
                                     <i class="fas fa-trash-alt"></i>
                                     ${context.localize("bookings.delete")}

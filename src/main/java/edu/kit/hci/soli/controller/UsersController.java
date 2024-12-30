@@ -48,7 +48,7 @@ public class UsersController {
         }
 
         model.addAttribute("user", user);
-        return "admin/confirmation/deactivate_user";
+        return "admin/confirmation/deactivate_user_page";
     }
 
     /**
@@ -160,7 +160,7 @@ public class UsersController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error/known";
         }
-        return "admin/confirmation/disable_guests";
+        return "admin/confirmation/disable_guests_page";
     }
 
     /**

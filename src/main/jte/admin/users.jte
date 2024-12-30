@@ -5,6 +5,7 @@
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.util.List
+@import java.util.UUID
 
 @param JteContext context
 @param LoginStateModel login
@@ -16,9 +17,12 @@
 @template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
     <div class="overflow-x-auto">
         @if (guestsEnabled)
-            <a class="btn btn-error" href="/admin/users/disable-guests">${context.localize("administration.user.guests.disable")}</a>
+            !{var id = "modal_" + UUID.randomUUID().toString().replace("-", "");}
+            @template.util.modal.open(message = context.localize("administration.user.guests.disable"), style = "btn btn-error", id = id, alternate = "/admin/users/disable-guests", content = @`
+                @template.admin.confirmation.disable_guests(context = context, csrf = csrf, id = id)
+            `)
         @else
-            @template.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/enable-guests", method = PUT, content = @`
+            @template.util.form(csrf = csrf, cssClass = "", action = "/admin/users/enable-guests", method = PUT, content = @`
                 <input class="btn btn-info" type="submit" value="${context.localize("administration.user.guests.enable")}">
             `)
         @endif
@@ -51,30 +55,14 @@
                         <td>${user.isDisabled()}</td>
                         <td>
                             @if (user.isDisabled())
-                                @template.form(csrf = csrf, action = "/admin/users/" + user.getId() + "/reactivate", method = PUT, content = @`
+                                @template.util.form(csrf = csrf, action = "/admin/users/" + user.getId() + "/reactivate", method = PUT, content = @`
                                     <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
                                 `)
                             @else
-                                <%-- TODO: ideally, the code for the modal and non-modal versions should be unified and the same approach extended to disabling guest accounts --%>
-                                <noscript>
-                                    <a href="/admin/users/${user.getId()}/deactivate" id="initial" class="btn btn-ghost">${context.localize("administration.user.deactivate")}</a>
-                                </noscript>
-
-                                <a onclick="sure_modal.showModal()" id="initial" class="btn btn-ghost needs-js">${context.localize("administration.user.deactivate")}</a>
-                                <dialog id="sure_modal" class="modal">
-                                    <div class="modal-box">
-                                        <h3 class="text-lg font-bold">${context.localize("generic.warning")}</h3>
-                                        <p class="py-4">${context.localize("disable.user.disable.are_you_sure")}</p>
-                                        <div class="modal-action">
-                                            <form method="dialog">
-                                                <a onclick="sure_modal.close()" class="btn">${context.localize("generic.close")}</a>
-                                            </form>
-                                            @template.form(csrf = csrf, action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`
-                                                <button type="submit" class="btn btn-warning">${context.localize("administration.user.deactivate")}</button>
-                                            `)
-                                        </div>
-                                    </div>
-                                </dialog>
+                                !{var id = "modal_" + UUID.randomUUID().toString().replace("-", "");}
+                                @template.util.modal.open(message = context.localize("administration.user.deactivate"), id = id, alternate = "/admin/users/" + user.getId() + "/deactivate", content = @`
+                                    @template.admin.confirmation.deactivate_user(context = context, csrf = csrf, id = id, user = user)
+                                `)
                             @endif
                         </td>
                     </tr>

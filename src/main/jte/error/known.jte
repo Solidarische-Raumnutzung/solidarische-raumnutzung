@@ -1,5 +1,4 @@
 @import edu.kit.hci.soli.config.template.PageSpec
-@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.KnownError
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
