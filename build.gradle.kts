@@ -117,7 +117,7 @@ tasks {
             val loweredSection = (1..10).map { "\t".repeat(it) }.map { "$indent$it" } // Conditions may cause this to vary
                 .fold(substring(headIndex + head.length, tailIndex).replace(jteOutput, lowerJteOutput)) { l, i -> l.lambdafy(i, lowerJteOutput) }
             val result = substring(0, headIndex) + "(gg.jte.html.HtmlContent) ${jteOutput}_ -> {" +
-                    loweredSection.lambdafy("\t\t\t\t$indent", lowerJteOutput) +
+                    loweredSection +
                     substring(tailIndex + tail.length)
             return result.lambdafy(indent, jteOutput) // Recurse to handle multiple lambdas
         }
