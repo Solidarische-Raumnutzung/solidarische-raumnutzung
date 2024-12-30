@@ -41,7 +41,7 @@ public class UsersControllerTest {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
         String result = usersController.deactivateUser(model, response, () -> principal, userId);
-        if (result.equals("error_known")) {
+        if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }
         assertEquals("redirect:/admin/users", result);

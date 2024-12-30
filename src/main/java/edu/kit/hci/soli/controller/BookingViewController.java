@@ -62,14 +62,14 @@ public class BookingViewController {
             log.info("Booking {} not found", eventId);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         if (!Objects.equals(booking.getRoom().getId(), roomId)) {
             log.info("Booking {} not found in room {}", eventId, roomId);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         model.addAttribute("room", booking.getRoom());
@@ -91,7 +91,7 @@ public class BookingViewController {
         log.info("User {} tried to delete booking {} of user {}", principal.getUsername(), eventId, booking.getUser());
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         model.addAttribute("error", KnownError.DELETE_NO_PERMISSION);
-        return "error_known";
+        return "error/known";
     }
 
     /**
@@ -110,12 +110,12 @@ public class BookingViewController {
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         model.addAttribute("room", room.get());
         model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room.get()));
 
-        return "bookings";
+        return "bookings/list";
     }
 
     /**
@@ -138,13 +138,13 @@ public class BookingViewController {
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         Booking booking = bookingsService.getBookingById(eventId);
         if (booking == null) {
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         model.addAttribute("room", room.get());
         model.addAttribute("booking", booking);
@@ -153,6 +153,6 @@ public class BookingViewController {
                         && booking.getUser().equals(principal.getUser())
                         && !bookingsService.minimumTime().isAfter(booking.getStartDate())
         );
-        return "view_event";
+        return "bookings/single";
     }
 }

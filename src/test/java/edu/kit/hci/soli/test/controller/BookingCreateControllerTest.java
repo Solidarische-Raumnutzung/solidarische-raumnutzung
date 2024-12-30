@@ -56,7 +56,7 @@ public class BookingCreateControllerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
         String result = bookingsController.createBooking(model, response, request, room, () -> user, formData);
-        if (result.equals("error_known")) {
+        if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }
         assertEquals("redirect:/1", result);
@@ -149,7 +149,7 @@ public class BookingCreateControllerTest {
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -231,7 +231,7 @@ public class BookingCreateControllerTest {
         String view = bookingsController.resolveConflict(model, request, 1L);
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -248,7 +248,7 @@ public class BookingCreateControllerTest {
         String view = bookingsController.resolveConflict(model, request, 1L);
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -268,7 +268,7 @@ public class BookingCreateControllerTest {
         String view = bookingsController.resolveConflict(model, request, 1L);
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test

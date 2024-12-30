@@ -40,7 +40,7 @@ public class UsersController {
             log.info("User {} not found", userId);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         if ("admin".equals(user.getUsername())) {
@@ -48,7 +48,7 @@ public class UsersController {
         }
 
         model.addAttribute("user", user);
-        return "deactivate_user_confirmation";
+        return "admin/confirmation/deactivate_user";
     }
 
     /**
@@ -69,14 +69,14 @@ public class UsersController {
             log.info("User {} not found", userId);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         if (user.isDisabled()) {
             log.info("User {} is already deactivated", user);
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         if ("admin".equals(user.getUsername())) {
@@ -107,14 +107,14 @@ public class UsersController {
             log.info("User {} not found", userId);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         if (!user.isDisabled()) {
             log.info("User {} is already active", user);
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         if ("admin".equals(user.getUsername())) {
@@ -140,7 +140,7 @@ public class UsersController {
         log.info("User {} requested the users page", principal.getUser());
         model.addAttribute("users", userService.getManageableUsers());
         model.addAttribute("guestsEnabled", systemConfigurationService.isGuestLoginEnabled());
-        return "users";
+        return "admin/users";
     }
 
     /**
@@ -158,9 +158,9 @@ public class UsersController {
             log.warn("Guest login is already disabled");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
-        return "disable_guests_confirmation";
+        return "admin/confirmation/disable_guests";
     }
 
     /**
@@ -178,7 +178,7 @@ public class UsersController {
             log.warn("Guest login is already disabled");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         systemConfigurationService.setGuestLoginEnabled(false);
         return "redirect:/admin/users";
@@ -199,7 +199,7 @@ public class UsersController {
             log.warn("Guest login is already enabled");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         systemConfigurationService.setGuestLoginEnabled(true);
         return "redirect:/admin/users";

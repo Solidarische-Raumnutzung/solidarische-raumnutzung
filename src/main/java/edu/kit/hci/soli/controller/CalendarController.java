@@ -66,9 +66,9 @@ public class CalendarController {
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         model.addAttribute("room", room.get());
-        return "calendar";
+        return "bookings/calendar";
     }
 }

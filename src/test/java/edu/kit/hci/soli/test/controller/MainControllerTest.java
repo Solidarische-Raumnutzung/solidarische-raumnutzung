@@ -56,7 +56,7 @@ public class MainControllerTest {
 
         String view = mainController.handleError(model, request);
 
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
     }
 

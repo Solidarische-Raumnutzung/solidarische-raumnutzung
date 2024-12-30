@@ -1,4 +1,3 @@
-@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
