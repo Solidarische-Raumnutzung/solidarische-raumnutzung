@@ -171,7 +171,7 @@ public class BookingCreateControllerTest {
         assertEquals(LocalDateTime.now().plusMinutes(30).getMinute(), ((LocalDateTime) model.getAttribute("end")).getMinute());
         assertEquals(LocalDateTime.now().getMinute(), ((LocalDateTime) model.getAttribute("start")).getMinute());
         assertEquals(ShareRoomType.NO, model.getAttribute("cooperative"));
-        assertEquals("create_booking", view);
+        assertEquals("bookings/create/form", view);
     }
 
     @Test
@@ -195,7 +195,7 @@ public class BookingCreateControllerTest {
         assertEquals(start, model.getAttribute("start"));
         assertEquals(end, model.getAttribute("end"));
         assertEquals(ShareRoomType.NO, model.getAttribute("cooperative"));
-        assertEquals("create_booking", view);
+        assertEquals("bookings/create/form", view);
     }
 
     @Test
@@ -219,7 +219,7 @@ public class BookingCreateControllerTest {
         assertEquals(start, model.getAttribute("start"));
         assertEquals(end, model.getAttribute("end"));
         assertEquals(ShareRoomType.YES, model.getAttribute("cooperative"));
-        assertEquals("create_booking", view);
+        assertEquals("bookings/create/form", view);
     }
 
     @Test

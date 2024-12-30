@@ -72,6 +72,6 @@ public class UsersControllerTest {
         User adminUser = userService.resolveAdminUser();
         MockHttpServletResponse response = new MockHttpServletResponse();
         String result = usersController.getUsers(model, response, () -> adminUser);
-        assertEquals("users", result);
+        assertEquals("admin/users", result);
     }
 }

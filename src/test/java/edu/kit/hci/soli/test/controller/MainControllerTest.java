@@ -78,7 +78,7 @@ public class MainControllerTest {
 
         String view = mainController.handleError(model, request);
 
-        assertEquals("error", view);
+        assertEquals("error/unknown", view);
         assertEquals(500, model.getAttribute("status"));
         assertEquals("Internal Server Error", model.getAttribute("error"));
         assertEquals("An unexpected error occurred", model.getAttribute("message"));
@@ -89,6 +89,6 @@ public class MainControllerTest {
     public void testGetDisabledPage() {
         ExtendedModelMap model = new ExtendedModelMap();
         String result = mainController.getDisabled(model);
-        assertEquals("disabled_user", result);
+        assertEquals("error/disabled_user", result);
     }
 }

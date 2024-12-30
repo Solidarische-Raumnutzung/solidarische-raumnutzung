@@ -107,7 +107,7 @@ public class BookingViewControllerTest {
 
         verify(model).addAttribute("room", room);
         verify(model).addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
-        assertEquals("bookings", view);
+        assertEquals("bookings/list", view);
     }
 
     @Test
@@ -136,6 +136,6 @@ public class BookingViewControllerTest {
 
         verify(model).addAttribute("room", room);
         verify(model).addAttribute("booking", booking);
-        assertEquals("view_event", view);
+        assertEquals("bookings/single", view);
     }
 }
