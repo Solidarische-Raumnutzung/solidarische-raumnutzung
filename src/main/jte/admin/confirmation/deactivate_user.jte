@@ -1,0 +1,19 @@
+@import edu.kit.hci.soli.domain.User
+@import edu.kit.hci.soli.config.template.JteContext
+@import org.springframework.security.web.csrf.CsrfToken
+@import static org.springframework.http.HttpMethod.*
+
+@param JteContext context
+@param CsrfToken csrf
+@param String id
+
+@param User user
+
+<h2 class="card-title">${context.localize("generic.warning")}</h2>
+<p>${context.localize("disable.user.disable.are_you_sure")}</p>
+<div class="modal-action">
+    @template.util.modal.close(message = context.localize("generic.cancel"), id = id)
+    @template.util.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`
+        <input class="btn btn-warning" type="submit" value="${context.localize("administration.user.deactivate")}">
+    `)
+</div>

@@ -56,7 +56,7 @@ public class BookingCreateControllerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
         String result = bookingsController.createBooking(model, response, request, room, () -> user, formData);
-        if (result.equals("error_known")) {
+        if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }
         assertEquals("redirect:/1", result);
@@ -149,7 +149,7 @@ public class BookingCreateControllerTest {
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class BookingCreateControllerTest {
         assertEquals(LocalDateTime.now().plusMinutes(30).getMinute(), ((LocalDateTime) model.getAttribute("end")).getMinute());
         assertEquals(LocalDateTime.now().getMinute(), ((LocalDateTime) model.getAttribute("start")).getMinute());
         assertEquals(ShareRoomType.NO, model.getAttribute("cooperative"));
-        assertEquals("create_booking", view);
+        assertEquals("bookings/create/form", view);
     }
 
     @Test
@@ -195,7 +195,7 @@ public class BookingCreateControllerTest {
         assertEquals(start, model.getAttribute("start"));
         assertEquals(end, model.getAttribute("end"));
         assertEquals(ShareRoomType.NO, model.getAttribute("cooperative"));
-        assertEquals("create_booking", view);
+        assertEquals("bookings/create/form", view);
     }
 
     @Test
@@ -219,7 +219,7 @@ public class BookingCreateControllerTest {
         assertEquals(start, model.getAttribute("start"));
         assertEquals(end, model.getAttribute("end"));
         assertEquals(ShareRoomType.YES, model.getAttribute("cooperative"));
-        assertEquals("create_booking", view);
+        assertEquals("bookings/create/form", view);
     }
 
     @Test
@@ -231,7 +231,7 @@ public class BookingCreateControllerTest {
         String view = bookingsController.resolveConflict(model, request, 1L);
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -248,7 +248,7 @@ public class BookingCreateControllerTest {
         String view = bookingsController.resolveConflict(model, request, 1L);
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -268,7 +268,7 @@ public class BookingCreateControllerTest {
         String view = bookingsController.resolveConflict(model, request, 1L);
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test

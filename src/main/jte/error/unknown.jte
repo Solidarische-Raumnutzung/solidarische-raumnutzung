@@ -1,4 +1,3 @@
-@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
@@ -6,9 +5,11 @@
 
 @param JteContext context
 @param LoginStateModel login
+
+@param Date timestamp
+@param Integer status
 @param String message
 @param String error
-@param Date timestamp
 
 @template.layout(page = new PageSpec("Error", "Soli"), context = context, login = login, room = null, content = @`
     <div class="hero-content text-center">
@@ -18,7 +19,7 @@
             <details class="collapse collapse-plus bg-base-200">
                 <summary class="collapse-title font-medium">${context.localize("error.unknown.details")}</summary>
                 <div class="collapse-content">
-                    ${context.localize("disable.user.disable.message")}
+                    <p>${error == null ? message != null ? message : context.lookup("error.unknown.fallback") : error}</p>
                 </div>
             </details>
             <a class="btn btn-primary" href="/">${context.localize("index.go")}</a>

@@ -37,7 +37,7 @@ public class LoginController {
         if (request.getParameter("logout") != null) model.addAttribute("message", "You have been logged out");
         model.addAttribute("guestEnabled", systemConfigurationService.isGuestLoginEnabled());
 
-        return "login";
+        return "auth/login";
     }
 
     @Value("${soli.guest.marker}")
@@ -52,6 +52,6 @@ public class LoginController {
     @GetMapping("/login/guest")
     public String loginGuest(Model model) {
         model.addAttribute("guestMarker", guestMarker);
-        return "login_guest";
+        return "auth/login_guest";
     }
 }

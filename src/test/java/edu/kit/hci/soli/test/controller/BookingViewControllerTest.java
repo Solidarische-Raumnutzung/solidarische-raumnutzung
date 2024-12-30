@@ -49,7 +49,7 @@ public class BookingViewControllerTest {
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class BookingViewControllerTest {
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class BookingViewControllerTest {
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class BookingViewControllerTest {
 
         verify(model).addAttribute("room", room);
         verify(model).addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
-        assertEquals("bookings", view);
+        assertEquals("bookings/list", view);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class BookingViewControllerTest {
         String view = bookingViewController.viewEvent(model, response, principal, 1L, 1L);
 
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
-        assertEquals("error_known", view);
+        assertEquals("error/known", view);
     }
 
     @Test
@@ -136,6 +136,6 @@ public class BookingViewControllerTest {
 
         verify(model).addAttribute("room", room);
         verify(model).addAttribute("booking", booking);
-        assertEquals("view_event", view);
+        assertEquals("bookings/single", view);
     }
 }

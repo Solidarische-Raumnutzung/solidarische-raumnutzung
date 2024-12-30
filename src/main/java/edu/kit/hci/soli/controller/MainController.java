@@ -50,7 +50,7 @@ public class MainController extends AbstractErrorController {
         ));
         if (errorAttributes.get("status").equals(404)) {
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
 
         model.addAttribute("timestamp", errorAttributes.get("timestamp"));
@@ -58,7 +58,7 @@ public class MainController extends AbstractErrorController {
         model.addAttribute("error", errorAttributes.get("error"));
         model.addAttribute("message", errorAttributes.get("message"));
         model.addAttribute("path", errorAttributes.get("path"));
-        return "error";
+        return "error/unknown";
     }
 
     /**
@@ -69,6 +69,6 @@ public class MainController extends AbstractErrorController {
      */
     @RequestMapping("/disabled")
     public String getDisabled(Model model) {
-        return "disabled_user";
+        return "error/disabled_user";
     }
 }

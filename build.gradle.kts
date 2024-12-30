@@ -106,16 +106,20 @@ tasks {
                     """.trimIndent().trim())
 
         // This is necessary because JTE does not use lambdas here and inner classes cause performance issues and mess with our coverage
-        fun String.lambdafy(): String {
-            val head = "new gg.jte.html.HtmlContent() {\n\t\t\tpublic void writeTo(gg.jte.html.HtmlTemplateOutput jteOutput) {"
-            val tail = "\n\t\t\t}"
+        fun String.lambdafy(indent: String = "\t\t\t", jteOutput: String = "jteOutput"): String {
+            val head = "new gg.jte.html.HtmlContent() {\n${indent}public void writeTo(gg.jte.html.HtmlTemplateOutput $jteOutput) {"
+            val tail = "\n${indent}}"
             val headIndex = indexOf(head)
             if (headIndex == -1) return this
             val tailIndex = indexOf(tail, headIndex)
             if (tailIndex == -1) throw Exception("Could not find tail of lambda in JTE source")
-            return substring(0, headIndex) + "(gg.jte.html.HtmlContent) jteOutput_ -> {" +
-                    substring(headIndex + head.length, tailIndex).replace("jteOutput", "jteOutput_") +
+            val lowerJteOutput = "${jteOutput}_"
+            val loweredSection = (1..10).map { "\t".repeat(it) }.map { "$indent$it" } // Conditions may cause this to vary
+                .fold(substring(headIndex + head.length, tailIndex).replace(jteOutput, lowerJteOutput)) { l, i -> l.lambdafy(i, lowerJteOutput) }
+            val result = substring(0, headIndex) + "(gg.jte.html.HtmlContent) ${jteOutput}_ -> {" +
+                    loweredSection +
                     substring(tailIndex + tail.length)
+            return result.lambdafy(indent, jteOutput) // Recurse to handle multiple lambdas
         }
 
         // Patch the generated JTE sources

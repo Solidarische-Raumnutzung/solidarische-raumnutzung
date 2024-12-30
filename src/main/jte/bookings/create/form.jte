@@ -21,7 +21,7 @@
 @param LocalDateTime maximumTime
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
-    @template.form(csrf = csrf, cssClass = "card-body w-96 mx-auto", action = "/" + room.getId() + "/bookings/new", method = POST, content = @`
+    @template.util.form(csrf = csrf, cssClass = "card-body w-96 mx-auto", action = "/" + room.getId() + "/bookings/new", method = POST, content = @`
         <div class="form-control">
             <label class="label" for="start">
                 <span class="label-text-alt">${context.localize("bookings.start")}</span>
