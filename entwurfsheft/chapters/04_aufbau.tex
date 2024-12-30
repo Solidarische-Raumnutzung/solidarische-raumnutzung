@@ -13,7 +13,7 @@ Die Architektur ist in \textbf{Frontend} und \textbf{Backend} unterteilt und fol
 Das \textbf{Frontend} nutzt \gls{HTML}, \gls{DaisyUI} für das Design und \gls{FullCalendar} in \gls{JavaScript} für die Kalenderfunktionalität.
 Die Kommunikation mit dem Backend erfolgt sicher über \gls{HTTPS}.
 
-Ein \gls{Caddy-Server}, welcher in einem eigenen \gls{Container} läuft, dient als \gls{HTTPS-Reverse-Proxy} und leitet Anfragen an das Backend weiter.
+Ein \gls{Caddy}-Server, welcher in einem eigenen \gls{Container} läuft, dient als \gls{HTTPS-Reverse-Proxy} und leitet Anfragen an das Backend weiter.
 Das \textbf{Backend} basiert auf \gls{Spring Boot} (Java 21) und läuft in einem weiteren \gls{Container}.
 Dort prüft ein \textbf{Authentication Filter} die Anfragen, die danach von einem \gls{Controller} verarbeitet werden.
 Mithilfe von \gls{JTE}-Templates werden dynamische HTML-Antworten generiert.
