@@ -136,7 +136,7 @@
                         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                             <!-- Sidebar content here -->
 
-                            <div class="flex flex-row gap-6">
+                            <div class="flex flex-row gap-3">
                                 <li>
                                     <div class="basis-1/4"><a class="avatar placeholder" href="/">
                                             <div class="w-20 rounded-full">
