@@ -223,7 +223,7 @@ public class BookingsServiceImpl implements BookingsService {
     /**
      * Enum representing the types of conflicts that can occur between bookings.
      */
-    public enum ConflictType {
+    private enum ConflictType {
         /**
          * Indicates that the new booking overrides the existing booking.
          */
