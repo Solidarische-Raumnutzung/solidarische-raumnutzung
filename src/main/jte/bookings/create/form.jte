@@ -85,6 +85,12 @@
                 </div>
             @endfor
         </div>
+        <div class="divider"></div>
+        <div class="tooltip text-left" data-tip="${context.localize("bookings.who_can_see_answer")}">
+            <span class="label-text">${context.localize("bookings.who_can_see")}</span>
+            <i class="fa-solid fa-info"></i>
+        </div>
+
         <div class="form-control mt-6">
             <input type="submit" class="btn btn-primary" value="OK">
         </div>
