@@ -11,7 +11,7 @@
 \end{figure}
 Die Architektur ist in \textit{Frontend} und \textit{Backend} unterteilt und folgt der \gls{MVC-Struktur} zur klaren Trennung der Verantwortlichkeitsbereiche.
 Das \textit{Frontend} nutzt \gls{HTML}, \gls{DaisyUI} für das Design und \gls{FullCalendar} in \gls{JavaScript} für die Kalenderfunktionalität.
-Die Kommunikation mit dem Backend erfolgt sicher über \gls{HTTPS}.
+Die Kommunikation mit dem Backend erfolgt über \gls{HTTPS}.
 
 Ein \gls{Caddy}-Server, welcher in einem eigenen \gls{Container} läuft, dient als \gls{HTTPS-Reverse-Proxy} und leitet Anfragen an das Backend weiter.
 Das \textit{Backend} basiert auf \gls{Spring Boot} (Java 21) und läuft in einem weiteren \gls{Container}.
@@ -21,8 +21,7 @@ Die \textit{Businesslogik} liegt in den \gls{Services}, die Anfragen koordiniere
 Die \textit{Repositories} kapseln den SQL-Zugriff und ermöglichen eine saubere, abstrahierte Kommunikation
 mit der \gls{PostgreSQL}-Datenbank in einem separaten \gls{Container}.
 
-Dank \gls{SSR} bietet die Architektur dynamische Inhalte mit hoher Sicherheit, Barrierefreiheit und Rückwärtskompatibilität.
-Der Einsatz gängiger Technologien wie \gls{Docker} sorgt für einfache Bereitstellung und Wartbarkeit.
+Der Einsatz von \gls{Docker} sorgt für eine einfache Bereitstellung und Wartbarkeit der Anwendung.
 \clearpage
 
 \section{Klassendiagramm}
