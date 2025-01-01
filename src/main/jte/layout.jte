@@ -137,11 +137,14 @@
                             <!-- Sidebar content here -->
 
                             <div class="flex flex-row gap-6">
-                                <div class="basis-1/4"><a class="avatar placeholder" href="/">
-                                        <div class="w-20 rounded-full">
-                                            <img src="/favicon.svg">
-                                        </div>
-                                    </a></div>
+                                <li>
+                                    <div class="basis-1/4"><a class="avatar placeholder" href="/">
+                                            <div class="w-20 rounded-full">
+                                                <img src="/favicon.svg">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
                                 <div class="basis-1/4">
                                     <div class="relative h-20 w-20">
                                         <div class="absolute inset-x-0 bottom-0 h-16">
