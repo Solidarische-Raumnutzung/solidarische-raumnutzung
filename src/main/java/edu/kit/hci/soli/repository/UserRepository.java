@@ -2,6 +2,8 @@ package edu.kit.hci.soli.repository;
 
 import edu.kit.hci.soli.domain.User;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return a list of users excluding the admin user
      */
     @Query("SELECT u FROM User u WHERE u.userId != 'admin'")
-    List<User> findAllWithoutAdmin();
+    Page<User> findAllWithoutAdmin(Pageable pageable);
 
     /**
      * Finds a user by their (external) user ID.

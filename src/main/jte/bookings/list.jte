@@ -3,6 +3,7 @@
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
+@import org.springframework.data.domain.Page
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.util.List
@@ -11,7 +12,7 @@
 @param LoginStateModel login
 @param CsrfToken csrf
 @param Room room
-@param List<Booking> bookings
+@param Page<Booking> bookings
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
     <div class="overflow-x-auto">
@@ -35,7 +36,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for(Booking booking : bookings)
+                @for(Booking booking : bookings.getContent())
                     <tr>
                         <td>${booking.getId()} ${booking.getOpenRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOpenRequests().size())}</td>
                         <td>${booking.getDescription()}</td>
@@ -55,6 +56,22 @@
                 @endfor
                 </tbody>
             </table>
+            <div>
+                <div class="join grid grid-cols-3 mt-4 ">
+                    @if(bookings.hasPrevious())
+                        <a class="join-item btn btn-outline"
+                                    href="/${room.getId()}/bookings?page=${bookings.getNumber() - 1}&size=${bookings.getSize()}">${context.localize("pagination.previous")}</a>
+                        @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.previous")}</span>
+                    @endif
+                    <span class="join-item btn btn-outline">${context.localize("pagination.page")} ${bookings.getNumber() + 1} ${context.localize("pagination.of")} ${bookings.getTotalPages()}</span>
+                    @if(bookings.hasNext())
+                        <a class="join-item btn btn-outline"
+                           href="/${room.getId()}/bookings?page=${bookings.getNumber() + 1}&size=${bookings.getSize()}">${context.localize("pagination.next")}</a>
+                        @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.next")}</span>
+                    @endif
+                </div>
+
+            </div>
         @endif
     </div>
 `)

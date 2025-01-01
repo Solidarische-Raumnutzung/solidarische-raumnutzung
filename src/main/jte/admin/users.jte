@@ -2,6 +2,7 @@
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
+@import org.springframework.data.domain.Page
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.util.List
@@ -11,7 +12,7 @@
 @param LoginStateModel login
 @param CsrfToken csrf
 
-@param List<User> users
+@param Page<User> users
 @param boolean guestsEnabled
 
 @template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
@@ -46,7 +47,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for (User user : users)
+                @for (User user : users.getContent())
                     <tr>
                         <td>${user.getId()}</td>
                         <td>${user.getUsername()}</td>
@@ -69,6 +70,22 @@
                 @endfor
                 </tbody>
             </table>
+            <div>
+                <div class="join grid grid-cols-3 mt-4 ">
+                    @if(users.hasPrevious())
+                        <a class="join-item btn btn-outline"
+                           href="/admin/users?page=${users.getNumber() - 1}&size=${users.getSize()}">${context.localize("pagination.previous")}</a>
+                    @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.previous")}</span>
+                    @endif
+                    <span class="join-item btn btn-outline">${context.localize("pagination.page")} ${users.getNumber() + 1} ${context.localize("pagination.of")} ${users.getTotalPages()}</span>
+                    @if(users.hasNext())
+                        <a class="join-item btn btn-outline"
+                           href="/admin/users?page=${users.getNumber() + 1}&size=${users.getSize()}">${context.localize("pagination.next")}</a>
+                    @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.next")}</span>
+                    @endif
+                </div>
+
+            </div>
         @endif
     </div>
 `)

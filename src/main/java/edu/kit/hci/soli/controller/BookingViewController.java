@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -96,7 +97,8 @@ public class BookingViewController {
 
     /**
      * Displays the bookings for a specific room.
-     *
+     * @param page      the page number
+     * @param size      the number of items per page
      * @param model     the model to be used in the view
      * @param response  the HTTP response
      * @param principal the authenticated user details
@@ -104,7 +106,11 @@ public class BookingViewController {
      * @return the view name
      */
     @GetMapping("/{roomId:\\d+}/bookings")
-    public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
+    public String roomBookings(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               Model model,
+                               HttpServletResponse response,
+                               @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
@@ -113,7 +119,7 @@ public class BookingViewController {
             return "error/known";
         }
         model.addAttribute("room", room.get());
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room.get()));
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room.get(), page, size));
 
         return "bookings/list";
     }
