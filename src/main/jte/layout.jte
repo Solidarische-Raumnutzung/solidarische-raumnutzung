@@ -138,7 +138,7 @@
 
                             <div class="flex flex-row gap-3">
                                 <li>
-                                    <div class="basis-1/4"><a class="avatar placeholder" href="/">
+                                    <div class="basis-1/4"><a alt="main" class="avatar placeholder" href="/">
                                             <div class="w-20 rounded-full">
                                                 <img src="/favicon.svg">
                                             </div>
