@@ -9,7 +9,7 @@ Zur Bearbeitung der überprüften Anfragen werden die Services des Service-Layer
 Da einige Endpunkte eine Anmeldung benötigen, werden unangemeldete Nutzende, welche versuchen, mit einem solchen Endpunkt zu interagieren, automatisch auf die Anmeldeseite weitergeleitet.
 Das Controller-Layer bietet zur Interaktion durch Nutzer die folgenden Endpunkte, welche die \gls{HTTP}-Oberfläche der Anwendung kapseln und die im Pflichtenheft beschriebenen Ansichten modellieren.
 
-Für die Ansicht \textit{Kalender} (implementiert in \hyperref[edu.kit.hci.soli.controller.CalendarController]{\texttt{CalendarController}}) werden folgende Endpunkte bereitgestellt:
+Für die Ansicht \textit{Kalender} (siehe \hyperref[edu.kit.hci.soli.controller.CalendarController]{\texttt{CalendarController}}) werden folgende Endpunkte bereitgestellt:
 \begin{itemize}
     \item \texttt{GET /} gibt alle Buchungen für den Standardraum mit der fixierten ID \texttt{1} zurück.
     \item \texttt{GET /\{roomId\}} gibt die Kalenderansicht für den Raum mit der ID \texttt{roomId} zurück.
@@ -20,7 +20,7 @@ Für die Ansicht \textit{Kalender} (implementiert in \hyperref[edu.kit.hci.soli.
           Da es sich bei diesem Endpunkt um einen \gls{REST}-Endpunkt handelt, ist er separat in \hyperref[edu.kit.hci.soli.controller.EventFeedController]{\texttt{EventFeedController}} implementiert.
 \end{itemize}
 
-Für die Ansichten \textit{Termin} und \textit{Terminübersicht} (implementiert in \hyperref[edu.kit.hci.soli.controller.BookingViewController]{\texttt{BookingViewController}}) werden folgende Endpunkte bereitgestellt:
+Für die Ansichten \textit{Termin} und \textit{Terminübersicht} (siehe \hyperref[edu.kit.hci.soli.controller.BookingViewController]{\texttt{BookingViewController}}) werden folgende Endpunkte bereitgestellt:
 \begin{itemize}
     \item \texttt{GET /\{roomId\}/bookings} gibt die Terminübersicht des angemeldeten Nutzers für den Raum mit der ID \texttt{roomId} zurück.
     \item \texttt{GET /\{roomId\}/bookings/\{eventId\}} gibt die Ansicht \textit{Termin} für den Termin \texttt{eventId} zurück.
@@ -29,7 +29,7 @@ Für die Ansichten \textit{Termin} und \textit{Terminübersicht} (implementiert 
     \item \texttt{DELETE /\{roomId\}/bookings/\{eventId\}} löscht den Termin \texttt{eventId} und leitet Nutzende auf die Terminübersicht weiter.
 \end{itemize}
 
-Für die Ansicht \textit{Termin-Erstellen} (implementiert in \hyperref[edu.kit.hci.soli.controller.BookingCreateController]{\texttt{BookingCreateController}}) werden folgende Endpunkte bereitgestellt:
+Für die Ansicht \textit{Termin-Erstellen} (siehe \hyperref[edu.kit.hci.soli.controller.BookingCreateController]{\texttt{BookingCreateController}}) werden folgende Endpunkte bereitgestellt:
 \begin{itemize}
     \item \texttt{GET /\{roomId\}/bookings/new} gibt das Formular (implementiert als \gls{HTML-Form}) zur Erstellung eines neuen Termins für den Raum mit der ID \texttt{roomId} zurück.
     \item \texttt{POST /\{roomId\}/bookings/new} erstellt einen neuen Termin für den Raum mit der ID \texttt{roomId} und leitet Nutzende auf die Ansicht \textit{Termin} weiter.
@@ -43,7 +43,7 @@ Für die Ansicht \textit{Termin-Erstellen} (implementiert in \hyperref[edu.kit.h
           War unter den Konflikten ein Termin, welcher durch die Erstellung gelöscht wurde, wird entsprechend eine E-Mail an die betroffenen Nutzenden versendet.
 \end{itemize}
 
-Für die Ansicht \textit{Login} (implementiert in \hyperref[edu.kit.hci.soli.controller.LoginController]{\texttt{LoginController}}) werden folgende Endpunkte bereitgestellt:
+Für die Ansicht \textit{Login} (siehe \hyperref[edu.kit.hci.soli.controller.LoginController]{\texttt{LoginController}}) werden folgende Endpunkte bereitgestellt:
 \begin{itemize}
     \item \texttt{GET /login} gibt das Formular zur Anmeldung zurück. Die Anmeldung kann mit einem eingebetteten Formular als Administrator oder mit einem Link als Gast oder über \gls{OIDC} erfolgen.
           Für die Anmeldung als Administrator wird eine \gls{HTML-Form} genutzt, welche die Eingabe eines Passworts fordert.
@@ -54,7 +54,7 @@ Für die Ansicht \textit{Login} (implementiert in \hyperref[edu.kit.hci.soli.con
           Auf diesen Endpunkt werden Nutzende bei Bestätigung einer \gls{OIDC}-Anmeldung durch den OIDC-Server weitergeleitet.
 \end{itemize}
 
-Für die Ansicht \textit{Kontoliste} (implementiert in \hyperref[edu.kit.hci.soli.controller.UsersController]{\texttt{UsersController}}) werden folgende Endpunkte bereitgestellt:
+Für die Ansicht \textit{Kontoliste} (siehe \hyperref[edu.kit.hci.soli.controller.UsersController]{\texttt{UsersController}}) werden folgende Endpunkte bereitgestellt:
 \begin{itemize}
     \item \texttt{GET /admin/users} gibt die Kontoliste aller Nutzenden zurück. Das Administrationskonto wird dabei nicht angezeigt.
           Für jedes Konto wird ein Link zur Deaktivierung als \gls{HTML-Form} eingebettet (dies erlaubt die Nutzung von \texttt{PUT}-Anfragen).
@@ -67,7 +67,7 @@ Für die Ansicht \textit{Kontoliste} (implementiert in \hyperref[edu.kit.hci.sol
     \item \texttt{PUT /admin/users/enable-guests} reaktiviert den Login durch Gastkonten und leitet Nutzende auf die Kontoliste weiter.
 \end{itemize}
 
-Außerdem werden folgende allgemeine Endpunkte (implementiert in \hyperref[edu.kit.hci.soli.controller.MainController]{\texttt{MainController}}) bereitgestellt:
+Außerdem werden folgende allgemeine Endpunkte (siehe \hyperref[edu.kit.hci.soli.controller.MainController]{\texttt{MainController}}) bereitgestellt:
 \begin{itemize}
     \item \texttt{GET /error} gibt eine Fehlerseite zurück. Dieser Endpunkt wird von Spring automatisch aufgerufen, wenn ein Fehler auftritt.
     \item \texttt{GET /disabled} gibt eine Seite zurück, die Nutzende darüber informiert, dass ihr Konto deaktiviert wurde.
