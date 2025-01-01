@@ -156,11 +156,8 @@
                                     <div class="relative h-20 w-20">
                                         <div class="absolute inset-x-0 bottom-0 h-16">
                                             @if(login.kind() == LoginStateModel.Kind.VISITOR)
-                                                <a href="/login">
-                                                    <button alt="${context.localize("login.login")}"
-                                                            class="btn btn-outline btn-primary">
-                                                        <i class="fa-solid fa-right-to-bracket"></i>
-                                                    </button>
+                                                <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
+                                                    <i class="fa-solid fa-right-to-bracket"></i>
                                                 </a>
                                             @else
                                                 <form action="/logout"
@@ -174,15 +171,11 @@
                                                     </button>
 
                                                 </form>
-
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-
 
                             @if(login.kind() == LoginStateModel.Kind.ADMIN)
                                 <div class="divider"></div>
@@ -202,7 +195,6 @@
                                 <li><a class="btn btn-outline btn-primary"
                                        href="/${room.getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                             @endif
-
                         </ul>
                     </div>
                 </div>
