@@ -110,18 +110,18 @@ public class BookingsServiceImpl implements BookingsService {
                 case BookingAttemptResult.PossibleCooperation.Deferred(var override, var contact, var cooperate) -> {
                     Set<User> openRequests = contact.stream().map(Booking::getUser).collect(Collectors.toSet());
                     booking.setOpenRequests(openRequests);
+                    booking = bookingsRepository.save(booking);
                     for (User request : openRequests) {
                         emailService.sendMail(
                                 request,
                                 "bookings.collaboration",
                                 "mail/collaboration_request",
                                 Map.of(
-                                        "booking", booking,
-                                        "request", request
+                                        "booking", booking
                                 )
                         );
                     }
-                    yield new BookingAttemptResult.Staged(bookingsRepository.save(booking));
+                    yield new BookingAttemptResult.Staged(booking);
                 }
             };
         }
