@@ -86,10 +86,7 @@
             @endfor
         </div>
         <div class="divider"></div>
-        <div class="tooltip text-left" data-tip="${context.localize("bookings.who_can_see_answer")}">
-            <span class="label-text">${context.localize("bookings.who_can_see")}</span>
-            <i class="fa-solid fa-info"></i>
-        </div>
+        <p class="text-gray-500 text-sm">${context.localize("bookings.who_can_see_answer")}</p>
 
         <div class="form-control mt-6">
             <input type="submit" class="btn btn-primary" value="OK">
