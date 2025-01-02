@@ -71,20 +71,7 @@
                 </tbody>
             </table>
             <div>
-                <div class="join grid grid-cols-3 mt-4 ">
-                    @if(users.hasPrevious())
-                        <a class="join-item btn btn-outline"
-                           href="/admin/users?page=${users.getNumber() - 1}&size=${users.getSize()}">${context.localize("pagination.previous")}</a>
-                    @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.previous")}</span>
-                    @endif
-                    <span class="join-item btn btn-outline">${context.localize("pagination.page")} ${users.getNumber() + 1} ${context.localize("pagination.of")} ${users.getTotalPages()}</span>
-                    @if(users.hasNext())
-                        <a class="join-item btn btn-outline"
-                           href="/admin/users?page=${users.getNumber() + 1}&size=${users.getSize()}">${context.localize("pagination.next")}</a>
-                    @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.next")}</span>
-                    @endif
-                </div>
-
+                @template.util.pagination(context = context, content = users, baseUrl = "/admin/users")
             </div>
         @endif
     </div>

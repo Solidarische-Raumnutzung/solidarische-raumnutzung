@@ -9,6 +9,7 @@ import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,9 @@ public class BookingViewController {
     private final BookingsService bookingsService;
     private final RoomService roomService;
     private final UserService userService;
+
+    @Value("${soli.pagination.max-size}")
+    private int maxPaginationSize;
 
     /**
      * Constructs a BookingViewController with the specified services.
@@ -112,6 +116,11 @@ public class BookingViewController {
                                HttpServletResponse response,
                                @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
+
+        if (size > maxPaginationSize) {
+            size = maxPaginationSize;
+        }
+
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

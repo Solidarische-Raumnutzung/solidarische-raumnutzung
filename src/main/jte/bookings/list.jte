@@ -57,20 +57,7 @@
                 </tbody>
             </table>
             <div>
-                <div class="join grid grid-cols-3 mt-4 ">
-                    @if(bookings.hasPrevious())
-                        <a class="join-item btn btn-outline"
-                                    href="/${room.getId()}/bookings?page=${bookings.getNumber() - 1}&size=${bookings.getSize()}">${context.localize("pagination.previous")}</a>
-                        @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.previous")}</span>
-                    @endif
-                    <span class="join-item btn btn-outline">${context.localize("pagination.page")} ${bookings.getNumber() + 1} ${context.localize("pagination.of")} ${bookings.getTotalPages()}</span>
-                    @if(bookings.hasNext())
-                        <a class="join-item btn btn-outline"
-                           href="/${room.getId()}/bookings?page=${bookings.getNumber() + 1}&size=${bookings.getSize()}">${context.localize("pagination.next")}</a>
-                        @else <span class="join-item btn btn-outline btn-disabled">${context.localize("pagination.next")}</span>
-                    @endif
-                </div>
-
+                @template.util.pagination(context = context, content = bookings, baseUrl = "/" + room.getId() + "/bookings")
             </div>
         @endif
     </div>

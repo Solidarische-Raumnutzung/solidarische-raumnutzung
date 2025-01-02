@@ -7,6 +7,7 @@ import edu.kit.hci.soli.service.SystemConfigurationService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
     private final UserService userService;
     private final SystemConfigurationService systemConfigurationService;
+
+    @Value("${soli.pagination.max-size}")
+    private int maxPaginationSize;
 
     /**
      * Constructs a UsersController with the specified {@link UserService}.
@@ -145,6 +149,10 @@ public class UsersController {
             Model model,
             HttpServletResponse response,
             @AuthenticationPrincipal SoliUserDetails principal) {
+
+        if (size > maxPaginationSize) {
+            size = maxPaginationSize;
+        }
 
         log.info("User {} requested the users page", principal.getUser());
         model.addAttribute("users", userService.getManageableUsers(page, size));
