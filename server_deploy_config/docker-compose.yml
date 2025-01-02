@@ -12,6 +12,7 @@ services:
       - .m2:/root/.m2
     environment:
       SOLI_ADMINISTRATOR_PASSWORD: "{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW"
+      SOLI_HOSTNAME: "http://localhost:8080"
       KIT_CLIENT_ID: ""
       KIT_CLIENT_SECRET: ""
       KIT_MAIL_USERNAME: ""

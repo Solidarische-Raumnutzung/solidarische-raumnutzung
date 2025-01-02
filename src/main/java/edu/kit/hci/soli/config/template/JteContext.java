@@ -9,10 +9,12 @@ import java.util.Locale;
 
 public class JteContext implements LocalizationSupport {
     private final MessageSource messageSource;
+    @Getter private final String hostname;
     @Getter private final Locale locale;
 
-    public JteContext(MessageSource messageSource, Locale locale) {
+    public JteContext(MessageSource messageSource, String hostname, Locale locale) {
         this.messageSource = messageSource;
+        this.hostname = hostname;
         this.locale = locale;
     }
 

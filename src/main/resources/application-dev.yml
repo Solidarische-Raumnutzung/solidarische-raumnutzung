@@ -9,3 +9,4 @@ soli:
     password: "{noop}password"
   guest:
     marker: "guest"
+  hostname: "http://localhost:8080"

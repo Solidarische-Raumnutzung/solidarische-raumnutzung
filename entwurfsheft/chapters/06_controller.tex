@@ -44,6 +44,13 @@ Für die Ansicht \textit{Termin-Erstellen} (siehe \hyperref[edu.kit.hci.soli.con
           War unter den Konflikten ein Termin, welcher durch die Erstellung gelöscht wurde, wird entsprechend eine E-Mail an die betroffenen Nutzenden versendet.
 \end{itemize}
 
+Zum akzeptieren von Kollaborationen (siehe \hyperref[edu.kit.hci.soli.controller.CollaborationRequestController]{\texttt{CollaborationRequestController}}) werden folgende Endpunkte bereitgestellt:
+\begin{itemize}
+    \item \texttt{GET /\{roomId\}/bookings/\{eventId\}/collaboration} gibt das Formular zur Bestätigung einer Kollaboration für den Termin \texttt{eventId} zurück.
+    \item \texttt{PUT /\{roomId\}/bookings/\{eventId\}/collaboration} akzeptiert die Kollaboration für den Termin \texttt{eventId} und leitet Nutzende auf die Ansicht \textit{Termin} weiter.
+    \item \texttt{DELETE /\{roomId\}/bookings/\{eventId\}/collaboration} lehnt die Kollaboration für den Termin \texttt{eventId} ab und leitet Nutzende auf die Ansicht \textit{Terminübersicht} weiter.
+\end{itemize}
+
 Für die Ansicht \textit{Login} (siehe \hyperref[edu.kit.hci.soli.controller.LoginController]{\texttt{LoginController}}) werden folgende Endpunkte bereitgestellt:
 \begin{itemize}
     \item \texttt{GET /login} gibt das Formular zur Anmeldung zurück. Die Anmeldung kann mit einem eingebetteten Formular als Administrator oder mit einem Link als Gast oder über \gls{OIDC} erfolgen.
