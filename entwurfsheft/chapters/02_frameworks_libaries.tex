@@ -1,8 +1,21 @@
 \chapter{Frameworks und Libaries}
 \label{ch:frameworks_libaries}
 
-Für das Produkt \textit{Soli} werden unterschiedliche Frameworks und Libraries verwendet, um die Entwicklung zu erleichtern und die Qualität des Codes zu erhöhen. In diesem Kapitel werden die wichtigsten dieser Tools vorgestellt.
-Im Backend wird das Spring Framework verwendet. Dabei kommen die Module: Spring Boot JPA, PostgreSQL, Flyway, Spring Boot Mail, Spring Boot OAuth2 Client, Spring Boot Web und Spring Boot Security zum Einsatz. Außerdem werden statische \gls{HTML}-Seiten mit der Java Template Engine (JTE) generiert. Im Frontend wird das \gls{CSS}-Framework und die JavaScript-Bibliothek \gls{FullCalendar} verwendet.
-Zum Testen der Anwendung wird JUnit, Mockito und Testcontainers verwendet.
-Für die Build-Automatisierung wird Gradle verwendet.
-Zudem wird Docker verwendet, um die Anwendung in einem Container zu betreiben.
+Für das Produkt \textit{Soli} werden unterschiedliche Frameworks und Libraries verwendet, um die Entwicklung zu erleichtern und die Qualität des Codes zu erhöhen.
+
+Im Backend wird das \gls{Spring Boot} Framework verwendet.
+Zur Datenpersistenz wird \gls{PostgreSQL} über HikariCP mittels \gls{SpringData} JPA verwendet.
+Migrationen werden mit \gls{Flyway} durchgeführt.
+Zum Verschicken von E-Mails wird Spring Boot Mail verwendet.
+Die Authentifizierung und Sicherheit wird mit Spring Boot Security realisiert, der KIT-Login wird mit dem OAuth2-Client von Spring Boot realisiert.
+Außerdem werden statische \gls{HTML}-Seiten mit der Java Template Engine (JTE) generiert.
+
+Im Frontend wird das \gls{CSS}-Framework \gls{DaisyUI} in Kombination mit TailwindCSS zur Gestaltung der Oberfläche verwendet.
+Zur Umsetzung eines gut integrierten und geprüften Kalenders wird die \gls{JavaScript}-Bibliothek \gls{FullCalendar} verwendet.
+
+Zum Testen der Anwendung wird \gls{JUnit} eingesetzt.
+Zum Mocken von Objekten wird \gls{Mockito} verwendet.
+
+Als Werkzeug zur Build-Automatisierung wird \gls{Gradle} verwendet.
+
+Zudem wird \gls{Docker} verwendet, um die Anwendung und ihre Abhängigkeiten in \gls{Container}n zu betreiben.
