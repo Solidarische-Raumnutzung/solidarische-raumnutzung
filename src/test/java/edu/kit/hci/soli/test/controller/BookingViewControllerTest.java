@@ -129,13 +129,18 @@ public class BookingViewControllerTest {
         booking.setRoom(room);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
         when(bookingsService.getBookingById(1L)).thenReturn(booking);
+        User admin = new User();
+        admin.setId(1L);
+        when(userService.resolveAdminUser()).thenReturn(admin);
         User user = new User();
+        user.setId(2L);
+        booking.setUser(user);
         when(principal.getUser()).thenReturn(user);
 
         String view = bookingViewController.viewEvent(model, response, principal, 1L, 1L);
 
         verify(model).addAttribute("room", room);
         verify(model).addAttribute("booking", booking);
-        assertEquals("bookings/single", view);
+        assertEquals("bookings/single_page", view);
     }
 }

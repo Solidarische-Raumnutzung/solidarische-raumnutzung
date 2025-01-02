@@ -4,7 +4,6 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.KnownError;
-import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
@@ -77,7 +76,7 @@ public class BookingViewController {
 
         User admin = userService.resolveAdminUser();
 
-        if (booking.getUser().equals(principal.getUser())) {
+        if (Objects.equals(booking.getUser(), principal.getUser())) {
             bookingsService.delete(booking, BookingDeleteReason.SELF);
             log.info("User deleted booking {}", eventId);
             return "redirect:/" + booking.getRoom().getId() + "/bookings";
@@ -151,7 +150,7 @@ public class BookingViewController {
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
                 ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
-                        && !booking.getUser().equals(principal.getUser())
+                        && !Objects.equals(booking.getUser(), principal.getUser())
                         && booking.getStartDate().isBefore(bookingsService.minimumTime())
         );
 
@@ -159,7 +158,7 @@ public class BookingViewController {
 
         model.addAttribute("showDeleteButton",
                 admin.equals(principal.getUser())
-                        || booking.getUser().equals(principal.getUser())
+                        || Objects.equals(booking.getUser(), principal.getUser())
         );
 
         return "bookings/single_page";
