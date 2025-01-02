@@ -58,8 +58,8 @@ dependencies {
     implementation("gg.jte:jte:3.1.15")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
-    annotationProcessor("org.projectlombok:lombok")
-    compileOnly("org.projectlombok:lombok")
+    testAnnotationProcessor(annotationProcessor("org.projectlombok:lombok")!!)
+    testCompileOnly(compileOnly("org.projectlombok:lombok")!!)
 
     compileOnly("org.jetbrains:annotations:26.0.1")
 

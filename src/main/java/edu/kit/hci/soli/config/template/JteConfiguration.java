@@ -1,11 +1,11 @@
 package edu.kit.hci.soli.config.template;
 
 import edu.kit.hci.soli.SoliApplication;
+import edu.kit.hci.soli.config.SoliConfiguration;
 import gg.jte.CodeResolver;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.DirectoryCodeResolver;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -16,18 +16,13 @@ import java.nio.file.Paths;
 @Configuration
 public class JteConfiguration {
     @Bean
-    public ViewResolver jteViewResolve(TemplateEngine templateEngine) {
-        return new JteViewResolver(templateEngine);
+    public ViewResolver jteViewResolve(TemplateEngine templateEngine, SoliConfiguration soliConfiguration) {
+        return new JteViewResolver(templateEngine, soliConfiguration.getHostname());
     }
 
-    @Value("${spring.profiles.active}")
-    private String profile;
-
     @Bean
-    public TemplateEngine templateEngine() {
-        if ("prod".equals(profile)) {
-            return TemplateEngine.createPrecompiled(ContentType.Html);
-        } else {
+    public TemplateEngine templateEngine(SoliConfiguration soliConfiguration) {
+        if (soliConfiguration.isDevelopmentMode()) {
             CodeResolver codeResolver = new DirectoryCodeResolver(Path.of("src", "main", "jte"));
             TemplateEngine templateEngine = TemplateEngine.create(
                     codeResolver,
@@ -37,6 +32,8 @@ public class JteConfiguration {
             );
             templateEngine.setBinaryStaticContent(true);
             return templateEngine;
+        } else {
+            return TemplateEngine.createPrecompiled(ContentType.Html);
         }
     }
 }

@@ -30,7 +30,7 @@
         @if (users.isEmpty())
             <div class="card">
                 <div class="card-body">
-                    <p class="text-center">${context.localize("disabled.user.no_users_in_db")}</p>
+                    <p class="text-center">${context.localize("administration.user.empty")}</p>
                 </div>
             </div>
         @else

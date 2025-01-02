@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -113,8 +111,20 @@ public class BookingsServiceImpl implements BookingsService {
                     yield new BookingAttemptResult.Success(bookingsRepository.save(booking));
                 }
                 case BookingAttemptResult.PossibleCooperation.Deferred(var override, var contact, var cooperate) -> {
-                    booking.setOpenRequests(contact.stream().map(Booking::getUser).collect(Collectors.toSet()));
-                    yield new BookingAttemptResult.Staged(bookingsRepository.save(booking));
+                    Set<User> openRequests = contact.stream().map(Booking::getUser).collect(Collectors.toSet());
+                    booking.setOpenRequests(openRequests);
+                    booking = bookingsRepository.save(booking);
+                    for (User request : openRequests) {
+                        emailService.sendMail(
+                                request,
+                                "bookings.collaboration",
+                                "mail/collaboration_request",
+                                Map.of(
+                                        "booking", booking
+                                )
+                        );
+                    }
+                    yield new BookingAttemptResult.Staged(booking);
                 }
             };
         }
@@ -123,29 +133,26 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Override
     public Booking getBookingById(Long id) {
-        return bookingsRepository.findById(id).orElse(null);
+        return id == null ? null : bookingsRepository.findById(id).orElse(null);
     }
 
     @Override
     public void delete(Booking booking, BookingDeleteReason reason) {
         bookingsRepository.delete(booking);
-        if (booking.getUser().getEmail() != null) {
-            emailService.sendMail(
-                    booking.getUser(),
-                    "mail.booking_deleted.subject",
-                    "mail/booking_deleted",
-                    Map.of(
-                            "booking", booking,
-                            "reason", reason
-                    )
-            );
-        }
+        emailService.sendMail(
+                booking.getUser(),
+                "mail.booking_deleted.subject",
+                "mail/booking_deleted",
+                Map.of(
+                        "booking", booking,
+                        "reason", reason
+                )
+        );
     }
 
     @Transactional
     @Override
     public boolean confirmRequest(Booking stagedBooking, User user) {
-        //TODO make this available in a controller and send the URL via E-Mail
         boolean result = stagedBooking.getOpenRequests().remove(user);
         bookingsRepository.save(stagedBooking);
         if (stagedBooking.getOpenRequests().isEmpty()) {
@@ -164,7 +171,6 @@ public class BookingsServiceImpl implements BookingsService {
     @Transactional
     @Override
     public boolean denyRequest(Booking stagedBooking, User user) {
-        //TODO make this available in a controller and send the URL via E-Mail
         if (stagedBooking.getOpenRequests().remove(user)) {
             bookingsRepository.delete(stagedBooking);
             return true;

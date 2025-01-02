@@ -17,7 +17,7 @@
             <details class="collapse collapse-plus bg-base-200">
                 <summary class="collapse-title font-medium">${context.localize("error.unknown.details")}</summary>
                 <div class="collapse-content">
-                    ${context.localize("disable.user.disable.message")}
+                    ${context.localize("user.deactivated.message")}
                 </div>
             </details>
             <a class="btn btn-primary" href="/">${context.localize("index.go")}</a>

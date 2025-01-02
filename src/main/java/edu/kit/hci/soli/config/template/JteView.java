@@ -13,11 +13,12 @@ import java.util.Locale;
 import java.util.Map;
 
 public class JteView extends AbstractTemplateView {
-
     private final TemplateEngine templateEngine;
+    private final String hostname;
 
-    public JteView(TemplateEngine templateEngine) {
+    public JteView(TemplateEngine templateEngine, String hostname) {
         this.templateEngine = templateEngine;
+        this.hostname = hostname;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class JteView extends AbstractTemplateView {
         String url = this.getUrl();
 
         RequestContext context = new RequestContext(request, response, getServletContext(), model);
-        model.put("context", new JteContext(context.getMessageSource(), context.getLocale()));
+        model.put("context", new JteContext(context.getMessageSource(), hostname, context.getLocale()));
 
         Utf8ByteOutput output = new Utf8ByteOutput();
         templateEngine.render(url, model, output);

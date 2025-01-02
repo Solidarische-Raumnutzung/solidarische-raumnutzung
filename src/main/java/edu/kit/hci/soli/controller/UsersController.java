@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.KnownError;
@@ -21,18 +22,19 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
     private final UserService userService;
     private final SystemConfigurationService systemConfigurationService;
-
-    @Value("${soli.pagination.max-size}")
-    private int maxPaginationSize;
+    private final int maxPaginationSize;
 
     /**
      * Constructs a UsersController with the specified {@link UserService}.
      *
-     * @param userService the service for managing users
+     * @param userService                the service for managing users
+     * @param systemConfigurationService the service for managing the system configuration
+     * @param soliConfiguration          the configuration of the application
      */
-    public UsersController(UserService userService, SystemConfigurationService systemConfigurationService) {
+    public UsersController(UserService userService, SystemConfigurationService systemConfigurationService, SoliConfiguration soliConfiguration) {
         this.userService = userService;
         this.systemConfigurationService = systemConfigurationService;
+        this.maxPaginationSize = soliConfiguration.getPagination().getMaxSize();
     }
 
     @GetMapping("/admin/users/{userId}/deactivate")
