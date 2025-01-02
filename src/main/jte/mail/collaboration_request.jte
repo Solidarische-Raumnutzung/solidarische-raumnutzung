@@ -9,6 +9,6 @@
     Dear ${booking.getUser().getUsername()},
 </p>
 <p>${context.localize("bookings.collaboration.message")}</p>
-<a href="${context.getHostname()}/${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
+<a href="${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
     <p>${context.localize("bookings.collaboration.more_details")}</p>
 </a>

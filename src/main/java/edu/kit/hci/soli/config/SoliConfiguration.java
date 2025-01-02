@@ -15,6 +15,10 @@ public class SoliConfiguration {
     private Guest guest = new Guest();
     private Pagination pagination = new Pagination();
 
+    public String getHostname() {
+        return hostname.endsWith("/") ? hostname : hostname + "/";
+    }
+
     @Data @NoArgsConstructor
     public static class Administrator {
         private String password;
