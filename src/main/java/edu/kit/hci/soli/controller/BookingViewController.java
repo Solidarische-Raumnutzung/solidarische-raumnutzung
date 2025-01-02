@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
@@ -30,21 +31,21 @@ public class BookingViewController {
     private final BookingsService bookingsService;
     private final RoomService roomService;
     private final UserService userService;
-
-    @Value("${soli.pagination.max-size}")
-    private int maxPaginationSize;
+    private final int maxPaginationSize;
 
     /**
      * Constructs a BookingViewController with the specified services.
      *
-     * @param bookingsService the service for managing bookings
-     * @param roomService     the service for managing rooms
-     * @param userService     the service for managing users
+     * @param bookingsService   the service for managing bookings
+     * @param roomService       the service for managing rooms
+     * @param userService       the service for managing users
+     * @param soliConfiguration the configuration of the application
      */
-    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService) {
+    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService, SoliConfiguration soliConfiguration) {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
         this.userService = userService;
+        this.maxPaginationSize = soliConfiguration.getPagination().getMaxSize();
     }
 
     /**

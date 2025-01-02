@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.test.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.controller.BookingViewController;
 import edu.kit.hci.soli.domain.Booking;
@@ -35,7 +36,7 @@ public class BookingViewControllerTest {
         bookingsService = mock(BookingsService.class);
         roomService = mock(RoomService.class);
         userService = mock(UserService.class);
-        bookingViewController = new BookingViewController(bookingsService, roomService, userService);
+        bookingViewController = new BookingViewController(bookingsService, roomService, userService, new SoliConfiguration());
         model = mock(Model.class);
         response = mock(HttpServletResponse.class);
         principal = mock(SoliUserDetails.class);
