@@ -130,7 +130,7 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Override
     public Booking getBookingById(Long id) {
-        return bookingsRepository.findById(id).orElse(null);
+        return id == null ? null : bookingsRepository.findById(id).orElse(null);
     }
 
     @Override
