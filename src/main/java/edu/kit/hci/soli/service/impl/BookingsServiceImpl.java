@@ -44,7 +44,7 @@ public class BookingsServiceImpl implements BookingsService {
      */
     private ConflictType classifyConflict(Booking booking, Booking other) {
         final boolean mayCooperate = !ShareRoomType.NO.equals(booking.getShareRoomType());
-        if (booking.getPriority().compareTo(other.getPriority()) < 0) {
+        if (booking.getPriority().compareTo(other.getPriority()) < 0) { // counterintuitive, but higher priorities come first in the enum
             return mayCooperate && ShareRoomType.YES.equals(other.getShareRoomType()) ? ConflictType.COOPERATE : ConflictType.OVERRIDE;
         } else {
             return mayCooperate ? switch (other.getShareRoomType()) {
@@ -223,7 +223,7 @@ public class BookingsServiceImpl implements BookingsService {
     /**
      * Enum representing the types of conflicts that can occur between bookings.
      */
-    public enum ConflictType {
+    private enum ConflictType {
         /**
          * Indicates that the new booking overrides the existing booking.
          */

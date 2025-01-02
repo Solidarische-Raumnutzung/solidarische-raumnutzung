@@ -26,7 +26,7 @@ Für die Ansichten \textit{Termin} und \textit{Terminübersicht} (siehe \hyperre
     \item \texttt{GET /\{roomId\}/bookings} gibt die Terminübersicht des angemeldeten Nutzers für den Raum mit der ID \texttt{roomId} zurück.
     \item \texttt{GET /\{roomId\}/bookings/\{eventId\}} gibt die Ansicht \textit{Termin} für den Termin \texttt{eventId} zurück.
           Falls ein Administrator oder die Person, welche den Termin erstellte, angemeldet ist, wird eine Option, den Termin zu löschen, als Link eingebettet.
-          Falls der Termin als kollaborativ markiert ist, wird ein link zur Ansicht \textit{Termin-Erstellen} mit den Start- und Endzeiten des angewählten Termins eingebettet.
+          Falls der Termin als kollaborativ markiert ist, wird ein Link zur Ansicht \textit{Termin-Erstellen} mit den Start- und Endzeiten des angewählten Termins eingebettet.
     \item \texttt{DELETE /\{roomId\}/bookings/\{eventId\}} löscht den Termin \texttt{eventId} und leitet Nutzende auf die Terminübersicht weiter.
 \end{itemize}
 

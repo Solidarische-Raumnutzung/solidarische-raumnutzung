@@ -3,6 +3,24 @@
 \chapter{Services}
 \label{ch:services}
 
-\todo{Die Services beschreiben}
+Der Service-Layer koordiniert die Logik der Applikation und stellt diese den Endpunkten, beispielsweise den Controllern, bereit.
+Somit wird auch die Datenverarbeitung von der Verarbeitung der HTTP-Anfragen und Antworten abgekapselt.
+Zur Bearbeitung dieser Aufgaben nutzen die Services den Repository-Layer, welcher die Interaktion mit der Datenbank abstrahiert.
+Vor allem komplexere Aufgaben, wie das Buchen eines Termines, Auflösen eines Terminkonfliktes oder das
+Versenden von E-Mails, werden von den Services behandelt.
+
+Der \textit{Bookings Service} beinhaltet alle Logik für das Verwalten von Terminen: Löschen, Buchen, Koordination der Raumteilung, sowie das Vorbereiten der Termine, welche in der Kalenderansicht zu beobachten sind.
+
+Der \textit{E-Mail Service} ermöglicht das Senden von E-Mails an die in den Konten hinterlegte E-Mail-Adresse.
+Diese wurde je nach Kontotyp von den Nutzenden selber oder vom \gls{OIDC} Provider bereitgestellt.
+
+Der \textit{Room Service} dient zur Auswahl des Raumes, um welchen sich z.B.\ eine Buchung dreht.
+Diese Klasse ermöglicht insbesondere eine einfache Erweiterung der Applikation auf mehrere Räume.
+
+Der \textit{System Configuration Service} dient zur Einstellung der Applikation bereitgestellten Funktionen, so wird hier eingestellt, ob Gastkonten aktiviert sind.
+Wird von einem Admin die Gastkonten funktion deaktiviert, so werden von diesem Service auch die Termine aller betroffenen Konten gelöscht.
+
+Der \textit{User Service} hilft mit dem Umgang der Konten: Das Deaktivieren eines Kontos, überprüfen, ob ein Konto Admin oder Gaststatus besitzt und erstellen sowie Löschen von Konten.
+
 
 \InputIfFileExists{javadoc/edu.kit.hci.soli.service}{}{}

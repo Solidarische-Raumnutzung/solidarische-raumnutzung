@@ -135,45 +135,66 @@
                         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                             <!-- Sidebar content here -->
-                            <a class="avatar placeholder" href="/">
-                                <div class="w-20 rounded-full">
-                                    <img src="/favicon.svg">
+
+                            <div class="flex flex-row gap-3">
+                                <li>
+                                    <div class="basis-1/4"><a alt="main" class="avatar placeholder" href="/">
+                                            <div class="w-20 rounded-full">
+                                                <img src="/favicon.svg">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <div class="basis-1/4">
+                                    <div class="relative h-20 w-20">
+                                        <div class="absolute inset-x-0 bottom-0 h-16">
+                                            <label>Welcome, ${login.name()}</label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </a>
+                                <div class="basis-1/2">
+                                    <div class="relative h-20 w-20">
+                                        <div class="absolute inset-x-0 bottom-0 h-16">
+                                            @if(login.kind() == LoginStateModel.Kind.VISITOR)
+                                                <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
+                                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                                </a>
+                                            @else
+                                                <form action="/logout"
+                                                      method="post">
+                                                    <input type="hidden"
+                                                           name="${login.csrfToken().getParameterName()}"
+                                                           value="${login.csrfToken().getToken()}"/>
 
-                            <label>Welcome, ${login.name()}</label>
+                                                    <button class="btn btn-outline btn-primary" alt="${context.localize("login.logout")}" type="submit">
+                                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                                    </button>
 
-                            <div class="divider"></div>
-
-                            @if(login.kind() == LoginStateModel.Kind.VISITOR)
-                                <li><a href="/login">${context.localize("login.login")}</a></li>
-                            @else
-                                <form action="/logout"
-                                      method="post">
-                                    <input type="hidden"
-                                           name="${login.csrfToken().getParameterName()}"
-                                           value="${login.csrfToken().getToken()}"/>
-                                    <li>
-                                        <button type="submit">${context.localize("login.logout")}</button>
-                                    </li>
-                                </form>
-
-                            @endif
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             @if(login.kind() == LoginStateModel.Kind.ADMIN)
                                 <div class="divider"></div>
-                                <li><a href="/admin/users">${context.localize("administration.user")}</a></li>
+
+                                <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
                             @endif
 
+                            <div class="divider"></div>
+
                             @if (room != null)
-                                <li><a href="/${room.getId()}">${context.localize("calendar")}</a></li>
-                                <li><a href="/${room.getId()}/bookings">${context.localize("bookings.my_bookings")}</a></li>
+                                <li><a href="/${room.getId()}"><i class="fa-solid fa-calendar-days"></i> ${context.localize("calendar")}</a></li>
+                                <li><a href="/${room.getId()}/bookings"><i class="fa-solid fa-list"></i> ${context.localize("bookings.my_bookings")}</a>
+                                </li>
 
                                 <div class="divider"></div>
 
-                                <li><a class="btn btn-outline btn-primary" href="/${room.getId()}/bookings/new">${context.localize("bookings.new")}</a></li>
+                                <li><a class="btn btn-outline btn-primary"
+                                       href="/${room.getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                             @endif
-
                         </ul>
                     </div>
                 </div>
@@ -184,6 +205,7 @@
         </main>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
 </body>
 </html>
