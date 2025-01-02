@@ -89,7 +89,7 @@ public class BookingViewControllerTest {
     public void testRoomBookings_RoomNotFound() throws Exception {
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
-        String view = bookingViewController.roomBookings(model, response, principal, 1L);
+        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L);
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
@@ -103,10 +103,10 @@ public class BookingViewControllerTest {
         User user = new User();
         when(principal.getUser()).thenReturn(user);
 
-        String view = bookingViewController.roomBookings(model, response, principal, 1L);
+        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L);
 
         verify(model).addAttribute("room", room);
-        verify(model).addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
+        verify(model).addAttribute("bookings", bookingsService.getBookingsByUser(user, room, 0, 10));
         assertEquals("bookings/list", view);
     }
 

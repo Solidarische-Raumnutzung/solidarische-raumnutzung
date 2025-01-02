@@ -8,6 +8,7 @@ import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -88,9 +89,11 @@ public interface BookingsService {
      *
      * @param user the user associated with the bookings
      * @param room the room associated with the bookings
+     * @param page the page number
+     * @param size the number of items per page
      * @return a list of bookings for the specified user and room
      */
-    List<Booking> getBookingsByUser(User user, Room room);
+    Page<Booking> getBookingsByUser(User user, Room room, int page, int size);
 
     /**
      * Checks if a user has any bookings.

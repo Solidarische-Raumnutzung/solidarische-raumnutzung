@@ -3,6 +3,7 @@ package edu.kit.hci.soli.service;
 import edu.kit.hci.soli.domain.User;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import java.util.List;
@@ -31,10 +32,12 @@ public interface UserService {
 
     /**
      * Retrieves all users that can be managed.
-     *
+     * @param page the page number
+     *             (0-based, i.e., the first page is page 0)
+     * @param size the number of users per page
      * @return a list of manageable users
      */
-    @NotNull List<User> getManageableUsers();
+    @NotNull Page<User> getManageableUsers(int page, int size);
 
     /**
      * Retrieves a user by their ID.

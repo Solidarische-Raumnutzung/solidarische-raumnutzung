@@ -3,10 +3,11 @@ package edu.kit.hci.soli.repository;
 import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -46,10 +47,10 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      *
      * @param room the room associated with the bookings
      * @param user the user associated with the bookings
-     * @return a list of bookings for the specified user and room
+     * @param pageable the pagination information
+     * @return the page of bookings
      */
-    @Query("SELECT b FROM Booking b WHERE b.user = :user AND b.room = :room")
-    List<Booking> findByUserAndRoom(Room room, User user);
+    Page<Booking> findByUserAndRoom(User user, Room room, Pageable pageable);
 
     /**
      * Checks if a booking exists for the specified user.
