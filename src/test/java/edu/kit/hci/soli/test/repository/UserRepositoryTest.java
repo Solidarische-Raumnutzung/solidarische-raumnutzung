@@ -1,11 +1,15 @@
 package edu.kit.hci.soli.test.repository;
 
+import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -31,6 +35,8 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindAllWithoutAdmin() {
-        assertIterableEquals(List.of(testService.user2, testService.user3), userRepository.findAllWithoutAdmin());
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<User> userPage = userRepository.findAllWithoutAdmin(pageable);
+        assertIterableEquals(List.of(testService.user2, testService.user3), userPage.getContent());
     }
 }

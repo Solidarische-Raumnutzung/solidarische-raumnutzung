@@ -52,7 +52,7 @@ public class BookingsServiceTest {
     @Test
     public void testGetBookingsByUser() {
         bookingsRepository.save(testBooking);
-        List<Booking> bookings = bookingsService.getBookingsByUser(testService.user, roomService.get());
+        List<Booking> bookings = bookingsService.getBookingsByUser(testService.user, roomService.get(), 0, 10).getContent();
         assertEquals(1, bookings.size());
         assertEquals(testBooking.getId(), bookings.getFirst().getId());
     }

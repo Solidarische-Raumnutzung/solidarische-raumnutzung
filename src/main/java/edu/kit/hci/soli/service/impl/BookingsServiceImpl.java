@@ -9,6 +9,9 @@ import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -171,8 +174,9 @@ public class BookingsServiceImpl implements BookingsService {
     }
 
     @Override
-    public List<Booking> getBookingsByUser(User user, Room room) {
-        return bookingsRepository.findByUserAndRoom(room, user);
+    public Page<Booking> getBookingsByUser(User user, Room room, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return bookingsRepository.findByUserAndRoom(user, room, pageable);
     }
 
     @Override
