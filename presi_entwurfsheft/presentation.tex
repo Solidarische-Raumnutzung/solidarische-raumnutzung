@@ -37,6 +37,7 @@
 \section{Aufbau}
 
 \subsection{Architektur}
+
 \begin{frame}{Architektur}
 \begin{figure}
     \centering
@@ -46,10 +47,11 @@
 \end{frame}
 
 \subsection{Klassendiagramm}
+
 \begin{frame}{Klassendiagramm}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/classes}
+        \includegraphics[width=0.45\textwidth]{pictures/figures/classes}
         \caption{Bei Bedarf am Ende als einzelnes PDF danach fragen}
         \label{fig:klassendiagramm}
     \end{figure}
@@ -58,7 +60,8 @@
 \section{View}
 
 \subsection{Ansichten}
-\begin{frame}{Ansichten}
+
+\begin{frame}{View}{Ansichten}
     \begin{itemize}
         \item \textbf{Loginansicht}: Der/die Nutzende muss die Anmeldedaten eingeben, um auf ein Großteil der Funktionalität zuzugreifen.
         \item \textbf{Kalenderansicht}: Zeigt den Kalender mit den Terminen.
@@ -69,11 +72,10 @@
     \end{itemize}
 \end{frame}
 
-\subsection{Anmeldungsansicht}
 \begin{frame}{Anmeldungsansicht}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/ui/anmeldungsseite}
+        \includegraphics[width=0.65\textwidth]{pictures/figures/ui/anmeldungsseite}
         \label{fig:login}
     \end{figure}
 \end{frame}
@@ -81,123 +83,121 @@
 \begin{frame}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/activity/anmeldeprozess}
+        \includegraphics[width=0.55\textwidth]{pictures/figures/activity/anmeldeprozess}
         \caption{Mit der Anmeldung akzeptiert nun der Authentication Filter und der Großteil der Funktionalität ist nun zugänglich.}
         \label{fig:loginprozess}
     \end{figure}
 \end{frame}
 
-\subsection{Kalenderansicht}
 \begin{frame}{Kalenderansicht}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/ui/startseite}
+        \includegraphics[width=0.65\textwidth]{pictures/figures/ui/startseite}
         \caption{Zeigt alle Termine an, die in der Datenbank gespeichert sind.}
         \label{fig:kalender}
     \end{figure}
 \end{frame}
 
-\subsection{Termin-Erstellen-Ansicht}
 \begin{frame}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/ui/buchungsdialog}
+        \includegraphics[width=0.8\textwidth]{pictures/figures/ui/buchungsdialog}
         \caption{Diese Ansicht wird über die Kalenderansicht erreicht.}
         \label{fig:terminerstellen}
     \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[plain]
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/activity/buchungerstellen} % TODO Bild in 2 Teile splitten
+        \includegraphics[width=0.35\textwidth]{pictures/figures/activity/buchungerstellen}
         \caption{Der Termin wird in der Datenbank gespeichert und ist nun in der Kalenderansicht sichtbar.}
         \label{fig:terminerstellenprozess}
     \end{figure}
 \end{frame}
 
-% TODO Frame für Sequenzdiagramm Terminerstellen
-% TODO Frame für Erklärung des Terminerstellenprozesses
-
-\subsubsection{Terminkonfliktlösung}
-\begin{frame}{Terminkonfliktlösung}
+\begin{frame}[plain]
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/activity/terminkonfliktloesung} % TODO Bild anpassen
+        \includegraphics[width=0.55\textwidth]{pictures/figures/activity/SequenzdiagrammBuchungErstellen}
+        \label{fig:terminerstellensequenz}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[plain]
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.4\textwidth]{pictures/figures/activity/terminkonfliktloesung}
         \label{fig:terminkonflikt}
     \end{figure}
 \end{frame}
 
-\subsection{Terminübersicht}
 \begin{frame}{Terminübersicht}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/ui/reservierungsuebersicht}
+        \includegraphics[width=0.65\textwidth]{pictures/figures/ui/reservierungsuebersicht}
         \caption{Zeigt alle Termine an, die der/die Nutzende erstellt hat.}
         \label{fig:terminuebersicht}
     \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[plain]
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/activity/buchungverwalten}
+        \includegraphics[width=0.55\textwidth]{pictures/figures/activity/buchungverwalten}
         \label{fig:terminuebersichtprozess}
     \end{figure}
 \end{frame}
 
-\subsection{Terminansicht}
 \begin{frame}{Terminansicht}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/ui/reservierunginkalendar}
+        \includegraphics[width=0.65\textwidth]{pictures/figures/ui/reservierunginkalendar}
         \caption{Zeigt alle Informationen des Termins an.}
         \label{fig:terminansicht}
     \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[plain]
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/activity/terminansicht}
+        \includegraphics[width=0.49\textwidth]{pictures/figures/activity/terminansicht}
         \label{fig:terminansichtprozess}
     \end{figure}
 \end{frame}
 
-\subsection{Checkout}
 \begin{frame}{Checkout}
-    \begin{figure}
-        \leftfig
+    \begin{minipage}{0.65\textwidth}
+        \centering
         \includegraphics[width=\textwidth]{pictures/figures/ui/checkout}
         \label{fig:checkout}
-    \end{figure}
-    \begin{figure}
-        \rightfig
-        \includegraphics[width=\textwidth]{pictures/figures/activity/checkoutprozess} % TODO Bild anpassen
+    \end{minipage}
+    \begin{minipage}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pictures/figures/activity/checkoutprozess}
         \label{fig:checkoutprozess}
-    \end{figure}
+    \end{minipage}
 \end{frame}
 
-\subsection{Kontenliste}
 \begin{frame}{Kontenliste}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/ui/useradminui}
+        \includegraphics[width=0.65\textwidth]{pictures/figures/ui/useradminui}
         \caption{Nur für Admins zugänglich.}
         \label{fig:kontenliste}
     \end{figure}
 \end{frame}
 
-\subsubsection{Adminfunktionalität}
-\begin{frame}{Adminfunktionalität}
+\begin{frame}[plain]
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{pictures/figures/activity/adminfunk}
+        \includegraphics[width=0.95\textwidth]{pictures/figures/activity/adminfunk}
         \label{fig:adminfunktionalitaet}
     \end{figure}
 \end{frame}
 
 \section{Controller}
+
 \begin{frame}{Controller}
     \begin{itemize}
         \item Verarbeitung von Anfragen und Erzeugung von Antworten
@@ -210,7 +210,8 @@
 \end{frame}
 
 \subsection{Controller-Übersicht}
-\begin{frame}{Controller-Übersicht}
+
+\begin{frame}{Controller-Übersicht (Teil 1)}
     \begin{itemize}
         \item \textbf{CalendarController:}
         \begin{itemize}
@@ -236,6 +237,11 @@
             \item Formular zur Bestätigung oder Ablehnung einer Kollaboration
             \item Kollaborationsanfragen verwalten
         \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Controller-Übersicht (Teil 2)}
+    \begin{itemize}
         \item \textbf{LoginController:}
         \begin{itemize}
             \item Login-Ansicht zur Verarbeitung der Anmeldungen (Admin, Gast, OIDC)
@@ -254,6 +260,7 @@
 \end{frame}
 
 \subsubsection{Beispiel: BookingViewController}
+
 \begin{frame}{Beispiel: BookingViewController}
     \begin{itemize}
         \item \textbf{GET /{roomId}/bookings}
@@ -278,6 +285,7 @@
 \end{frame}
 
 \section{Services}
+
 \begin{frame}{Services}{Service-Layer}
     \begin{itemize}
         \item Koordination der Applikationslogik und Bereitstellung an die Endpunkte (z.B. Controller)
@@ -288,7 +296,8 @@
 \end{frame}
 
 \subsection{Service-Übersicht}
-\begin{frame}{Service-Übersicht}
+
+\begin{frame}{Service-Übersicht (Teil 1)}
     \begin{itemize}
         \item \textbf{Bookings Service:}
         \begin{itemize}
@@ -306,6 +315,11 @@
             \item Verantwortlich für die Auswahl des Raums, der z.B. in einer Buchung verwendet wird
             \item Ermöglicht eine einfache Erweiterung der Applikation, um mehrere Räume zu verwalten
         \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Service-Übersicht (Teil 2)}
+    \begin{itemize}
         \item \textbf{System Configuration Service:}
         \begin{itemize}
             \item Konfiguration der Applikation, z.B. der Aktivierung oder Deaktivierung von Gastkonten
@@ -319,6 +333,7 @@
 \end{frame}
 
 \section{Daten}
+
 \begin{frame}{Daten}{Daten-Layer (Repository-Paket)}
     \begin{itemize}
         \item Sammlung an Schnittstellen für den Datenzugriff und die Verwaltung von Entitäten in der Datenbank
@@ -362,6 +377,23 @@
         \item \textbf{ACID-Eigenschaften} der PostgreSQL-Datenbank gewährleisten Konsistenz und Schutz vor Datenverlust
         \item \textbf{Flyway} sorgt für automatische Datenbankmigrationen bei Modelländerungen, um Datenkonsistenz bei Systemaktualisierungen zu gewährleisten
     \end{itemize}
+\end{frame}
+
+\begin{frame}[plain]
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.45\textwidth]{pictures/figures/database}
+        \caption{ER-Diagramm der Datenbank}
+        \label{fig:er-diagram}
+    \end{figure}
+
+\end{frame}
+
+\section{Q\&A}
+
+\begin{frame}
+    \centering
+    \Huge \textbf{Q\&A}
 \end{frame}
 
 \end{document}
