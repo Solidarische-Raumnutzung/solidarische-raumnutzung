@@ -6,7 +6,7 @@ soli:
     password: "${SOLI_ADMINISTRATOR_PASSWORD}"
   guest:
     marker: "guest"
-  hostname: "${SOLI_HOSTNAME}"
+  hostname: "http://localhost:8080"
 
 
 logging:

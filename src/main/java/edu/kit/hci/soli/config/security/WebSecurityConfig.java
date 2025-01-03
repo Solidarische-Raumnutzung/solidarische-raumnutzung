@@ -42,7 +42,13 @@ public class WebSecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
-
+                .rememberMe(cfg -> cfg
+                        .key("remember-me")
+                        .rememberMeCookieName("remember-me")
+                        .rememberMeParameter("remember-me")
+                        .tokenRepository(tokenRepository)
+                        .tokenValiditySeconds(30 * 24 * 60 * 60)
+                )
                 .logout(LogoutConfigurer::permitAll);
         return http.build();
     }
