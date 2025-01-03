@@ -6,10 +6,10 @@ soli:
     password: "${SOLI_ADMINISTRATOR_PASSWORD}"
   guest:
     marker: "guest"
+  hostname: "${SOLI_HOSTNAME}"
 
 
 logging:
   level:
     org.springframework: DEBUG
     org.hibernate: ERROR
-  hostname: "${SOLI_HOSTNAME}"
