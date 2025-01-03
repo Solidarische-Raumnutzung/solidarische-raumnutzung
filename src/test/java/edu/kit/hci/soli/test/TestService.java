@@ -15,16 +15,14 @@ public class TestService {
     @Autowired private UserRepository userRepository;
     @Autowired private RoomRepository roomRepository;
     @Autowired private BookingsRepository bookingsRepository;
-
     @Autowired private UserService userService;
+    @Autowired private RoomService roomService;
+    @Autowired private BookingsService bookingsService;
 
     public User user;
     public User user2;
     public User user3;
-    @Autowired
-    private RoomService roomService;
-    @Autowired
-    private BookingsService bookingsService;
+    public Room room;
 
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
@@ -34,6 +32,7 @@ public class TestService {
         user = userService.resolveAdminUser();
         user2 = userService.createGuestUser("testuser2");
         user3 = userService.createGuestUser("testuser3");
+        room = roomService.get();
     }
 
     public Booking createBooking(User user) {

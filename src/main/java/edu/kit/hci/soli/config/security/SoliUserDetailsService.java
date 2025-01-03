@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.config.security;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.service.SystemConfigurationService;
 import edu.kit.hci.soli.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,16 +13,14 @@ import org.springframework.stereotype.Service;
 public class SoliUserDetailsService implements UserDetailsService {
     private final UserService userService;
     private final SystemConfigurationService systemConfigurationService;
+    private final String adminPassword;
+    private final String guestMarker;
 
-    @Value("${soli.administrator.password}")
-    private String adminPassword;
-
-    @Value("${soli.guest.marker}")
-    private String guestMarker;
-
-    public SoliUserDetailsService(UserService userService, SystemConfigurationService systemConfigurationService) {
+    public SoliUserDetailsService(UserService userService, SystemConfigurationService systemConfigurationService, SoliConfiguration soliConfiguration) {
         this.userService = userService;
         this.systemConfigurationService = systemConfigurationService;
+        this.adminPassword = soliConfiguration.getAdministrator().getPassword();
+        this.guestMarker = soliConfiguration.getGuest().getMarker();
     }
 
     @Override

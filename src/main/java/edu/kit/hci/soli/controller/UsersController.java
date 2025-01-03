@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.KnownError;
@@ -7,6 +8,7 @@ import edu.kit.hci.soli.service.SystemConfigurationService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,15 +22,19 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
     private final UserService userService;
     private final SystemConfigurationService systemConfigurationService;
+    private final int maxPaginationSize;
 
     /**
      * Constructs a UsersController with the specified {@link UserService}.
      *
-     * @param userService the service for managing users
+     * @param userService                the service for managing users
+     * @param systemConfigurationService the service for managing the system configuration
+     * @param soliConfiguration          the configuration of the application
      */
-    public UsersController(UserService userService, SystemConfigurationService systemConfigurationService) {
+    public UsersController(UserService userService, SystemConfigurationService systemConfigurationService, SoliConfiguration soliConfiguration) {
         this.userService = userService;
         this.systemConfigurationService = systemConfigurationService;
+        this.maxPaginationSize = soliConfiguration.getPagination().getMaxSize();
     }
 
     @GetMapping("/admin/users/{userId}/deactivate")
@@ -130,15 +136,28 @@ public class UsersController {
     /**
      * Retrieves all manageable users and returns the view for the users page.
      *
+     * @param page      the page number
+     *                  (0-based, i.e., the first page is page 0)
+     * @param size      the number of users per page
      * @param model     the model to be used in the view
      * @param response  the HTTP response
      * @param principal the authenticated user details
      * @return the view name
      */
     @GetMapping("/admin/users")
-    public String getUsers(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal) {
+    public String getUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Model model,
+            HttpServletResponse response,
+            @AuthenticationPrincipal SoliUserDetails principal) {
+
+        if (size > maxPaginationSize) {
+            size = maxPaginationSize;
+        }
+
         log.info("User {} requested the users page", principal.getUser());
-        model.addAttribute("users", userService.getManageableUsers());
+        model.addAttribute("users", userService.getManageableUsers(page, size));
         model.addAttribute("guestsEnabled", systemConfigurationService.isGuestLoginEnabled());
         return "admin/users";
     }
@@ -146,8 +165,8 @@ public class UsersController {
     /**
      * Displays the confirmation dialog for disabling guest login.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
      * @return the view name
      */
@@ -166,8 +185,8 @@ public class UsersController {
     /**
      * Disables guest login.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
      * @return the view name
      */
@@ -187,8 +206,8 @@ public class UsersController {
     /**
      * Enables guest login.
      *
-     * @param model the model to be used in the view
-     * @param response the HTTP response
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
      * @param principal the authenticated user details
      * @return the view name
      */

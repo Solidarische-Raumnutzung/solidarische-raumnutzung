@@ -10,7 +10,7 @@
 @param User user
 
 <h2 class="card-title">${context.localize("generic.warning")}</h2>
-<p>${context.localize("disable.user.disable.are_you_sure")}</p>
+<p>${context.localize("administration.user.deactivate.message")}</p>
 <div class="modal-action">
     @template.util.modal.close(message = context.localize("generic.cancel"), id = id)
     @template.util.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`

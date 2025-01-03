@@ -57,9 +57,9 @@ public class UserServiceTest {
 
     @Test
     public void testGetManageableUsers() {
-        assertIterableEquals(List.of(testService.user2, testService.user3), userService.getManageableUsers());
+        assertIterableEquals(List.of(testService.user2, testService.user3), userService.getManageableUsers(0, 10));
         assertTrue(userService.deleteUser(testService.user2));
-        assertIterableEquals(List.of(testService.user3), userService.getManageableUsers());
+        assertIterableEquals(List.of(testService.user3), userService.getManageableUsers(0, 10));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class UserServiceTest {
     public void testDeleteUser() {
         assertTrue(userService.deleteUser(testService.user2));
         assertNull(userService.findByUserId(testService.user2.getUserId()));
-        assertIterableEquals(List.of(testService.user3), userService.getManageableUsers());
+        assertIterableEquals(List.of(testService.user3), userService.getManageableUsers(0, 10));
         assertFalse(userService.deleteUser(testService.user2));
 
         Booking testBooking = testService.createBooking(testService.user3);

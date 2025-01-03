@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.test.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.controller.BookingViewController;
 import edu.kit.hci.soli.domain.Booking;
@@ -35,7 +36,7 @@ public class BookingViewControllerTest {
         bookingsService = mock(BookingsService.class);
         roomService = mock(RoomService.class);
         userService = mock(UserService.class);
-        bookingViewController = new BookingViewController(bookingsService, roomService, userService);
+        bookingViewController = new BookingViewController(bookingsService, roomService, userService, new SoliConfiguration());
         model = mock(Model.class);
         response = mock(HttpServletResponse.class);
         principal = mock(SoliUserDetails.class);
@@ -89,7 +90,7 @@ public class BookingViewControllerTest {
     public void testRoomBookings_RoomNotFound() throws Exception {
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
-        String view = bookingViewController.roomBookings(model, response, principal, 1L);
+        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L);
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
@@ -103,10 +104,10 @@ public class BookingViewControllerTest {
         User user = new User();
         when(principal.getUser()).thenReturn(user);
 
-        String view = bookingViewController.roomBookings(model, response, principal, 1L);
+        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L);
 
         verify(model).addAttribute("room", room);
-        verify(model).addAttribute("bookings", bookingsService.getBookingsByUser(user, room));
+        verify(model).addAttribute("bookings", bookingsService.getBookingsByUser(user, room, 0, 10));
         assertEquals("bookings/list", view);
     }
 
@@ -129,13 +130,18 @@ public class BookingViewControllerTest {
         booking.setRoom(room);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
         when(bookingsService.getBookingById(1L)).thenReturn(booking);
+        User admin = new User();
+        admin.setId(1L);
+        when(userService.resolveAdminUser()).thenReturn(admin);
         User user = new User();
+        user.setId(2L);
+        booking.setUser(user);
         when(principal.getUser()).thenReturn(user);
 
         String view = bookingViewController.viewEvent(model, response, principal, 1L, 1L);
 
         verify(model).addAttribute("room", room);
         verify(model).addAttribute("booking", booking);
-        assertEquals("bookings/single", view);
+        assertEquals("bookings/single_page", view);
     }
 }

@@ -85,6 +85,9 @@
                 </div>
             @endfor
         </div>
+        <div class="divider"></div>
+        <p class="text-gray-500 text-sm">${context.localize("bookings.who_can_see_answer")}</p>
+
         <div class="form-control mt-6">
             <input type="submit" class="btn btn-primary" value="OK">
         </div>

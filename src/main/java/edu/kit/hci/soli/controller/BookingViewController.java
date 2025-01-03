@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
@@ -9,12 +10,14 @@ import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -28,18 +31,21 @@ public class BookingViewController {
     private final BookingsService bookingsService;
     private final RoomService roomService;
     private final UserService userService;
+    private final int maxPaginationSize;
 
     /**
      * Constructs a BookingViewController with the specified services.
      *
-     * @param bookingsService the service for managing bookings
-     * @param roomService     the service for managing rooms
-     * @param userService     the service for managing users
+     * @param bookingsService   the service for managing bookings
+     * @param roomService       the service for managing rooms
+     * @param userService       the service for managing users
+     * @param soliConfiguration the configuration of the application
      */
-    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService) {
+    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService, SoliConfiguration soliConfiguration) {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
         this.userService = userService;
+        this.maxPaginationSize = soliConfiguration.getPagination().getMaxSize();
     }
 
     /**
@@ -76,15 +82,15 @@ public class BookingViewController {
 
         User admin = userService.resolveAdminUser();
 
-        if (admin.equals(principal.getUser())) {
-            bookingsService.delete(booking, BookingDeleteReason.ADMIN);
-            log.info("Admin deleted booking {}", eventId);
+        if (Objects.equals(booking.getUser(), principal.getUser())) {
+            bookingsService.delete(booking, BookingDeleteReason.SELF);
+            log.info("User deleted booking {}", eventId);
             return "redirect:/" + booking.getRoom().getId() + "/bookings";
         }
 
-        if (booking.getUser().equals(principal.getUser())) {
-            bookingsService.delete(booking, BookingDeleteReason.SELF);
-            log.info("User deleted booking {}", eventId);
+        if (admin.equals(principal.getUser())) {
+            bookingsService.delete(booking, BookingDeleteReason.ADMIN);
+            log.info("Admin deleted booking {}", eventId);
             return "redirect:/" + booking.getRoom().getId() + "/bookings";
         }
 
@@ -96,7 +102,8 @@ public class BookingViewController {
 
     /**
      * Displays the bookings for a specific room.
-     *
+     * @param page      the page number
+     * @param size      the number of items per page
      * @param model     the model to be used in the view
      * @param response  the HTTP response
      * @param principal the authenticated user details
@@ -104,8 +111,17 @@ public class BookingViewController {
      * @return the view name
      */
     @GetMapping("/{roomId:\\d+}/bookings")
-    public String roomBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
+    public String roomBookings(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               Model model,
+                               HttpServletResponse response,
+                               @AuthenticationPrincipal SoliUserDetails principal,
                                @PathVariable Long roomId) {
+
+        if (size > maxPaginationSize) {
+            size = maxPaginationSize;
+        }
+
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -113,7 +129,7 @@ public class BookingViewController {
             return "error/known";
         }
         model.addAttribute("room", room.get());
-        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room.get()));
+        model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room.get(), page, size));
 
         return "bookings/list";
     }
@@ -150,9 +166,17 @@ public class BookingViewController {
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
                 ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
-                        && booking.getUser().equals(principal.getUser())
-                        && !bookingsService.minimumTime().isAfter(booking.getStartDate())
+                        && !Objects.equals(booking.getUser(), principal.getUser())
+                        && booking.getStartDate().isBefore(bookingsService.minimumTime())
         );
-        return "bookings/single";
+
+        User admin = userService.resolveAdminUser();
+
+        model.addAttribute("showDeleteButton",
+                admin.equals(principal.getUser())
+                        || Objects.equals(booking.getUser(), principal.getUser())
+        );
+
+        return "bookings/single_page";
     }
 }

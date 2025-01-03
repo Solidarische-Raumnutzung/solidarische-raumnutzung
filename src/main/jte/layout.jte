@@ -3,12 +3,15 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import gg.jte.Content
+@import static org.springframework.http.HttpMethod.*
+
+@param LoginStateModel login
+@param JteContext context
 
 @param PageSpec page
-@param JteContext context
-@param Content content
-@param LoginStateModel login
 @param Room room
+
+@param Content content
 
 <!DOCTYPE html>
 <html lang="${context.localize("code")}" data-theme="light">
@@ -155,22 +158,16 @@
                                 <div class="basis-1/2">
                                     <div class="relative h-20 w-20">
                                         <div class="absolute inset-x-0 bottom-0 h-16">
-                                            @if(login.kind() == LoginStateModel.Kind.VISITOR)
+                                            @if (login.kind() == LoginStateModel.Kind.VISITOR)
                                                 <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
                                                     <i class="fa-solid fa-right-to-bracket"></i>
                                                 </a>
                                             @else
-                                                <form action="/logout"
-                                                      method="post">
-                                                    <input type="hidden"
-                                                           name="${login.csrfToken().getParameterName()}"
-                                                           value="${login.csrfToken().getToken()}"/>
-
-                                                    <button class="btn btn-outline btn-primary" alt="${context.localize("login.logout")}" type="submit">
+                                                @template.util.form(csrf = login.csrfToken(), action = "/logout", method = POST, content = @`
+                                                    <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" type="submit">
                                                         <i class="fa-solid fa-right-from-bracket"></i>
                                                     </button>
-
-                                                </form>
+                                                `)
                                             @endif
                                         </div>
                                     </div>

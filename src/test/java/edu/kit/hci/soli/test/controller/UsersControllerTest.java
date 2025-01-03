@@ -71,7 +71,7 @@ public class UsersControllerTest {
         ExtendedModelMap model = new ExtendedModelMap();
         User adminUser = userService.resolveAdminUser();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String result = usersController.getUsers(model, response, () -> adminUser);
+        String result = usersController.getUsers(0, 10, model, response, () -> adminUser);
         assertEquals("admin/users", result);
     }
 }

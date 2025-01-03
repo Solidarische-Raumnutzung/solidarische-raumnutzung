@@ -6,3 +6,10 @@ soli:
     password: "${SOLI_ADMINISTRATOR_PASSWORD}"
   guest:
     marker: "guest"
+  hostname: "http://localhost:8080"
+
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate: ERROR

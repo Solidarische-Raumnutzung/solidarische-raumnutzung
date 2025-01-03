@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.service.impl;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.template.JteContext;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.service.EmailService;
@@ -8,7 +9,7 @@ import gg.jte.output.StringOutput;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.PropertyKey;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,24 +26,33 @@ import java.util.Map;
 @Service
 @Profile("!test")
 public class EmailServiceImpl implements EmailService {
-    @Value("${spring.mail.username}")
-    private String mailFrom;
-
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
     private final MessageSource messageSource;
+    private final String hostname;
+    private final String mailFrom;
 
     /**
      * Constructs an EmailService with the specified services.
      *
-     * @param mailSender     the mail sender to use
-     * @param templateEngine the template engine to use
-     * @param messageSource  the message source to use
+     * @param mailSender        the mail sender to use
+     * @param templateEngine    the template engine to use
+     * @param messageSource     the message source to use
+     * @param soliConfiguration the configuration of the application
+     * @param mailProperties    the properties of the mail server
      */
-    public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine, MessageSource messageSource) {
+    public EmailServiceImpl(
+            JavaMailSender mailSender,
+            TemplateEngine templateEngine,
+            MessageSource messageSource,
+            SoliConfiguration soliConfiguration,
+            MailProperties mailProperties
+    ) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
         this.messageSource = messageSource;
+        this.hostname = soliConfiguration.getHostname();
+        this.mailFrom = mailProperties.getUsername();
     }
 
     /**
@@ -55,7 +65,12 @@ public class EmailServiceImpl implements EmailService {
      */
     @Override
     public void sendMail(User to, @PropertyKey(resourceBundle = "messages") String subject, String template, Map<String, Object> model) {
-        JteContext context = new JteContext(messageSource, to.getLocale());
+        if (to.getEmail() == null) {
+            log.warn("User {} has no email address, not sending email", to.getUserId());
+            return;
+        }
+
+        JteContext context = new JteContext(messageSource, hostname, to.getLocale());
         model = new HashMap<>(model);
         model.put("context", context);
 
@@ -69,6 +84,8 @@ public class EmailServiceImpl implements EmailService {
             templateEngine.render(template + ".jte", model, stringOutput);
             helper.setText(stringOutput.toString(), true);
             mailSender.send(message);
+            log.info("Sent {} email to user {} (address: {})", subject, to.getUserId(), to.getEmail());
+            log.info("Content: {}", stringOutput);
         } catch (Exception e) { // Quite broad, but the code above is marked as throwing Exception
             log.error("Failed to send email to user {}", to.getUserId(), e);
         }

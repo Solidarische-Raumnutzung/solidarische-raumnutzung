@@ -2,6 +2,7 @@
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
+@import org.springframework.data.domain.Page
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.util.List
@@ -11,7 +12,7 @@
 @param LoginStateModel login
 @param CsrfToken csrf
 
-@param List<User> users
+@param Page<User> users
 @param boolean guestsEnabled
 
 @template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
@@ -29,7 +30,7 @@
         @if (users.isEmpty())
             <div class="card">
                 <div class="card-body">
-                    <p class="text-center">${context.localize("disabled.user.no_users_in_db")}</p>
+                    <p class="text-center">${context.localize("administration.user.empty")}</p>
                 </div>
             </div>
         @else
@@ -46,7 +47,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for (User user : users)
+                @for (User user : users.getContent())
                     <tr>
                         <td>${user.getId()}</td>
                         <td>${user.getUsername()}</td>
@@ -69,6 +70,9 @@
                 @endfor
                 </tbody>
             </table>
+            <div>
+                @template.util.pagination(context = context, content = users, baseUrl = "/admin/users")
+            </div>
         @endif
     </div>
 `)
