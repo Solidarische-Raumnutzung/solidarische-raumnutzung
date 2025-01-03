@@ -197,6 +197,171 @@
     \end{figure}
 \end{frame}
 
-% TODO Kaptitel Controller und der Rest
+\section{Controller}
+\begin{frame}{Controller}
+    \begin{itemize}
+        \item Verarbeitung von Anfragen und Erzeugung von Antworten
+        \item Dekodierung und Prüfung Eingaben in HTTP-Anfragen
+        \item Generierung von Parametern für JTE-Templates der View
+        \item Nutzung des Service-Layers zur Datenverarbeitung
+        \item Weiterleitung unangemeldeter Nutzender zur Anmeldeseite bei geschützten Endpunkten
+        \item Bereitstellung von Endpunkten für die Nutzenden-Interaktion, welche die HTTP-Oberfläche kapseln und Ansichten modellieren
+    \end{itemize}
+\end{frame}
+
+\subsection{Controller-Übersicht}
+\begin{frame}{Controller-Übersicht}
+    \begin{itemize}
+        \item \textbf{CalendarController:}
+        \begin{itemize}
+            \item Kalenderansicht und Buchungsabruf
+            \item REST-Endpunkt für die Kalenderintegration mit FullCalendar
+        \end{itemize}
+        \item \textbf{EventFeedController:}
+        \begin{itemize}
+            \item REST-Endpunkt für Kalenderdaten im FullCalendar-Format
+            \item Verlinkung zu den Terminansichten
+        \end{itemize}
+        \item \textbf{BookingViewController:}
+        \begin{itemize}
+            \item Terminübersicht, Terminansicht
+        \end{itemize}
+        \item \textbf{BookingCreateController:}
+        \begin{itemize}
+            \item Termin-Erstellung-Ansicht zur Verarbeitung neuer Buchungen
+            \item Terminkonfliktlösung bei Überschneidungen von Buchungen
+        \end{itemize}
+        \item \textbf{CollaborationRequestController:}
+        \begin{itemize}
+            \item Formular zur Bestätigung oder Ablehnung einer Kollaboration
+            \item Kollaborationsanfragen verwalten
+        \end{itemize}
+        \item \textbf{LoginController:}
+        \begin{itemize}
+            \item Login-Ansicht zur Verarbeitung der Anmeldungen (Admin, Gast, OIDC)
+            \item Gastanmeldung durch E-Mail-Link
+        \end{itemize}
+        \item \textbf{UsersController:}
+        \begin{itemize}
+            \item Kontoliste für Admins
+        \end{itemize}
+        \item \textbf{MainController:}
+        \begin{itemize}
+            \item Fehlerseite anzeigen
+            \item Benachrichtigungsseite bei deaktiviertem Konto
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsubsection{Beispiel: BookingViewController}
+\begin{frame}{Beispiel: BookingViewController}
+    \begin{itemize}
+        \item \textbf{GET /{roomId}/bookings}
+        \begin{itemize}
+            \item Persönliche Terminübersicht anzeigen
+        \end{itemize}
+        \item \textbf{GET /{roomId}/bookings/{eventId}}
+        \begin{itemize}
+            \item Detailansicht eines Termins anzeigen
+        \end{itemize}
+        \item \textbf{DELETE /{roomId}/bookings/{eventId}}
+        \begin{itemize}
+            \item Termin löschen und zur Terminübersicht weiterleiten
+        \end{itemize}
+    \end{itemize}
+    \vspace{1em}
+    \textbf{Projektstruktur:}
+    \begin{itemize}
+        \item \textbf{RESTful Design:} Klare Trennung von Lese- und Löschoperationen
+        \item \textbf{Konsistente URL-Struktur:} Einheitliches Muster für alle terminbezogenen Endpunkte
+    \end{itemize}
+\end{frame}
+
+\section{Services}
+\begin{frame}{Services}{Service-Layer}
+    \begin{itemize}
+        \item Koordination der Applikationslogik und Bereitstellung an die Endpunkte (z.B. Controller)
+        \item Abkapselung der Logik der Datenverarbeitung von der Verarbeitung der HTTP-Anfragen und Antworten
+        \item Verwendet Repository-Layer für die Abstraktion der Interaktion mit der Datenbank
+        \item Bearbeitet komplexere Aufgaben, wie Terminbuchung, Terminkonfliktauflösung und E-Mail-Versand
+    \end{itemize}
+\end{frame}
+
+\subsection{Service-Übersicht}
+\begin{frame}{Service-Übersicht}
+    \begin{itemize}
+        \item \textbf{Bookings Service:}
+        \begin{itemize}
+            \item Verantwortlich für Terminverwaltung (Löschen, Buchen, Koordination der Raumteilung)
+            \item Bereitet Termine für die Kalenderansicht vor
+            \item Identifiziert potenzielle Terminkonflikte beim Buchen und bereitet eine Auflösung vor
+        \end{itemize}
+        \item \textbf{E-Mail Service:}
+        \begin{itemize}
+            \item Ermöglicht Senden von E-Mails an die im Konto hinterlegte E-Mail-Adresse
+            \item Die E-Mail-Adresse wird je nach Kontotyp vom Nutzenden oder vom OIDC-Provider bereitgestellt
+        \end{itemize}
+        \item \textbf{Room Service:}
+        \begin{itemize}
+            \item Verantwortlich für die Auswahl des Raums, der z.B. in einer Buchung verwendet wird
+            \item Ermöglicht eine einfache Erweiterung der Applikation, um mehrere Räume zu verwalten
+        \end{itemize}
+        \item \textbf{System Configuration Service:}
+        \begin{itemize}
+            \item Konfiguration der Applikation, z.B. der Aktivierung oder Deaktivierung von Gastkonten
+            \item Wenn von einem Admin die Funktion der Gastkonten deaktiviert wird, löscht dieser Service auch alle Termine der betroffenen Konten
+        \end{itemize}
+        \item \textbf{User Service:}
+        \begin{itemize}
+            \item Verwaltet die Konten: Deaktivieren von Konten, Überprüfen des Status (Admin oder Gast), sowie das Erstellen und Löschen von Konten
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Daten}
+\begin{frame}{Daten}{Daten-Layer (Repository-Paket)}
+    \begin{itemize}
+        \item Sammlung an Schnittstellen für den Datenzugriff und die Verwaltung von Entitäten in der Datenbank
+        \item Verwendet das \textbf{Spring Data JPA Framework} für die Verwaltung von CRUD-Operationen und benutzerdefinierten Abfragen
+        \item \textbf{Hauptaufgaben:}
+        \begin{itemize}
+            \item Verwaltung von Entitäten: Es definiert Schnittstellen, die von JPA-Repository erben, um CRUD-Operationen auf den Entitäten durchzuführen
+            \item Benutzerdefinierte Abfragen: Es definiert benutzerdefinierte Abfragen, um spezifische Daten aus der Datenbank zu extrahieren
+        \end{itemize}
+        \item \textbf{Ziel:} Trennung der Datenzugriffslogik von der Anwendungslogik
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Datenmodellübersicht}
+    \begin{itemize}
+        \item Das Datenmodell von Soli ist in zwei Bereiche unterteilt:
+        \begin{itemize}
+            \item \textbf{DTO (Data Transfer Objects):} Übertragen Daten zwischen Systemschichten
+            \item \textbf{Domain:} Repräsentiert die Datenobjekte, die in der PostgreSQL-Datenbank gespeichert werden.
+        \end{itemize}
+        \item Das Datenmodell wird von der Datenbank in Tabellen mit definierten Beziehungen abgelegt. Daten werden nur bei aktiven Anfragen im Arbeitsspeicher gehalten und bei Bedarf in die Datenbank geschrieben.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Kernentitäten}
+    \begin{itemize}
+        \item \textbf{Booking:} Repräsentiert eine Buchung mit Raum, Nutzer, Zeitspanne und optionalem Kommentar
+        \item \textbf{User:} Speichert die OIDC-ID der Nutzenden, ergänzt um E-Mail, Name, Sprache und den Admin-Status
+        \item \textbf{Raum:} Ermöglicht die Verwaltung mehrerer Räume
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Authentifizierung}
+    \begin{itemize}
+        \item Die Nutzenden werden über das OIDC-System des KIT identifiziert.\\ KIT-Nutzer haben IDs mit dem Präfix \texttt{kit/}, Gäste mit \texttt{guest/}, der Admin besitzt die feste ID \texttt{admin}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Sicherheitsmaßnahmen}
+    \begin{itemize}
+        \item \textbf{ACID-Eigenschaften} der PostgreSQL-Datenbank gewährleisten Konsistenz und Schutz vor Datenverlust
+        \item \textbf{Flyway} sorgt für automatische Datenbankmigrationen bei Modelländerungen, um Datenkonsistenz bei Systemaktualisierungen zu gewährleisten
+    \end{itemize}
+\end{frame}
 
 \end{document}
