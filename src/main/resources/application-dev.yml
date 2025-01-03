@@ -6,9 +6,9 @@ spring:
 soli:
   pagination:
     max-size: 100
-  development-mode: true
   administrator:
     password: "{noop}password"
   guest:
     marker: "guest"
   hostname: "http://localhost:8080"
+  development-mode: true

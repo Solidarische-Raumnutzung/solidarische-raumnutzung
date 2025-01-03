@@ -1,4 +1,6 @@
 soli:
+  pagination:
+    max-size: 100
   administrator:
     # This should be a hashed environment variable
     # Example: for "password" use {bcrypt}$2a$10$6o.zVr3j/soZPS77kXznXuRBauNdAGPDOm3F7QJimkVQ4LNZ6qws2
@@ -7,3 +9,4 @@ soli:
   guest:
     marker: "guest"
   hostname: "${SOLI_HOSTNAME}"
+  development-mode: false
