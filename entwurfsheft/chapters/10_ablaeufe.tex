@@ -2,12 +2,10 @@
 
 \chapter{Abläufe}
 \label{ch:processes}
-
 Im folgenden Kapitel werden die wichtigsten Abläufe des Systems beschrieben und zur Veranschaulichung in
 Diagrammen dargestellt.
 
 \section{Anmeldeprozess}
-
 Das Programm ist so aufgebaut, dass man sich für die Interaktion mit dem System zuerst anmelden muss.
 Man kann sich als Administrator*in, als Gast oder mit dem KIT-Account anmelden.
 
@@ -39,6 +37,14 @@ kann die Buchungsansicht geöffnet werden. Dann gibt muss eine Priorität angege
     \caption{Diagramm zur Erklärung des Buchungserstellungsprozesses}
     \label{fig:make-booking-diagram}
 \end{figure}
+
+Dieses Sequenzdiagramm zeigt den Ablauf der Buchungserstellung auf der Programmebene.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/activity/SequenzdiagrammBuchungErstellen}
+    \caption{Sequenzdiagramm zur Erklärung des Buchungserstellungsprozesses}
+    \label{fig:make-booking-sequence-diagram}
 
 \subsection{Konfliktlösung bei Buchungserstellung}
 
@@ -102,6 +108,7 @@ Dieses Ablaufdiagramm beschreibt den Abmelde-Prozess.
     \caption{Diagramm zur Erklärung des Abmeldeprozesses}
     \label{fig:logout-diagram}
 \end{figure}
+
 \clearpage
 
 \section{Adminfunktionalität}
