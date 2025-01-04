@@ -158,8 +158,3 @@ tasks {
         args("--output=./entwurfsheft/javadoc", "src/main/java", "edu.kit.hci.soli")
     }
 }
-
-extensions.findByName("buildScan")?.withGroovyBuilder {
-    setProperty("termsOfServiceUrl", "https://gradle.com/terms-of-service")
-    setProperty("termsOfServiceAgree", "yes")
-}
