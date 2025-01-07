@@ -37,4 +37,3 @@
 - **Konsistente URL-Struktur:**
   - Einheitlicher Aufbau aller Endpunkte erleichtert die Wartung und Erweiterung.  
 
-# Services

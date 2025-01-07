@@ -48,7 +48,7 @@
 
 \subsection{Klassendiagramm}
 
-\begin{frame}{Klassendiagramm}
+\begin{frame}[plain]
     \begin{figure}
         \centering
         \includegraphics[width=0.45\textwidth]{pictures/figures/classes}
@@ -64,11 +64,11 @@
 \begin{frame}{View}{Ansichten}
     \begin{itemize}
         \item \textbf{Loginansicht}: Der/die Nutzende muss die Anmeldedaten eingeben, um auf ein Großteil der Funktionalität zuzugreifen.
-        \item \textbf{Kalenderansicht}: Zeigt den Kalender mit den Terminen.
+        \item \textbf{Kalenderansicht}: Zeigt den Kalender mit den Terminen und Admins können hier der Öffnungszeiten einstellen.
         \item \textbf{Termin-Erstellen-Ansicht}: Mit ihr kann der/die Nutzende einen Termin mit Zeitraum, Priorität, und optionaler Beschreibung, sowie eine Angabe zur Bereitschaft zur geteilten Raumnutzung erstellen.
         \item \textbf{Terminansicht}: Zeigt die Informationen des Termins, sowie die Möglichkeit zur Anfrage einer geteilten Raumnutzung oder für den Eigentümer und Admin, die Möglichkeit des Termin-Löschens.
         \item \textbf{Terminübersicht}: Zeigt aufgelistet alle gebuchten Termine des Nutzenden, sowie die Möglichkeit Termine zu löschen und anzusehen.
-        \item \textbf{Kontenliste}: Nur für Admins zugänglich und bietet die Möglichkeit spezifische Nutzende zu verbannen oder die Gästefunktionalität auszuschalten.
+        \item \textbf{Kontenliste}: Nur für Admins zugänglich und bietet die Möglichkeit spezifische Nutzende zu sperren oder die Gästefunktionalität auszuschalten.
     \end{itemize}
 \end{frame}
 
@@ -119,16 +119,16 @@
 \begin{frame}[plain]
     \begin{figure}
         \centering
-        \includegraphics[width=0.55\textwidth]{pictures/figures/activity/SequenzdiagrammBuchungErstellen}
-        \label{fig:terminerstellensequenz}
+        \includegraphics[width=0.4\textwidth]{pictures/figures/activity/terminkonfliktloesung}
+        \label{fig:terminkonflikt}
     \end{figure}
 \end{frame}
 
 \begin{frame}[plain]
     \begin{figure}
         \centering
-        \includegraphics[width=0.4\textwidth]{pictures/figures/activity/terminkonfliktloesung}
-        \label{fig:terminkonflikt}
+        \includegraphics[width=0.55\textwidth]{pictures/figures/activity/SequenzdiagrammBuchungErstellen}
+        \label{fig:terminerstellensequenz}
     \end{figure}
 \end{frame}
 
@@ -346,6 +346,8 @@
         \item \textbf{Ziel:} Trennung der Datenzugriffslogik von der Anwendungslogik
     \end{itemize}
 \end{frame}
+
+\section{Data Model}
 
 \begin{frame}{Datenmodellübersicht}
     \begin{itemize}
