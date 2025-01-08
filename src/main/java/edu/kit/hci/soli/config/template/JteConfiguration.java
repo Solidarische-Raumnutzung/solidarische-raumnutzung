@@ -33,7 +33,12 @@ public class JteConfiguration {
             templateEngine.setBinaryStaticContent(true);
             return templateEngine;
         } else {
-            return TemplateEngine.createPrecompiled(ContentType.Html);
+            return TemplateEngine.createPrecompiled(
+                    null,
+                    ContentType.Html,
+                    null,
+                    "edu.kit.hci.soli.view.jte"
+            );
         }
     }
 }

@@ -1,0 +1,52 @@
+@startuml
+participant BookingCreateController as controller
+participant BookingService as service
+database BookingRepository as repo
+
+-> controller : createBooking()
+activate controller
+  controller-> controller ++ : handleBookingAttempt()
+    controller ->service ++ : attemptToBook()
+      service-> repo ++ : findOverlappingBookings()
+        repo -->> service : Stream<Booking> overlappingBookings
+        note right of repo: DB connection remains active\nwhile the loop is running
+
+        loop for each overlappingBooking
+          repo ->> service: Booking
+
+          service->service ++ : classifyConflict()
+            alt existing booking has lower priority than booking to be made
+              alt existing booking has shareRoomType "yes" and booking to be made is collaborative
+                service-->service: ConflictType COOPERATE
+              else
+                service-->service: ConflictType OVERRIDE
+              end
+            else
+              alt existing booking has shareRoomType YES
+                service-->service: ConflictType COOPERATE
+              else shareRoomType NO
+                service-->service: ConflictType CONFLICT
+              else shareRoomType ON REQUEST
+                service-->service -- : ConflictType CONTACT
+              end
+            end
+        end
+        service <-- repo -- : finish
+
+    alt any booking was marked CONFLICT
+      service-->controller: BookingAttemptResult.Failure()
+      deactivate service
+    else any booking was marked CONTACT
+      service-->controller: BookingAttemptResult.PossibleCooperation.Deferred()
+    else any booking overlapped
+      service-->controller: BookingAttemptResult.PossibleCooperation.Immediate()
+    else no overlapping bookings
+      service-->controller: BookingAttemptResult.PossibleCooperation.Success()
+    end
+
+    controller <-- controller -- : Redirect to appropriate dialog
+
+    <--controller : Redirect
+  deactivate controller
+deactivate controller
+@enduml
