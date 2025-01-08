@@ -1,6 +1,8 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.config.security.SoliUserDetails;
+import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
  */
 @ControllerAdvice
 @Slf4j
-public class LoginControllerAdvice {
+public class LayoutParamsAdvice {
     private final UserService userService;
 
     /**
@@ -23,7 +25,7 @@ public class LoginControllerAdvice {
      *
      * @param userService the service for managing users
      */
-    public LoginControllerAdvice(UserService userService) {
+    public LayoutParamsAdvice(UserService userService) {
         this.userService = userService;
     }
 
@@ -56,5 +58,20 @@ public class LoginControllerAdvice {
         } else {
             return new LoginStateModel(principal.getDisplayName(), LoginStateModel.Kind.OAUTH, csrf, principal.getUser());
         }
+    }
+
+    /**
+     * Retrieves the state of the site layout
+     *
+     * @param login the state of the users login
+     * @param request the HTTP request
+     * @return state of the site layout
+     */
+    @ModelAttribute("layout")
+    public LayoutParams getLayoutParams(@ModelAttribute("login") LoginStateModel login, HttpServletRequest request) {
+        return new LayoutParams(
+                login,
+                (Room) request.getSession().getAttribute("room"),
+                room -> request.getSession().setAttribute("room", room));
     }
 }

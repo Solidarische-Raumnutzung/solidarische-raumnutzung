@@ -1,23 +1,25 @@
 package edu.kit.hci.soli.test;
 
+import edu.kit.hci.soli.controller.LayoutParamsAdvice;
 import edu.kit.hci.soli.domain.*;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.repository.BookingsRepository;
-import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TestService {
     @Autowired private UserRepository userRepository;
-    @Autowired private RoomRepository roomRepository;
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private UserService userService;
     @Autowired private RoomService roomService;
     @Autowired private BookingsService bookingsService;
+    @Autowired private LayoutParamsAdvice layoutParamsAdvice;
 
     public User user;
     public User user2;
@@ -44,5 +46,9 @@ public class TestService {
         booking.setPriority(Priority.HIGHEST);
         booking.setShareRoomType(ShareRoomType.ON_REQUEST);
         return booking;
+    }
+
+    public LayoutParams paramsFor(User user, HttpServletRequest request) {
+        return layoutParamsAdvice.getLayoutParams(layoutParamsAdvice.getLoginStateModel(() -> user, null), request);
     }
 }

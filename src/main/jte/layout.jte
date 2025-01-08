@@ -1,15 +1,13 @@
-@import edu.kit.hci.soli.domain.Room
+@import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import gg.jte.Content
 @import static org.springframework.http.HttpMethod.*
 
-@param LoginStateModel login
-@param JteContext context
-
 @param PageSpec page
-@param Room room
+@param LayoutParams layout
+@param JteContext context
 
 @param Content content
 
@@ -151,19 +149,19 @@
                                 <div class="basis-1/4">
                                     <div class="relative h-20 w-20">
                                         <div class="absolute inset-x-0 bottom-0 h-16">
-                                            <label>Welcome, ${login.name()}</label>
+                                            <label>Welcome, ${layout.getLogin().name()}</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="basis-1/2">
                                     <div class="relative h-20 w-20">
                                         <div class="absolute inset-x-0 bottom-0 h-16">
-                                            @if (login.kind() == LoginStateModel.Kind.VISITOR)
+                                            @if (layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
                                                 <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
                                                     <i class="fa-solid fa-right-to-bracket"></i>
                                                 </a>
                                             @else
-                                                @template.util.form(csrf = login.csrfToken(), action = "/logout", method = POST, content = @`
+                                                @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/logout", method = POST, content = @`
                                                     <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" type="submit">
                                                         <i class="fa-solid fa-right-from-bracket"></i>
                                                     </button>
@@ -174,7 +172,7 @@
                                 </div>
                             </div>
 
-                            @if(login.kind() == LoginStateModel.Kind.ADMIN)
+                            @if(layout.getLogin().kind() == LoginStateModel.Kind.ADMIN)
                                 <div class="divider"></div>
 
                                 <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
@@ -182,15 +180,15 @@
 
                             <div class="divider"></div>
 
-                            @if (room != null)
-                                <li><a href="/${room.getId()}"><i class="fa-solid fa-calendar-days"></i> ${context.localize("calendar")}</a></li>
-                                <li><a href="/${room.getId()}/bookings"><i class="fa-solid fa-list"></i> ${context.localize("bookings.my_bookings")}</a>
+                            @if (layout.getRoom() != null)
+                                <li><a href="/${layout.getRoom().getId()}"><i class="fa-solid fa-calendar-days"></i> ${context.localize("calendar")}</a></li>
+                                <li><a href="/${layout.getRoom().getId()}/bookings"><i class="fa-solid fa-list"></i> ${context.localize("bookings.my_bookings")}</a>
                                 </li>
 
                                 <div class="divider"></div>
 
                                 <li><a class="btn btn-outline btn-primary"
-                                       href="/${room.getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                                       href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                             @endif
                         </ul>
                     </div>

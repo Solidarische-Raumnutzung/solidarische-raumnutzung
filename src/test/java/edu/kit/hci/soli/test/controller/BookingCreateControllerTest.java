@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -55,7 +54,7 @@ public class BookingCreateControllerTest {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
-        String result = bookingsController.createBooking(model, response, request, room, () -> user, formData);
+        String result = bookingsController.createBooking(model, response, request, room, testService.paramsFor(user, request), () -> user, formData);
         if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }
@@ -137,7 +136,8 @@ public class BookingCreateControllerTest {
 
     @Test
     public void testNewBooking_RoomNotFound() {
-        HttpServletResponse response = mock(HttpServletResponse.class);
+        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletResponse response = new MockHttpServletResponse();
         Model model = new ExtendedModelMap();
         roomService = mock(RoomService.class);
         bookingsService = mock(BookingsService.class);
@@ -145,9 +145,9 @@ public class BookingCreateControllerTest {
 
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
-        String view = bookingsController.newBooking(model, response, 1L, null, null, null);
+        String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), null, null, null);
 
-        verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
+        assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
         assertEquals("error/known", view);
     }
@@ -156,7 +156,8 @@ public class BookingCreateControllerTest {
     public void testNewBooking_StartAndEndNull() {
         Room room = new Room();
         room.setId(1L);
-        HttpServletResponse response = mock(HttpServletResponse.class);
+        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletResponse response = new MockHttpServletResponse();
         Model model = new ExtendedModelMap();
         roomService = mock(RoomService.class);
         bookingsService = mock(BookingsService.class);
@@ -165,9 +166,9 @@ public class BookingCreateControllerTest {
         when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
         when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
-        String view = bookingsController.newBooking(model, response, 1L, null, null, null);
+        String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), null, null, null);
 
-        assertEquals(room, model.getAttribute("room"));
+        assertEquals(room, request.getSession().getAttribute("room"));
         assertEquals(LocalDateTime.now().plusMinutes(30).getMinute(), ((LocalDateTime) model.getAttribute("end")).getMinute());
         assertEquals(LocalDateTime.now().getMinute(), ((LocalDateTime) model.getAttribute("start")).getMinute());
         assertEquals(ShareRoomType.NO, model.getAttribute("cooperative"));
@@ -178,7 +179,8 @@ public class BookingCreateControllerTest {
     public void testNewBooking_CooperativeNull() {
         Room room = new Room();
         room.setId(1L);
-        HttpServletResponse response = mock(HttpServletResponse.class);
+        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletResponse response = new MockHttpServletResponse();
         Model model = new ExtendedModelMap();
         roomService = mock(RoomService.class);
         bookingsService = mock(BookingsService.class);
@@ -189,9 +191,9 @@ public class BookingCreateControllerTest {
         when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
         when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
-        String view = bookingsController.newBooking(model, response, 1L, start, end, null);
+        String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, null);
 
-        assertEquals(room, model.getAttribute("room"));
+        assertEquals(room, request.getSession().getAttribute("room"));
         assertEquals(start, model.getAttribute("start"));
         assertEquals(end, model.getAttribute("end"));
         assertEquals(ShareRoomType.NO, model.getAttribute("cooperative"));
@@ -202,7 +204,8 @@ public class BookingCreateControllerTest {
     public void testNewBooking_AllParametersProvided() {
         Room room = new Room();
         room.setId(1L);
-        HttpServletResponse response = mock(HttpServletResponse.class);
+        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletResponse response = new MockHttpServletResponse();
         Model model = new ExtendedModelMap();
         roomService = mock(RoomService.class);
         bookingsService = mock(BookingsService.class);
@@ -213,9 +216,9 @@ public class BookingCreateControllerTest {
         when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
         when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
-        String view = bookingsController.newBooking(model, response, 1L, start, end, true);
+        String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, true);
 
-        assertEquals(room, model.getAttribute("room"));
+        assertEquals(room, request.getSession().getAttribute("room"));
         assertEquals(start, model.getAttribute("start"));
         assertEquals(end, model.getAttribute("end"));
         assertEquals(ShareRoomType.YES, model.getAttribute("cooperative"));
@@ -228,7 +231,7 @@ public class BookingCreateControllerTest {
         request.getSession().setAttribute("attemptedBooking", null);
         Model model = new ExtendedModelMap();
 
-        String view = bookingsController.resolveConflict(model, request, 1L);
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
         assertEquals("error/known", view);
@@ -237,7 +240,7 @@ public class BookingCreateControllerTest {
     @Test
     public void testResolveConflict_RoomNotFound() {
         Booking attemptedBooking = new Booking();
-        MockHttpServletRequest request = new MockHttpServletRequest();
+        HttpServletRequest request = new MockHttpServletRequest();
         request.getSession().setAttribute("attemptedBooking", null);
         Model model = new ExtendedModelMap();
         roomService = mock(RoomService.class);
@@ -245,7 +248,7 @@ public class BookingCreateControllerTest {
 
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
-        String view = bookingsController.resolveConflict(model, request, 1L);
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
         assertEquals("error/known", view);
@@ -255,7 +258,7 @@ public class BookingCreateControllerTest {
     public void testResolveConflict_RoomIdMismatch() {
         Room room = new Room();
         room.setId(2L);
-        MockHttpServletRequest request = new MockHttpServletRequest();
+        HttpServletRequest request = new MockHttpServletRequest();
         request.getSession().setAttribute("attemptedBooking", null);
         Model model = new ExtendedModelMap();
         roomService = mock(RoomService.class);
@@ -265,7 +268,7 @@ public class BookingCreateControllerTest {
         attemptedBooking.setRoom(room);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
 
-        String view = bookingsController.resolveConflict(model, request, 1L);
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
 
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
         assertEquals("error/known", view);
@@ -275,7 +278,7 @@ public class BookingCreateControllerTest {
     public void testResolveConflict_SuccessfulBookingAttempt() {
         assertEquals(true, true);
 
-       /* Room room = new Room();
+        Room room = new Room();
         room.setId(1L);
         MockHttpServletRequest request = new MockHttpServletRequest();
         Model model = new ExtendedModelMap();
@@ -285,7 +288,7 @@ public class BookingCreateControllerTest {
         Booking attemptedBooking = new Booking();
         attemptedBooking.setRoom(room);
 
-        BookingAttemptResult.PossibleCooperation bookingResult = new PossibleCooperationImpl();
+        BookingAttemptResult.PossibleCooperation bookingResult = new BookingAttemptResult.PossibleCooperation.Immediate(List.of(), List.of());
 
         request.getSession().setAttribute("attemptedBooking", attemptedBooking);
         request.getSession().setAttribute("bookingResult", bookingResult);
@@ -293,9 +296,9 @@ public class BookingCreateControllerTest {
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
         when(bookingsService.affirm(attemptedBooking, bookingResult)).thenReturn(new BookingAttemptResult.Success(attemptedBooking));
 
-        String view = bookingsController.resolveConflict(model, request, 1L);
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
 
-        assertEquals("redirect:/" + room.getId(), view);*/
+        assertEquals("redirect:/" + room.getId(), view);
     }
 
 }

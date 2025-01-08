@@ -1,7 +1,6 @@
 @import edu.kit.hci.soli.domain.Priority
-@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.domain.ShareRoomType
-@import edu.kit.hci.soli.dto.LoginStateModel
+@import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
@@ -9,9 +8,8 @@
 @import java.time.LocalDateTime
 
 @param JteContext context
-@param LoginStateModel login
+@param LayoutParams layout
 @param CsrfToken csrf
-@param Room room
 
 @param LocalDateTime start
 @param LocalDateTime end
@@ -20,8 +18,8 @@
 @param LocalDateTime minimumTime
 @param LocalDateTime maximumTime
 
-@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, login = login, room = room, content = @`
-    @template.util.form(csrf = csrf, cssClass = "card-body w-96 mx-auto", action = "/" + room.getId() + "/bookings/new", method = POST, content = @`
+@template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, layout = layout, content = @`
+    @template.util.form(csrf = csrf, cssClass = "card-body w-96 mx-auto", action = "/" + layout.getRoom().getId() + "/bookings/new", method = POST, content = @`
         <div class="form-control">
             <label class="label" for="start">
                 <span class="label-text-alt">${context.localize("bookings.start")}</span>

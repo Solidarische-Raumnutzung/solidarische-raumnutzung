@@ -5,19 +5,16 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -60,7 +57,8 @@ public class BookingViewController {
      */
     @DeleteMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}")
     public String deleteBookings(Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
-                                 @PathVariable Long roomId, @PathVariable Long eventId) {
+                                 @PathVariable Long roomId, @PathVariable Long eventId,
+                                 @ModelAttribute("layout") LayoutParams layout) {
         log.info("Received delete request for booking {}", eventId);
         Booking booking = bookingsService.getBookingById(eventId);
 
@@ -78,7 +76,7 @@ public class BookingViewController {
             return "error/known";
         }
 
-        model.addAttribute("room", booking.getRoom());
+        layout.setRoom(booking.getRoom());
 
         User admin = userService.resolveAdminUser();
 
@@ -116,19 +114,19 @@ public class BookingViewController {
                                Model model,
                                HttpServletResponse response,
                                @AuthenticationPrincipal SoliUserDetails principal,
-                               @PathVariable Long roomId) {
+                               @PathVariable Long roomId,
+                               @ModelAttribute("layout") LayoutParams layout) {
 
         if (size > maxPaginationSize) {
             size = maxPaginationSize;
         }
-
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error/known";
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         model.addAttribute("bookings", bookingsService.getBookingsByUser(principal.getUser(), room.get(), page, size));
 
         return "bookings/list";
@@ -142,13 +140,15 @@ public class BookingViewController {
      * @param principal the authenticated user details
      * @param roomId    the ID of the room
      * @param eventId   the ID of the event
+     * @param layout    state of the site layout
      * @return the view name
      */
     @GetMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}")
     public String viewEvent(Model model, HttpServletResponse response,
                             @AuthenticationPrincipal SoliUserDetails principal,
                             @PathVariable Long roomId,
-                            @PathVariable Long eventId) {
+                            @PathVariable Long eventId,
+                            @ModelAttribute("layout") LayoutParams layout) {
 
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
@@ -162,7 +162,9 @@ public class BookingViewController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error/known";
         }
-        model.addAttribute("room", room.get());
+
+        layout.setRoom(room.get());
+
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
                 ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())

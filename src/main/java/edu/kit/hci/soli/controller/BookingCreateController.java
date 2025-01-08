@@ -4,6 +4,7 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,6 +58,7 @@ public class BookingCreateController {
     @GetMapping("/{roomId:\\d+}/bookings/new")
     public String newBooking(
             Model model, HttpServletResponse response, @PathVariable Long roomId,
+            @ModelAttribute("layout") LayoutParams layout,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
             @RequestParam(required = false) Boolean cooperative
@@ -76,7 +78,7 @@ public class BookingCreateController {
         if (cooperative == null) {
             cooperative = false;
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         model.addAttribute("start", start);
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
@@ -102,6 +104,7 @@ public class BookingCreateController {
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request,
             @PathVariable Long roomId,
+            @ModelAttribute("layout") LayoutParams layout,
             @AuthenticationPrincipal SoliUserDetails principal,
             @ModelAttribute FormData formData
     ) {
@@ -116,7 +119,7 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.MISSING_PARAMETER);
             return "error/known";
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         formData.description = formData.description == null ? "" : formData.description.trim();
 
         // Validate start and end times
@@ -151,11 +154,13 @@ public class BookingCreateController {
      * @param model   the model to be used in the view
      * @param request the HTTP request
      * @param roomId  the ID of the room
+     * @param layout  state of the site layout
      * @return the view name
      */
     @PostMapping(value = "/{roomId:\\d+}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
     public String resolveConflict(
-            Model model, HttpServletRequest request, @PathVariable Long roomId
+            Model model, HttpServletRequest request, @PathVariable Long roomId,
+            @ModelAttribute("layout") LayoutParams layout
     ) {
         Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
         if (attemptedBooking == null) {
@@ -171,7 +176,7 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error/known";
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         BookingAttemptResult.PossibleCooperation bookingResult = (BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
         return handleBookingAttempt(attemptedBooking, bookingsService.affirm(attemptedBooking, bookingResult), request, model);
     }

@@ -1,21 +1,20 @@
 @import edu.kit.hci.soli.domain.User
-@import edu.kit.hci.soli.dto.LoginStateModel
+@import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.data.domain.Page
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
-@import java.util.List
 @import java.util.UUID
 
 @param JteContext context
-@param LoginStateModel login
+@param LayoutParams layout
 @param CsrfToken csrf
 
 @param Page<User> users
 @param boolean guestsEnabled
 
-@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, login = login, room = null, content = @`
+@template.layout(page = new PageSpec(context.lookup("administration.user"), "Soli"), context = context, layout = layout, content = @`
     <div class="overflow-x-auto">
         @if (guestsEnabled)
             !{var id = "modal_" + UUID.randomUUID().toString().replace("-", "");}

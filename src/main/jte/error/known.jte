@@ -1,16 +1,14 @@
 @import edu.kit.hci.soli.config.template.PageSpec
-@import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.KnownError
-@import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
+@import edu.kit.hci.soli.dto.LayoutParams
 
 @param JteContext context
-@param LoginStateModel login
+@param LayoutParams layout
+
 @param KnownError error
 
-@param Room room = null
-
-@template.layout(page = new PageSpec("Not Found", "Soli"), context = context, login = login, room = room, content = @`
+@template.layout(page = new PageSpec("Not Found", "Soli"), context = context, layout = layout, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize(error.title)}</h1>

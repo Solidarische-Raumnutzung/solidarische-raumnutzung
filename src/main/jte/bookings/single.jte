@@ -1,12 +1,10 @@
 @import edu.kit.hci.soli.domain.Booking
-@import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.time.format.DateTimeFormatter
 
 @param JteContext context
-@param LoginStateModel login
 @param CsrfToken csrf
 
 @param Booking booking
