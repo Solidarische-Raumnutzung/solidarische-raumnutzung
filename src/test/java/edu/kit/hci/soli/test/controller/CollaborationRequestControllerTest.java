@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.lang.Nullable;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
@@ -59,8 +60,9 @@ public class CollaborationRequestControllerTest {
 
     private @Nullable KnownError lsmViewRequest(Booking booking, Room room, User user) {
         ExtendedModelMap model = new ExtendedModelMap();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String result = bookingsController.viewCollaborationRequest(model, response, () -> user, room.getId(), booking.getId());
+        String result = bookingsController.viewCollaborationRequest(model, response, () -> user, testService.paramsFor(user, request), room.getId(), booking.getId());
         if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }
@@ -70,8 +72,9 @@ public class CollaborationRequestControllerTest {
 
     private @Nullable KnownError lsmAcceptRequest(Booking booking, Room room, User user) {
         ExtendedModelMap model = new ExtendedModelMap();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String result = bookingsController.acceptCollaborationRequest(model, response, () -> user, room.getId(), booking.getId());
+        String result = bookingsController.acceptCollaborationRequest(model, response, () -> user, testService.paramsFor(user, request), room.getId(), booking.getId());
         if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }
@@ -81,8 +84,9 @@ public class CollaborationRequestControllerTest {
 
     private @Nullable KnownError lsmRejectRequest(Booking booking, Room room, User user) {
         ExtendedModelMap model = new ExtendedModelMap();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String result = bookingsController.rejectCollaborationRequest(model, response, () -> user, room.getId(), booking.getId());
+        String result = bookingsController.rejectCollaborationRequest(model, response, () -> user, testService.paramsFor(user, request), room.getId(), booking.getId());
         if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }

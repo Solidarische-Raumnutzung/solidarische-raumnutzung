@@ -8,9 +8,11 @@ import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,7 @@ public class BookingViewControllerTest {
     private Model model;
     private HttpServletResponse response;
     private SoliUserDetails principal;
+    private LayoutParams layoutParams;
 
     @BeforeEach
     public void setUp() {
@@ -40,13 +43,14 @@ public class BookingViewControllerTest {
         model = mock(Model.class);
         response = mock(HttpServletResponse.class);
         principal = mock(SoliUserDetails.class);
+        layoutParams = mock(LayoutParams.class);
     }
 
     @Test
     public void testDeleteBookings_BookingNotFound() throws Exception {
         when(bookingsService.getBookingById(1L)).thenReturn(null);
 
-        String view = bookingViewController.deleteBookings(model, response, principal, 1L, 1L);
+        String view = bookingViewController.deleteBookings(model, response, principal, 1L, 1L, layoutParams);
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
@@ -61,7 +65,7 @@ public class BookingViewControllerTest {
         booking.setRoom(room);
         when(bookingsService.getBookingById(1L)).thenReturn(booking);
 
-        String view = bookingViewController.deleteBookings(model, response, principal, 1L, 1L);
+        String view = bookingViewController.deleteBookings(model, response, principal, 1L, 1L, layoutParams);
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
@@ -80,7 +84,7 @@ public class BookingViewControllerTest {
         when(userService.resolveAdminUser()).thenReturn(admin);
         when(principal.getUser()).thenReturn(admin);
 
-        String view = bookingViewController.deleteBookings(model, response, principal, 1L, 1L);
+        String view = bookingViewController.deleteBookings(model, response, principal, 1L, 1L, layoutParams);
 
         verify(bookingsService).delete(booking, BookingDeleteReason.ADMIN);
         assertEquals("redirect:/1/bookings", view);
@@ -90,7 +94,7 @@ public class BookingViewControllerTest {
     public void testRoomBookings_RoomNotFound() throws Exception {
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
-        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L);
+        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L, layoutParams);
 
         verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
@@ -104,9 +108,9 @@ public class BookingViewControllerTest {
         User user = new User();
         when(principal.getUser()).thenReturn(user);
 
-        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L);
+        String view = bookingViewController.roomBookings(0, 10, model, response, principal, 1L, layoutParams);
 
-        verify(model).addAttribute("room", room);
+        verify(layoutParams).setRoom(room);
         verify(model).addAttribute("bookings", bookingsService.getBookingsByUser(user, room, 0, 10));
         assertEquals("bookings/list", view);
     }
@@ -117,7 +121,7 @@ public class BookingViewControllerTest {
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
         when(bookingsService.getBookingById(1L)).thenReturn(null);
 
-        String view = bookingViewController.viewEvent(model, response, principal, 1L, 1L);
+        String view = bookingViewController.viewEvent(model, response, principal, 1L, 1L, layoutParams);
 
         verify(model).addAttribute("error", KnownError.NOT_FOUND);
         assertEquals("error/known", view);
@@ -138,9 +142,9 @@ public class BookingViewControllerTest {
         booking.setUser(user);
         when(principal.getUser()).thenReturn(user);
 
-        String view = bookingViewController.viewEvent(model, response, principal, 1L, 1L);
+        String view = bookingViewController.viewEvent(model, response, principal, 1L, 1L, layoutParams);
 
-        verify(model).addAttribute("room", room);
+        verify(layoutParams).setRoom(room);
         verify(model).addAttribute("booking", booking);
         assertEquals("bookings/single_page", view);
     }
