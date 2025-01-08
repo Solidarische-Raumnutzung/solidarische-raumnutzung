@@ -5,11 +5,11 @@
 @import org.springframework.data.domain.Page
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
-@import java.util.List
 
 @param JteContext context
 @param LayoutParams layout
 @param CsrfToken csrf
+
 @param Page<Booking> bookings
 
 @template.layout(page = new PageSpec("Meine Reservierungen", "Soli"), context = context, layout = layout, content = @`
@@ -55,7 +55,7 @@
                 </tbody>
             </table>
             <div>
-                @template.util.pagination(context = context, content = bookings, baseUrl = "/" + room.getId() + "/bookings")
+                @template.util.pagination(context = context, content = bookings, baseUrl = "/" + layout.getRoom().getId() + "/bookings")
             </div>
         @endif
     </div>

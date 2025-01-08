@@ -58,6 +58,7 @@ public class BookingCreateController {
     @GetMapping("/{roomId:\\d+}/bookings/new")
     public String newBooking(
             Model model, HttpServletResponse response, @PathVariable Long roomId,
+            @ModelAttribute("layout") LayoutParams layout,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
             @RequestParam(required = false) Boolean cooperative
@@ -77,7 +78,7 @@ public class BookingCreateController {
         if (cooperative == null) {
             cooperative = false;
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         model.addAttribute("start", start);
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
@@ -103,6 +104,7 @@ public class BookingCreateController {
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request,
             @PathVariable Long roomId,
+            @ModelAttribute("layout") LayoutParams layout,
             @AuthenticationPrincipal SoliUserDetails principal,
             @ModelAttribute FormData formData
     ) {
@@ -117,7 +119,7 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.MISSING_PARAMETER);
             return "error/known";
         }
-        model.addAttribute("room", room.get());
+        layout.setRoom(room.get());
         formData.description = formData.description == null ? "" : formData.description.trim();
 
         // Validate start and end times

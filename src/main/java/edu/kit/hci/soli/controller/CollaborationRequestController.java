@@ -3,6 +3,7 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.service.BookingsService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,7 @@ public class CollaborationRequestController {
     @GetMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/collaboration")
     public String viewCollaborationRequest(
             Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
+            @ModelAttribute("layout") LayoutParams layout,
             @PathVariable Long roomId, @PathVariable Long eventId
     ) {
         log.info("Received request for managing collaboration on booking {}", eventId);
@@ -62,7 +64,7 @@ public class CollaborationRequestController {
             return "error/known";
         }
 
-        model.addAttribute("room", booking.getRoom());
+        layout.setRoom(booking.getRoom());
 
         if (!booking.getOpenRequests().contains(principal.getUser())) {
             log.info("Booking {} in room {} has no outstanding collaboration request for {}", eventId, roomId, principal.getUser());
@@ -89,6 +91,7 @@ public class CollaborationRequestController {
     @PutMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/collaboration")
     public String acceptCollaborationRequest(
             Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
+            @ModelAttribute("layout") LayoutParams layout,
             @PathVariable Long roomId, @PathVariable Long eventId
     ) {
         log.info("Received request to accept collaboration on booking {}", eventId);
@@ -108,7 +111,7 @@ public class CollaborationRequestController {
             return "error/known";
         }
 
-        model.addAttribute("room", booking.getRoom());
+        layout.setRoom(booking.getRoom());
 
         if (!booking.getOpenRequests().contains(principal.getUser())) {
             log.info("Booking {} in room {} has no outstanding collaboration request for {}", eventId, roomId, principal.getUser());
@@ -135,6 +138,7 @@ public class CollaborationRequestController {
     @DeleteMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/collaboration")
     public String rejectCollaborationRequest(
             Model model, HttpServletResponse response, @AuthenticationPrincipal SoliUserDetails principal,
+            @ModelAttribute("layout") LayoutParams layout,
             @PathVariable Long roomId, @PathVariable Long eventId
     ) {
         log.info("Received request to reject collaboration on booking {}", eventId);
@@ -154,7 +158,7 @@ public class CollaborationRequestController {
             return "error/known";
         }
 
-        model.addAttribute("room", booking.getRoom());
+        layout.setRoom(booking.getRoom());
 
         if (!booking.getOpenRequests().contains(principal.getUser())) {
             log.info("Booking {} in room {} has no outstanding collaboration request for {}", eventId, roomId, principal.getUser());
