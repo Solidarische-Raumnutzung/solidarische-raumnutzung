@@ -4,8 +4,11 @@ spring:
       additional-paths: ./src/main/jte
 
 soli:
+  pagination:
+    max-size: 100
   development-mode: true
   administrator:
     password: "{noop}password"
   guest:
     marker: "guest"
+  hostname: "http://localhost:8080"

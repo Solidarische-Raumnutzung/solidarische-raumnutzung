@@ -55,7 +55,7 @@ public class BookingCreateController {
      * @param cooperative whether the booking is cooperative
      * @return the view name
      */
-    @GetMapping("/{roomId}/bookings/new")
+    @GetMapping("/{roomId:\\d+}/bookings/new")
     public String newBooking(
             Model model, HttpServletResponse response, @PathVariable Long roomId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
@@ -66,7 +66,7 @@ public class BookingCreateController {
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         if (start == null) {
             start = LocalDateTime.now();
@@ -85,7 +85,7 @@ public class BookingCreateController {
         model.addAttribute("minimumTime", bookingsService.minimumTime());
         model.addAttribute("maximumTime", bookingsService.maximumTime());
 
-        return "create_booking";
+        return "bookings/create/form";
     }
 
     /**
@@ -99,7 +99,7 @@ public class BookingCreateController {
      * @param formData  the form data for the booking
      * @return the view name
      */
-    @PostMapping(value = "/{roomId}/bookings/new", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/{roomId:\\d+}/bookings/new", consumes = "application/x-www-form-urlencoded")
     public String createBooking(
             Model model, HttpServletResponse response, HttpServletRequest request,
             @PathVariable Long roomId,
@@ -110,12 +110,12 @@ public class BookingCreateController {
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         if (formData.start == null || formData.end == null || formData.priority == null || formData.cooperative == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.MISSING_PARAMETER);
-            return "error_known";
+            return "error/known";
         }
         model.addAttribute("room", room.get());
         formData.description = formData.description == null ? "" : formData.description.trim();
@@ -129,7 +129,7 @@ public class BookingCreateController {
                 || formData.end.getMinute() % 15 != 0) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
-            return "error_known";
+            return "error/known";
         }
 
         Booking attemptedBooking = new Booking(
@@ -155,7 +155,7 @@ public class BookingCreateController {
      * @param layout  state of the site layout
      * @return the view name
      */
-    @PostMapping(value = "/{roomId}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/{roomId:\\d+}/bookings/new/conflict", consumes = "application/x-www-form-urlencoded")
     public String resolveConflict(
             Model model, HttpServletRequest request, @PathVariable Long roomId,
             @ModelAttribute("layout") LayoutParams layout
@@ -163,16 +163,16 @@ public class BookingCreateController {
         Booking attemptedBooking = (Booking) request.getSession().getAttribute("attemptedBooking");
         if (attemptedBooking == null) {
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         if (!Objects.equals(attemptedBooking.getRoom().getId(), roomId)) {
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         layout.setRoom(room.get());
         BookingAttemptResult.PossibleCooperation bookingResult = (BookingAttemptResult.PossibleCooperation) request.getSession().getAttribute("bookingResult");
@@ -193,7 +193,7 @@ public class BookingCreateController {
             case BookingAttemptResult.Failure(var conflict) -> {
                 model.addAttribute("error", KnownError.EVENT_CONFLICT);
                 model.addAttribute("conflicts", conflict);
-                yield "error_known";
+                yield "error/known";
             }
             case BookingAttemptResult.Success(var booking) -> "redirect:/" + attemptedBooking.getRoom().getId();
             case BookingAttemptResult.PossibleCooperation result -> {
@@ -201,11 +201,11 @@ public class BookingCreateController {
                 request.getSession().setAttribute("bookingResult", result);
                 model.addAttribute("attemptedBooking", attemptedBooking);
                 model.addAttribute("bookingResult", result);
-                yield "create_booking_conflict";
+                yield "bookings/create/conflict";
             }
             case BookingAttemptResult.Staged(var staged) -> {
                 model.addAttribute("stagedBooking", staged);
-                yield "create_booking_staged";
+                yield "bookings/create/success_staged";
             }
         };
     }

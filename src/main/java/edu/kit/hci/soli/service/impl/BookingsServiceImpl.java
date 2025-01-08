@@ -9,13 +9,14 @@ import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -44,7 +45,7 @@ public class BookingsServiceImpl implements BookingsService {
      */
     private ConflictType classifyConflict(Booking booking, Booking other) {
         final boolean mayCooperate = !ShareRoomType.NO.equals(booking.getShareRoomType());
-        if (booking.getPriority().compareTo(other.getPriority()) < 0) {
+        if (booking.getPriority().compareTo(other.getPriority()) < 0) { // counterintuitive, but higher priorities come first in the enum
             return mayCooperate && ShareRoomType.YES.equals(other.getShareRoomType()) ? ConflictType.COOPERATE : ConflictType.OVERRIDE;
         } else {
             return mayCooperate ? switch (other.getShareRoomType()) {
@@ -74,7 +75,7 @@ public class BookingsServiceImpl implements BookingsService {
     @Transactional
     @Override
     public BookingAttemptResult attemptToBook(Booking booking) {
-        if (!booking.getOutstandingRequests().isEmpty()) throw new IllegalArgumentException("Booking has outstanding requests");
+        if (!booking.getOpenRequests().isEmpty()) throw new IllegalArgumentException("Booking has outstanding requests");
         if (booking.getId() != null) throw new IllegalArgumentException("Booking already saved");
         List<Booking> override = new ArrayList<>();
         List<Booking> contact = new ArrayList<>();
@@ -83,9 +84,9 @@ public class BookingsServiceImpl implements BookingsService {
         bookingsRepository.findOverlappingBookings(booking.getRoom(), booking.getStartDate(), booking.getEndDate())
                 .forEach(b -> (switch (classifyConflict(booking, b)) {
                     case OVERRIDE -> override;
-                    case CONFLICT -> b.getOutstandingRequests().isEmpty() ? conflict : override;
+                    case CONFLICT -> b.getOpenRequests().isEmpty() ? conflict : override;
                     case COOPERATE -> cooperate;
-                    case CONTACT -> b.getOutstandingRequests().isEmpty() ? contact : cooperate;
+                    case CONTACT -> b.getOpenRequests().isEmpty() ? contact : cooperate;
                 }).add(b));
         if (!conflict.isEmpty()) return new BookingAttemptResult.Failure(conflict);
         if (!contact.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Deferred(override, contact, cooperate);
@@ -94,6 +95,7 @@ public class BookingsServiceImpl implements BookingsService {
     }
 
     @Override
+    @Transactional
     public void deleteAllBookingsForUser(User user) {
         bookingsRepository.deleteAllByUser(user);
     }
@@ -109,8 +111,20 @@ public class BookingsServiceImpl implements BookingsService {
                     yield new BookingAttemptResult.Success(bookingsRepository.save(booking));
                 }
                 case BookingAttemptResult.PossibleCooperation.Deferred(var override, var contact, var cooperate) -> {
-                    booking.setOutstandingRequests(contact.stream().map(Booking::getUser).collect(Collectors.toSet()));
-                    yield new BookingAttemptResult.Staged(bookingsRepository.save(booking));
+                    Set<User> openRequests = contact.stream().map(Booking::getUser).collect(Collectors.toSet());
+                    booking.setOpenRequests(openRequests);
+                    booking = bookingsRepository.save(booking);
+                    for (User request : openRequests) {
+                        emailService.sendMail(
+                                request,
+                                "bookings.collaboration",
+                                "mail/collaboration_request",
+                                Map.of(
+                                        "booking", booking
+                                )
+                        );
+                    }
+                    yield new BookingAttemptResult.Staged(booking);
                 }
             };
         }
@@ -119,7 +133,7 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Override
     public Booking getBookingById(Long id) {
-        return bookingsRepository.findById(id).orElse(null);
+        return id == null ? null : bookingsRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -139,12 +153,11 @@ public class BookingsServiceImpl implements BookingsService {
     @Transactional
     @Override
     public boolean confirmRequest(Booking stagedBooking, User user) {
-        //TODO make this available in a controller and send the URL via E-Mail
-        boolean result = stagedBooking.getOutstandingRequests().remove(user);
+        boolean result = stagedBooking.getOpenRequests().remove(user);
         bookingsRepository.save(stagedBooking);
-        if (stagedBooking.getOutstandingRequests().isEmpty()) {
+        if (stagedBooking.getOpenRequests().isEmpty()) {
             bookingsRepository.findOverlappingBookings(stagedBooking.getRoom(), stagedBooking.getStartDate(), stagedBooking.getEndDate())
-                    .filter(s -> !s.getOutstandingRequests().isEmpty())
+                    .filter(s -> !s.getOpenRequests().isEmpty())
                     .forEach(b -> {
                         switch (classifyConflict(stagedBooking, b)) {
                             case OVERRIDE, CONFLICT -> delete(b, BookingDeleteReason.CONFLICT);
@@ -155,16 +168,33 @@ public class BookingsServiceImpl implements BookingsService {
         return result;
     }
 
+    @Transactional
     @Override
-    public List<Booking> getBookingsByUser(User user, Room room) {
-        return bookingsRepository.findByUserAndRoom(room, user);
+    public boolean denyRequest(Booking stagedBooking, User user) {
+        if (stagedBooking.getOpenRequests().remove(user)) {
+            bookingsRepository.delete(stagedBooking);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public Page<Booking> getBookingsByUser(User user, Room room, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return bookingsRepository.findByUserAndRoom(user, room, pageable);
+    }
+
+    @Override
+    public boolean hasBookings(User user) {
+        return bookingsRepository.existsByUser(user);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
         return bookingsRepository.findOverlappingBookings(room, start, end)
-                .filter(s -> s.getOutstandingRequests().isEmpty())
+                .filter(s -> s.getOpenRequests().isEmpty())
                 .map(booking -> new CalendarEvent(
                         "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
                         "",
@@ -198,5 +228,27 @@ public class BookingsServiceImpl implements BookingsService {
     @Override
     public LocalDateTime maximumTime() {
         return normalize(LocalDateTime.now().plusDays(14));
+    }
+
+    /**
+     * Enum representing the types of conflicts that can occur between bookings.
+     */
+    private enum ConflictType {
+        /**
+         * Indicates that the new booking overrides the existing booking.
+         */
+        OVERRIDE,
+        /**
+         * Indicates that the new booking requires contact with the owner of the existing booking.
+         */
+        CONTACT,
+        /**
+         * Indicates that the new booking can cooperate with the existing booking.
+         */
+        COOPERATE,
+        /**
+         * Indicates that the new booking conflicts with the existing booking.
+         */
+        CONFLICT
     }
 }

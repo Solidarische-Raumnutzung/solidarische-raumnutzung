@@ -41,7 +41,6 @@ public class CalendarController {
      * @param request   the HTTP request
      * @param response  the HTTP response
      * @param principal the authenticated user details
-     * @param layout    state of the site layout
      * @return the view name
      */
     @GetMapping("/")
@@ -62,7 +61,7 @@ public class CalendarController {
      * @param layout    state of the site layout
      * @return the view name
      */
-    @GetMapping("/{roomId}")
+    @GetMapping("/{roomId:\\d+}")
     public String calendar(Model model, HttpServletRequest request, HttpServletResponse response,
                            @AuthenticationPrincipal SoliUserDetails principal,
                            @PathVariable long roomId,
@@ -75,9 +74,9 @@ public class CalendarController {
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("error", KnownError.NOT_FOUND);
-            return "error_known";
+            return "error/known";
         }
         layout.setRoom(room.get());
-        return "calendar";
+        return "bookings/calendar";
     }
 }

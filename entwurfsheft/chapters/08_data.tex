@@ -1,0 +1,17 @@
+%!TEX root = ../main.tex
+
+\chapter{Daten}
+\label{ch:data}
+
+Der Daten-Layer befindet sich im Paket \hyperref[edu.kit.hci.soli.repository]{\texttt{repository}} dieses enthält Schnittstellen, die für den Datenzugriff und die Verwaltung von Entitäten in der Datenbank verantwortlich sind.
+Hierfür wird das Spring Data JPA Framework verwendet, um \gls{CRUD}-Operationen und benutzerdefinierte Abfragen auf den Entitäten durchzuführen.
+Die Hauptaufgaben des Daten-Layers sind:
+
+\begin{itemize}
+    \item Verwaltung von Entitäten: Es definiert Schnittstellen, die von JPA-Repository erben, um CRUD-Operationen auf den Entitäten durchzuführen.
+    \item Benutzerdefinierte Abfragen: Es definiert benutzerdefinierte Abfragen, um spezifische Daten aus der Datenbank zu extrahieren.
+\end{itemize}
+
+Welche Operationen auf welcher Entität durchgeführt werden können, ist im Folgenden dargestellt.
+
+\InputIfFileExists{javadoc/edu.kit.hci.soli.repository}{}{}

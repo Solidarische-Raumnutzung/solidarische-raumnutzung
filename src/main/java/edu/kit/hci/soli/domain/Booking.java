@@ -62,8 +62,8 @@ public class Booking {
      * The set of share requests that must still be resolved for this booking to be confirmed.
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "soli_outstanding_requests")
-    private Set<User> outstandingRequests = new HashSet<>();
+    @JoinTable(name = "soli_open_requests", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> openRequests = new HashSet<>();
 
     /**
      * Constructs a new Booking with the specified details.
@@ -76,9 +76,9 @@ public class Booking {
      * @param room                the room associated with the booking
      * @param user                the user who made the booking
      * @param priority            the priority level of the booking
-     * @param outstandingRequests the set of share requests that must still be resolved
+     * @param openRequests the set of share requests that must still be resolved
      */
-    public Booking(Long id, String description, LocalDateTime startDate, LocalDateTime endDate, ShareRoomType shareRoomType, Room room, User user, Priority priority, Set<User> outstandingRequests) {
+    public Booking(Long id, String description, LocalDateTime startDate, LocalDateTime endDate, ShareRoomType shareRoomType, Room room, User user, Priority priority, Set<User> openRequests) {
         this.id = id;
         this.description = description;
         this.startDate = startDate;
@@ -87,7 +87,7 @@ public class Booking {
         this.room = room;
         this.user = user;
         this.priority = priority;
-        this.outstandingRequests = outstandingRequests;
+        this.openRequests = openRequests;
     }
 
     /**
@@ -173,8 +173,8 @@ public class Booking {
      *
      * @return the set of share requests that must still be resolved
      */
-    public Set<User> getOutstandingRequests() {
-        return this.outstandingRequests;
+    public Set<User> getOpenRequests() {
+        return this.openRequests;
     }
 
     /**
@@ -252,10 +252,10 @@ public class Booking {
     /**
      * Sets the set of share requests that must still be resolved for this booking to be confirmed.
      *
-     * @param outstandingRequests the set of share requests that must still be resolved
+     * @param openRequests the set of share requests that must still be resolved
      */
-    public void setOutstandingRequests(Set<User> outstandingRequests) {
-        this.outstandingRequests = outstandingRequests;
+    public void setOpenRequests(Set<User> openRequests) {
+        this.openRequests = openRequests;
     }
 
     public boolean equals(final Object o) {

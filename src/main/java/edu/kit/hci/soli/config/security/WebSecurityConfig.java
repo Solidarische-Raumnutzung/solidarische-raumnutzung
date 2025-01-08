@@ -6,6 +6,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.*;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -20,10 +23,11 @@ public class WebSecurityConfig {
     // https://spring.io/guides/gs/securing-web
     // https://docs.spring.io/spring-security/reference/servlet/oauth2/login/index.html
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, PersistentTokenRepository tokenRepository) throws Exception {
         http
                 .authorizeHttpRequests(cfg -> cfg
                         .requestMatchers("/", "/{id:\\d+}", "/api/{id:\\d+}/events", "/login/guest").permitAll()
+                        .requestMatchers("/favicon.ico", "/favicon.svg", "/favicon_180x180.png", "/favicon_512x512.png", "/mask-icon.svg", "/manifest.json").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -38,7 +42,21 @@ public class WebSecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
+                .rememberMe(cfg -> cfg
+                        .key("remember-me")
+                        .rememberMeCookieName("remember-me")
+                        .rememberMeParameter("remember-me")
+                        .tokenRepository(tokenRepository)
+                        .tokenValiditySeconds(30 * 24 * 60 * 60)
+                )
                 .logout(LogoutConfigurer::permitAll);
         return http.build();
+    }
+
+    @Bean
+    public PersistentTokenRepository tokenRepository(DataSource dataSource) {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return tokenRepository;
     }
 }

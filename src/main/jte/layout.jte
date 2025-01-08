@@ -3,10 +3,12 @@
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
 @import gg.jte.Content
+@import static org.springframework.http.HttpMethod.*
 
 @param PageSpec page
 @param LayoutParams layout
 @param JteContext context
+
 @param Content content
 
 <!DOCTYPE html>
@@ -18,6 +20,14 @@
     <title>${page.title()}</title>
     <meta name="viewport" content="width=device-width"/>
     <meta charset="UTF-8">
+
+    <link rel="icon" href="/favicon.svg">
+    <link rel="mask-icon" href="/mask-icon.svg" color="#000000">
+    <link rel="apple-touch-icon" href="/favicon_180x180.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="icon" type="image/x-type" sizes="16x16" href="/favicon.ico">
+
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"/>
     <style>
@@ -94,6 +104,13 @@
             }
         }
     </style>
+    <noscript>
+        <style>
+            .needs-js {
+                display: none;
+            }
+        </style>
+    </noscript>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
 
@@ -119,46 +136,60 @@
                         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                             <!-- Sidebar content here -->
-                            <div class="avatar placeholder">
-                                <div class="bg-neutral text-neutral-content w-20 rounded-full">
-                                    <span class="text-3xl">D</span>
 
+                            <div class="flex flex-row gap-3">
+                                <li>
+                                    <div class="basis-1/4"><a alt="main" class="avatar placeholder" href="/">
+                                            <div class="w-20 rounded-full">
+                                                <img src="/favicon.svg">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <div class="basis-1/4">
+                                    <div class="relative h-20 w-20">
+                                        <div class="absolute inset-x-0 bottom-0 h-16">
+                                            <label>Welcome, ${layout.getLogin().name()}</label>
+                                        </div>
+                                    </div>
                                 </div>
-
+                                <div class="basis-1/2">
+                                    <div class="relative h-20 w-20">
+                                        <div class="absolute inset-x-0 bottom-0 h-16">
+                                            @if (layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
+                                                <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
+                                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                                </a>
+                                            @else
+                                                @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/logout", method = POST, content = @`
+                                                    <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" type="submit">
+                                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                                    </button>
+                                                `)
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <label>Welcome, ${layout.getLogin().name()}</label>
-
-                            <div class="divider"></div>
-
-                            @if(layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
-                                <li><a href="/login">${context.localize("login.login")}</a></li>
-                            @else
-                                <form action="/logout"
-                                      method="post">
-                                    <input type="hidden"
-                                           name="${layout.getLogin().csrfToken().getParameterName()}"
-                                           value="${layout.getLogin().csrfToken().getToken()}"/>
-                                    <li>
-                                        <button type="submit">${context.localize("login.logout")}</button>
-                                    </li>
-                                </form>
-
-                            @endif
 
                             @if(layout.getLogin().kind() == LoginStateModel.Kind.ADMIN)
                                 <div class="divider"></div>
-                                <li><a href="/admin/users">${context.localize("administration.user")}</a></li>
+
+                                <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
                             @endif
 
+                            <div class="divider"></div>
+
                             @if (layout.getRoom() != null)
-                                <li><a href="/${layout.getRoom().getId()}">${context.localize("calendar")}</a></li>
-                                <li><a href="/${layout.getRoom().getId()}/bookings">${context.localize("bookings.my_bookings")}</a></li>
+                                <li><a href="/${layout.getRoom().getId()}"><i class="fa-solid fa-calendar-days"></i> ${context.localize("calendar")}</a></li>
+                                <li><a href="/${layout.getRoom().getId()}/bookings"><i class="fa-solid fa-list"></i> ${context.localize("bookings.my_bookings")}</a>
+                                </li>
 
                                 <div class="divider"></div>
 
-                                <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new">${context.localize("bookings.new")}</a></li>
+                                <li><a class="btn btn-outline btn-primary"
+                                       href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                             @endif
-
                         </ul>
                     </div>
                 </div>
@@ -169,6 +200,7 @@
         </main>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
 </body>
 </html>

@@ -3,6 +3,7 @@ package edu.kit.hci.soli.service;
 import edu.kit.hci.soli.domain.User;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import java.util.List;
@@ -21,26 +22,22 @@ public interface UserService {
     @Nullable User findByUserId(String userId);
 
     /**
-     * Creates a new user.
+     * Deactivates or Reactivates a user.
+     * If deactivating, deletes all bookings for the user.
      *
-     * @param user the user to be created
-     * @return the created user
+     * @param user the user to be reactivated
+     * @param active the new active state of the user
      */
-    @NotNull User create(User user);
-
-    /**
-     * Disables or re-enables a user. If disabling, deletes all bookings for the user.
-     *
-     * @param user the user to be disabled or re-enabled
-     */
-    void toggleUserEnabled(User user);
+    void setUserActive(User user, boolean active);
 
     /**
      * Retrieves all users that can be managed.
-     *
+     * @param page the page number
+     *             (0-based, i.e., the first page is page 0)
+     * @param size the number of users per page
      * @return a list of manageable users
      */
-    @NotNull List<User> getManageableUsers();
+    @NotNull Page<User> getManageableUsers(int page, int size);
 
     /**
      * Retrieves a user by their ID.
@@ -74,19 +71,22 @@ public interface UserService {
     boolean isAdmin(User user);
 
     /**
-     * Resolves a guest user by their email. If the guest user does not exist, creates a new one.
+     * Resolves a guest user by their userId.
+     * If the guest user does not exist, creates a new one.
      *
-     * @param email the email of the guest user
+     * @param userId the email of the guest user
      * @return the resolved guest user
      */
-    @NotNull User resolveGuestUser(String email);
+    @NotNull User resolveGuestUser(String userId);
 
     /**
-     * Checks if guest users are enabled.
+     * Creates a guest user with the given email.
+     * The user ID will be generated.
      *
-     * @return true if guest users are enabled, false otherwise
+     * @param email the email of the guest user
+     * @return the created guest user
      */
-    boolean isGuestEnabled();
+    @NotNull User createGuestUser(String email);
 
     /**
      * Checks if a user is a guest.
@@ -95,4 +95,13 @@ public interface UserService {
      * @return true if the user is a guest, false otherwise
      */
     boolean isGuest(User user);
+
+    /**
+     * Deletes a user.
+     * If the user has any bookings, this will not delete the user.
+     *
+     * @param user the user to be deleted
+     * @return true if the user was deleted, false otherwise
+     */
+    boolean deleteUser(User user);
 }

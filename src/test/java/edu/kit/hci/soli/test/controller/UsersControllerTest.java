@@ -41,10 +41,10 @@ public class UsersControllerTest {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
         String result = usersController.deactivateUser(model, response, () -> principal, userId);
-        if (result.equals("error_known")) {
+        if (result.equals("error/known")) {
             return (KnownError) model.get("error");
         }
-        assertEquals("users", result);
+        assertEquals("redirect:/admin/users", result);
         return null;
     }
 
@@ -67,18 +67,11 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void testGetDisabledPage() {
-        ExtendedModelMap model = new ExtendedModelMap();
-        String result = usersController.getDisabled(model);
-        assertEquals("disabled_user", result);
-    }
-
-    @Test
     public void testGetUsersPage() {
         ExtendedModelMap model = new ExtendedModelMap();
         User adminUser = userService.resolveAdminUser();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String result = usersController.getUsers(model, response, () -> adminUser);
-        assertEquals("users", result);
+        String result = usersController.getUsers(0, 10, model, response, () -> adminUser);
+        assertEquals("admin/users", result);
     }
 }

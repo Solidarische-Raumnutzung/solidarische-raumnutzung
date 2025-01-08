@@ -7,11 +7,15 @@ import edu.kit.hci.soli.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -36,22 +40,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public @NotNull User create(User user) {
-        return userRepository.save(user);
-    }
-
-    @Override
-    public void toggleUserEnabled(User user) {
-        if (!user.isDisabled()) {
+    public void setUserActive(User user, boolean active) {
+        if (isAdmin(user) && !active) {
+            throw new IllegalArgumentException("Cannot disable admin user");
+        }
+        if (!userRepository.existsById(user.getId())) {
+            throw new IllegalArgumentException("User does not exist");
+        }
+        if (user.isDisabled() != active) {
+            throw new IllegalArgumentException("User is not disabled");
+        }
+        if (!active) {
             bookingsService.deleteAllBookingsForUser(user);
         }
-        user.setDisabled(!user.isDisabled());
+        user.setDisabled(!active);
         userRepository.save(user);
     }
 
     @Override
-    public @NotNull List<User> getManageableUsers() {
-        return userRepository.findAllWithoutAdmin();
+    public @NotNull Page<User> getManageableUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findAllWithoutAdmin(pageable);
     }
 
     @Override
@@ -86,23 +95,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public @NotNull User resolveGuestUser(String email) {
-        String id = "guest/" + email;
-        User user = userRepository.findByUserId(id);
+    public @NotNull User resolveGuestUser(String userId) {
+        User user = userRepository.findByUserId(userId);
         if (user == null) {
             log.error("No guest user found in database, creating new");
-            user = userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault()));
+            String email = userId.substring("guest/".length());
+            email = email.substring(email.indexOf('/') + 1);
+            user = userRepository.save(new User(null, "Guest", email, userId, false, Locale.getDefault()));
         }
         return user;
     }
 
     @Override
-    public boolean isGuestEnabled() {
-        return true;
+    public @NotNull User createGuestUser(String email) {
+        String id;
+        do {
+            id = "guest/" + UUID.randomUUID() + "/" + email;
+        } while (userRepository.existsByUserId(id));
+        log.error("Creating new guest user with ID {}", id);
+        return userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault()));
     }
 
     @Override
     public boolean isGuest(User user) {
         return user.getUserId().startsWith("guest/");
+    }
+
+    @Override
+    public boolean deleteUser(User user) {
+        if (isAdmin(user)) {
+            throw new IllegalArgumentException("Cannot delete admin user");
+        }
+        if (!userRepository.existsById(user.getId()) || bookingsService.hasBookings(user)) {
+            return false;
+        }
+        userRepository.delete(user);
+        return true;
     }
 }

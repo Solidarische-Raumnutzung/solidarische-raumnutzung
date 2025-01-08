@@ -1,9 +1,11 @@
 package edu.kit.hci.soli.test;
 
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.repository.UserRepository;
+import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,31 +15,34 @@ public class TestService {
     @Autowired private UserRepository userRepository;
     @Autowired private RoomRepository roomRepository;
     @Autowired private BookingsRepository bookingsRepository;
-
     @Autowired private UserService userService;
+    @Autowired private RoomService roomService;
+    @Autowired private BookingsService bookingsService;
 
     public User user;
     public User user2;
     public User user3;
+    public Room room;
 
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
 //        roomRepository.deleteAll(roomRepository.findAll());
         userRepository.deleteAll(userRepository.findAll());
 
-        user = new User();
-        user.setUsername("testuser");
-        user.setEmail("testuser@example.com");
-        user = userService.create(user);
+        user = userService.resolveAdminUser();
+        user2 = userService.createGuestUser("testuser2");
+        user3 = userService.createGuestUser("testuser3");
+        room = roomService.get();
+    }
 
-        user2 = new User();
-        user2.setUsername("testuser2");
-        user2.setEmail("testuser2@example.com");
-        user2 = userService.create(user2);
-
-        user3 = new User();
-        user3.setUsername("testuser3");
-        user3.setEmail("testuser3@example.com");
-        user3 = userService.create(user3);
+    public Booking createBooking(User user) {
+        Booking booking = new Booking();
+        booking.setRoom(roomService.get());
+        booking.setUser(user);
+        booking.setStartDate(bookingsService.currentSlot().plusDays(1));
+        booking.setEndDate(bookingsService.currentSlot().plusDays(2));
+        booking.setPriority(Priority.HIGHEST);
+        booking.setShareRoomType(ShareRoomType.ON_REQUEST);
+        return booking;
     }
 }

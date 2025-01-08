@@ -1,8 +1,8 @@
 package edu.kit.hci.soli.controller;
 
-import edu.kit.hci.soli.service.UserService;
+import edu.kit.hci.soli.config.SoliConfiguration;
+import edu.kit.hci.soli.service.SystemConfigurationService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class LoginController {
-    private final UserService userService;
+    private final SystemConfigurationService systemConfigurationService;
+    private final String guestMarker;
 
     /**
-     * Constructs a LoginController with the specified {@link UserService}.
+     * Constructs a LoginController with the specified {@link SystemConfigurationService}.
      *
-     * @param userService the service for managing users
+     * @param systemConfigurationService the service for retrieving the system configuration
+     * @param soliConfiguration          the configuration of the application
      */
-    public LoginController(UserService userService) {
-        this.userService = userService;
+    public LoginController(SystemConfigurationService systemConfigurationService, SoliConfiguration soliConfiguration) {
+        this.systemConfigurationService = systemConfigurationService;
+        this.guestMarker = soliConfiguration.getGuest().getMarker();
     }
 
     /**
@@ -34,13 +37,10 @@ public class LoginController {
     public String login(HttpServletRequest request, Model model) {
         if (request.getParameter("error") != null) model.addAttribute("error", "Invalid username or password");
         if (request.getParameter("logout") != null) model.addAttribute("message", "You have been logged out");
-        model.addAttribute("guestEnabled", userService.isGuestEnabled());
+        model.addAttribute("guestEnabled", systemConfigurationService.isGuestLoginEnabled());
 
-        return "login";
+        return "auth/login";
     }
-
-    @Value("${soli.guest.marker}")
-    private String guestMarker;
 
     /**
      * Displays the login UI for guests.
@@ -51,6 +51,6 @@ public class LoginController {
     @GetMapping("/login/guest")
     public String loginGuest(Model model) {
         model.addAttribute("guestMarker", guestMarker);
-        return "login_guest";
+        return "auth/login_guest";
     }
 }

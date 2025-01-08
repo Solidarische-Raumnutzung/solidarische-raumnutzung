@@ -19,7 +19,7 @@ spring:
     name: Soli
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: "jdbc:postgres://127.0.0.1:5432/soli"
+    url: "${DB_URL:jdbc:postgres://127.0.0.1:5432/soli}"
     username: soli
     password: john_soli
   profiles:
