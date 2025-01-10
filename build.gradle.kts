@@ -58,6 +58,7 @@ dependencies {
     implementation("gg.jte:jte:3.1.15")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
+    annotationProcessor("com.google.auto.service:auto-service:1.1.1")
     testAnnotationProcessor(annotationProcessor("org.projectlombok:lombok")!!)
     testCompileOnly(compileOnly("org.projectlombok:lombok")!!)
 

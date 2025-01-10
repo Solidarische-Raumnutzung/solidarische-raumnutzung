@@ -27,7 +27,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(cfg -> cfg
                         .requestMatchers("/", "/{id:\\d+}", "/api/{id:\\d+}/events", "/login/guest").permitAll()
-                        .requestMatchers("/favicon.ico", "/favicon.svg", "/favicon_180x180.png", "/favicon_512x512.png", "/mask-icon.svg", "/manifest.json").permitAll()
+                        .requestMatchers("/soli.css", "/favicon.ico", "/favicon.svg", "/favicon_180x180.png", "/favicon_512x512.png", "/mask-icon.svg", "/manifest.json").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

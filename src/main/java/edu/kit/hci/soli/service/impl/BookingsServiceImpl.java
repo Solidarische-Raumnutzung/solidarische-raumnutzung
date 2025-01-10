@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -81,13 +82,14 @@ public class BookingsServiceImpl implements BookingsService {
         List<Booking> contact = new ArrayList<>();
         List<Booking> cooperate = new ArrayList<>();
         List<Booking> conflict = new ArrayList<>();
-        bookingsRepository.findOverlappingBookings(booking.getRoom(), booking.getStartDate(), booking.getEndDate())
-                .forEach(b -> (switch (classifyConflict(booking, b)) {
-                    case OVERRIDE -> override;
-                    case CONFLICT -> b.getOpenRequests().isEmpty() ? conflict : override;
-                    case COOPERATE -> cooperate;
-                    case CONTACT -> b.getOpenRequests().isEmpty() ? contact : cooperate;
-                }).add(b));
+        try (Stream<Booking> bs = bookingsRepository.findOverlappingBookings(booking.getRoom(), booking.getStartDate(), booking.getEndDate())) {
+            bs.forEach(b -> (switch (classifyConflict(booking, b)) {
+                case OVERRIDE -> override;
+                case CONFLICT -> b.getOpenRequests().isEmpty() ? conflict : override;
+                case COOPERATE -> cooperate;
+                case CONTACT -> b.getOpenRequests().isEmpty() ? contact : cooperate;
+            }).add(b));
+        }
         if (!conflict.isEmpty()) return new BookingAttemptResult.Failure(conflict);
         if (!contact.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Deferred(override, contact, cooperate);
         if (!cooperate.isEmpty() || !override.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Immediate(override, cooperate);
@@ -156,14 +158,15 @@ public class BookingsServiceImpl implements BookingsService {
         boolean result = stagedBooking.getOpenRequests().remove(user);
         bookingsRepository.save(stagedBooking);
         if (stagedBooking.getOpenRequests().isEmpty()) {
-            bookingsRepository.findOverlappingBookings(stagedBooking.getRoom(), stagedBooking.getStartDate(), stagedBooking.getEndDate())
-                    .filter(s -> !s.getOpenRequests().isEmpty())
-                    .forEach(b -> {
-                        switch (classifyConflict(stagedBooking, b)) {
-                            case OVERRIDE, CONFLICT -> delete(b, BookingDeleteReason.CONFLICT);
-                            default -> {}
-                        }
-                    });
+            try (Stream<Booking> bs = bookingsRepository.findOverlappingBookings(stagedBooking.getRoom(), stagedBooking.getStartDate(), stagedBooking.getEndDate())) {
+                bs.filter(s -> !s.getOpenRequests().isEmpty())
+                        .forEach(b -> {
+                            switch (classifyConflict(stagedBooking, b)) {
+                                case OVERRIDE, CONFLICT -> delete(b, BookingDeleteReason.CONFLICT);
+                                default -> {}
+                            }
+                        });
+            }
         }
         return result;
     }
@@ -193,16 +196,17 @@ public class BookingsServiceImpl implements BookingsService {
     @Transactional(readOnly = true)
     @Override
     public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
-        return bookingsRepository.findOverlappingBookings(room, start, end)
-                .filter(s -> s.getOpenRequests().isEmpty())
-                .map(booking -> new CalendarEvent(
-                        "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
-                        "",
-                        booking.getStartDate(),
-                        booking.getEndDate(),
-                        getEventClasses(booking, user)
-                ))
-                .toList();
+        try (Stream<Booking> bs = bookingsRepository.findOverlappingBookings(room, start, end)) {
+            return bs.filter(s -> s.getOpenRequests().isEmpty())
+                    .map(booking -> new CalendarEvent(
+                            "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
+                            "",
+                            booking.getStartDate(),
+                            booking.getEndDate(),
+                            getEventClasses(booking, user)
+                    ))
+                    .toList();
+        }
     }
 
     /**

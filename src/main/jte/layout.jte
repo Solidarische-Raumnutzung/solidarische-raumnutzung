@@ -29,79 +29,16 @@
     <link rel="icon" type="image/x-type" sizes="16x16" href="/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"/>
+    <!-- TODO: this tailwind version is incredibly old. We should probably upgrade (but just replacing the version breaks the UI) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://solidarische-raumnutzung.github.io/tailwind-typography-stylesheet/style.css">
+    <link rel="stylesheet" type="text/css" href="/soli.css">
     <style>
         :root {
-            --tw-bg-opacity: 1;
-            --tw-text-opacity: 1;
-        }
-
-        :root {
-            color-scheme: light;
-            --in: 72.06% 0.191 231.6;
-            --su: 64.8% 0.150 160;
-            --wa: 84.71% 0.199 83.87;
-            --er: 71.76% 0.221 22.18;
-            --pc: 15.2344% 0.017892 200.026556;
-            --sc: 15.787% 0.020249 356.29965;
-            --ac: 15.8762% 0.029206 78.618794;
-            --nc: 84.7148% 0.013247 313.189598;
-            --inc: 0% 0 0;
-            --suc: 0% 0 0;
-            --wac: 0% 0 0;
-            --erc: 0% 0 0;
-            --rounded-box: 1rem;
-            --rounded-badge: 1.9rem;
-            --animation-btn: 0.25s;
-            --animation-input: .2s;
-            --btn-focus-scale: 0.95;
-            --border-btn: 1px;
-            --p: 76.172% 0.089459 200.026556;
-            --s: 78.9351% 0.101246 356.29965;
-            --a: 79.3811% 0.146032 78.618794;
-            --n: 23.5742% 0.066235 313.189598;
-            --b1: 97.7882% 0.00418 56.375637;
-            --b2: 93.9822% 0.007638 61.449292;
-            --b3: 91.5861% 0.006811 53.440502;
-            --bc: 23.5742% 0.066235 313.189598;
-            --rounded-btn: 1.9rem;
-            --tab-border: 2px;
-            --tab-radius: 0.7rem;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                color-scheme: dark;
-                --in: 72.06% 0.191 231.6;
-                --su: 64.8% 0.150 160;
-                --wa: 84.71% 0.199 83.87;
-                --er: 71.76% 0.221 22.18;
-                --pc: 13.138% 0.0392 275.75;
-                --sc: 14.96% 0.052 342.55;
-                --ac: 14.902% 0.0334 183.61;
-                --inc: 0% 0 0;
-                --suc: 0% 0 0;
-                --wac: 0% 0 0;
-                --erc: 0% 0 0;
-                --rounded-box: 1rem;
-                --rounded-btn: 0.5rem;
-                --rounded-badge: 1.9rem;
-                --animation-btn: 0.25s;
-                --animation-input: .2s;
-                --btn-focus-scale: 0.95;
-                --border-btn: 1px;
-                --tab-border: 1px;
-                --tab-radius: 0.5rem;
-                --p: 65.69% 0.196 275.75;
-                --s: 74.8% 0.26 342.55;
-                --a: 74.51% 0.167 183.61;
-                --n: 31.3815% 0.021108 254.139175;
-                --nc: 74.6477% 0.0216 264.435964;
-                --b1: 25.3267% 0.015896 252.417568;
-                --b2: 23.2607% 0.013807 253.100675;
-                --b3: 21.1484% 0.01165 254.087939;
-                --bc: 74.6477% 0.0216 264.435964;
-            }
+            --soli-priority-lowest:  "p-${context.localize("bookings.priority.LOWEST")}";
+            --soli-priority-medium:  "p-${context.localize("bookings.priority.MEDIUM")}";
+            --soli-priority-highest: "p-${context.localize("bookings.priority.HIGHEST")}";
+            --soli-booking-own:      "${context.localize("bookings.own")}";
         }
     </style>
     <noscript>
@@ -176,6 +113,7 @@
                                 <div class="divider"></div>
 
                                 <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
+                                <li><a href="/admin/statistics"><i class="fa-solid fa-chart-line"></i> ${context.localize("administration.statistics")}</a></li>
                             @endif
 
                             <div class="divider"></div>
@@ -187,8 +125,7 @@
 
                                 <div class="divider"></div>
 
-                                <li><a class="btn btn-outline btn-primary"
-                                       href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                                <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                             @endif
                         </ul>
                     </div>

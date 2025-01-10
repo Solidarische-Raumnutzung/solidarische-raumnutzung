@@ -8,7 +8,6 @@ import edu.kit.hci.soli.service.SystemConfigurationService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller class for managing user-related operations.
  */
-@Controller
+@Controller("/admin/users")
 @Slf4j
 public class UsersController {
     private final UserService userService;
