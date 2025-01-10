@@ -113,6 +113,7 @@
                                 <div class="divider"></div>
 
                                 <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
+                                <li><a href="/admin/statistics"><i class="fa-solid fa-chart-line"></i> ${context.localize("administration.statistics")}</a></li>
                             @endif
 
                             <div class="divider"></div>
@@ -124,8 +125,7 @@
 
                                 <div class="divider"></div>
 
-                                <li><a class="btn btn-outline btn-primary"
-                                       href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                                <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                             @endif
                         </ul>
                     </div>
