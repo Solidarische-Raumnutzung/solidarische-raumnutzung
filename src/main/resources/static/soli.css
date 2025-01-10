@@ -242,7 +242,8 @@
 .chart span:after {
     position: relative;
     content: attr(x-value);
-    top: 50%;
+    line-height: 1.75rem;
+    top: calc(50% - 0.825rem);
     display: inline-block;
 }
 
