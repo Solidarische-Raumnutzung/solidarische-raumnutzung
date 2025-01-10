@@ -32,20 +32,16 @@ public class BookingsServiceTest {
     private Booking testBooking2;
     private Booking testBooking3;
 
-    @BeforeAll
-    public static void clean(@Autowired TestService testService) {
-        testService.reset();
-    }
-
     @BeforeEach
     public void setUp() {
+        testService.reset();
         testBooking = testService.createBooking(testService.user);
         testBooking2 = testService.createBooking(testService.user2);
         testBooking3 = testService.createBooking(testService.user3);
     }
 
-    @AfterEach
-    public void tearDown() {
+    @AfterAll
+    public static void clean(@Autowired TestService testService) {
         testService.reset();
     }
 

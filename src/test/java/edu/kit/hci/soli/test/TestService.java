@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class TestService {
     @Autowired private UserRepository userRepository;
@@ -26,6 +28,8 @@ public class TestService {
     public User user3;
     public Room room;
 
+    private LocalDateTime currentSlot;
+
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
 //        roomRepository.deleteAll(roomRepository.findAll());
@@ -35,14 +39,16 @@ public class TestService {
         user2 = userService.createGuestUser("testuser2");
         user3 = userService.createGuestUser("testuser3");
         room = roomService.get();
+
+        currentSlot = bookingsService.currentSlot();
     }
 
     public Booking createBooking(User user) {
         Booking booking = new Booking();
         booking.setRoom(roomService.get());
         booking.setUser(user);
-        booking.setStartDate(bookingsService.currentSlot().plusDays(1));
-        booking.setEndDate(bookingsService.currentSlot().plusDays(2));
+        booking.setStartDate(currentSlot.plusDays(1));
+        booking.setEndDate(currentSlot.plusDays(2));
         booking.setPriority(Priority.HIGHEST);
         booking.setShareRoomType(ShareRoomType.ON_REQUEST);
         return booking;

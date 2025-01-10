@@ -1,0 +1,256 @@
+:root {
+    /* Misc Tailwind variables, needed for other parts to display correctly */
+    --tw-bg-opacity: 1;
+    --tw-text-opacity: 1;
+
+    /* Color FullCalendar using DaisyUI colors */
+    --fc-border-color: oklch(var(--bc)/0.5);
+    --fc-now-indicator-color: oklch(var(--er));
+}
+
+/* Allow wide prose */
+.prose {
+    max-width: unset;
+}
+
+/* Our default light and dark themes (picked automatically by the browser) */
+:root {
+    color-scheme: light;
+    --in: 72.06% 0.191 231.6;
+    --su: 64.8% 0.150 160;
+    --wa: 84.71% 0.199 83.87;
+    --er: 71.76% 0.221 22.18;
+    --pc: 15.2344% 0.017892 200.026556;
+    --sc: 15.787% 0.020249 356.29965;
+    --ac: 15.8762% 0.029206 78.618794;
+    --nc: 84.7148% 0.013247 313.189598;
+    --inc: 0% 0 0;
+    --suc: 0% 0 0;
+    --wac: 0% 0 0;
+    --erc: 0% 0 0;
+    --rounded-box: 1rem;
+    --rounded-badge: 1.9rem;
+    --animation-btn: 0.25s;
+    --animation-input: .2s;
+    --btn-focus-scale: 0.95;
+    --border-btn: 1px;
+    --p: 76.172% 0.089459 200.026556;
+    --s: 78.9351% 0.101246 356.29965;
+    --a: 79.3811% 0.146032 78.618794;
+    --n: 23.5742% 0.066235 313.189598;
+    --b1: 97.7882% 0.00418 56.375637;
+    --b2: 93.9822% 0.007638 61.449292;
+    --b3: 91.5861% 0.006811 53.440502;
+    --bc: 23.5742% 0.066235 313.189598;
+    --rounded-btn: 1.9rem;
+    --tab-border: 2px;
+    --tab-radius: 0.7rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --in: 72.06% 0.191 231.6;
+        --su: 64.8% 0.150 160;
+        --wa: 84.71% 0.199 83.87;
+        --er: 71.76% 0.221 22.18;
+        --pc: 13.138% 0.0392 275.75;
+        --sc: 14.96% 0.052 342.55;
+        --ac: 14.902% 0.0334 183.61;
+        --inc: 0% 0 0;
+        --suc: 0% 0 0;
+        --wac: 0% 0 0;
+        --erc: 0% 0 0;
+        --rounded-box: 1rem;
+        --rounded-btn: 0.5rem;
+        --rounded-badge: 1.9rem;
+        --animation-btn: 0.25s;
+        --animation-input: .2s;
+        --btn-focus-scale: 0.95;
+        --border-btn: 1px;
+        --tab-border: 1px;
+        --tab-radius: 0.5rem;
+        --p: 65.69% 0.196 275.75;
+        --s: 74.8% 0.26 342.55;
+        --a: 74.51% 0.167 183.61;
+        --n: 31.3815% 0.021108 254.139175;
+        --nc: 74.6477% 0.0216 264.435964;
+        --b1: 25.3267% 0.015896 252.417568;
+        --b2: 23.2607% 0.013807 253.100675;
+        --b3: 21.1484% 0.01165 254.087939;
+        --bc: 74.6477% 0.0216 264.435964;
+    }
+}
+
+/* Make the now-indicator more visible */
+.fc-timegrid-now-indicator-line {
+    border-width: 2px !important;
+}
+
+/* Colors for calendar events */
+.calendar-event-highest {
+    background-color: oklch(var(--er));
+    color: oklch(var(--erc));
+}
+
+.calendar-event-medium {
+    background-color: oklch(var(--wa));
+    color: oklch(var(--wac));
+}
+
+.calendar-event-lowest {
+    background-color: oklch(var(--in));
+    color: oklch(var(--inc));
+}
+
+/* Tweak event formatting to prevent overflow and ensure pleasant padding */
+.fc-event-main {
+    color: inherit !important;
+}
+
+.fc-event-time {
+    display: none;
+}
+
+.fc-event-title {
+    padding-bottom: 2px;
+}
+
+.fc-event-title-container {
+    padding-top: 1px;
+}
+
+/* Instead of plain text, add badges to our events based on server-injected CSS classes */
+.calendar-event-highest .fc-event-title::before {
+    content: var(--soli-priority-highest);
+    justify-content: center;
+    height: 1.25rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding-left: .563rem;
+    padding-right: .563rem;
+    border-radius: var(--rounded-badge);
+    border-width: 1px;
+    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+    color: oklch(var(--pc)/var(--tw-text-opacity));
+}
+
+.calendar-event-medium .fc-event-title::before {
+    content: var(--soli-priority-medium);
+    justify-content: center;
+    height: 1.25rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding-left: .563rem;
+    padding-right: .563rem;
+    border-radius: var(--rounded-badge);
+    border-width: 1px;
+    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+    color: oklch(var(--pc)/var(--tw-text-opacity));
+}
+
+.calendar-event-lowest .fc-event-title::before {
+    content: var(--soli-priority-lowest);
+    justify-content: center;
+    height: 1.25rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding-left: .563rem;
+    padding-right: .563rem;
+    border-radius: var(--rounded-badge);
+    border-width: 1px;
+    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+    color: oklch(var(--pc)/var(--tw-text-opacity));
+}
+
+.calendar-event-own .fc-event-title::after {
+    content: var(--soli-booking-own);
+    justify-content: center;
+    height: 1.25rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding-left: .563rem;
+    padding-right: .563rem;
+    border-radius: var(--rounded-badge);
+    border-width: 1px;
+    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
+    color: oklch(var(--pc)/var(--tw-text-opacity));
+}
+
+/* Render the sharing type using a FontAwesome icon (injected in layout.jte) */
+.calendar-event-yes .fc-event-title-container::after {
+    content: "\f0c0"; /* fa-users */
+    font-family: 'Font Awesome 5 Free';
+    font-display: block;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+    font-weight: 700;
+}
+
+.calendar-event-no .fc-event-title-container::after {
+    content: "\e073"; /* fa-users-slash */
+    font-family: 'Font Awesome 5 Free';
+    font-display: block;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+    font-weight: 700;
+}
+
+.calendar-event-on_request .fc-event-title-container::after {
+    content: "\e592"; /* fa-users-line */
+    font-family: 'Font Awesome 5 Free';
+    font-display: block;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+    font-weight: 700;
+}
+
+/* Simple bar charts */
+.chart {
+    display: table;
+    table-layout: fixed;
+    width: 60%;
+    max-width: 700px;
+    height: 200px;
+    margin: 0 auto;
+    background-image: linear-gradient(to top, oklch(var(--nc) / 0.8) 2%, oklch(var(--nc) / 0.0) 2%);
+    background-size: 100% 50px;
+    background-position: left top;
+}
+
+.chart li {
+    position: relative;
+    display: table-cell;
+    vertical-align: bottom;
+    height: 200px;
+}
+.chart span {
+    margin: 0 1em;
+    display: block;
+    background: oklch(var(--p) / 0.75);
+    animation: draw 0.5s ease-in-out;
+}
+
+.chart span:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    padding: 5px 1em 0;
+    display: block;
+    text-align: center;
+    content: attr(x-label);
+    word-wrap: break-word;
+}
+
+@keyframes draw {
+    0% {
+        height: 0;
+    }
+}
