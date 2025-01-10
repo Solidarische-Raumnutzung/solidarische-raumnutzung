@@ -29,12 +29,19 @@
                     !{var max = bookingsPerWeekdayRecent.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerWeekdayRecent.entrySet())
                         <li>
-                            <span style="height: ${e.getValue() * 100 / max}%" x-label="${context.format(e.getKey())}" title="${context.localize("administration.statistics.n_bookings", e.getValue())}"></span>
+                            <span
+                                    style="height: ${e.getValue() * 100 / max}%"
+                                    x-label="${context.format(e.getKey())}"
+                                    x-value="${e.getValue()}"
+                                    title="${context.localize("administration.statistics.n_bookings", e.getValue())}"
+                            ></span>
                         </li>
                     @endfor
                 </ul>
                 <br>
             @endif
+
+            <div class="divider"></div>
 
             <h1>${context.localize("administration.statistics.hour")}</h1>
             @if(bookingsPerHourRecent.size() <= 1)
@@ -44,12 +51,19 @@
                     !{var max = bookingsPerHourRecent.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerHourRecent.entrySet())
                         <li>
-                            <span style="height: ${e.getValue() * 100 / max}%" x-label="${e.getKey()}" title="${context.localize("administration.statistics.n_bookings", e.getValue())}"></span>
+                            <span
+                                    style="height: ${e.getValue() * 100 / max}%"
+                                    x-label="${e.getKey()}"
+                                    x-value="${e.getValue()}"
+                                    title="${context.localize("administration.statistics.n_bookings", e.getValue())}"
+                            ></span>
                         </li>
                     @endfor
                 </ul>
                 <br>
             @endif
+
+            <div class="divider"></div>
 
             <h1>${context.localize("administration.statistics.month")}</h1>
             @if(bookingsPerMonthRecent.size() <= 1)
@@ -59,7 +73,12 @@
                     !{var max = bookingsPerMonthRecent.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerMonthRecent.entrySet())
                         <li>
-                            <span style="height: ${e.getValue() * 100 / max}%" x-label="${context.format(e.getKey())}" title="${context.localize("administration.statistics.n_bookings", e.getValue())}"></span>
+                            <span
+                                    style="height: ${e.getValue() * 100 / max}%"
+                                    x-label="${context.format(e.getKey())}"
+                                    x-value="${e.getValue()}"
+                                    title="${context.localize("administration.statistics.n_bookings", e.getValue())}"
+                            ></span>
                         </li>
                     @endfor
                 </ul>
@@ -76,13 +95,19 @@
                     !{var max = bookingsPerWeekdayAllTime.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerWeekdayAllTime.entrySet())
                         <li>
-                            <span style="height: ${e.getValue() * 100 / max}%" x-label="${context.format(e.getKey())}" title="${context.localize("administration.statistics.n_bookings", e.getValue())}"></span>
+                            <span
+                                    style="height: ${e.getValue() * 100 / max}%"
+                                    x-label="${context.format(e.getKey())}"
+                                    x-value="${e.getValue()}"
+                                    title="${context.localize("administration.statistics.n_bookings", e.getValue())}"
+                            ></span>
                         </li>
                     @endfor
                 </ul>
                 <br>
             @endif
 
+            <div class="divider"></div>
 
             <h1>${context.localize("administration.statistics.hour")}</h1>
             @if(bookingsPerHourAllTime.size() <= 1)
@@ -92,12 +117,19 @@
                     !{var max = bookingsPerHourAllTime.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerHourAllTime.entrySet())
                         <li>
-                            <span style="height: ${e.getValue() * 100 / max}%" x-label="${e.getKey()}" title="${context.localize("administration.statistics.n_bookings", e.getValue())}"></span>
+                            <span
+                                    style="height: ${e.getValue() * 100 / max}%"
+                                    x-label="${e.getKey()}"
+                                    x-value="${e.getValue()}"
+                                    title="${context.localize("administration.statistics.n_bookings", e.getValue())}"
+                            ></span>
                         </li>
                     @endfor
                 </ul>
                 <br>
             @endif
+
+            <div class="divider"></div>
 
             <h1>${context.localize("administration.statistics.month")}</h1>
             @if(bookingsPerMonthAllTime.size() <= 1)
@@ -107,7 +139,12 @@
                     !{var max = bookingsPerMonthAllTime.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerMonthAllTime.entrySet())
                         <li>
-                            <span style="height: ${e.getValue() * 100 / max}%" x-label="${context.format(e.getKey())}" title="${context.localize("administration.statistics.n_bookings", e.getValue())}"></span>
+                            <span
+                                    style="height: ${e.getValue() * 100 / max}%"
+                                    x-label="${context.format(e.getKey())}"
+                                    x-value="${e.getValue()}"
+                                    title="${context.localize("administration.statistics.n_bookings", e.getValue())}"
+                            ></span>
                         </li>
                     @endfor
                 </ul>

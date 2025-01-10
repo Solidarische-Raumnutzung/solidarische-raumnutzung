@@ -6,6 +6,8 @@
     /* Color FullCalendar using DaisyUI colors */
     --fc-border-color: oklch(var(--bc)/0.5);
     --fc-now-indicator-color: oklch(var(--er));
+
+    --soli-chart-height: 300px;
 }
 
 /* Allow wide prose */
@@ -215,9 +217,9 @@
 .chart {
     display: table;
     table-layout: fixed;
-    width: 60%;
+    width: 100%;
     max-width: 700px;
-    height: 200px;
+    height: var(--soli-chart-height);
     margin: 0 auto;
     background-image: linear-gradient(to top, oklch(var(--nc) / 0.8) 2%, oklch(var(--nc) / 0.0) 2%);
     background-size: 100% 50px;
@@ -228,13 +230,20 @@
     position: relative;
     display: table-cell;
     vertical-align: bottom;
-    height: 200px;
+    height: var(--soli-chart-height);
 }
 .chart span {
     margin: 0 1em;
     display: block;
     background: oklch(var(--p) / 0.75);
     animation: draw 0.5s ease-in-out;
+}
+
+.chart span:after {
+    position: relative;
+    content: attr(x-value);
+    top: 50%;
+    display: inline-block;
 }
 
 .chart span:before {
