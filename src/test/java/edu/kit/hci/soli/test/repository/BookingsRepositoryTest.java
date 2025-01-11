@@ -2,9 +2,8 @@ package edu.kit.hci.soli.test.repository;
 
 import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.dto.BookingByDay;
-import edu.kit.hci.soli.dto.BookingByHour;
 import edu.kit.hci.soli.repository.BookingsRepository;
-import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.impl.StatisticsServiceImpl;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BookingsRepositoryTest {
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private TestService testService;
-    @Autowired private BookingsService bookingsService;
+    @Autowired private StatisticsServiceImpl statisticsServiceImpl;
 
     private Booking testBooking;
     private Booking testBooking2;
@@ -61,7 +60,7 @@ public class BookingsRepositoryTest {
         bookingsRepository.save(testBooking2);
         bookingsRepository.save(testBooking3);
         assertEquals(3, bookingsRepository.countBookingsPerWeekdayRecent(Duration.ofDays(7))
-                .collect(Collectors.toMap(BookingByDay::getDayOfWeek, BookingByDay::getCount))
-                .get(testBooking.getStartDate().getDayOfWeek().getValue()));
+                .collect(Collectors.toMap(s -> statisticsServiceImpl.getDayOfWeek(s.getDayOfWeek()), BookingByDay::getCount))
+                .get(testBooking.getStartDate().getDayOfWeek()));
     }
 }
