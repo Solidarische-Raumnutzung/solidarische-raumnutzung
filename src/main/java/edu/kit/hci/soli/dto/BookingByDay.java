@@ -21,7 +21,7 @@ public class BookingByDay {
     }
 
     /**
-     * Gets the day of the week.
+     * Gets the day of the week as Sunday (0) to Saturday (6).
      *
      * @return the day of the week
      */
