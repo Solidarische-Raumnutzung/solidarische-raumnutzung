@@ -30,17 +30,15 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css"/>
     <!-- TODO: this tailwind version is incredibly old. We should probably upgrade (but just replacing the version breaks the UI) -->
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://solidarische-raumnutzung.github.io/tailwind-typography-stylesheet/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://solidarische-raumnutzung.github.io/tailwind-typography-stylesheet/style.css">
     <link rel="stylesheet" type="text/css" href="/soli.css">
     <style>
         :root {
-            --soli-priority-lowest: "p-${context.localize("bookings.priority.LOWEST")}";
-            --soli-priority-medium: "p-${context.localize("bookings.priority.MEDIUM")}";
+            --soli-priority-lowest:  "p-${context.localize("bookings.priority.LOWEST")}";
+            --soli-priority-medium:  "p-${context.localize("bookings.priority.MEDIUM")}";
             --soli-priority-highest: "p-${context.localize("bookings.priority.HIGHEST")}";
-            --soli-booking-own: "${context.localize("bookings.own")}";
+            --soli-booking-own:      "${context.localize("bookings.own")}";
         }
     </style>
     <noscript>
@@ -54,12 +52,8 @@
 </head>
 
 <body>
-
-
 <div class="flex flex-row flex-wrap ">
-
     <div class="sticky w-full">
-
         <div class="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
             <div class="drawer-content w-full md:w-full">
@@ -90,7 +84,7 @@
                     <ul class="menu bg-base-200 text-base-content min-h-80 w-80 p-4">
                         <!-- Sidebar content here -->
 
-                        <div class="flex flex-row gap-3"    >
+                        <div class="flex flex-row gap-3">
                             <li>
                                 <div class="basis-1/4"><a alt="main" class="avatar placeholder" href="/">
                                         <div class="w-20 rounded-full">
@@ -110,14 +104,12 @@
                                 <div class="relative h-20 w-20">
                                     <div class="absolute inset-x-0 bottom-0 h-16">
                                         @if (layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
-                                            <a href="/login" aria-label="${context.localize("login.login")}"
-                                               class="btn btn-outline btn-primary">
+                                            <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
                                                 <i class="fa-solid fa-right-to-bracket"></i>
                                             </a>
                                         @else
                                             @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/logout", method = POST, content = @`
-                                                <button class="btn btn-outline btn-primary"
-                                                        aria-label="${context.localize("login.logout")}" type="submit">
+                                                <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" type="submit">
                                                     <i class="fa-solid fa-right-from-bracket"></i>
                                                 </button>
                                             `)
@@ -130,29 +122,20 @@
                         @if(layout.getLogin().kind() == LoginStateModel.Kind.ADMIN)
                             <div class="divider"></div>
 
-                            <li><a href="/admin/users"><i
-                                            class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a>
-                            </li>
-                            <li><a href="/admin/statistics"><i
-                                            class="fa-solid fa-chart-line"></i> ${context.localize("administration.statistics")}
-                                </a></li>
+                            <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
+                            <li><a href="/admin/statistics"><i class="fa-solid fa-chart-line"></i> ${context.localize("administration.statistics")}</a></li>
                         @endif
 
                         <div class="divider"></div>
 
                         @if (layout.getRoom() != null)
-                            <li><a href="/${layout.getRoom().getId()}"><i
-                                            class="fa-solid fa-calendar-days"></i> ${context.localize("calendar")}</a>
-                            </li>
-                            <li><a href="/${layout.getRoom().getId()}/bookings"><i
-                                            class="fa-solid fa-list"></i> ${context.localize("bookings.my_bookings")}
-                                </a>
+                            <li><a href="/${layout.getRoom().getId()}"><i class="fa-solid fa-calendar-days"></i> ${context.localize("calendar")}</a></li>
+                            <li><a href="/${layout.getRoom().getId()}/bookings"><i class="fa-solid fa-list"></i> ${context.localize("bookings.my_bookings")}</a>
                             </li>
 
                             <div class="divider"></div>
 
-                            <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i
-                                            class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                            <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                         @endif
 
                     </ul>
@@ -210,16 +193,11 @@
                             </div>
                         </nav>
                     </footer>
-
                 </div>
-
             </div>
         </div>
     </div>
-
-
 </div>
-
 
 <link rel="stylesheet" type="text/css"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
