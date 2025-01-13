@@ -34,10 +34,6 @@ jobs:
           pdflatex presentation.tex
           biber presentation
           pdflatex presentation.tex
-          cd ../presi_implementierung
-          pdflatex presentation.tex
-          biber presentation
-          pdflatex presentation.tex
           cd ../pflichtenheft
           pdflatex main.tex
           makeglossaries main
