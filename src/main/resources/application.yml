@@ -44,5 +44,3 @@ server:
     path: /error
     whitelabel:
       enabled: false
-soli:
-  time-zone: Europe/Berlin

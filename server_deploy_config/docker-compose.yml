@@ -17,7 +17,8 @@ services:
       KIT_CLIENT_SECRET: ""
       KIT_MAIL_USERNAME: ""
       KIT_MAIL_PASSWORD: ""
-      DB_URL: jdbc:postgresql://database:5432/soli
+      DB_URL: jdbc:postgresql://database:5432/
+      SOLI_TIME_ZONE: "Europe/Berlin"
 
   watchtower:
     image: containrrr/watchtower
