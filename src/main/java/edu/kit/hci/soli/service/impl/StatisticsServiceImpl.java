@@ -22,12 +22,16 @@ public class StatisticsServiceImpl implements StatisticsService {
         this.bookingsRepository = bookingsRepository;
     }
 
+    public DayOfWeek getDayOfWeek(int dayOfWeek) {
+        return DayOfWeek.of(dayOfWeek == 0 ? 7 : dayOfWeek);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Map<DayOfWeek, Long> countBookingsPerWeekdayAllTime() {
         try (Stream<BookingByDay> stats = bookingsRepository.countBookingsPerWeekdayAllTime()) {
             return stats.collect(Collectors.toMap(
-                    s -> DayOfWeek.of(s.getDayOfWeek()),
+                    s -> getDayOfWeek(s.getDayOfWeek()),
                     BookingByDay::getCount
             ));
         }
@@ -38,7 +42,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     public Map<DayOfWeek, Long> countBookingsPerWeekdayRecent(TemporalAmount frame) {
         try (Stream<BookingByDay> stats = bookingsRepository.countBookingsPerWeekdayRecent(Duration.from(frame))) {
             return stats.collect(Collectors.toMap(
-                    s -> DayOfWeek.of(s.getDayOfWeek()),
+                    s -> getDayOfWeek(s.getDayOfWeek()),
                     BookingByDay::getCount
             ));
         }
