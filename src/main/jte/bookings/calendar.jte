@@ -9,7 +9,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-                timeZone: 'UTC',
+                timeZone: '${context.getTimeZone().getID()}',
                 initialView: 'timeGridWeek',
                 nowIndicator: true,
                 headerToolbar: {

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Service for sending emails
@@ -31,6 +32,7 @@ public class EmailServiceImpl implements EmailService {
     private final MessageSource messageSource;
     private final String hostname;
     private final String mailFrom;
+    private final TimeZone timeZone;
 
     /**
      * Constructs an EmailService with the specified services.
@@ -53,6 +55,7 @@ public class EmailServiceImpl implements EmailService {
         this.messageSource = messageSource;
         this.hostname = soliConfiguration.getHostname();
         this.mailFrom = mailProperties.getUsername();
+        this.timeZone = soliConfiguration.getTimeZone();
     }
 
     /**
@@ -70,7 +73,7 @@ public class EmailServiceImpl implements EmailService {
             return;
         }
 
-        JteContext context = new JteContext(messageSource, hostname, to.getLocale());
+        JteContext context = new JteContext(messageSource, hostname, to.getLocale(), timeZone);
         model = new HashMap<>(model);
         model.put("context", context);
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 @Slf4j
 @Service
@@ -21,10 +22,12 @@ public class TestEmailServiceImpl implements EmailService {
     private final TemplateEngine templateEngine;
     private final String hostname;
     private final MessageSource messageSource;
+    private final TimeZone timeZone;
 
     public TestEmailServiceImpl(TemplateEngine templateEngine, MessageSource messageSource, SoliConfiguration soliConfiguration) {
         this.templateEngine = templateEngine;
         this.messageSource = messageSource;
+        this.timeZone = soliConfiguration.getTimeZone();
         this.hostname = soliConfiguration.getHostname();
     }
 
@@ -35,7 +38,7 @@ public class TestEmailServiceImpl implements EmailService {
             return;
         }
 
-        JteContext context = new JteContext(messageSource, hostname, to.getLocale());
+        JteContext context = new JteContext(messageSource, hostname, to.getLocale(), timeZone);
         model = new HashMap<>(model);
         model.put("context", context);
 
