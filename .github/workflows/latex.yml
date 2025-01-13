@@ -36,7 +36,7 @@ jobs:
           pdflatex presentation.tex
           cd ../presi_implementierung
           pdflatex presentation.tex
-          bibert presentation
+          biber presentation
           pdflatex presentation.tex
           cd ../pflichtenheft
           pdflatex main.tex
