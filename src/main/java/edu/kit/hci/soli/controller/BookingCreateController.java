@@ -19,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalQueries;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -128,7 +130,10 @@ public class BookingCreateController {
                 || formData.end.isAfter(formData.start.plusHours(4)) // Keep these in sync with index.jte!
                 || formData.end.isAfter(bookingsService.maximumTime())
                 || formData.start.getMinute() % 15 != 0
-                || formData.end.getMinute() % 15 != 0) {
+                || formData.end.getMinute() % 15 != 0
+                || formData.start.getDayOfWeek() != formData.end.getDayOfWeek()
+                || formData.start.getDayOfWeek() == DayOfWeek.SATURDAY
+                || formData.start.getDayOfWeek() == DayOfWeek.SUNDAY) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
             return "error/known";
