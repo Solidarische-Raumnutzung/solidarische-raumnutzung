@@ -23,14 +23,15 @@
             </p>
             <ul>
                 <!-- TODO: Diese list-items werden nicht korrekt dargestellt -->
+                <!-- TODO: Localize! -->
                 @for(Booking booking : bookingResult.contact())
-                    <li>Kontaktiere: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
+                    <li>Kontaktiere: ${booking.getDescription()} (${context.format(booking.getStartDate())} - ${context.format(booking.getEndDate())})</li>
                 @endfor
                 @for(Booking booking : bookingResult.override())
-                    <li>Lösche: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
+                    <li>Lösche: ${booking.getDescription()} (${context.format(booking.getStartDate())} - ${context.format(booking.getEndDate())})</li>
                 @endfor
                 @for(Booking booking : bookingResult.cooperate())
-                    <li>Nutze gleichzeitig mit: ${booking.getDescription()} (${booking.getStartDate().toString()} - ${booking.getEndDate().toString()})</li>
+                    <li>Nutze gleichzeitig mit: ${booking.getDescription()} (${context.format(booking.getStartDate())} - ${context.format(booking.getEndDate())})</li>
                 @endfor
             </ul>
             @template.util.form(csrf = csrf, action = "/" + attemptedBooking.getRoom().getId() + "/bookings/new/conflict", method = POST, content = @`
