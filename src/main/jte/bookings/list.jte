@@ -38,8 +38,8 @@
                     <tr>
                         <td>${booking.getId()} ${booking.getOpenRequests().isEmpty() ? context.empty() : context.localize("bookings.outstanding", booking.getOpenRequests().size())}</td>
                         <td>${booking.getDescription()}</td>
-                        <td>${booking.getStartDate().toString()}</td>
-                        <td>${booking.getEndDate().toString()}</td>
+                        <td>${context.format(booking.getStartDate())}</td>
+                        <td>${context.format(booking.getEndDate())}</td>
                         <td>${context.localize("bookings.share." + booking.getShareRoomType())}</td>
                         <td>${context.localize("bookings.priority." + booking.getPriority())}</td>
                         <td>
