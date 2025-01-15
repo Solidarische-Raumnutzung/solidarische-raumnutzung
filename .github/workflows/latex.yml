@@ -34,11 +34,13 @@ jobs:
           pdflatex presentation.tex
           biber presentation
           pdflatex presentation.tex
+          
           cd ../pflichtenheft
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
+          
           cd ../entwurfsheft
           wget https://solidarische-raumnutzung.github.io/DocTeX/doctex.jar
           java -jar doctex.jar --output=./javadoc ../src/main/java edu.kit.hci.soli
@@ -46,6 +48,13 @@ jobs:
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
+          
+          cd ../implementierungsbericht
+          pdflatex main.tex
+          makeglossaries main
+          pdflatex main.tex
+          pdflatex main.tex
+          
           cd ..
           mkdir -p pages
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
