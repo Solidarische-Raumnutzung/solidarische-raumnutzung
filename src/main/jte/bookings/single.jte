@@ -12,8 +12,8 @@
 @param boolean showDeleteButton
 
 <h2 class="card-title">${context.localize("bookings.priority")}: ${context.localize("bookings.priority." + booking.getPriority())}</h2>
-<p>${context.localize("bookings.start")}: ${booking.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</p>
-<p>${context.localize("bookings.end")}: ${booking.getEndDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</p>
+<p>${context.localize("bookings.start.value", context.format(booking.getStartDate()))}</p>
+<p>${context.localize("bookings.end.value", context.format(booking.getEndDate()))}</p>
 <div class="form-control">
     <label class="label">
         <span class="label-text">${context.localize("bookings.description")}</span>

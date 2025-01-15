@@ -12,3 +12,4 @@ soli:
     marker: "guest"
   hostname: "http://localhost:8080"
   development-mode: true
+  time-zone: "Europe/Berlin"

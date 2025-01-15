@@ -7,11 +7,12 @@
 @param Booking booking
 @param BookingDeleteReason reason
 
+<%--TODO: localize!--%>
 <p>
     Dear ${booking.getUser().getUsername()},
 </p>
 <p>
-    unfortunately, your booking for the room ${booking.getRoom().getId()} starting at ${booking.getStartDate().toString()} has been deleted.
+    unfortunately, your booking for the room ${booking.getRoom().getId()} starting at ${context.format(booking.getStartDate())} has been deleted.
 </p>
 <p>
     Reason: ${context.localize("bookings.delete_reason." + reason)}
