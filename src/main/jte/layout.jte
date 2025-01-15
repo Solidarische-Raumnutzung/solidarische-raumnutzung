@@ -96,7 +96,7 @@
                             <div class="basis-1/4">
                                 <div class="relative h-20 w-20">
                                     <div class="absolute inset-x-0 bottom-0 h-16">
-                                        <label>Welcome, ${layout.getLogin().name()}</label>
+                                        <label>${context.localize("layout.welcome", layout.getLogin().name())}</label>
                                     </div>
                                 </div>
                             </div>
@@ -141,16 +141,16 @@
 
                     <footer class="footer bg-base-300 text-base-content p-10 footer bg-neutral text-neutral-content items-center p-4 fixed bottom-0 w-full">
                         <nav>
-                            <h6 class="footer-title">Legal</h6>
-                            <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="link link-hover">License</a>
-                            <a href="https://www.kit.edu/privacypolicy.php" class="link link-hover">Privacy</a>
-                            <a href="https://www.comp.kit.edu/downloads/Code%20of%20Conduct_KIT_for%20external%20use.pdf" class="link link-hover">CoC</a>
+                            <h6 class="footer-title">${context.localize("layout.legal")}</h6>
+                            <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="link link-hover">${context.localize("layout.license")}</a>
+                            <a href="https://www.kit.edu/privacypolicy.php" class="link link-hover">${context.localize("layout.privacy")}</a>
+                            <a href="https://www.comp.kit.edu/downloads/Code%20of%20Conduct_KIT_for%20external%20use.pdf" class="link link-hover">${context.localize("layout.conduct")}</a>
                         </nav>
                         <nav>
-                            <h6 class="footer-title">About</h6>
+                            <h6 class="footer-title">${context.localize("layout.about")}</h6>
                             <a href="https://github.com/Solidarische-Raumnutzung/solidarische-raumnutzung" class="link link-hover">Source</a>
                             <a href="https://hci.iar.kit.edu/" class="link link-hover">HCI</a>
-                            <a href="" class="link link-hover">Impressum</a> <%-- TODO add this --%>
+                            <a href="" class="link link-hover">${context.localize("layout.publisher")}</a> <%-- TODO add this --%>
                         </nav>
                     </footer>
                 </div>
