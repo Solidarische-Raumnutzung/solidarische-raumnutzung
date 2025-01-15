@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.config.template;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import gg.jte.TemplateEngine;
 import lombok.NonNull;
 import org.springframework.core.Ordered;
@@ -9,11 +10,11 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 public class JteViewResolver extends AbstractTemplateViewResolver {
     private final TemplateEngine templateEngine;
-    private final String hostname;
+    private final SoliConfiguration soliConfiguration;
 
-    public JteViewResolver(TemplateEngine templateEngine, String hostname) {
+    public JteViewResolver(TemplateEngine templateEngine, SoliConfiguration soliConfiguration) {
         this.templateEngine = templateEngine;
-        this.hostname = hostname;
+        this.soliConfiguration = soliConfiguration;
         this.setViewClass(this.requiredViewClass());
         this.setSuffix(".jte");
         this.setViewClass(JteView.class);
@@ -24,7 +25,7 @@ public class JteViewResolver extends AbstractTemplateViewResolver {
 
     @Override
     protected @NonNull AbstractUrlBasedView instantiateView() {
-        return new JteView(templateEngine, hostname);
+        return new JteView(templateEngine, soliConfiguration);
     }
 
     @Override

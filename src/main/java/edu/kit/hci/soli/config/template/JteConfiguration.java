@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 public class JteConfiguration {
     @Bean
     public ViewResolver jteViewResolve(TemplateEngine templateEngine, SoliConfiguration soliConfiguration) {
-        return new JteViewResolver(templateEngine, soliConfiguration.getHostname());
+        return new JteViewResolver(templateEngine, soliConfiguration);
     }
 
     @Bean
