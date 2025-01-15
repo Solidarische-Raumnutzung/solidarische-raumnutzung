@@ -6,7 +6,7 @@
 @param CsrfToken csrf
 @param String id
 
-<h2 class="card-title">${context.localize("generic.warning")}</h2>
+<legend class="fieldset-legend">${context.localize("generic.warning")}</legend>
 <p>${context.localize("administration.user.guests.disable.description")}</p>
 <div class="modal-action">
     @template.util.modal.close(message = context.localize("generic.cancel"), id = id)

@@ -11,9 +11,7 @@
 @param User user
 
 @template.layout(page = new PageSpec(context.lookup("generic.warning"), "Soli"), context = context, layout = layout, content = @`
-    <div class="card bg-base-200 w-80 mx-auto">
-        <div class="card-body">
-            @template.admin.confirmation.deactivate_user(context = context, csrf = csrf, id = "/admin/users", user = user)
-        </div>
-    </div>
+    <fieldset class="fieldset bg-base-200 w-80 mx-auto">
+        @template.admin.confirmation.deactivate_user(context = context, csrf = csrf, id = "/admin/users", user = user)
+    </fieldset>
 `)

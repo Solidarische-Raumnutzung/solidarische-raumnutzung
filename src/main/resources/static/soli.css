@@ -4,8 +4,8 @@
     --tw-text-opacity: 1;
 
     /* Color FullCalendar using DaisyUI colors */
-    --fc-border-color: oklch(var(--bc)/0.5);
-    --fc-now-indicator-color: oklch(var(--er));
+    --fc-border-color: var(—-color-base-300);
+    --fc-now-indicator-color: var(--color-error);
 
     --soli-chart-height: 300px;
 }
@@ -18,69 +18,67 @@
 /* Our default light and dark themes (picked automatically by the browser) */
 :root {
     color-scheme: light;
-    --in: 72.06% 0.191 231.6;
-    --su: 64.8% 0.150 160;
-    --wa: 84.71% 0.199 83.87;
-    --er: 71.76% 0.221 22.18;
-    --pc: 15.2344% 0.017892 200.026556;
-    --sc: 15.787% 0.020249 356.29965;
-    --ac: 15.8762% 0.029206 78.618794;
-    --nc: 84.7148% 0.013247 313.189598;
-    --inc: 0% 0 0;
-    --suc: 0% 0 0;
-    --wac: 0% 0 0;
-    --erc: 0% 0 0;
-    --rounded-box: 1rem;
-    --rounded-badge: 1.9rem;
-    --animation-btn: 0.25s;
-    --animation-input: .2s;
-    --btn-focus-scale: 0.95;
-    --border-btn: 1px;
-    --p: 76.172% 0.089459 200.026556;
-    --s: 78.9351% 0.101246 356.29965;
-    --a: 79.3811% 0.146032 78.618794;
-    --n: 23.5742% 0.066235 313.189598;
-    --b1: 97.7882% 0.00418 56.375637;
-    --b2: 93.9822% 0.007638 61.449292;
-    --b3: 91.5861% 0.006811 53.440502;
-    --bc: 23.5742% 0.066235 313.189598;
-    --rounded-btn: 1.9rem;
-    --tab-border: 2px;
-    --tab-radius: 0.7rem;
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(98% 0 0);
+    --color-base-300: oklch(95% 0 0);
+    --color-base-content: oklch(21% 0.006 285.885);
+    --color-primary: rgb(0, 150, 130);
+    --color-primary-content: oklch(93% 0.034 272.788);
+    --color-secondary: #ee4c9c;
+    --color-secondary-content: #ffffff;
+    --color-accent: rgb(70, 100, 170);
+    --color-accent-content: oklch(37% 0.146 265.522);
+    --color-neutral: rgb(64, 64, 64);
+    --color-neutral-content: oklch(92% 0.004 286.32);
+    --color-info: rgb(35, 161, 224);
+    --color-info-content: oklch(29% 0.066 243.157);
+    --color-success: rgb(140, 182, 60);
+    --color-success-content: oklch(37% 0.077 168.94);
+    --color-warning: rgb(223, 155, 27);
+    --color-warning-content: oklch(27% 0.077 45.635);
+    --color-error: #A22223;
+    --color-error-content: #ffffff;
+    --radius-selector: 0.5rem;
+    --radius-field: 0.5rem;
+    --radius-box: 0.5rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         color-scheme: dark;
-        --in: 72.06% 0.191 231.6;
-        --su: 64.8% 0.150 160;
-        --wa: 84.71% 0.199 83.87;
-        --er: 71.76% 0.221 22.18;
-        --pc: 13.138% 0.0392 275.75;
-        --sc: 14.96% 0.052 342.55;
-        --ac: 14.902% 0.0334 183.61;
-        --inc: 0% 0 0;
-        --suc: 0% 0 0;
-        --wac: 0% 0 0;
-        --erc: 0% 0 0;
-        --rounded-box: 1rem;
-        --rounded-btn: 0.5rem;
-        --rounded-badge: 1.9rem;
-        --animation-btn: 0.25s;
-        --animation-input: .2s;
-        --btn-focus-scale: 0.95;
-        --border-btn: 1px;
-        --tab-border: 1px;
-        --tab-radius: 0.5rem;
-        --p: 65.69% 0.196 275.75;
-        --s: 74.8% 0.26 342.55;
-        --a: 74.51% 0.167 183.61;
-        --n: 31.3815% 0.021108 254.139175;
-        --nc: 74.6477% 0.0216 264.435964;
-        --b1: 25.3267% 0.015896 252.417568;
-        --b2: 23.2607% 0.013807 253.100675;
-        --b3: 21.1484% 0.01165 254.087939;
-        --bc: 74.6477% 0.0216 264.435964;
+        --color-base-100: oklch(25.33% 0.016 252.42);
+        --color-base-200: oklch(23.26% 0.014 253.1);
+        --color-base-300: oklch(21.15% 0.012 254.09);
+        --color-base-content: oklch(97.807% 0.029 256.847);
+        --color-primary: rgb(0, 150, 130);
+        --color-primary-content: oklch(93% 0.034 272.788);
+        --color-secondary: #ee4c9c;
+        --color-secondary-content: #ffffff;
+        --color-accent: rgb(70, 100, 170);
+        --color-accent-content: oklch(37% 0.146 265.522);
+        --color-neutral: rgb(64, 64, 64);
+        --color-neutral-content: oklch(92% 0.004 286.32);
+        --color-info: rgb(35, 161, 224);
+        --color-info-content: oklch(29% 0.066 243.157);
+        --color-success: rgb(140, 182, 60);
+        --color-success-content: oklch(37% 0.077 168.94);
+        --color-warning: rgb(223, 155, 27);
+        --color-warning-content: oklch(27% 0.077 45.635);
+        --color-error: #A22223;
+        --color-error-content: #ffffff;
+        --radius-selector: 0.5rem;
+        --radius-field: 0.5rem;
+        --radius-box: 0.5rem;
+        --size-selector: 0.25rem;
+        --size-field: 0.25rem;
+        --border: 1px;
+        --depth: 1;
+        --noise: 0;
     }
 }
 
@@ -91,18 +89,18 @@
 
 /* Colors for calendar events */
 .calendar-event-highest {
-    background-color: oklch(var(--er));
-    color: oklch(var(--erc));
+    background-color: var(--color-error);
+    color: var(--color-error-content);
 }
 
 .calendar-event-medium {
-    background-color: oklch(var(--wa));
-    color: oklch(var(--wac));
+    background-color: var(--color-warning);
+    color: var(--color-warning-content);
 }
 
 .calendar-event-lowest {
-    background-color: oklch(var(--in));
-    color: oklch(var(--inc));
+    background-color: var(--color-info);
+    color: var(--color-info-content);
 }
 
 /* Tweak event formatting to prevent overflow and ensure pleasant padding */
@@ -131,10 +129,10 @@
     line-height: 1.25rem;
     padding-left: .563rem;
     padding-right: .563rem;
-    border-radius: var(--rounded-badge);
+    border-radius: var(--radius-selector);
     border-width: 1px;
-    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
-    color: oklch(var(--pc)/var(--tw-text-opacity));
+    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
+    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
 }
 
 .calendar-event-medium .fc-event-title::before {
@@ -145,10 +143,10 @@
     line-height: 1.25rem;
     padding-left: .563rem;
     padding-right: .563rem;
-    border-radius: var(--rounded-badge);
+    border-radius: var(--radius-selector);
     border-width: 1px;
-    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
-    color: oklch(var(--pc)/var(--tw-text-opacity));
+    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
+    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
 }
 
 .calendar-event-lowest .fc-event-title::before {
@@ -159,10 +157,10 @@
     line-height: 1.25rem;
     padding-left: .563rem;
     padding-right: .563rem;
-    border-radius: var(--rounded-badge);
+    border-radius: var(--radius-selector);
     border-width: 1px;
-    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
-    color: oklch(var(--pc)/var(--tw-text-opacity));
+    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
+    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
 }
 
 .calendar-event-own .fc-event-title::after {
@@ -173,10 +171,10 @@
     line-height: 1.25rem;
     padding-left: .563rem;
     padding-right: .563rem;
-    border-radius: var(--rounded-badge);
+    border-radius: var(--radius-selector);
     border-width: 1px;
-    /*background-color: oklch(var(--p)/var(--tw-bg-opacity));*/
-    color: oklch(var(--pc)/var(--tw-text-opacity));
+    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
+    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
 }
 
 /* Render the sharing type using a FontAwesome icon (injected in layout.jte) */
@@ -221,7 +219,7 @@
     max-width: 700px;
     height: var(--soli-chart-height);
     margin: 0 auto;
-    background-image: linear-gradient(to top, oklch(var(--nc) / 0.8) 2%, oklch(var(--nc) / 0.0) 2%);
+    background-image: linear-gradient(to top, oklch(var(--color-neutral-content) / 0.8) 2%, oklch(var(--color-neutral-content) / 0.0) 2%);
     background-size: 100% 50px;
     background-position: left top;
 }
@@ -235,7 +233,7 @@
 .chart span {
     margin: 0 1em;
     display: block;
-    background: oklch(var(--p) / 0.75);
+    background: var(--color-primary);
     animation: draw 0.5s ease-in-out;
 }
 

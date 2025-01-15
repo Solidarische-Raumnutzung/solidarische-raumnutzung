@@ -14,12 +14,12 @@
 <h2 class="card-title">${context.localize("bookings.priority")}: ${context.localize("bookings.priority." + booking.getPriority())}</h2>
 <p>${context.localize("bookings.start.value", context.format(booking.getStartDate()))}</p>
 <p>${context.localize("bookings.end.value", context.format(booking.getEndDate()))}</p>
-<div class="form-control">
-    <label class="label">
-        <span class="label-text">${context.localize("bookings.description")}</span>
-    </label>
+
+@if (!booking.getDescription().isBlank())
+    <label class="label">${context.localize("bookings.description")}</label>
     <p class="textarea textarea-bordered">${booking.getDescription()}</p>
-</div>
+@endif
+
 @if (showDeleteButton || showRequestButton)
     <div class="card-actions justify-end">
         <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>

@@ -9,7 +9,7 @@
 
 @param User user
 
-<h2 class="card-title">${context.localize("generic.warning")}</h2>
+<legend class="fieldset-legend">${context.localize("generic.warning")}</legend>
 <p>${context.localize("administration.user.deactivate.message")}</p>
 <div class="modal-action">
     @template.util.modal.close(message = context.localize("generic.cancel"), id = id)

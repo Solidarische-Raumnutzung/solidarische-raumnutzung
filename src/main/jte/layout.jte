@@ -28,8 +28,8 @@
 
     <link rel="icon" type="image/x-type" sizes="16x16" href="/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css"/>
-    <!-- TODO: this tailwind version is incredibly old. We should probably upgrade (but just replacing the version breaks the UI) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" />
+    <!-- This version of tailwind is incredibly old, but appears to be the latest one that can be used in any (sane) manner. -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://solidarische-raumnutzung.github.io/tailwind-typography-stylesheet/style.css">
     <link rel="stylesheet" type="text/css" href="/soli.css">
@@ -72,21 +72,14 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!-- Page content here -->
-
-
             </div>
             <div class="drawer-side flex shadow-xl">
                 <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                 <div class="min-h-screen bg-base-200">
                     <ul class="menu bg-base-200 text-base-content min-h-80 w-80 p-4">
-                        <!-- Sidebar content here -->
-
                         <div class="flex flex-row gap-3">
                             <li>
-                                <div class="basis-1/4"><a alt="main" class="avatar placeholder" href="/">
+                                <div class="basis-1/4"><a aria-label="home" class="avatar avatar-placeholder" href="/">
                                         <div class="w-20 rounded-full">
                                             <img src="/favicon.svg">
                                         </div>
@@ -139,7 +132,7 @@
                         @endif
                     </ul>
 
-                    <footer class="footer bg-base-300 text-base-content p-10 footer bg-neutral text-neutral-content items-center p-4 fixed bottom-0 w-full">
+                    <footer class="footer sm:footer-horizontal bg-base-300 text-base-content p-10 fixed bottom-0 w-full">
                         <nav>
                             <h6 class="footer-title">${context.localize("layout.legal")}</h6>
                             <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="link link-hover">${context.localize("layout.license")}</a>
