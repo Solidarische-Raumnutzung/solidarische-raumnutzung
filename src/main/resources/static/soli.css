@@ -4,8 +4,8 @@
     --tw-text-opacity: 1;
 
     /* Color FullCalendar using DaisyUI colors */
-    --fc-border-color: oklch(var(--color-base-content)/0.5);
-    --fc-now-indicator-color: oklch(var(--color-error));
+    --fc-border-color: var(—-color-base-300);
+    --fc-now-indicator-color: var(--color-error);
 
     --soli-chart-height: 300px;
 }
@@ -89,18 +89,18 @@
 
 /* Colors for calendar events */
 .calendar-event-highest {
-    background-color: oklch(var(--color-error));
-    color: oklch(var(--color-error-content));
+    background-color: var(--color-error);
+    color: var(--color-error-content);
 }
 
 .calendar-event-medium {
-    background-color: oklch(var(--color-warning));
-    color: oklch(var(--color-warning-content));
+    background-color: var(--color-warning);
+    color: var(--color-warning-content);
 }
 
 .calendar-event-lowest {
-    background-color: oklch(var(--color-info));
-    color: oklch(var(--color-info-content));
+    background-color: var(--color-info);
+    color: var(--color-info-content);
 }
 
 /* Tweak event formatting to prevent overflow and ensure pleasant padding */

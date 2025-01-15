@@ -132,7 +132,7 @@
                         @endif
                     </ul>
 
-                    <footer class="footer bg-base-300 text-base-content p-10 footer bg-neutral text-neutral-content items-center p-4 fixed bottom-0 w-full">
+                    <footer class="footer sm:footer-horizontal bg-base-300 text-base-content p-10 fixed bottom-0 w-full">
                         <nav>
                             <h6 class="footer-title">${context.localize("layout.legal")}</h6>
                             <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="link link-hover">${context.localize("layout.license")}</a>
