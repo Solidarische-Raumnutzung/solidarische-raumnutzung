@@ -233,7 +233,7 @@
 .chart span {
     margin: 0 1em;
     display: block;
-    background: oklch(var(--color-primary) / 0.75);
+    background: var(--color-primary);
     animation: draw 0.5s ease-in-out;
 }
 
