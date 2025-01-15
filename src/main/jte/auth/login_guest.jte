@@ -19,7 +19,7 @@
             <input id="password" name="password" type="hidden" value="${guestMarker}"/>
             <input id="remember-me" name="remember-me" type="hidden" value="true">
 
-            <label class="input">
+            <label class="input" for="username">
                 <i class="fas fa-envelope"></i>
                 <input id="username" name="username" type="email" placeholder="${context.localize("login.email")}" class="validator" required/>
             </label>
