@@ -24,7 +24,7 @@
             <label class="label" for="start">
                 <span class="label-text-alt">${context.localize("bookings.start")}</span>
             </label>
-            <input id="start" name="start" type="datetime-local" class="input input-bordered"
+            <input id="start" name="start" type="datetime-local" class="input validator"
                    value="${start.toString()}"
                    min="${minimumTime.toString()}"
                    max="${maximumTime.toString()}"
@@ -36,7 +36,7 @@
             <label class="label" for="end">
                 <span class="label-text-alt">${context.localize("bookings.end")}</span>
             </label>
-            <input id="end" name="end" type="datetime-local" class="input input-bordered"
+            <input id="end" name="end" type="datetime-local" class="input validator"
                    value="${end.toString()}"
                    min="${minimumTime.toString()}"
                    max="${maximumTime.toString()}"
