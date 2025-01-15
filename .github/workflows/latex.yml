@@ -60,6 +60,7 @@ jobs:
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
           mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
+          mv ./implementationsbericht/main.pdf ./pages/implementationsbericht.pdf
           python3 .github/genindex.py pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
