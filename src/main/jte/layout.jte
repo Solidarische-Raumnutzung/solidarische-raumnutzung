@@ -137,21 +137,21 @@
 
                             <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
                         @endif
-
                     </ul>
+
                     <footer class="footer bg-base-300 text-base-content p-10 footer bg-neutral text-neutral-content items-center p-4 fixed bottom-0 w-full">
                         <nav>
                             <h6 class="footer-title">Legal</h6>
                             <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="link link-hover">License</a>
-                            <a href="TODO" class="link link-hover">Impressum</a>
-                            <a href="TODO" class="link link-hover">Privacy</a>
+                            <a href="https://www.kit.edu/privacypolicy.php" class="link link-hover">Privacy</a>
+                            <a href="https://www.comp.kit.edu/downloads/Code%20of%20Conduct_KIT_for%20external%20use.pdf" class="link link-hover">CoC</a>
                         </nav>
                         <nav>
                             <h6 class="footer-title">About</h6>
                             <a href="https://github.com/Solidarische-Raumnutzung/solidarische-raumnutzung" class="link link-hover">Source</a>
                             <a href="https://hci.iar.kit.edu/" class="link link-hover">HCI</a>
+                            <a href="" class="link link-hover">Impressum</a> <%-- TODO add this --%>
                         </nav>
-
                     </footer>
                 </div>
             </div>
