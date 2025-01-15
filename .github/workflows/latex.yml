@@ -49,7 +49,7 @@ jobs:
           pdflatex main.tex
           pdflatex main.tex
           
-          cd ../implementierungsbericht
+          cd ../implementationsbericht
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
