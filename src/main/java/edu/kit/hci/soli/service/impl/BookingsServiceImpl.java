@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.service.impl;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
@@ -9,6 +10,7 @@ import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,16 +28,22 @@ import java.util.stream.Stream;
 public class BookingsServiceImpl implements BookingsService {
     private final BookingsRepository bookingsRepository;
     private final EmailService emailService;
+    private final SoliConfiguration soliConfiguration;
+    private final MessageSource messageSource;
 
     /**
      * Constructs a BookingsService with the specified {@link BookingsRepository}.
      *
      * @param bookingsRepository the repository for managing Booking entities
      * @param emailService       the service for sending emails
+     * @param soliConfiguration  the app configuration
+     * @param messageSource      the message source for localization
      */
-    public BookingsServiceImpl(BookingsRepository bookingsRepository, EmailService emailService) {
+    public BookingsServiceImpl(BookingsRepository bookingsRepository, EmailService emailService, SoliConfiguration soliConfiguration, MessageSource messageSource) {
         this.bookingsRepository = bookingsRepository;
         this.emailService = emailService;
+        this.soliConfiguration = soliConfiguration;
+        this.messageSource = messageSource;
     }
 
     /**
@@ -232,6 +241,57 @@ public class BookingsServiceImpl implements BookingsService {
     @Override
     public LocalDateTime maximumTime() {
         return normalize(LocalDateTime.now().plusDays(14));
+    }
+
+    private String formatICalInstant(LocalDateTime time) {
+        time = time.minusNanos(time.getNano()).minusSeconds(time.getSecond());
+        return DateTimeFormatter.ISO_INSTANT.format(
+                time.atZone(soliConfiguration.getTimeZone().toZoneId()).toInstant()
+        ).replaceAll("[-:]", "");
+    }
+
+    private String escapeICalString(String str) {
+        return str
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\r\n", "\n")
+                .replace("\n", "\\n\n ")
+                .replace(",", "\\,")
+                .replace(";", "\\;")
+                .replace(":", "\\:");
+    }
+
+    @Override
+    public String getICalendar(Booking booking, Locale locale) {
+        // TODO give the room a location!
+        String bookingUrl = soliConfiguration.getHostname() + booking.getRoom().getId() + "/bookings/" + booking.getId();
+        UUID uuid = new UUID(0x4E58D14A39266471L, booking.getId());
+        return """
+                BEGIN:VCALENDAR
+                VERSION:2.0
+                PRODID:-//HCI SOLI//NONSGML HCI Solidarische Raumnutzung//EN
+                BEGIN:VEVENT
+                UID:%s
+                DTSTAMP:%s
+                DTSTART:%s
+                DTEND:%s
+                SUMMARY:%s
+                DESCRIPTION:%s
+                URL:%s
+                LOCATION:%s
+                END:VEVENT
+                END:VCALENDAR
+                """.formatted(
+                        uuid,
+                        formatICalInstant(LocalDateTime.now()),
+                        formatICalInstant(booking.getStartDate()),
+                        formatICalInstant(booking.getEndDate()),
+                        escapeICalString(messageSource.getMessage("booking.ical.summary", null, locale)),
+                        escapeICalString(booking.getDescription()),
+                        bookingUrl,
+                        escapeICalString(booking.getRoom().getLocation())
+                ).replace("\r\n", "\n")
+                .replace("\n", "\r\n");
     }
 
     /**

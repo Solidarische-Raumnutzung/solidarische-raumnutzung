@@ -17,6 +17,8 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String location;
+
     /**
      * Gets the unique identifier for the room.
      *
@@ -33,6 +35,24 @@ public class Room {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * Get the description for the location of the room.
+     *
+     * @return the location description
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * Set the description for the location of the room.
+     *
+     * @param location the new location for the room
+     */
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public boolean equals(final Object o) {
