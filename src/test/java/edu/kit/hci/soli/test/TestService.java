@@ -34,14 +34,13 @@ public class TestService {
 
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
-//        roomRepository.deleteAll(roomRepository.findAll());
         userRepository.deleteAll(userRepository.findAll());
         roomRepository.deleteAll(roomRepository.findAll());
 
         user = userService.resolveAdminUser();
         user2 = userService.createGuestUser("testuser2");
         user3 = userService.createGuestUser("testuser3");
-        room = roomService.create(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut."));
+        room = roomService.save(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut."));
 
         currentSlot = bookingsService.currentSlot();
     }

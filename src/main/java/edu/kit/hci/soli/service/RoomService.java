@@ -49,5 +49,12 @@ public interface RoomService {
      * @param room the room to create
      * @return the created room
      */
-    Room create(Room room);
+    Room save(Room room);
+
+    /**
+     * Deletes a room.
+     *
+     * @param room the room to delete
+     */
+    void delete(Room room);
 }

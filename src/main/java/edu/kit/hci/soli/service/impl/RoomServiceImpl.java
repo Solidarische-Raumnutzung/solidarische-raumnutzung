@@ -42,7 +42,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room create(Room room) {
+    public Room save(Room room) {
         return roomRepository.save(room);
+    }
+
+    @Override
+    public void delete(Room room) {
+        roomRepository.delete(room);
     }
 }
