@@ -25,22 +25,42 @@ import java.util.Optional;
 public class RoomsController {
     private final RoomService roomService;
 
+    /**
+     * Constructs a new RoomsController instance.
+     *
+     * @param roomService the room service to be used by this controller
+     */
     public RoomsController(RoomService roomService) {
         this.roomService = roomService;
     }
 
+    /**
+     * Handles GET requests to the root endpoint.
+     * If there is only one room, redirects to that room.
+     *
+     * @param model the model to which attributes are added
+     * @param layout the layout parameters
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/")
     public String roomList(Model model,
                            @ModelAttribute("layout") LayoutParams layout) {
         List<Room> rooms = roomService.getAll();
         if (rooms.size() == 1) {
-            return "redirect:/" + rooms.getFirst().getId();
+            return "redirect:/" + rooms.get(0).getId();
         }
         layout.setRoom(null);
         model.addAttribute("rooms", rooms);
         return "rooms";
     }
 
+    /**
+     * Shows the room list in edit mode.
+     *
+     * @param model the model to which attributes are added
+     * @param layout the layout parameters
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/admin/rooms")
     public String adminRoomList(Model model, @ModelAttribute("layout") LayoutParams layout) {
         List<Room> rooms = roomService.getAll();
@@ -49,6 +69,13 @@ public class RoomsController {
         return "rooms";
     }
 
+    /**
+     * Shows the form for creating a new room.
+     *
+     * @param model the model to which attributes are added
+     * @param layout the layout parameters
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/admin/rooms/new")
     public String newRoom(Model model, @ModelAttribute("layout") LayoutParams layout) {
         model.addAttribute("id", null);
@@ -57,6 +84,14 @@ public class RoomsController {
         return "admin/edit_room_page";
     }
 
+    /**
+     * Shows the form for editing a room.
+     *
+     * @param model the model to which attributes are added
+     * @param response the HTTP response
+     * @param roomId the ID of the room to be edited
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/admin/rooms/{roomId:\\d+}")
     public String editRoom(Model model, HttpServletResponse response,
                            @PathVariable long roomId) {
@@ -72,9 +107,17 @@ public class RoomsController {
         return "admin/edit_room_page";
     }
 
+    /**
+     * Shows the deletion dialog for a room.
+     *
+     * @param model the model to which attributes are added
+     * @param response the HTTP response
+     * @param roomId the ID of the room to be deleted
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/admin/rooms/{roomId:\\d+}/delete")
     public String showDeletionDialog(Model model, HttpServletResponse response,
-                           @PathVariable long roomId) {
+                                     @PathVariable long roomId) {
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -85,6 +128,14 @@ public class RoomsController {
         return "admin/confirmation/delete_room_page";
     }
 
+    /**
+     * Deletes a room.
+     *
+     * @param model the model to which attributes are added
+     * @param response the HTTP response
+     * @param roomId the ID of the room to be deleted
+     * @return the name of the view to be rendered
+     */
     @DeleteMapping("/admin/rooms/{roomId:\\d+}")
     public String deleteRoom(Model model, HttpServletResponse response,
                              @PathVariable long roomId) {
@@ -98,6 +149,14 @@ public class RoomsController {
         return "redirect:/admin/rooms";
     }
 
+    /**
+     * Handles applying changes to a room from modals created by this controller.
+     *
+     * @param model the model to which attributes are added
+     * @param response the HTTP response
+     * @param formData the form data for the room
+     * @return the name of the view to be rendered
+     */
     @PostMapping(value = "/admin/rooms", consumes = "application/x-www-form-urlencoded")
     public String editOrCreateRoom(Model model, HttpServletResponse response, @ModelAttribute FormData formData) {
         Objects.requireNonNull(formData.name);
@@ -128,8 +187,17 @@ public class RoomsController {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class FormData {
+        /**
+         * The target room ID for editing.
+         */
         public Long target;
+        /**
+         * The name of the room.
+         */
         public String name;
+        /**
+         * The description of the room.
+         */
         public String description;
     }
 }
