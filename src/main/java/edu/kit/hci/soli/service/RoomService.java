@@ -1,7 +1,9 @@
 package edu.kit.hci.soli.service;
 
 import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.domain.RoomOpeningHours;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -42,4 +44,6 @@ public interface RoomService {
      * @return the room with the specified ID or {@link Optional#empty}
      */
     Optional<Room> getOptional(long id);
+
+    List<RoomOpeningHours> getOpeningHours(long roomId);
 }

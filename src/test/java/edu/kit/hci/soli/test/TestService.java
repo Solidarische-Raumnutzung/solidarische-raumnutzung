@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Service
 public class TestService {
@@ -56,5 +57,14 @@ public class TestService {
 
     public LayoutParams paramsFor(User user, HttpServletRequest request) {
         return layoutParamsAdvice.getLayoutParams(layoutParamsAdvice.getLoginStateModel(() -> user, null), request);
+    }
+
+    public RoomOpeningHours createOpeningHours(Long roomId, String dayOfWeek, LocalTime openingTime, LocalTime closingTime) {
+        RoomOpeningHours openingHours = new RoomOpeningHours();
+        openingHours.setRoomId(roomId);
+        openingHours.setDayOfWeek(dayOfWeek);
+        openingHours.setOpeningTime(openingTime);
+        openingHours.setClosingTime(closingTime);
+        return roomOpeningHoursRepository.save(openingHours);
     }
 }

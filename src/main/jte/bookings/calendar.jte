@@ -48,7 +48,8 @@
                         && selectInfo.end < new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
                 },
                 slotDuration: '00:15:00',
-                events: '/api/${layout.getRoom().getId()}/events'
+                events: '/api/${layout.getRoom().getId()}/events',
+                businessHours: '/api/${layout.getRoom().getId()}/opening-hours'
             });
 
             calendar.render();

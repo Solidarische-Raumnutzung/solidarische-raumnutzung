@@ -2,6 +2,7 @@ package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.domain.RoomOpeningHours;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
@@ -12,12 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for generating the FullCalendar event feed.
  */
-@RestController("/api/events")
+@RestController
+@RequestMapping("/api")
 public class EventFeedController {
     private final BookingsService bookingsRepository;
     private final RoomService roomService;
@@ -62,6 +66,31 @@ public class EventFeedController {
         }
 
         return bookingsRepository.getCalendarEvents(room.get(), start, end, principal == null ? null : principal.getUser());
+    }
+
+    @GetMapping("/api/{roomId}/opening-hours")
+    public List<Map<String, Object>> getOpeningHours(@PathVariable Long roomId) {
+        List<RoomOpeningHours> openingHours = roomService.getOpeningHours(roomId);
+        return openingHours.stream()
+                .map(hour -> Map.of(
+                        "daysOfWeek", List.of(getDayOfWeek(hour.getDayOfWeek())),
+                        "startTime", hour.getStartTime().toString(),
+                        "endTime", hour.getEndTime().toString()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    private int getDayOfWeek(String day) {
+        return switch (day) {
+            case "Monday" -> 1;
+            case "Tuesday" -> 2;
+            case "Wednesday" -> 3;
+            case "Thursday" -> 4;
+            case "Friday" -> 5;
+            case "Saturday" -> 6;
+            case "Sunday" -> 0;
+            default -> throw new IllegalArgumentException("Invalid day of week: " + day);
+        };
     }
 
     /**

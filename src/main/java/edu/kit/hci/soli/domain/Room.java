@@ -3,6 +3,8 @@ package edu.kit.hci.soli.domain;
 import jakarta.persistence.*;
 import lombok.ToString;
 
+import java.util.Set;
+
 /**
  * The datamodel for a room as it is stored in the database
  */
@@ -16,6 +18,9 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoomOpeningHours> openingHours;
 
     /**
      * Gets the unique identifier for the room.
