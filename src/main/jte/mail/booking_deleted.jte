@@ -14,7 +14,7 @@
     </p>
     <div style="text-align:center">
         <button class="btn btn-accent">
-            <a href= "${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
+            <a href= "${context.getHostname()}${booking.getRoom().getId()}">
                 <p>${context.localize("mail.make_new_booking")}</p>
             </a>
         </button>
