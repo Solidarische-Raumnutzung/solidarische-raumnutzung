@@ -122,6 +122,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateLastLogin(User user) {
+        log.info("Updating last login timestamp for user {}", user.getUserId());
+        userRepository.updateLastLogin(user.getUserId());
+    }
+
+    @Override
     public boolean deleteUser(User user) {
         if (isAdmin(user)) {
             throw new IllegalArgumentException("Cannot delete admin user");

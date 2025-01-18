@@ -1,10 +1,12 @@
 package edu.kit.hci.soli.repository;
 
 import edu.kit.hci.soli.domain.User;
+import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -37,4 +39,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return true if a user with the given userId exists, false otherwise
      */
     boolean existsByUserId(@NotNull String userId);
+
+    /**
+     * Updates the user's last login timestamp.
+     * This query is called whenever a user logs in.
+     */
+    @Query("UPDATE User u SET u.lastLogin = CURRENT_TIMESTAMP WHERE u.userId = :userId")
+    @Transactional
+    @Modifying
+    void updateLastLogin(String userId);
 }

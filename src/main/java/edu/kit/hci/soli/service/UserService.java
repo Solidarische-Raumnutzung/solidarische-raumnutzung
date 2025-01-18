@@ -97,6 +97,15 @@ public interface UserService {
     boolean isGuest(User user);
 
     /**
+     * Updates the user's last login timestamp.
+     * This method is called whenever a user logs in.
+     *
+     * @param user the user whose last login timestamp is to be updated
+     */
+    void updateLastLogin(User user);
+
+
+    /**
      * Deletes a user.
      * If the user has any bookings, this will not delete the user.
      *

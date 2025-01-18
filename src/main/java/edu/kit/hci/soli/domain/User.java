@@ -3,6 +3,7 @@ package edu.kit.hci.soli.domain;
 import jakarta.persistence.*;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 /**
@@ -51,6 +52,11 @@ public class User {
      * This is used to send mails in the user's preferred language.
      */
     private Locale locale;
+
+    /**
+     * The date and time of the last login of the user.
+     */
+    private LocalDateTime lastLogin;
 
     /**
      * Constructs a new User with the specified details.
@@ -193,5 +199,23 @@ public class User {
 
     public int hashCode() {
         return getId().hashCode();
+    }
+
+    /**
+     * Gets the date and time of the last login of the user.
+     *
+     * @return the date and time of the last login of the user
+     */
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    /**
+     * Sets the date and time of the last login of the user.
+     *
+     * @param lastLogin the date and time of the last login of the user
+     */
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }
