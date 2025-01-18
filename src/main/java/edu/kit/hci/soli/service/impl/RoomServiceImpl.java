@@ -27,11 +27,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room get(long id) {
-        return getOptional(id).orElseThrow();
-    }
-
-    @Override
     public Optional<Room> getOptional(long id) {
         return roomRepository.findById(id);
     }
