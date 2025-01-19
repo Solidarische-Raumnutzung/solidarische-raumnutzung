@@ -7,6 +7,7 @@ import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.service.RoomService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,5 +51,30 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomOpeningHours> getOpeningHours(long roomId) {
         return roomOpeningHoursRepository.findByRoomId(roomId);
+    }
+
+    @Override
+    public void saveOpeningHours(long roomId, LocalTime start, LocalTime end, String dayOfWeek) {
+        RoomOpeningHours openingHours = new RoomOpeningHours();
+        openingHours.setRoom(roomRepository.findById(roomId).orElseThrow());
+        openingHours.setStartTime(start);
+        openingHours.setEndTime(end);
+        openingHours.setDayOfWeek(dayOfWeek);
+        openingHours.setId(getDayOfWeek(dayOfWeek));
+        roomOpeningHoursRepository.save(openingHours);
+    }
+
+    // I didn't include the ID directly in SQL because I wanted to keep a fix easy if FullCalender changes Weekday IDs
+    private long getDayOfWeek(String day) {
+        return switch (day) {
+            case "Monday" -> 1;
+            case "Tuesday" -> 2;
+            case "Wednesday" -> 3;
+            case "Thursday" -> 4;
+            case "Friday" -> 5;
+            case "Saturday" -> 6;
+            case "Sunday" -> 0;
+            default -> throw new IllegalArgumentException("Invalid day of week: " + day);
+        };
     }
 }

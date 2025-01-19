@@ -73,24 +73,11 @@ public class EventFeedController {
         List<RoomOpeningHours> openingHours = roomService.getOpeningHours(roomId);
         return openingHours.stream()
                 .map(hour -> Map.of(
-                        "daysOfWeek", List.of(getDayOfWeek(hour.getDayOfWeek())),
+                        "daysOfWeek", List.of(hour.getId().intValue()),
                         "startTime", hour.getStartTime().toString(),
                         "endTime", hour.getEndTime().toString()
                 ))
                 .collect(Collectors.toList());
-    }
-
-    private int getDayOfWeek(String day) {
-        return switch (day) {
-            case "Monday" -> 1;
-            case "Tuesday" -> 2;
-            case "Wednesday" -> 3;
-            case "Thursday" -> 4;
-            case "Friday" -> 5;
-            case "Saturday" -> 6;
-            case "Sunday" -> 0;
-            default -> throw new IllegalArgumentException("Invalid day of week: " + day);
-        };
     }
 
     /**

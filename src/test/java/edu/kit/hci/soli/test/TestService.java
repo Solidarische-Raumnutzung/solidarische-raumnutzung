@@ -59,12 +59,12 @@ public class TestService {
         return layoutParamsAdvice.getLayoutParams(layoutParamsAdvice.getLoginStateModel(() -> user, null), request);
     }
 
-    public RoomOpeningHours createOpeningHours(Long roomId, String dayOfWeek, LocalTime openingTime, LocalTime closingTime) {
-        RoomOpeningHours openingHours = new RoomOpeningHours();
-        openingHours.setRoomId(roomId);
-        openingHours.setDayOfWeek(dayOfWeek);
-        openingHours.setOpeningTime(openingTime);
-        openingHours.setClosingTime(closingTime);
-        return roomOpeningHoursRepository.save(openingHours);
-    }
+//    public RoomOpeningHours createOpeningHours(Long roomId, String dayOfWeek, LocalTime openingTime, LocalTime closingTime) {
+//        RoomOpeningHours openingHours = new RoomOpeningHours();
+//        openingHours.setRoomId(roomId); // at around this point i lost my sanity
+//        openingHours.setDayOfWeek(dayOfWeek);
+//        openingHours.setOpeningTime(openingTime);
+//        openingHours.setClosingTime(closingTime);
+//        return roomOpeningHoursRepository.save(openingHours);
+//    }
 }

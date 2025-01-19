@@ -28,7 +28,7 @@ public class RoomOpeningHours {
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
-    public void setEndTime(LocalTime endTime) {
+public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 

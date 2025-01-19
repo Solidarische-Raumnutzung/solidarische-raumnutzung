@@ -3,6 +3,7 @@ package edu.kit.hci.soli.service;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.domain.RoomOpeningHours;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -46,4 +47,6 @@ public interface RoomService {
     Optional<Room> getOptional(long id);
 
     List<RoomOpeningHours> getOpeningHours(long roomId);
+
+    void saveOpeningHours(long roomId, LocalTime start, LocalTime end, String dayOfWeek);
 }
