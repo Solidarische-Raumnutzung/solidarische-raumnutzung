@@ -1,0 +1,1 @@
+ALTER TABLE soli_rooms ADD COLUMN location VARCHAR(255) DEFAULT 'unknown';

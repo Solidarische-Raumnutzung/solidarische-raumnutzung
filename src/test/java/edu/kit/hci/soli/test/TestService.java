@@ -40,7 +40,7 @@ public class TestService {
         user = userService.resolveAdminUser();
         user2 = userService.createGuestUser("testuser2");
         user3 = userService.createGuestUser("testuser3");
-        room = roomService.save(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut."));
+        room = roomService.save(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut.", "Testort"));
 
         currentSlot = bookingsService.currentSlot();
     }

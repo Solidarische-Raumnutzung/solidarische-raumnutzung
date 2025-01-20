@@ -1,15 +1,12 @@
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
-@import java.util.Date
 
 @param JteContext context
 @param LayoutParams layout
 
-@param Date timestamp
-@param Integer status
-@param String message
-@param String error
+@param String message = null
+@param String error = null
 
 @template.layout(page = new PageSpec("Error", "Soli"), context = context, layout = layout, content = @`
     <div class="hero-content text-center">
