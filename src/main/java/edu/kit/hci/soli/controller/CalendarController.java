@@ -21,7 +21,7 @@ import java.util.Optional;
  * Controller for handling calendar-related requests.
  */
 @Slf4j
-@Controller("/")
+@Controller("/calendar")
 public class CalendarController {
     private final RoomService roomService;
 
@@ -32,22 +32,6 @@ public class CalendarController {
      */
     public CalendarController(RoomService roomService) {
         this.roomService = roomService;
-    }
-
-    /**
-     * Displays the calendar for the default room.
-     *
-     * @param model     the model to be used in the view
-     * @param request   the HTTP request
-     * @param response  the HTTP response
-     * @param principal the authenticated user details
-     * @return the view name
-     */
-    @GetMapping("/")
-    public String calendar(Model model, HttpServletRequest request, HttpServletResponse response,
-                           @AuthenticationPrincipal SoliUserDetails principal,
-                           @ModelAttribute("layout") LayoutParams layout) {
-        return calendar(model, request, response, principal, 1L, layout);
     }
 
     /**
