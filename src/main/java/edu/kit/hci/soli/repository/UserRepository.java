@@ -47,7 +47,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     void updateLastLogin(String userId);
 
-    @Query("DELETE FROM User u WHERE u.lastLogin < :date AND NOT EXISTS (SELECT b FROM Booking b WHERE b.user = u)")
+    @Query("DELETE FROM User u WHERE u.userId != 'admin' AND u.userId != 'anon' AND u.lastLogin < :date AND NOT EXISTS (SELECT b FROM Booking b WHERE b.user = u)")
     @Modifying
     void deleteUnusedOlderThan(LocalDateTime date);
 }
