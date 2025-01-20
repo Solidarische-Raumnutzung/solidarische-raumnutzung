@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/opening-hours")
@@ -38,5 +40,17 @@ public class OpeningHoursController {
         }
         roomService.saveOpeningHours(roomId, start, end, dayOfWeek);
         return "redirect:/admin/opening-hours/{roomId}";
+    }
+
+    @GetMapping("/admin/opening-hours/{roomId:\\d+}")
+    public String showOpeningHoursForm(@PathVariable Long roomId, Model model, HttpServletResponse response) {
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error/known";
+        }
+//        model.addAttribute("room", room.get());
+        return "admin/opening-hours/{roomId}";
     }
 }
