@@ -1,7 +1,6 @@
 package edu.kit.hci.soli.repository;
 
 import edu.kit.hci.soli.domain.User;
-import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * Repository interface for managing {@link User} entities.
@@ -21,8 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      *
      * @return a list of users excluding the admin user
      */
-    @Query("SELECT u FROM User u WHERE u.userId != 'admin'")
-    Page<User> findAllWithoutAdmin(Pageable pageable);
+    @Query("SELECT u FROM User u WHERE u.userId != 'admin' AND u.userId != 'anon'")
+    Page<User> findAllWithoutAdminOrAnon(Pageable pageable);
 
     /**
      * Finds a user by their (external) user ID.
@@ -45,7 +44,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * This query is called whenever a user logs in.
      */
     @Query("UPDATE User u SET u.lastLogin = CURRENT_TIMESTAMP WHERE u.userId = :userId")
-    @Transactional
     @Modifying
     void updateLastLogin(String userId);
+
+    @Query("DELETE FROM User u WHERE u.lastLogin < :date AND NOT EXISTS (SELECT b FROM Booking b WHERE b.user = u)")
+    @Modifying
+    void deleteUnusedOlderThan(LocalDateTime date);
 }
