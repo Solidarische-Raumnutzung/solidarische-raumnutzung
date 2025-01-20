@@ -28,6 +28,7 @@ public class TestService {
     public User user;
     public User user2;
     public User user3;
+    public User anon;
     public Room room;
 
     private LocalDateTime currentSlot;
@@ -38,6 +39,7 @@ public class TestService {
         roomRepository.deleteAll(roomRepository.findAll());
 
         user = userService.resolveAdminUser();
+        anon = userService.resolveAnonUser();
         user2 = userService.createGuestUser("testuser2");
         user3 = userService.createGuestUser("testuser3");
         room = roomService.save(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut."));
