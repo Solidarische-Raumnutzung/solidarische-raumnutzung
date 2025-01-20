@@ -55,7 +55,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("gg.jte:jte:3.1.15")
+    implementation("gg.jte:jte:3.1.16")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
     annotationProcessor("com.google.auto.service:auto-service:1.1.1")
