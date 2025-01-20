@@ -6,18 +6,14 @@ import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
-@Controller
-@RequestMapping("/admin/opening-hours")
+@Controller("/admin/opening-hours")
 public class OpeningHoursController {
     private final RoomService roomService;
 
@@ -25,7 +21,7 @@ public class OpeningHoursController {
         this.roomService = roomService;
     }
 
-    @GetMapping("/{roomId}/save")
+    @PutMapping("/admin/opening-hours/{roomId}/save")
     public String saveOpeningHours(@PathVariable Long roomId, @RequestParam String startTime,
                                    @RequestParam String endTime, @RequestParam DayOfWeek dayOfWeek, Model model,
                                    HttpServletResponse response) {
@@ -38,8 +34,9 @@ public class OpeningHoursController {
             model.addAttribute("error", KnownError.INVALID_TIME);
             return "error/known";
         }
+        model.addAttribute("roomId", roomId);
         roomService.saveOpeningHours(roomId, start, end, dayOfWeek);
-        return "redirect:/admin/opening-hours/{roomId}";
+        return "redirect:/admin/opening-hours/" + roomId.toString();
     }
 
     @GetMapping("/admin/opening-hours/{roomId:\\d+}")
@@ -50,7 +47,7 @@ public class OpeningHoursController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error/known";
         }
-//        model.addAttribute("room", room.get());
-        return "admin/opening-hours/{roomId}";
+        model.addAttribute("roomId", room.get().getId());
+        return "admin/opening-hours/" + roomId.toString();
     }
 }

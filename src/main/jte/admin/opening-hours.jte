@@ -30,7 +30,7 @@
             @endfor
             </tbody>
         </table>
-        @template.util.form(csrf = csrf, action = "/admin/opening-hours/${layout.getRoom().getId()}/save", method = PUT, content = @`
+        @template.util.form(csrf = csrf, action = "/admin/opening-hours/" + layout.getRoom().getId().toString() + "/save", method = PUT, content = @`
             <button type="submit" class="btn btn-primary">${context.localize("administration.opening_hours.save")}</button>
         `)
     </div>
