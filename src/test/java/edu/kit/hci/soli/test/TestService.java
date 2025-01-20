@@ -4,6 +4,7 @@ import edu.kit.hci.soli.controller.LayoutParamsAdvice;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.repository.BookingsRepository;
+import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
@@ -18,6 +19,7 @@ import java.time.LocalTime;
 @Service
 public class TestService {
     @Autowired private UserRepository userRepository;
+    @Autowired private RoomRepository roomRepository;
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private UserService userService;
     @Autowired private RoomService roomService;
@@ -33,20 +35,20 @@ public class TestService {
 
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
-//        roomRepository.deleteAll(roomRepository.findAll());
         userRepository.deleteAll(userRepository.findAll());
+        roomRepository.deleteAll(roomRepository.findAll());
 
         user = userService.resolveAdminUser();
         user2 = userService.createGuestUser("testuser2");
         user3 = userService.createGuestUser("testuser3");
-        room = roomService.get();
+        room = roomService.save(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut.", "Testort"));
 
         currentSlot = bookingsService.currentSlot();
     }
 
     public Booking createBooking(User user) {
         Booking booking = new Booking();
-        booking.setRoom(roomService.get());
+        booking.setRoom(room);
         booking.setUser(user);
         booking.setStartDate(currentSlot.plusDays(1));
         booking.setEndDate(currentSlot.plusDays(2));

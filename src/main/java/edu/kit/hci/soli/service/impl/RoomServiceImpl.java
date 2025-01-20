@@ -14,8 +14,6 @@ import java.util.Optional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
-    // We currently only have one room, so we can hardcode the id
-
     private final RoomRepository roomRepository;
     private final RoomOpeningHoursRepository roomOpeningHoursRepository;
 
@@ -31,22 +29,27 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public boolean existsById(Long id) {
-        return id == 1;
-    }
-
-    @Override
-    public Room get() {
-        return get(1L);
-    }
-
-    @Override
-    public Room get(long id) {
-        return getOptional(id).orElseThrow();
+        return roomRepository.existsById(id);
     }
 
     @Override
     public Optional<Room> getOptional(long id) {
         return roomRepository.findById(id);
+    }
+
+    @Override
+    public List<Room> getAll() {
+        return roomRepository.findAll();
+    }
+
+    @Override
+    public Room save(Room room) {
+        return roomRepository.save(room);
+    }
+
+    @Override
+    public void delete(Room room) {
+        roomRepository.delete(room);
     }
 
     @Override

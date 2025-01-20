@@ -117,6 +117,7 @@
 
                             <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
                             <li><a href="/admin/statistics"><i class="fa-solid fa-chart-line"></i> ${context.localize("administration.statistics")}</a></li>
+                            <li><a href="/admin/rooms"><i class="fa-solid fa-house"></i> ${context.localize("rooms")}</a></li>
                             <li><a href="/admin/opening-hours"><i class="fa-solid fa-list"></i> ${context.localize("administration.opening_hours")}</a></li>
                         @endif
 

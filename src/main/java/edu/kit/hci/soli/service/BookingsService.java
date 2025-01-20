@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Service class for managing {@link Booking} entities.
@@ -133,4 +134,13 @@ public interface BookingsService {
      * @return the maximum time for a booking
      */
     LocalDateTime maximumTime();
+
+    /**
+     * Exports a booking in the iCalender format.
+     *
+     * @param booking the booking
+     * @param locale the locale for wich to localize
+     * @return the content for the .ics file
+     */
+    String getICalendar(Booking booking, Locale locale);
 }
