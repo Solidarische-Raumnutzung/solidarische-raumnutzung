@@ -42,11 +42,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
     /**
      * Updates the user's last login timestamp.
      * This query is called whenever a user logs in.
+     *
+     * @param userId the user ID of the user
      */
     @Query("UPDATE User u SET u.lastLogin = CURRENT_TIMESTAMP WHERE u.userId = :userId")
     @Modifying
     void updateLastLogin(String userId);
 
+    /**
+     * Deletes all users that have not logged in since the specified date and have no bookings.
+     *
+     * @param date the date to compare the last login timestamp to
+     */
     @Query("DELETE FROM User u WHERE u.userId != 'admin' AND u.userId != 'anon' AND u.lastLogin < :date AND NOT EXISTS (SELECT b FROM Booking b WHERE b.user = u)")
     @Modifying
     void deleteUnusedOlderThan(LocalDateTime date);

@@ -114,6 +114,12 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByMonth(EXTRACT(MONTH FROM b.startDate), COUNT(b)) FROM Booking b WHERE CURRENT_TIMESTAMP - b.endDate <= :frame GROUP BY EXTRACT(MONTH FROM b.startDate)")
     Stream<BookingByMonth> countBookingsPerMonthRecent(Duration frame);
 
+    /**
+     * Anonymizes bookings older than the specified date.
+     *
+     * @param date the date to compare the end date to
+     * @param anonymousUser the user to anonymize the bookings to
+     */
     @Query("UPDATE Booking b SET b.user = :anonymousUser WHERE b.endDate < :date")
     @Modifying
     void anonymizeOlderThan(LocalDateTime date, User anonymousUser);
