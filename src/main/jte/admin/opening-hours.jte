@@ -26,17 +26,15 @@
             @for (DayOfWeek day : DayOfWeek.values())
                 <tr>
                     <td>${day}</td>
-                    <td><input type="time" class="input input-bordered w-full" name="${day.name()}_start"></td>
-                    <td><input type="time" class="input input-bordered w-full" name="${day.name()}_end"></td>
-                    <input type="hidden" name="dayOfWeek" value="${day.name()}">
+                    <td><input type="time" class="input input-bordered w-full" name="${day}_start"></td>
+                    <td><input type="time" class="input input-bordered w-full" name="${day}_end"></td>
+                    <input type="hidden" name="dayOfWeek" value="${day}">
                 </tr>
             @endfor
             </tbody>
         </table>
-        <form action="/admin/opening-hours/${layout.getRoom().getId()}/save" method="get">
-            <div class="flex justify-end mt-4">
-                <button class="btn btn-primary" type="submit">Save</button>
-            </div>
-        </form>
+        @template.util.form(csrf = csrf, action = "/admin/opening-hours/${layout.getRoom().getId()}/save", method = PUT, content = @`
+            <button type="submit" class="btn btn-primary">${context.localize("administration.opening_hours.save")}</button>
+        `)
     </div>
 `)

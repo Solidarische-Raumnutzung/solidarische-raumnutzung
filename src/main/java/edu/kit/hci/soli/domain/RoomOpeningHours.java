@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "room_opening_hours")
-@Getter
-@Setter
 public class RoomOpeningHours {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +19,7 @@ public class RoomOpeningHours {
     private Room room;
 
     @Column(name = "day_of_week", nullable = false)
-    private String dayOfWeek;
+    private DayOfWeek dayOfWeek;
 
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
@@ -28,7 +27,7 @@ public class RoomOpeningHours {
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
-public void setEndTime(LocalTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
@@ -36,7 +35,7 @@ public void setEndTime(LocalTime endTime) {
         this.startTime = startTime;
     }
 
-    public void setDayOfWeek(String dayOfWeek) {
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 
@@ -48,7 +47,7 @@ public void setEndTime(LocalTime endTime) {
         this.id = id;
     }
 
-    public String getDayOfWeek() {
+    public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }
 
