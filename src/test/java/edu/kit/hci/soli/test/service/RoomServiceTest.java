@@ -36,7 +36,7 @@ public class RoomServiceTest {
     @Test
     public void testCreateRoom() {
         assertIterableEquals(List.of(testService.room), roomService.getAll());
-        Room neue = new Room(null, "Neue", "Beschreibung");
+        Room neue = new Room(null, "Neue", "Beschreibung", "Ort");
         neue = roomService.save(neue);
         assertIterableEquals(List.of(testService.room, neue), roomService.getAll());
         assertEquals(Optional.of(neue), roomService.getOptional(neue.getId()));
