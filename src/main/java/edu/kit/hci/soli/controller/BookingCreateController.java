@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalQueries;
 import java.util.Objects;
 import java.util.Optional;
@@ -133,7 +134,17 @@ public class BookingCreateController {
                 || formData.end.getMinute() % 15 != 0
                 || formData.start.getDayOfWeek() != formData.end.getDayOfWeek()
                 || formData.start.getDayOfWeek() == DayOfWeek.SATURDAY
-                || formData.start.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                || formData.start.getDayOfWeek() == DayOfWeek.SUNDAY
+                || formData.start.toLocalTime().isAfter(room.get().getOpeningHours().stream()
+                .filter(hours -> hours.getDayOfWeek() == formData.start.getDayOfWeek())
+                .map(RoomOpeningHours::getStartTime)
+                .findFirst()
+                .orElse(LocalTime.MAX))
+                || formData.end.toLocalTime().isAfter(room.get().getOpeningHours().stream()
+                .filter(hours -> hours.getDayOfWeek() == formData.end.getDayOfWeek())
+                .map(RoomOpeningHours::getEndTime)
+                .findFirst()
+                .orElse(LocalTime.MAX))) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
             return "error/known";

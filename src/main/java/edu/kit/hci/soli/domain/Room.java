@@ -135,4 +135,8 @@ public class Room {
     public int hashCode() {
         return getId().hashCode();
     }
+
+    public Set<RoomOpeningHours> getOpeningHours() {
+        return this.openingHours;
+    }
 }
