@@ -1,12 +1,9 @@
-@import edu.kit.hci.soli.domain.User
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.config.template.PageSpec
-@import org.springframework.data.domain.Page
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.time.DayOfWeek
-@import java.util.UUID
 
 @param JteContext context
 @param LayoutParams layout
