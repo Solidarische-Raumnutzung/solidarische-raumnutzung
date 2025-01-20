@@ -1,9 +1,9 @@
-package edu.kit.hci.soli.service.sheduling.impl;
+package edu.kit.hci.soli.service.scheduled.impl;
 
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.UserService;
-import edu.kit.hci.soli.service.sheduling.AutoAnonymizationService;
+import edu.kit.hci.soli.service.scheduled.AutoAnonymizationService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

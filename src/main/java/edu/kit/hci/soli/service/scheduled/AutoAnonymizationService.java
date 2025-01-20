@@ -1,4 +1,4 @@
-package edu.kit.hci.soli.service.sheduling;
+package edu.kit.hci.soli.service.scheduled;
 
 /**
  * Service interface for deleting accounts on a day-to-day basis.
