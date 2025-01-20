@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -150,6 +151,7 @@ public class BookingViewController {
                             @PathVariable Long eventId,
                             @ModelAttribute("layout") LayoutParams layout) {
 
+
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -180,5 +182,38 @@ public class BookingViewController {
         );
 
         return "bookings/single_page";
+    }
+
+    @GetMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/booking.ics")
+    public String bookingICalender(Model model, HttpServletResponse response,
+                                   @AuthenticationPrincipal SoliUserDetails principal,
+                                   @PathVariable Long roomId,
+                                   @PathVariable Long eventId) {
+
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error/known";
+        }
+
+        Booking booking = bookingsService.getBookingById(eventId);
+        if (booking == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error/known";
+        }
+
+        String ical = bookingsService.getICalendar(booking, principal.getUser().getLocale());
+
+        response.setContentType("text/calendar");
+        try (var w = response.getWriter()) {
+            w.write(ical);
+            w.flush();
+        } catch (IOException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            log.error("Could not render calendar to response", e);
+        }
+        return null;
     }
 }

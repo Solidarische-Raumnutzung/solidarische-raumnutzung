@@ -11,6 +11,7 @@
 @param Long id
 @param String name
 @param String description
+@param String location
 
 !{var title = id == null ? context.lookup("rooms.new") : context.lookup("rooms.edit");}
 @template.layout(page = new PageSpec(title, "Soli"), context = context, layout = layout, content = @`
@@ -29,6 +30,11 @@
             <textarea id="description" name="description" class="input textarea textarea-bordered"
                       placeholder="${context.localize("rooms.description")}"
             >${description}</textarea>
+
+            <br><br>
+
+            <label class="fieldset-legend" for="location">${context.localize("rooms.location")}</label>
+            <input class="input" id="location" name="location" type="text" placeholder="${context.localize("rooms.location")}" value="${location}" required/>
 
             <br><br>
 

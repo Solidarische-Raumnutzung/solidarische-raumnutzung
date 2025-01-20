@@ -81,6 +81,7 @@ public class RoomsController {
         model.addAttribute("id", null);
         model.addAttribute("name", "");
         model.addAttribute("description", "");
+        model.addAttribute("location", "");
         return "admin/edit_room_page";
     }
 
@@ -104,6 +105,7 @@ public class RoomsController {
         model.addAttribute("id", roomId);
         model.addAttribute("name", room.get().getName());
         model.addAttribute("description", room.get().getDescription());
+        model.addAttribute("location", room.get().getLocation());
         return "admin/edit_room_page";
     }
 
@@ -161,6 +163,7 @@ public class RoomsController {
     public String editOrCreateRoom(Model model, HttpServletResponse response, @ModelAttribute FormData formData) {
         Objects.requireNonNull(formData.name);
         Objects.requireNonNull(formData.description);
+        Objects.requireNonNull(formData.location);
         if (formData.target != null) {
             // Some target was picked, edit it
             Optional<Room> room = roomService.getOptional(formData.target);
@@ -171,11 +174,12 @@ public class RoomsController {
             }
             room.get().setName(formData.name);
             room.get().setDescription(formData.description);
+            room.get().setLocation(formData.location);
             roomService.save(room.get());
             return "redirect:/admin/rooms";
         } else {
             // No target was picked, create a new room
-            roomService.save(new Room(null, formData.name, formData.description));
+            roomService.save(new Room(null, formData.name, formData.description, formData.location));
             return "redirect:/admin/rooms";
         }
     }
@@ -199,5 +203,9 @@ public class RoomsController {
          * The description of the room.
          */
         public String description;
+        /**
+         * The location of the room.
+         */
+        public String location;
     }
 }
