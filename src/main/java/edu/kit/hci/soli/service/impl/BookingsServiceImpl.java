@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -226,12 +227,22 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Override
     public LocalDateTime minimumTime() {
-        return normalize(LocalDateTime.now().plusMinutes(15));
+        LocalDateTime ldt = normalize(LocalDateTime.now().plusMinutes(15));
+        return switch (ldt.getDayOfWeek()) {
+            case SATURDAY -> ldt.plusDays(2);
+            case SUNDAY -> ldt.plusDays(1);
+            default -> ldt;
+        };
     }
 
     @Override
     public LocalDateTime maximumTime() {
-        return normalize(LocalDateTime.now().plusDays(14));
+        LocalDateTime ldt = normalize(LocalDateTime.now().plusDays(14));
+        return switch (ldt.getDayOfWeek()) {
+            case SATURDAY -> ldt.minusDays(1);
+            case SUNDAY -> ldt.minusDays(2);
+            default -> ldt;
+        };
     }
 
     /**
