@@ -1,0 +1,4 @@
+Contact: mailto:test@example.com
+Expires: 2099-12-31T23:00:00.000Z
+Preferred-Languages: de, en
+Canonical: ADD URL
