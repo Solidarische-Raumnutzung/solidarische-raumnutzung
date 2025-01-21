@@ -5,13 +5,11 @@ import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LayoutParams;
+import edu.kit.hci.soli.dto.form.CreateEventForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -109,7 +107,7 @@ public class BookingCreateController {
             @PathVariable Long roomId,
             @ModelAttribute("layout") LayoutParams layout,
             @AuthenticationPrincipal SoliUserDetails principal,
-            @ModelAttribute FormData formData
+            @ModelAttribute CreateEventForm formData
     ) {
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
@@ -117,31 +115,31 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error/known";
         }
-        if (formData.start == null || formData.end == null || formData.priority == null || formData.cooperative == null) {
+        if (formData.getStart() == null || formData.getEnd() == null || formData.getPriority() == null || formData.getCooperative() == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.MISSING_PARAMETER);
             return "error/known";
         }
         layout.setRoom(room.get());
-        formData.description = formData.description == null ? "" : formData.description.trim();
+        formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
 
         // Validate start and end times
-        if (formData.start.isAfter(formData.end)
-                || formData.start.isBefore(bookingsService.minimumTime())
-                || formData.end.isAfter(formData.start.plusHours(4)) // Keep these in sync with index.jte!
-                || formData.end.isAfter(bookingsService.maximumTime())
-                || formData.start.getMinute() % 15 != 0
-                || formData.end.getMinute() % 15 != 0
-                || formData.start.getDayOfWeek() != formData.end.getDayOfWeek()
-                || formData.start.getDayOfWeek() == DayOfWeek.SATURDAY
-                || formData.start.getDayOfWeek() == DayOfWeek.SUNDAY
-                || formData.start.toLocalTime().isAfter(room.get().getOpeningHours().stream()
-                .filter(hours -> hours.getDayOfWeek() == formData.start.getDayOfWeek())
+        if (formData.getStart().isAfter(formData.getEnd())
+                || formData.getStart().isBefore(bookingsService.minimumTime())
+                || formData.getEnd().isAfter(formData.getStart().plusHours(4)) // Keep these in sync with index.jte!
+                || formData.getEnd().isAfter(bookingsService.maximumTime())
+                || formData.getStart().getMinute() % 15 != 0
+                || formData.getEnd().getMinute() % 15 != 0
+                || formData.getStart().getDayOfWeek() != formData.getEnd().getDayOfWeek()
+                || formData.getStart().getDayOfWeek() == DayOfWeek.SATURDAY
+                || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY
+                || formData.getStart().toLocalTime().isAfter(room.get().getOpeningHours().stream()
+                .filter(hours -> hours.getDayOfWeek() == formData.getStart().getDayOfWeek())
                 .map(RoomOpeningHours::getStartTime)
                 .findFirst()
                 .orElse(LocalTime.MAX))
-                || formData.end.toLocalTime().isAfter(room.get().getOpeningHours().stream()
-                .filter(hours -> hours.getDayOfWeek() == formData.end.getDayOfWeek())
+                || formData.getEnd().toLocalTime().isAfter(room.get().getOpeningHours().stream()
+                .filter(hours -> hours.getDayOfWeek() == formData.getEnd().getDayOfWeek())
                 .map(RoomOpeningHours::getEndTime)
                 .findFirst()
                 .orElse(LocalTime.MAX))) {
@@ -152,13 +150,13 @@ public class BookingCreateController {
 
         Booking attemptedBooking = new Booking(
                 null,
-                formData.description,
-                formData.start,
-                formData.end,
-                formData.cooperative,
+                formData.getDescription(),
+                formData.getStart(),
+                formData.getEnd(),
+                formData.getCooperative(),
                 room.get(),
                 principal.getUser(),
-                formData.priority,
+                formData.getPriority(),
                 Set.of()
         );
         return handleBookingAttempt(attemptedBooking, bookingsService.attemptToBook(attemptedBooking), request, model);
@@ -228,17 +226,4 @@ public class BookingCreateController {
         };
     }
 
-    /**
-     * Data class for event creation form data.
-     */
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class FormData {
-        public LocalDateTime start;
-        public LocalDateTime end;
-        public String description;
-        public Priority priority;
-        public ShareRoomType cooperative;
-    }
 }

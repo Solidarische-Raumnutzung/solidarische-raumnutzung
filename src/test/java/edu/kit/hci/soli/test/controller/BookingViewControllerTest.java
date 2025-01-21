@@ -9,10 +9,10 @@ import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LayoutParams;
+import edu.kit.hci.soli.dto.form.EditBookingDescriptionForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -146,6 +146,73 @@ public class BookingViewControllerTest {
 
         verify(layoutParams).setRoom(room);
         verify(model).addAttribute("booking", booking);
+        assertEquals("bookings/single_page", view);
+    }
+
+    @Test
+    public void testEditEvent_RoomNotFound() throws Exception {
+        when(roomService.getOptional(1L)).thenReturn(Optional.empty());
+
+        String view = bookingViewController.editBooking(model, response, principal,1L, 1L, layoutParams, new EditBookingDescriptionForm("new Description"));
+
+        verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
+        verify(model).addAttribute("error", KnownError.NOT_FOUND);
+        assertEquals("error/known", view);
+    }
+
+    @Test
+    public void testEditEvent_BookingNotFound() throws Exception {
+        Room room = new Room();
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.getBookingById(1L)).thenReturn(null);
+
+        String view = bookingViewController.editBooking(model, response, principal, 1L, 1L, layoutParams, new EditBookingDescriptionForm("new Description"));
+
+        verify(model).addAttribute("error", KnownError.NOT_FOUND);
+        assertEquals("error/known", view);
+    }
+
+    @Test
+    public void testEditEvent_NoPermissions() throws Exception {
+        Room room = new Room();
+        Booking booking = new Booking();
+        booking.setRoom(room);
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.getBookingById(1L)).thenReturn(booking);
+        User admin = new User();
+        admin.setId(1L);
+        when(userService.resolveAdminUser()).thenReturn(admin);
+        User user = new User();
+        user.setId(2L);
+        booking.setUser(admin);
+        when(principal.getUser()).thenReturn(user);
+
+        String view = bookingViewController.editBooking(model, response, principal, 1L, 1L, layoutParams, new EditBookingDescriptionForm("new Description"));
+
+        verify(model).addAttribute("error", KnownError.EDIT_NO_PERMISSION);
+        assertEquals("error/known", view);
+    }
+
+    @Test
+    public void testEditBooking_Success() throws Exception {
+        Room room = new Room();
+        Booking booking = new Booking();
+        booking.setRoom(room);
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.getBookingById(1L)).thenReturn(booking);
+        User admin = new User();
+        admin.setId(1L);
+        when(userService.resolveAdminUser()).thenReturn(admin);
+        User user = new User();
+        user.setId(2L);
+        booking.setUser(user);
+        when(principal.getUser()).thenReturn(user);
+
+        String view = bookingViewController.editBooking(model, response, principal, 1L, 1L, layoutParams, new EditBookingDescriptionForm("new Description"));
+
+        verify(layoutParams).setRoom(room);
+        verify(model).addAttribute("booking", booking);
+        verify(bookingsService).updateDescription(booking, "new Description");
         assertEquals("bookings/single_page", view);
     }
 }

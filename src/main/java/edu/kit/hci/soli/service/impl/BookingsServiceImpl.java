@@ -305,6 +305,15 @@ public class BookingsServiceImpl implements BookingsService {
                 .replace("\n", "\r\n");
     }
 
+    @Override
+    public void updateDescription(Booking booking, String description) {
+        if (booking.getId() == null || !bookingsRepository.existsById(booking.getId())) {
+            throw new IllegalArgumentException("Booking with id " + booking.getId() + " does not exist");
+        }
+        booking.setDescription(description);
+        bookingsRepository.save(booking);
+    }
+
     /**
      * Enum representing the types of conflicts that can occur between bookings.
      */

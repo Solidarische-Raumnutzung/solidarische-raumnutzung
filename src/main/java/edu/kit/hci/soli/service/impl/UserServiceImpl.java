@@ -12,8 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public @NotNull Page<User> getManageableUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return userRepository.findAllWithoutAdmin(pageable);
+        return userRepository.findAllWithoutAdminOrAnon(pageable);
     }
 
     @Override
@@ -119,6 +120,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isGuest(User user) {
         return user.getUserId().startsWith("guest/");
+    }
+
+    @Override
+    public @NotNull User resolveAnonUser() {
+        User user = userRepository.findByUserId("anon");
+        if (user == null) {
+            log.error("No anon user found in database, creating new");
+            user = userRepository.save(new User(null, "anon", null, "anon", false, Locale.getDefault()));
+        }
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public void updateLastLogin(User user) {
+        log.info("Updating last login timestamp for user {}", user.getUserId());
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
     }
 
     @Override

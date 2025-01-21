@@ -27,6 +27,11 @@ public enum KnownError {
     DELETE_NO_PERMISSION("error.delete_no_permission.title", "error.delete_no_permission.message"),
 
     /**
+     * Error indicating that the user does not have permission to edit a booking.
+     */
+    EDIT_NO_PERMISSION("error.edit_no_permission.title", "error.edit_no_permission.message"),
+
+    /**
      * Error indicating that there is an unresolvable conflict with an existing booking.
      */
     EVENT_CONFLICT("error.event_conflict.title", "error.event_conflict.message");
