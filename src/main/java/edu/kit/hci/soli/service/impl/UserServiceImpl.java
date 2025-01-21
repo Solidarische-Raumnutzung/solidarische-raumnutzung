@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -135,7 +136,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateLastLogin(User user) {
         log.info("Updating last login timestamp for user {}", user.getUserId());
-        userRepository.updateLastLogin(user.getUserId());
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
     }
 
     @Override

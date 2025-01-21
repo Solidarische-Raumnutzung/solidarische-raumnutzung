@@ -40,16 +40,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUserId(@NotNull String userId);
 
     /**
-     * Updates the user's last login timestamp.
-     * This query is called whenever a user logs in.
-     *
-     * @param userId the user ID of the user
-     */
-    @Query("UPDATE User u SET u.lastLogin = CURRENT_TIMESTAMP WHERE u.userId = :userId")
-    @Modifying
-    void updateLastLogin(String userId);
-
-    /**
      * Deletes all users that have not logged in since the specified date and have no bookings.
      *
      * @param date the date to compare the last login timestamp to
