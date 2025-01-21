@@ -7,6 +7,7 @@ import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.form.CreateEventForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.test.TestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,6 +41,7 @@ public class BookingCreateControllerTest {
     @Autowired private BookingCreateController bookingsController;
     @Autowired private BookingsService bookingsService;
     @Autowired private RoomService roomService;
+    @Autowired private TimeService timeService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -66,8 +68,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testIllegalRoom() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().plusMinutes(30),
-                bookingsService.currentSlot().plusHours(1),
+                timeService.currentSlot().plusMinutes(30),
+                timeService.currentSlot().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -90,8 +92,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testMisalignedTime() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().minusMinutes(31),
-                bookingsService.currentSlot().plusHours(1),
+                timeService.currentSlot().minusMinutes(31),
+                timeService.currentSlot().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -102,8 +104,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testLargeTime() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().minusMinutes(30),
-                bookingsService.currentSlot().plusHours(10),
+                timeService.currentSlot().minusMinutes(30),
+                timeService.currentSlot().plusHours(10),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -114,8 +116,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testPastTime() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().minusMinutes(15),
-                bookingsService.currentSlot().plusMinutes(15),
+                timeService.currentSlot().minusMinutes(15),
+                timeService.currentSlot().plusMinutes(15),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -126,8 +128,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testCreateBooking() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.minimumTime().plusMinutes(30),
-                bookingsService.minimumTime().plusHours(1),
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -140,9 +142,10 @@ public class BookingCreateControllerTest {
         HttpServletRequest request = new MockHttpServletRequest();
         HttpServletResponse response = new MockHttpServletResponse();
         Model model = new ExtendedModelMap();
-        roomService = mock(RoomService.class);
-        bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
@@ -162,11 +165,12 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), null, null, null);
 
@@ -186,13 +190,14 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalDateTime end = start.plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, null);
 
@@ -212,13 +217,14 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalDateTime end = start.plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, true);
 
@@ -249,7 +255,7 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
@@ -268,7 +274,7 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         Booking attemptedBooking = new Booking();
         attemptedBooking.setRoom(room);
@@ -290,7 +296,8 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         Booking attemptedBooking = new Booking();
         attemptedBooking.setRoom(room);

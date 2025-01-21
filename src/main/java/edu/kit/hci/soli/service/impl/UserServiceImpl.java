@@ -3,6 +3,7 @@ package edu.kit.hci.soli.service.impl;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BookingsService bookingsService;
+    private final TimeService timeService;
 
     /**
      * Constructs a UserService with the specified {@link UserRepository} and {@link BookingsService}.
@@ -30,9 +32,10 @@ public class UserServiceImpl implements UserService {
      * @param userRepository  the repository for managing User entities
      * @param bookingsService the service for managing bookings
      */
-    public UserServiceImpl(UserRepository userRepository, BookingsService bookingsService) {
+    public UserServiceImpl(UserRepository userRepository, BookingsService bookingsService, TimeService timeService) {
         this.userRepository = userRepository;
         this.bookingsService = bookingsService;
+        this.timeService = timeService;
     }
 
     @Override
@@ -75,7 +78,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
         if (user == null) {
             log.info("No OIDC user found in database for {}, creating new", userId);
-            user = userRepository.save(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId, false, Locale.getDefault()));
+            user = userRepository.save(new User(null, oidcUser.getPreferredUsername(), oidcUser.getEmail(), userId, false, Locale.getDefault(), timeService.now()));
         }
         return user;
     }
@@ -85,7 +88,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId("admin");
         if (user == null) {
             log.error("No admin user found in database, creating new");
-            user = userRepository.save(new User(null, "admin", null, "admin", false, Locale.getDefault()));
+            user = userRepository.save(new User(null, "admin", null, "admin", false, Locale.getDefault(), timeService.now()));
         }
         return user;
     }
@@ -102,7 +105,7 @@ public class UserServiceImpl implements UserService {
             log.error("No guest user found in database, creating new");
             String email = userId.substring("guest/".length());
             email = email.substring(email.indexOf('/') + 1);
-            user = userRepository.save(new User(null, "Guest", email, userId, false, Locale.getDefault()));
+            user = userRepository.save(new User(null, "Guest", email, userId, false, Locale.getDefault(), timeService.now()));
         }
         return user;
     }
@@ -114,7 +117,7 @@ public class UserServiceImpl implements UserService {
             id = "guest/" + UUID.randomUUID() + "/" + email;
         } while (userRepository.existsByUserId(id));
         log.error("Creating new guest user with ID {}", id);
-        return userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault()));
+        return userRepository.save(new User(null, "Guest", email, id, false, Locale.getDefault(), timeService.now()));
     }
 
     @Override
@@ -127,7 +130,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId("anon");
         if (user == null) {
             log.error("No anon user found in database, creating new");
-            user = userRepository.save(new User(null, "anon", null, "anon", false, Locale.getDefault()));
+            user = userRepository.save(new User(null, "anon", null, "anon", false, Locale.getDefault(), timeService.now()));
         }
         return user;
     }
@@ -136,7 +139,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateLastLogin(User user) {
         log.info("Updating last login timestamp for user {}", user.getUserId());
-        user.setLastLogin(LocalDateTime.now());
+        user.setLastLogin(timeService.now());
         userRepository.save(user);
     }
 

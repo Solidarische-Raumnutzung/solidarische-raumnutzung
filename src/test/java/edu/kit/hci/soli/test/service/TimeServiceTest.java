@@ -1,0 +1,39 @@
+package edu.kit.hci.soli.test.service;
+
+import edu.kit.hci.soli.service.TimeService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@AutoConfigureTestDatabase
+@ActiveProfiles(profiles = {"dev", "test"})
+public class TimeServiceTest {
+    @Autowired private TimeService timeService;
+
+    @Test
+    public void testRelative() {
+        assertFalse(timeService.currentSlot().isAfter(timeService.minimumTime()));
+        assertTrue(timeService.currentSlot().isBefore(timeService.maximumTime()));
+        assertTrue(timeService.currentSlot().plusMinutes(16).isAfter(timeService.minimumTime()));
+    }
+
+    @Test
+    public void testDefaultTimeZoneSet() {
+        // We set our current timezone in init, but depending on it probably isn't good
+        // Make sure we set it correctly anyway
+        // this can cause a problem when it just so happens to be a new second in between
+        // the two recorded timestamps, therefore 'inaccurate'
+        assertEquals(inaccurate(timeService.now()), inaccurate(LocalDateTime.now()));
+    }
+
+    private LocalDateTime inaccurate(LocalDateTime source) {
+        return source.minusNanos(source.getNano()).minusSeconds(source.getSecond());
+    }
+}
