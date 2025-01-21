@@ -262,3 +262,17 @@
         height: 0;
     }
 }
+
+/* View/Edit-Switch component */
+.soli-edit-content {
+ display: none;
+}
+:has(#soli-edit-toggle:checked) .soli-edit-content {
+    display: block;
+}
+.soli-view-content {
+    display: block;
+}
+:has(#soli-edit-toggle:checked) .soli-view-content {
+    display: none
+}
