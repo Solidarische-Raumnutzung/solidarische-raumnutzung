@@ -235,6 +235,8 @@ public class BookingsServiceImpl implements BookingsService {
         };
     }
 
+
+
     @Override
     public LocalDateTime maximumTime() {
         LocalDateTime ldt = normalize(LocalDateTime.now().plusDays(14));
@@ -243,6 +245,11 @@ public class BookingsServiceImpl implements BookingsService {
             case SUNDAY -> ldt.minusDays(2);
             default -> ldt;
         };
+    }
+
+    @Override
+    public Optional<Booking> getCurrentHighestBooking(Room room, LocalDateTime time) {
+        return bookingsRepository.getHighestPriority(room, time);
     }
 
     /**

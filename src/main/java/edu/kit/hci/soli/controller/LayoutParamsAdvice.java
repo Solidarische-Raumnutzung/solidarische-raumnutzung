@@ -4,6 +4,8 @@ import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.LoginStateModel;
+import edu.kit.hci.soli.service.BookingsService;
+import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,8 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.time.LocalDateTime;
+
 /**
  * Controller advice for injecting the login state.
  */
@@ -19,14 +23,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Slf4j
 public class LayoutParamsAdvice {
     private final UserService userService;
+    private final BookingsService bookingsService;
 
     /**
      * Constructs a LoginControllerAdvice with the specified UserService.
      *
      * @param userService the service for managing users
      */
-    public LayoutParamsAdvice(UserService userService) {
+    public LayoutParamsAdvice(UserService userService, BookingsService bookingsService) {
         this.userService = userService;
+        this.bookingsService = bookingsService;
     }
 
     /**
@@ -69,9 +75,11 @@ public class LayoutParamsAdvice {
      */
     @ModelAttribute("layout")
     public LayoutParams getLayoutParams(@ModelAttribute("login") LoginStateModel login, HttpServletRequest request) {
+            Room currentRoom = (Room) request.getSession().getAttribute("room");
+
         return new LayoutParams(
-                login,
-                (Room) request.getSession().getAttribute("room"),
-                room -> request.getSession().setAttribute("room", room));
+                login, currentRoom,
+                room -> request.getSession().setAttribute("room", room),
+                bookingsService.getCurrentHighestBooking(currentRoom, LocalDateTime.now()).orElse(null));
     }
 }

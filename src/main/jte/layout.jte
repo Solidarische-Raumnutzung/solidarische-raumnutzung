@@ -1,3 +1,5 @@
+@import edu.kit.hci.soli.domain.Priority
+@import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
@@ -57,14 +59,54 @@
         <div class="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
             <div class="drawer-content w-full md:w-full">
-                <div class="navbar bg-blue-600 text-primary-content">
-                    <div class="drawer-content flex flex-col items-center justify-center">
-                        <!-- Page content here -->
-                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                            Open drawer
-                        </label>
+                @if(layout.getCurrentBooking() != null && layout.getCurrentBooking().getShareRoomType() == ShareRoomType.YES)
+                    <!-- there is a booking now, but it is collaborative -->
+                    <div class="navbar bg-warning text-primary-content">
+                        <div class="drawer-content flex flex-col items-center justify-center">
+                            <!-- Page content here -->
+                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                                Open drawer
+                            </label>
+                            @if(layout.getCurrentBooking().getPriority() == Priority.HIGHEST)
+                                <p>${context.localize("room.status.collaborative.booked.high_prio")}</p>
+                            @elseif(layout.getCurrentBooking().getPriority() == Priority.MEDIUM)
+                                <p>${context.localize("room.status.collaborative.booked.medium_prio")}</p>
+                            @else
+                                <p>${context.localize("room.status.collaborative.booked.low_prio")}</p>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @elseif(layout.getCurrentBooking() != null)
+                    <!-- there is a booking now, but it is not collaborative -->
+                    <div class="navbar bg-error text-primary-content text-align: center">
+                        <div class="drawer-content flex flex-col items-center justify-center">
+                            <!-- Page content here -->
+                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                                Open drawer
+                            </label>
+                            @if(layout.getCurrentBooking().getPriority() == Priority.HIGHEST)
+                                <p>${context.localize("room.status.booked.high_prio")}</p>
+                            @elseif(layout.getCurrentBooking().getPriority() == Priority.MEDIUM)
+                                <p>${context.localize("room.status.booked.medium_prio")}</p>
+                            @else
+                                <p>${context.localize("room.status.booked.low_prio")}</p>
+                            @endif
+                        </div>
+                    </div>
+                @else
+                    <!-- there is no booking right now -->
+                    <div class="navbar bg-success text-primary-content">
+                        <div class="drawer-content flex flex-col items-center justify-center">
+                            <!-- Page content here -->
+                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                                Open drawer
+                            </label>
+                        </div>
+                        <p>${context.localize("room.status.open")}</p>
+                    </div>
+                @endif
+
+
                 <div class="p-4">
                     <div class="card bg-base-100 w-full shadow-xl p-4">
                         <div class="card-body">
