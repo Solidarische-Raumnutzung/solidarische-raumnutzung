@@ -8,22 +8,50 @@
 @param CsrfToken csrf
 
 @param Booking booking
+@param boolean allowEditing
 @param boolean showRequestButton
-@param boolean showDeleteButton
 
 <h2 class="card-title">${context.localize("bookings.priority")}: ${context.localize("bookings.priority." + booking.getPriority())}</h2>
+<a href="/${booking.getRoom().getId()}/bookings/${booking.getId()}/booking.ics" class="absolute top-2 right-2 btn btn-ghost" aria-label="${context.localize("bookings.export")}" title="${context.localize("bookings.export")}">
+    <i class="fa-solid fa-download"></i>
+</a>
+
+
 <p>${context.localize("bookings.start.value", context.format(booking.getStartDate()))}</p>
 <p>${context.localize("bookings.end.value", context.format(booking.getEndDate()))}</p>
 
 @if (!booking.getDescription().isBlank())
     <label class="label">${context.localize("bookings.description")}</label>
-    <p class="textarea textarea-bordered">${booking.getDescription()}</p>
+    <p class="relative textarea textarea-bordered soli-view-content break-words">
+        @if (allowEditing)
+            <label for="soli-edit-toggle" class="absolute top-0 right-0 btn btn-ghost" aria-label="${context.localize("bookings.description.edit")}" title="${context.localize("bookings.description.edit")}">
+                <i class="fa-solid fa-pen"></i>
+            </label>
+            <input type="checkbox" id="soli-edit-toggle" class="hidden" />
+        @endif
+        ${booking.getDescription()}
+    </p>
+@elseif (allowEditing)
+    <br>
+    <label class="btn btn-ghost text-gray-500 text-sm soli-view-content" for="soli-edit-toggle">
+        ${context.localize("bookings.description.new")}
+        <i class="fa-solid fa-pen"></i>
+    </label>
+    <input type="checkbox" id="soli-edit-toggle" class="hidden" />
+@endif
+@if (allowEditing)
+    @template.util.form(csrf = csrf, cssClass = "soli-edit-content relative w-full", action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = PATCH, content = @`
+        <label for="edit-description-submit" class="absolute top-1 right-1 btn btn-ghost z-50" aria-label="${context.localize("bookings.description.edit")}" title="${context.localize("bookings.description.edit")}">
+            <i class="fa-solid fa-check"></i>
+        </label>
+        <textarea id="edit-description-content" name="description" class="w-full textarea textarea-bordered">${booking.getDescription()}</textarea>
+        <input type="submit" id="edit-description-submit" class="hidden" />
+    `)
 @endif
 
-@if (showDeleteButton || showRequestButton)
+@if (allowEditing || showRequestButton)
     <div class="card-actions justify-end">
-        <%--  TODO This compares users using objects.equals() is this still correct for the new approach?   --%>
-        @if (showDeleteButton)
+        @if (allowEditing)
             @template.util.form(csrf = csrf, action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
                 <button type="submit" class="btn btn-ghost">
                     <i class="fas fa-trash-alt"></i>
