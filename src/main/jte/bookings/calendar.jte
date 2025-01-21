@@ -43,16 +43,16 @@
                 },
                 selectAllow: function (selectInfo) {
                     // Keep these in sync with BookingsController!
-                    return selectInfo.start > new Date(new Date().getTime() + 15 * 60 * 1000)
+                    const now = (new Date().getTime() + ${context.getTimeZone().getRawOffset()});
+                    return selectInfo.start > new Date(now + 15 * 60 * 1000)
                         && selectInfo.end < new Date(selectInfo.start.getTime() + 4 * 60 * 60 * 1000)
-                        && selectInfo.end < new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
+                        && selectInfo.end < new Date(now + 14 * 24 * 60 * 60 * 1000);
                 },
                 slotDuration: '00:15:00',
                 events: '/api/${layout.getRoom().getId()}/events'
             });
 
             calendar.render();
-
             setInterval(() => {
                 calendar.refetchEvents();
             }, 1000 * 60 * 5);
