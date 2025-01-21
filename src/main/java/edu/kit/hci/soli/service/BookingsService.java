@@ -143,4 +143,12 @@ public interface BookingsService {
      * @return the content for the .ics file
      */
     String getICalendar(Booking booking, Locale locale);
+
+    /**
+     * Update the description for a booking.
+     *
+     * @param booking the booking
+     * @param description the new description
+     */
+    void updateDescription(Booking booking, String description);
 }
