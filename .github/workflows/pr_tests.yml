@@ -83,8 +83,8 @@ jobs:
           "status": "completed",
           "conclusion": "$CONCLUSION",
           "output": {
-            "title": "Coverage Report",
-            "summary": "$SUMMARY",
+            "title": "$SUMMARY",
+            "summary": "Coverage Report",
             "text": "Detailed information about test coverage can be found in the JaCoCo report."
           }
         }
