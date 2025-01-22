@@ -33,6 +33,6 @@ public class TimeServiceTest {
         LocalDateTime ldt1 = timeService.now();
         LocalDateTime ldt2 = LocalDateTime.now();
         assertTrue(ldt1.isBefore(ldt2));
-        assertTrue(ldt1.isAfter(ldt2.plusSeconds(5)));
+        assertTrue(ldt1.plusSeconds(5).isAfter(ldt2));
     }
 }
