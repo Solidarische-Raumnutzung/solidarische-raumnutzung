@@ -58,11 +58,9 @@ jobs:
         PERCENTAGE=$(awk "BEGIN {printf \"%.2f\", ($COVERAGE / $TOTAL) * 100}")
         if (( $(echo "$PERCENTAGE < $THRESHOLD" | bc -l) )); then
           echo "::warning title=Coverage::Your coverage is only $PERCENTAGE and should be improved"
-          CONCLUSION="neutral"
-          SUMMARY="⚠️ The test coverage is $PERCENTAGE%, which is below the threshold of $THRESHOLD%."
+          CONCLUSION="failure"
         else
           CONCLUSION="success"
-          SUMMARY="The test coverage is $PERCENTAGE%."
         fi
         echo "**Test Coverage:** $PERCENTAGE%" >> $GITHUB_STEP_SUMMARY
 
@@ -83,7 +81,7 @@ jobs:
           "status": "completed",
           "conclusion": "$CONCLUSION",
           "output": {
-            "title": "$SUMMARY",
+            "title": "Coverage: $PERCENTAGE%",
             "summary": "Coverage Report",
             "text": "Detailed information about test coverage can be found in the JaCoCo report."
           }
