@@ -48,9 +48,6 @@ jobs:
         fi
         echo "**Test Coverage:** $PERCENTAGE%" >> $GITHUB_STEP_SUMMARY
 
-    - name: Add coverage to summary
-      run:
-
     - name: Login to Docker
       uses: docker/login-action@v3
       with:
