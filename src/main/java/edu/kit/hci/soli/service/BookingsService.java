@@ -115,27 +115,6 @@ public interface BookingsService {
     List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user);
 
     /**
-     * Retrieves the current time slot.
-     *
-     * @return the current time slot
-     */
-    LocalDateTime currentSlot();
-
-    /**
-     * Retrieves the minimum starting time for a booking.
-     *
-     * @return the minimum time for a booking
-     */
-    LocalDateTime minimumTime();
-
-    /**
-     * Retrieves the maximum ending time for a booking, which is 14 days from now.
-     *
-     * @return the maximum time for a booking
-     */
-    LocalDateTime maximumTime();
-
-    /**
      * Exports a booking in the iCalender format.
      *
      * @param booking the booking

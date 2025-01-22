@@ -68,21 +68,27 @@ public class User {
      * @param userId     the unique user ID
      * @param isDisabled whether the user is disabled
      * @param locale     the locale of the user
+     * @param lastLogin  time of the last login of the user
      */
-    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale) {
+    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale, LocalDateTime lastLogin) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.userId = userId;
         this.isDisabled = isDisabled;
         this.locale = locale;
-        this.lastLogin = LocalDateTime.now();
+        this.lastLogin = lastLogin;
     }
 
     /**
      * Default constructor for User.
      */
     public User() {
+        // JPA requires us to provide this constructor without arguments
+        // Since this means we cannot access our services or configuration,
+        // we just guess reasonable defaults for these.
+        // They should get updated as soon as the object is actually used,
+        // so this should be fine.
         this.locale = Locale.getDefault();
         this.lastLogin = LocalDateTime.now();
     }
