@@ -45,6 +45,8 @@ jobs:
 
     - name: Check coverage percentage
       id: coverage
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         THRESHOLD=70.0 # Set your desired minimum coverage percentage
         COVERAGE=$(xmllint --xpath "string(//report/counter[@type='LINE']/@covered)" build/reports/jacoco/test/jacocoTestReport.xml)
@@ -53,6 +55,34 @@ jobs:
         PERCENTAGE=$(awk "BEGIN {printf \"%.2f\", ($COVERAGE / $TOTAL) * 100}")
         if (( $(echo "$PERCENTAGE < $THRESHOLD" | bc -l) )); then
           echo "::warning title=Coverage::Your coverage is only $PERCENTAGE and should be improved"
-          echo "**Test Coverage:** $PERCENTAGE%" >> $GITHUB_STEP_SUMMARY
+          CONCLUSION="neutral"
+          SUMMARY="⚠️ The test coverage is $PERCENTAGE%, which is below the threshold of $THRESHOLD%."
+        else
+          CONCLUSION="success"
+          SUMMARY="The test coverage is $PERCENTAGE%."
         fi
         echo "**Test Coverage:** $PERCENTAGE%" >> $GITHUB_STEP_SUMMARY
+
+        # Get the SHA of the current commit (or PR)
+        HEAD_SHA=$(jq -r ".pull_request.head.sha" < "$GITHUB_EVENT_PATH")
+        if [ "$HEAD_SHA" == "null" ]; then
+          HEAD_SHA=$GITHUB_SHA
+        fi
+
+        # Create the check using cURL
+        curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github+json" \
+          https://api.github.com/repos/${{ github.repository }}/check-runs \
+          -d @- <<EOF
+        {
+          "name": "Coverage Check",
+          "head_sha": "$HEAD_SHA",
+          "status": "completed",
+          "conclusion": "$CONCLUSION",
+          "output": {
+            "title": "Coverage Report",
+            "summary": "$SUMMARY",
+            "text": "Detailed information about test coverage can be found in the JaCoCo report."
+          }
+        }
+        EOF
