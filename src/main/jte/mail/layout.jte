@@ -23,7 +23,7 @@
 
                 <tr>
                     <td class="footer" style="background-color: oklch(var(--s)); padding: 40px; text-align: center; color: oklch(var(--sc)); font-size: 14px;">
-                        ${context.localize("mail.footer.text")} <a href="/">${context.localize("mail.website.name")}</a> <!-- TODO aah wie verlink ich unsere eigene Website?? -->
+                        ${context.localize("mail.footer.text")} <a href="/">${context.localize("mail.website.name")}</a>
                     </td>
                 </tr>
             </table>
