@@ -43,8 +43,13 @@ jobs:
         TOTAL=$((COVERAGE + MISSED))
         PERCENTAGE=$(awk "BEGIN {printf \"%.2f\", ($COVERAGE / $TOTAL) * 100}")
         if (( $(echo "$PERCENTAGE < $THRESHOLD" | bc -l) )); then
-          echo "::warning title=Coverage::Your coverage is only $PERCENTAGE and should be improved"
+          echo "::error title=Coverage::Your coverage is only $PERCENTAGE and should be improved"
+          echo "**Test Coverage:** $PERCENTAGE%" >> $GITHUB_STEP_SUMMARY
         fi
+        echo "**Test Coverage:** $PERCENTAGE%" >> $GITHUB_STEP_SUMMARY
+
+    - name: Add coverage to summary
+      run:
 
     - name: Login to Docker
       uses: docker/login-action@v3
