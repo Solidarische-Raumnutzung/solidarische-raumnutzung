@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,12 +29,10 @@ public class TimeServiceTest {
     public void testDefaultTimeZoneSet() {
         // We set our current timezone in init, but depending on it probably isn't good
         // Make sure we set it correctly anyway
-        // this can cause a problem when it just so happens to be a new second in between
-        // the two recorded timestamps, therefore 'inaccurate'
-        assertEquals(inaccurate(timeService.now()), inaccurate(LocalDateTime.now()));
-    }
-
-    private LocalDateTime inaccurate(LocalDateTime source) {
-        return source.minusNanos(source.getNano()).minusSeconds(source.getSecond());
+        // as there will be a slight delay between the two timestamps, allow for a bit of leeway
+        LocalDateTime ldt1 = timeService.now();
+        LocalDateTime ldt2 = LocalDateTime.now();
+        assertTrue(ldt1.isBefore(ldt2));
+        assertTrue(ldt1.isAfter(ldt2.plusSeconds(5)));
     }
 }
