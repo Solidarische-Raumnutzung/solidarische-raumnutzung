@@ -40,6 +40,9 @@ jobs:
     - name: Build and test with Gradle
       run: ./gradlew clean build test jacocoTestReport
 
+    - name: Install xmllint
+      run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
     - name: Parse coverage percentage
       id: coverage
       run: |
