@@ -1,8 +1,12 @@
 package edu.kit.hci.soli.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.ToString;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -21,6 +25,23 @@ public class Room {
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RoomOpeningHours> openingHours;
+
+    @ElementCollection
+    @CollectionTable(name = "room_opening_hours",
+            joinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "day_of_week")
+    @AttributeOverrides({
+            @AttributeOverride(name = "start", column = @Column(name = "start_time")),
+            @AttributeOverride(name = "end", column = @Column(name = "end_time"))
+    })
+    private Map<DayOfWeek, TimeTuple> openingHoursN;
+
+    @Data
+    @Embeddable
+    public static class TimeTuple {
+        private LocalTime start;
+        private LocalTime end;
+    }
 
     private String name;
 

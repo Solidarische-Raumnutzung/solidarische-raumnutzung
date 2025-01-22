@@ -59,6 +59,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void saveOpeningHours(long roomId, LocalTime start, LocalTime end, DayOfWeek dayOfWeek) {
+        for (RoomOpeningHours hours : roomOpeningHoursRepository.findByRoomId(roomId)) {
+            if (dayOfWeek == hours.getDayOfWeek()) {
+                hours.setStartTime(start);
+                hours.setEndTime(end);
+                roomOpeningHoursRepository.save(hours);
+                return;
+            }
+        }
         RoomOpeningHours openingHours = new RoomOpeningHours();
         openingHours.setRoom(roomRepository.findById(roomId).orElseThrow());
         openingHours.setStartTime(start);
