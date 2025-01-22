@@ -97,6 +97,24 @@ public interface UserService {
     boolean isGuest(User user);
 
     /**
+     * Resolves the anonymous user.
+     *
+     * This user is used for bookings that have been anonymized.
+     *
+     * @return the resolved anonymous user
+     */
+    @NotNull User resolveAnonUser();
+
+    /**
+     * Updates the user's last login timestamp.
+     * This method is called whenever a user logs in.
+     *
+     * @param user the user whose last login timestamp is to be updated
+     */
+    void updateLastLogin(User user);
+
+
+    /**
      * Deletes a user.
      * If the user has any bookings, this will not delete the user.
      *

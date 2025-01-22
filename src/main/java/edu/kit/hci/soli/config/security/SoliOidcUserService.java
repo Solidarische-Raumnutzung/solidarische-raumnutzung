@@ -26,6 +26,7 @@ public class SoliOidcUserService implements OAuth2UserService<OidcUserRequest, O
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser oidcUser = oidcUserService.loadUser(userRequest);
         User user = userService.resolveOidcUser(oidcUser);
+        userService.updateLastLogin(user);
         return new SoliOidcUserDetails(oidcUser, user);
     }
 

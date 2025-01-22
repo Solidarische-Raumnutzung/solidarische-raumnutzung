@@ -5,9 +5,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * Repository interface for managing {@link User} entities.
@@ -19,8 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      *
      * @return a list of users excluding the admin user
      */
-    @Query("SELECT u FROM User u WHERE u.userId != 'admin'")
-    Page<User> findAllWithoutAdmin(Pageable pageable);
+    @Query("SELECT u FROM User u WHERE u.userId != 'admin' AND u.userId != 'anon'")
+    Page<User> findAllWithoutAdminOrAnon(Pageable pageable);
 
     /**
      * Finds a user by their (external) user ID.
@@ -37,4 +38,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return true if a user with the given userId exists, false otherwise
      */
     boolean existsByUserId(@NotNull String userId);
+
+    /**
+     * Deletes all users that have not logged in since the specified date and have no bookings.
+     *
+     * @param date the date to compare the last login timestamp to
+     */
+    @Query("DELETE FROM User u WHERE u.userId != 'admin' AND u.userId != 'anon' AND u.lastLogin < :date AND NOT EXISTS (SELECT b FROM Booking b WHERE b.user = u)")
+    @Modifying
+    void deleteUnusedOlderThan(LocalDateTime date);
 }

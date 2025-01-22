@@ -18,9 +18,9 @@
 @param Map<Month, Long> bookingsPerMonthRecent
 
 @template.layout(page = new PageSpec(context.lookup("administration.statistics"), "Soli"), context = context, layout = layout, content = @`
-    <div role="tablist" class="tabs tabs-boxed w-full">
+    <div role="tablist" class="tabs tabs-lift w-full">
         <input type="radio" name="frame_tabs" role="tab" class="tab" aria-label="${context.localize("administration.statistics.recent")}" checked>
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 prose text-center">
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 prose text-center">
             <h1>${context.localize("administration.statistics.weekday")}</h1>
             @if(bookingsPerWeekdayRecent.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>
@@ -86,7 +86,7 @@
             @endif
         </div>
         <input type="radio" name="frame_tabs" role="tab" class="tab" aria-label="${context.localize("administration.statistics.all_time")}">
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 prose text-center">
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 prose text-center">
             <h1>${context.localize("administration.statistics.weekday")}</h1>
             @if(bookingsPerWeekdayAllTime.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>

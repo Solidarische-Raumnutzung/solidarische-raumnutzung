@@ -34,11 +34,13 @@ jobs:
           pdflatex presentation.tex
           biber presentation
           pdflatex presentation.tex
+          
           cd ../pflichtenheft
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
+          
           cd ../entwurfsheft
           wget https://solidarische-raumnutzung.github.io/DocTeX/doctex.jar
           java -jar doctex.jar --output=./javadoc ../src/main/java edu.kit.hci.soli
@@ -46,11 +48,19 @@ jobs:
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
+          
+          cd ../implementationsbericht
+          pdflatex main.tex
+          makeglossaries main
+          pdflatex main.tex
+          pdflatex main.tex
+          
           cd ..
           mkdir -p pages
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
           mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
+          mv ./implementationsbericht/main.pdf ./pages/implementationsbericht.pdf
           python3 .github/genindex.py pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

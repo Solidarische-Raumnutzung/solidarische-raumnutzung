@@ -91,7 +91,7 @@ public class Booking {
     }
 
     /**
-     * Default constructor for Booking.
+     * Default constructor for JPA.
      */
     public Booking() {
     }

@@ -1,7 +1,10 @@
 package edu.kit.hci.soli.dto;
 
 import edu.kit.hci.soli.domain.Room;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class LayoutParams {
@@ -9,21 +12,21 @@ public class LayoutParams {
     private final Consumer<Room> onRoomChange;
     private Room room;
 
-    public LayoutParams(LoginStateModel login, Room room, Consumer<Room> onRoomChange) {
-        this.login = login;
+    public LayoutParams(@NotNull LoginStateModel login, @Nullable Room room, @NotNull Consumer<@Nullable Room> onRoomChange) {
+        this.login = Objects.requireNonNull(login);
         this.room = room;
-        this.onRoomChange = onRoomChange;
+        this.onRoomChange = Objects.requireNonNull(onRoomChange);
     }
 
-    public LoginStateModel getLogin() {
+    public @NotNull LoginStateModel getLogin() {
         return this.login;
     }
 
-    public Room getRoom() {
+    public @Nullable Room getRoom() {
         return this.room;
     }
 
-    public void setRoom(Room room) {
+    public void setRoom(@Nullable Room room) {
         this.room = room;
         onRoomChange.accept(room);
     }
