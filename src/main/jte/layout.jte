@@ -67,13 +67,7 @@
                             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
                                 Open drawer
                             </label>
-                            @if(layout.getCurrentBooking().getPriority() == Priority.HIGHEST)
-                                <p>${context.localize("room.status.collaborative.booked.high_prio")}</p>
-                            @elseif(layout.getCurrentBooking().getPriority() == Priority.MEDIUM)
-                                <p>${context.localize("room.status.collaborative.booked.medium_prio")}</p>
-                            @else
-                                <p>${context.localize("room.status.collaborative.booked.low_prio")}</p>
-                            @endif
+                            <p>${context.localize("room.status.collaborative.booked." + layout.getCurrentBooking().getPriority())}</p>
                         </div>
                     </div>
                 @elseif(layout.getCurrentBooking() != null)
@@ -84,13 +78,7 @@
                             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
                                 Open drawer
                             </label>
-                            @if(layout.getCurrentBooking().getPriority() == Priority.HIGHEST)
-                                <p>${context.localize("room.status.booked.high_prio")}</p>
-                            @elseif(layout.getCurrentBooking().getPriority() == Priority.MEDIUM)
-                                <p>${context.localize("room.status.booked.medium_prio")}</p>
-                            @else
-                                <p>${context.localize("room.status.booked.low_prio")}</p>
-                            @endif
+                            <p>${context.localize("room.status.booked." + layout.getCurrentBooking().getPriority())}</p>
                         </div>
                     </div>
                 @else
