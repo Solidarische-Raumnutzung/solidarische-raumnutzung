@@ -11,10 +11,10 @@
         ${context.localize("mail.ending")}
     </p>
     <div style="text-align:center">
-        <button class="btn btn-accent">
+        <button class="btn">
             <a href= "${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
                 <p>${context.localize("mail.collaboration_request.more_details")}</p>
             </a>
         </button>
     </div>
-`, context = context)
+`, context = context, css = "css")

@@ -1,0 +1,45 @@
+:root {
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(98% 0 0);
+    --color-base-300: oklch(95% 0 0);
+    --color-base-content: oklch(21% 0.006 285.885);
+    --color-primary: rgb(0, 150, 130);
+    --color-primary-content: oklch(93% 0.034 272.788);
+    --color-secondary: #ee4c9c;
+    --color-secondary-content: #ffffff;
+    --color-accent: rgb(70, 100, 170);
+    --color-accent-content: oklch(37% 0.146 265.522);
+    --color-neutral: rgb(64, 64, 64);
+    --color-neutral-content: oklch(92% 0.004 286.32);
+    --color-info: rgb(35, 161, 224);
+    --color-info-content: oklch(29% 0.066 243.157);
+    --color-success: rgb(140, 182, 60);
+    --color-success-content: oklch(37% 0.077 168.94);
+    --color-warning: rgb(223, 155, 27);
+    --color-warning-content: oklch(27% 0.077 45.635);
+    --color-error: #A22223;
+    --color-error-content: #ffffff;
+    --radius-selector: 0.5rem;
+    --radius-field: 0.5rem;
+    --radius-box: 0.5rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
+
+.header{
+    background-color: rgb(0, 150, 130);
+    color: oklch(93% 0.034 272.788);
+}
+
+.content{
+    background-color: rgb(64, 64, 64);
+    color: oklch(92% 0.004 286.32);
+}
+
+.footer {
+    background-color: #ee4c9c;
+    color: #ffffff;
+}

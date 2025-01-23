@@ -4,7 +4,11 @@
 @param String title
 @param Content content
 @param JteContext context
+@param String css
 
+<style>
+    ${css}
+</style>
 <table>
     <tr>
         <td style="padding: 18px;">

@@ -76,6 +76,7 @@ public class EmailServiceImpl implements EmailService {
         JteContext context = new JteContext(messageSource, hostname, to.getLocale(), timeZone);
         model = new HashMap<>(model);
         model.put("context", context);
+        model.put("css", EmailServiceImpl.class.getResource("/static/soli-mail.css"));
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
