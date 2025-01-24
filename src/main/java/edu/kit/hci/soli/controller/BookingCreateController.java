@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -136,8 +135,8 @@ public class BookingCreateController {
                 || formData.getStart().getDayOfWeek() != formData.getEnd().getDayOfWeek()
                 || formData.getStart().getDayOfWeek() == DayOfWeek.SATURDAY
                 || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY
-                || formData.getStart().isBefore(ChronoLocalDateTime.from(openingHours.getStart()))
-                || formData.getEnd().isAfter(ChronoLocalDateTime.from(openingHours.getEnd()))
+                || formData.getStart().toLocalTime().isBefore(openingHours.getStart())
+                || formData.getEnd().toLocalTime().isAfter(openingHours.getEnd())
         ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);

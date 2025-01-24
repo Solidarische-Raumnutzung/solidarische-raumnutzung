@@ -16,14 +16,32 @@ import org.springframework.web.bind.annotation.PutMapping;
 import java.util.HashMap;
 import java.util.Optional;
 
+/**
+ * Controller for managing the opening hours of rooms.
+ */
 @Controller("/admin/opening-hours")
 public class OpeningHoursController {
     private final RoomService roomService;
 
+    /**
+     * Constructs a new OpeningHoursController with the specified RoomService.
+     *
+     * @param roomService the service for managing rooms
+     */
     public OpeningHoursController(RoomService roomService) {
         this.roomService = roomService;
     }
 
+    /**
+     * Saves the opening hours for a specific room.
+     *
+     * @param roomId   the ID of the room
+     * @param model    the model to add attributes to
+     * @param layout   the layout parameters
+     * @param response the HTTP response
+     * @param form     the form containing the opening hours
+     * @return the view name
+     */
     @PutMapping("/admin/opening-hours/{roomId}/save")
     public String saveOpeningHours(@PathVariable Long roomId, Model model,
                                    @ModelAttribute("layout") LayoutParams layout,
@@ -49,6 +67,15 @@ public class OpeningHoursController {
         return "redirect:/admin/opening-hours/" + roomId;
     }
 
+    /**
+     * Displays the form for editing the opening hours of a specific room.
+     *
+     * @param roomId   the ID of the room
+     * @param model    the model to add attributes to
+     * @param response the HTTP response
+     * @param layout   the layout parameters
+     * @return the view name
+     */
     @GetMapping("/admin/opening-hours/{roomId:\\d+}")
     public String showOpeningHoursForm(@PathVariable Long roomId, Model model, HttpServletResponse response,
                                        @ModelAttribute("layout") LayoutParams layout) {

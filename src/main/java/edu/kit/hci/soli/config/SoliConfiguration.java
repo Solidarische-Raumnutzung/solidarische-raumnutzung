@@ -16,7 +16,6 @@ public class SoliConfiguration {
     private Guest guest = new Guest();
     private Pagination pagination = new Pagination();
     private TimeZone timeZone;
-    private String holidaysFeed;
 
     public String getHostname() {
         return hostname.endsWith("/") ? hostname : hostname + "/";
