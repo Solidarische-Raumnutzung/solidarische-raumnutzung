@@ -12,6 +12,7 @@ import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,8 @@ public class TestService {
     public Room room;
 
     private LocalDateTime currentSlot;
+    @Autowired
+    private TimeService timeService;
 
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
@@ -55,7 +58,7 @@ public class TestService {
         user3 = userService.createGuestUser("testuser3");
         room = roomService.save(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut.", "Testort"));
 
-        currentSlot = bookingsService.currentSlot();
+        currentSlot = timeService.currentSlot();
     }
 
     public Booking createBooking(User user) {

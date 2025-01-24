@@ -12,6 +12,7 @@ import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.form.EditBookingDescriptionForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,8 @@ public class BookingViewControllerTest {
         bookingsService = mock(BookingsService.class);
         roomService = mock(RoomService.class);
         userService = mock(UserService.class);
-        bookingViewController = new BookingViewController(bookingsService, roomService, userService, new SoliConfiguration());
+        TimeService timeService = mock(TimeService.class);
+        bookingViewController = new BookingViewController(bookingsService, roomService, userService, new SoliConfiguration(), timeService);
         model = mock(Model.class);
         response = mock(HttpServletResponse.class);
         principal = mock(SoliUserDetails.class);

@@ -6,7 +6,7 @@ import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
-import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles(profiles = {"dev", "test"})
 public class BookingsServiceTest {
     @Autowired private BookingsService bookingsService;
-    @Autowired private RoomService roomService;
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private TestService testService;
+    @Autowired private TimeService timeService;
 
     private Booking testBooking;
     private Booking testBooking2;
@@ -219,7 +219,7 @@ public class BookingsServiceTest {
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
         testBooking3 = bookingsRepository.save(testBooking3);
-        List<CalendarEvent> events = bookingsService.getCalendarEvents(testService.room, bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), null);
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(testService.room, timeService.currentSlot(), timeService.currentSlot().plusDays(3), null);
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
@@ -237,7 +237,7 @@ public class BookingsServiceTest {
         testBooking = bookingsRepository.save(testBooking);
         testBooking2 = bookingsRepository.save(testBooking2);
         testBooking3 = bookingsRepository.save(testBooking3);
-        List<CalendarEvent> events = bookingsService.getCalendarEvents(testService.room, bookingsService.currentSlot(), bookingsService.currentSlot().plusDays(3), testService.user);
+        List<CalendarEvent> events = bookingsService.getCalendarEvents(testService.room, timeService.currentSlot(), timeService.currentSlot().plusDays(3), testService.user);
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
