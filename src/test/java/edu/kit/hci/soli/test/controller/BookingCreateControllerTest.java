@@ -11,6 +11,7 @@ import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.test.TestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,8 +25,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -78,6 +82,7 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    @Transactional
     public void testMissingArguments() {
         CreateEventForm formData = new CreateEventForm(
                 null,
@@ -90,6 +95,7 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    @Transactional
     public void testMisalignedTime() {
         CreateEventForm formData = new CreateEventForm(
                 timeService.currentSlot().minusMinutes(31),
@@ -102,6 +108,7 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    @Transactional
     public void testLargeTime() {
         CreateEventForm formData = new CreateEventForm(
                 timeService.currentSlot().minusMinutes(30),
@@ -114,6 +121,7 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    @Transactional
     public void testPastTime() {
         CreateEventForm formData = new CreateEventForm(
                 timeService.currentSlot().minusMinutes(15),
@@ -126,6 +134,7 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    @Transactional
     public void testCreateBooking() {
         CreateEventForm formData = new CreateEventForm(
                 timeService.minimumTime().plusMinutes(30),
