@@ -1,7 +1,6 @@
 package edu.kit.hci.soli.test.service;
 
 import edu.kit.hci.soli.service.TimeService;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +25,6 @@ public class TimeServiceTest {
     }
 
     @Test
-    @Transactional
     public void testDefaultTimeZoneSet() {
         // We set our current timezone in init, but depending on it probably isn't good
         // Make sure we set it correctly anyway
