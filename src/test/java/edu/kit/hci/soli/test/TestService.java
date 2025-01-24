@@ -1,7 +1,11 @@
 package edu.kit.hci.soli.test;
 
 import edu.kit.hci.soli.controller.LayoutParamsAdvice;
-import edu.kit.hci.soli.domain.*;
+import edu.kit.hci.soli.domain.Booking;
+import edu.kit.hci.soli.domain.Priority;
+import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.domain.ShareRoomType;
+import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.repository.RoomRepository;
@@ -14,17 +18,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Service
 public class TestService {
-    @Autowired private UserRepository userRepository;
-    @Autowired private RoomRepository roomRepository;
-    @Autowired private BookingsRepository bookingsRepository;
-    @Autowired private UserService userService;
-    @Autowired private RoomService roomService;
-    @Autowired private BookingsService bookingsService;
-    @Autowired private LayoutParamsAdvice layoutParamsAdvice;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoomRepository roomRepository;
+    @Autowired
+    private BookingsRepository bookingsRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoomService roomService;
+    @Autowired
+    private BookingsService bookingsService;
+    @Autowired
+    private LayoutParamsAdvice layoutParamsAdvice;
 
     public User user;
     public User user2;
@@ -62,13 +72,4 @@ public class TestService {
     public LayoutParams paramsFor(User user, HttpServletRequest request) {
         return layoutParamsAdvice.getLayoutParams(layoutParamsAdvice.getLoginStateModel(() -> user, null), request);
     }
-
-//    public RoomOpeningHours createOpeningHours(Long roomId, String dayOfWeek, LocalTime openingTime, LocalTime closingTime) {
-//        RoomOpeningHours openingHours = new RoomOpeningHours();
-//        openingHours.setRoomId(roomId); // at around this point i lost my sanity
-//        openingHours.setDayOfWeek(dayOfWeek);
-//        openingHours.setOpeningTime(openingTime);
-//        openingHours.setClosingTime(closingTime);
-//        return roomOpeningHoursRepository.save(openingHours);
-//    }
 }

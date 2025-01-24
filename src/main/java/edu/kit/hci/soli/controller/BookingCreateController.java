@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.TemporalQueries;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -124,6 +123,7 @@ public class BookingCreateController {
         formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
 
         // Validate start and end times
+        TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());
         if (formData.getStart().isAfter(formData.getEnd())
                 || formData.getStart().isBefore(bookingsService.minimumTime())
                 || formData.getEnd().isAfter(formData.getStart().plusHours(4)) // Keep these in sync with index.jte!
@@ -133,16 +133,9 @@ public class BookingCreateController {
                 || formData.getStart().getDayOfWeek() != formData.getEnd().getDayOfWeek()
                 || formData.getStart().getDayOfWeek() == DayOfWeek.SATURDAY
                 || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY
-                || formData.getStart().toLocalTime().isAfter(room.get().getOpeningHours().stream()
-                .filter(hours -> hours.getDayOfWeek() == formData.getStart().getDayOfWeek())
-                .map(RoomOpeningHours::getStartTime)
-                .findFirst()
-                .orElse(LocalTime.MAX))
-                || formData.getEnd().toLocalTime().isAfter(room.get().getOpeningHours().stream()
-                .filter(hours -> hours.getDayOfWeek() == formData.getEnd().getDayOfWeek())
-                .map(RoomOpeningHours::getEndTime)
-                .findFirst()
-                .orElse(LocalTime.MAX))) {
+                || formData.getStart().isBefore(ChronoLocalDateTime.from(openingHours.getStart()))
+                || formData.getEnd().isAfter(ChronoLocalDateTime.from(openingHours.getEnd()))
+        ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
             return "error/known";

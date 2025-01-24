@@ -1,6 +1,10 @@
 package edu.kit.hci.soli.dto.form;
 
+import edu.kit.hci.soli.domain.TimeTuple;
+
+import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Map;
 
 /**
  * A form for saving opening hours for each weekday from Monday to Friday.
@@ -20,16 +24,16 @@ public class SaveOpeningHoursForm {
     /**
      * Constructs a new SaveOpeningHoursForm with the specified opening and closing times for each weekday.
      *
-     * @param mondayStart the opening time on Monday
-     * @param mondayEnd the closing time on Monday
-     * @param tuesdayStart the opening time on Tuesday
-     * @param tuesdayEnd the closing time on Tuesday
+     * @param mondayStart    the opening time on Monday
+     * @param mondayEnd      the closing time on Monday
+     * @param tuesdayStart   the opening time on Tuesday
+     * @param tuesdayEnd     the closing time on Tuesday
      * @param wednesdayStart the opening time on Wednesday
-     * @param wednesdayEnd the closing time on Wednesday
-     * @param thursdayStart the opening time on Thursday
-     * @param thursdayEnd the closing time on Thursday
-     * @param fridayStart the opening time on Friday
-     * @param fridayEnd the closing time on Friday
+     * @param wednesdayEnd   the closing time on Wednesday
+     * @param thursdayStart  the opening time on Thursday
+     * @param thursdayEnd    the closing time on Thursday
+     * @param fridayStart    the opening time on Friday
+     * @param fridayEnd      the closing time on Friday
      */
     public SaveOpeningHoursForm(LocalTime mondayStart, LocalTime mondayEnd, LocalTime tuesdayStart, LocalTime tuesdayEnd, LocalTime wednesdayStart, LocalTime wednesdayEnd, LocalTime thursdayStart, LocalTime thursdayEnd, LocalTime fridayStart, LocalTime fridayEnd) {
         this.mondayStart = mondayStart;
@@ -222,5 +226,15 @@ public class SaveOpeningHoursForm {
      */
     public void setFridayEnd(LocalTime fridayEnd) {
         this.fridayEnd = fridayEnd;
+    }
+
+    public Map<DayOfWeek, TimeTuple> toMap() {
+        return Map.of(
+                DayOfWeek.MONDAY, new TimeTuple(mondayStart, mondayEnd),
+                DayOfWeek.TUESDAY, new TimeTuple(tuesdayStart, tuesdayEnd),
+                DayOfWeek.WEDNESDAY, new TimeTuple(wednesdayStart, wednesdayEnd),
+                DayOfWeek.THURSDAY, new TimeTuple(thursdayStart, thursdayEnd),
+                DayOfWeek.FRIDAY, new TimeTuple(fridayStart, fridayEnd)
+        );
     }
 }
