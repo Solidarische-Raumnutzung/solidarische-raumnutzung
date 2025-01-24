@@ -11,7 +11,7 @@
 
 @template.layout(page = new PageSpec(context.lookup("administration.opening_hours"), "Soli"), context = context, layout = layout, content = @`
     <div class="overflow-x-auto">
-        @template.util.form(csrf = csrf, action = "/admin/opening-hours/" + layout.getRoom().getId() + "/save", method = PUT, content = @`
+        @template.util.form(csrf = csrf, action = "/admin/opening-hours/" + layout.getRoom().getId(), method = PUT, content = @`
             <table class="table table-zebra w-full">
                 <thead>
                 <tr>

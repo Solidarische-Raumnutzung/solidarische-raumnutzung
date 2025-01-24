@@ -42,7 +42,7 @@ public class OpeningHoursController {
      * @param form     the form containing the opening hours
      * @return the view name
      */
-    @PutMapping("/admin/opening-hours/{roomId}/save")
+    @PutMapping("/admin/opening-hours/{roomId}")
     public String saveOpeningHours(@PathVariable Long roomId, Model model,
                                    @ModelAttribute("layout") LayoutParams layout,
                                    HttpServletResponse response, @ModelAttribute SaveOpeningHoursForm form) {
@@ -64,7 +64,7 @@ public class OpeningHoursController {
         }
         room.get().setOpeningHours(new HashMap<>(form.toMap()));
         roomService.save(room.get());
-        return "redirect:/admin/opening-hours/" + roomId;
+        return "redirect:/" + roomId;
     }
 
     /**
