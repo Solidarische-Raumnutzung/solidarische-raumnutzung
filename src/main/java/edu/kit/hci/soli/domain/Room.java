@@ -24,7 +24,7 @@ public class Room {
     /**
      * The opening hours of the room, mapped by day of the week.
      */
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "soli_room_opening_hours",
             joinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")})
     @MapKeyColumn(name = "day_of_week")

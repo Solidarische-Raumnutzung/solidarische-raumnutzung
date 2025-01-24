@@ -82,7 +82,6 @@ public class BookingCreateControllerTest {
     }
 
     @Test
-    @Transactional
     public void testMissingArguments() {
         CreateEventForm formData = new CreateEventForm(
                 null,
@@ -95,11 +94,10 @@ public class BookingCreateControllerTest {
     }
 
     @Test
-    @Transactional
     public void testMisalignedTime() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.currentSlot().minusMinutes(31),
-                timeService.currentSlot().plusHours(1),
+                timeService.minimumTime().minusMinutes(31),
+                timeService.minimumTime().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -108,11 +106,10 @@ public class BookingCreateControllerTest {
     }
 
     @Test
-    @Transactional
     public void testLargeTime() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.currentSlot().minusMinutes(30),
-                timeService.currentSlot().plusHours(10),
+                timeService.minimumTime().minusMinutes(30),
+                timeService.minimumTime().plusHours(10),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -121,11 +118,10 @@ public class BookingCreateControllerTest {
     }
 
     @Test
-    @Transactional
     public void testPastTime() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.currentSlot().minusMinutes(15),
-                timeService.currentSlot().plusMinutes(15),
+                timeService.minimumTime().minusMinutes(15),
+                timeService.minimumTime().plusMinutes(15),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -134,7 +130,6 @@ public class BookingCreateControllerTest {
     }
 
     @Test
-    @Transactional
     public void testCreateBooking() {
         CreateEventForm formData = new CreateEventForm(
                 timeService.minimumTime().plusMinutes(30),
