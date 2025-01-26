@@ -15,6 +15,9 @@
             <table class="content">
                 <tr class="header">
                     <td>
+                        <div class="w-20 rounded-full">
+                            <img src="/favicon.svg">
+                        </div>
                         ${title}
                     </td>
                 </tr>
