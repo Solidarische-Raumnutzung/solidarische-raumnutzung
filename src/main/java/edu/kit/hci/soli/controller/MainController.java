@@ -4,7 +4,6 @@ import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.dto.KnownError;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
@@ -28,7 +27,7 @@ public class MainController extends AbstractErrorController {
     private final SoliConfiguration soliConfiguration;
 
     /**
-     * Constructs an MainController with the specified {@link DefaultErrorAttributes}.
+     * Constructs a MainController with the specified {@link DefaultErrorAttributes}.
      *
      * @param errorAttributes   the default error attributes
      * @param soliConfiguration the configuration of the application
@@ -77,6 +76,11 @@ public class MainController extends AbstractErrorController {
         return "error/disabled_user";
     }
 
+    /**
+     * Returns the security.txt file content.
+     *
+     * @return the security.txt content
+     */
     @GetMapping("/.well-known/security.txt")
     @ResponseBody
     public String securityTxt() {
