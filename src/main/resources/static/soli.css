@@ -216,7 +216,6 @@
     display: table;
     table-layout: fixed;
     width: 100%;
-    max-width: 700px;
     height: var(--soli-chart-height);
     margin: 0 auto;
     background-image: linear-gradient(to top, oklch(var(--color-neutral-content) / 0.8) 2%, oklch(var(--color-neutral-content) / 0.0) 2%);

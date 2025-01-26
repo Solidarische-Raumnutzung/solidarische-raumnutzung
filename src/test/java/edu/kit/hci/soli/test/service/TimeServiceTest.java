@@ -19,9 +19,14 @@ public class TimeServiceTest {
 
     @Test
     public void testRelative() {
-        assertFalse(timeService.currentSlot().isAfter(timeService.minimumTime()));
-        assertTrue(timeService.currentSlot().isBefore(timeService.maximumTime()));
-        assertTrue(timeService.currentSlot().plusMinutes(16).isAfter(timeService.minimumTime()));
+        LocalDateTime currentSlotNormalized = timeService.currentSlot().plusDays(switch (timeService.currentSlot().getDayOfWeek()) {
+            case SATURDAY -> 2;
+            case SUNDAY -> 1;
+            default -> 0;
+        });
+        assertFalse(currentSlotNormalized.isAfter(timeService.minimumTime()));
+        assertTrue(currentSlotNormalized.isBefore(timeService.maximumTime()));
+        assertTrue(currentSlotNormalized.plusMinutes(16).isAfter(timeService.minimumTime()));
     }
 
     @Test
