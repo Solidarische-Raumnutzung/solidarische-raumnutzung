@@ -106,11 +106,47 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    public void testMissingArgument_End() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                null,
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    public void testMissingArgument_Priority() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1),
+                null,
+                null,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    public void testMissingArgument_Cooperative() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                null
+        );
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
     public void testLargeTime() {
         CreateEventForm formData = new CreateEventForm(
                 timeService.minimumTime().minusMinutes(30),
                 timeService.minimumTime().plusHours(10),
-                null,
+                "",
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
@@ -127,6 +163,130 @@ public class BookingCreateControllerTest {
                 ShareRoomType.NO
         );
         assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartAfterEnd_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusHours(2),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartBeforeMinimumTime_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().minusMinutes(15),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testEndAfterMaximumTime_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.maximumTime().plusMinutes(15),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartNotMultipleOf15Minutes_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(7),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testEndNotMultipleOf15Minutes_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1).plusMinutes(7),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartAndEndOnDifferentDays_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().withHour(23).withMinute(45),
+                timeService.minimumTime().plusDays(1).withHour(0).withMinute(15),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartOnSaturday_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.SATURDAY),
+                timeService.minimumTime().with(DayOfWeek.SATURDAY).plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartOnSunday_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.SUNDAY),
+                timeService.minimumTime().with(DayOfWeek.SUNDAY).plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartBeforeOpeningHours_ReturnsInvalidTimeError() {
+        Room room = testService.room;
+        room.setOpeningHours(Map.of(DayOfWeek.MONDAY, new TimeTuple(LocalTime.of(9, 0), LocalTime.of(17, 0))));
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(8),
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(10),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, room.getId()));
+    }
+
+    @Test
+    void testEndAfterClosingHours_ReturnsInvalidTimeError() {
+        Room room = testService.room;
+        room.setOpeningHours(Map.of(DayOfWeek.MONDAY, new TimeTuple(LocalTime.of(9, 0), LocalTime.of(17, 0))));
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(16),
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(18),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, room.getId()));
     }
 
     @Test
