@@ -255,7 +255,7 @@ public class BookingCreateControllerTest {
     public void testResolveConflict_RoomNotFound() {
         Booking attemptedBooking = new Booking();
         HttpServletRequest request = new MockHttpServletRequest();
-        request.getSession().setAttribute("attemptedBooking", null);
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
@@ -274,7 +274,6 @@ public class BookingCreateControllerTest {
         Room room = new Room();
         room.setId(2L);
         HttpServletRequest request = new MockHttpServletRequest();
-        request.getSession().setAttribute("attemptedBooking", null);
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
@@ -282,6 +281,9 @@ public class BookingCreateControllerTest {
 
         Booking attemptedBooking = new Booking();
         attemptedBooking.setRoom(room);
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
 
         String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
@@ -319,4 +321,85 @@ public class BookingCreateControllerTest {
         assertEquals("redirect:/" + room.getId(), view);
     }
 
+    @Test
+    public void testResolveConflict_FailedBookingAttempt() {
+        Room room = new Room();
+        room.setId(1L);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Model model = new ExtendedModelMap();
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
+
+        Booking attemptedBooking = new Booking();
+        attemptedBooking.setRoom(room);
+
+        BookingAttemptResult.PossibleCooperation bookingResult = new BookingAttemptResult.PossibleCooperation.Immediate(List.of(), List.of());
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+        request.getSession().setAttribute("bookingResult", bookingResult);
+
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.affirm(attemptedBooking, bookingResult)).thenReturn(new BookingAttemptResult.Failure(List.of()));
+
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
+
+        assertEquals(KnownError.EVENT_CONFLICT, model.getAttribute("error"));
+        assertEquals("error/known", view);
+    }
+
+    @Test
+    public void testResolveConflict_StagedBookingAttempt() {
+        Room room = new Room();
+        room.setId(1L);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Model model = new ExtendedModelMap();
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
+
+        Booking attemptedBooking = new Booking();
+        attemptedBooking.setRoom(room);
+
+        BookingAttemptResult.PossibleCooperation bookingResult = new BookingAttemptResult.PossibleCooperation.Immediate(List.of(), List.of());
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+        request.getSession().setAttribute("bookingResult", bookingResult);
+
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.affirm(attemptedBooking, bookingResult)).thenReturn(new BookingAttemptResult.Staged(attemptedBooking));
+
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
+
+        assertEquals("bookings/create/success_staged", view);
+    }
+
+    @Test
+    public void testResolveConflict_PossibleCooperation() {
+        Room room = new Room();
+        room.setId(1L);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Model model = new ExtendedModelMap();
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
+
+        Booking attemptedBooking = new Booking();
+        attemptedBooking.setRoom(room);
+
+        BookingAttemptResult.PossibleCooperation bookingResult = new BookingAttemptResult.PossibleCooperation.Immediate(List.of(), List.of());
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+        request.getSession().setAttribute("bookingResult", bookingResult);
+
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.affirm(attemptedBooking, bookingResult)).thenReturn(bookingResult);
+
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
+
+        assertEquals("bookings/create/conflict", view);
+    }
 }
