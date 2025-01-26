@@ -125,6 +125,7 @@ public class BookingCreateController {
         formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
 
         // Validate start and end times
+        TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());
         if (formData.getStart().isAfter(formData.getEnd())
                 || formData.getStart().isBefore(timeService.minimumTime())
                 || formData.getEnd().isAfter(formData.getStart().plusHours(4)) // Keep these in sync with index.jte!
@@ -133,7 +134,10 @@ public class BookingCreateController {
                 || formData.getEnd().getMinute() % 15 != 0
                 || formData.getStart().getDayOfWeek() != formData.getEnd().getDayOfWeek()
                 || formData.getStart().getDayOfWeek() == DayOfWeek.SATURDAY
-                || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY) {
+                || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY
+                || formData.getStart().toLocalTime().isBefore(openingHours.getStart())
+                || formData.getEnd().toLocalTime().isAfter(openingHours.getEnd())
+        ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
             return "error/known";
