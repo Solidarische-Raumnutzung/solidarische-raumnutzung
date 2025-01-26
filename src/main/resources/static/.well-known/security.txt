@@ -1,4 +1,0 @@
-Contact: soli@iar.kit.edu
-Expires: 2099-12-31T23:00:00.000Z
-Preferred-Languages: de, en
-Canonical: https://cc415dc2-136a-4cfd-adc9-45a126ee849e.ka.bw-cloud-instance.org/.well-known/security.txt

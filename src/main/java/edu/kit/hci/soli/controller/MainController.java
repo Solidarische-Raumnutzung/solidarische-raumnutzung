@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.dto.KnownError;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +25,17 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.P
 @Controller("/misc")
 @Slf4j
 public class MainController extends AbstractErrorController {
+    private final SoliConfiguration soliConfiguration;
+
     /**
      * Constructs an MainController with the specified {@link DefaultErrorAttributes}.
      *
-     * @param errorAttributes the default error attributes
+     * @param errorAttributes   the default error attributes
+     * @param soliConfiguration the configuration of the application
      */
-    public MainController(DefaultErrorAttributes errorAttributes) {
+    public MainController(DefaultErrorAttributes errorAttributes, SoliConfiguration soliConfiguration) {
         super(errorAttributes);
+        this.soliConfiguration = soliConfiguration;
     }
 
     /**
@@ -70,5 +75,16 @@ public class MainController extends AbstractErrorController {
     @RequestMapping("/disabled")
     public String getDisabled(Model model) {
         return "error/disabled_user";
+    }
+
+    @GetMapping("/.well-known/security.txt")
+    @ResponseBody
+    public String securityTxt() {
+        return """
+                Contact: soli@iar.kit.edu
+                Expires: 2099-12-31T23:00:00.000Z
+                Preferred-Languages: de, en
+                Canonical: %s.well-known/security.txt
+                """.formatted(soliConfiguration.getHostname());
     }
 }
