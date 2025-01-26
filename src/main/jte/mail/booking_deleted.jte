@@ -3,13 +3,14 @@
 @import edu.kit.hci.soli.dto.BookingDeleteReason
 
 @param JteContext context
+@param String css
 
 @param Booking booking
 @param BookingDeleteReason reason
 
 @template.mail.layout(title= context.lookup("mail.booking_deleted.heading"), content = @`
     <p>
-        ${context.localize("mail.booking_deleted.message", booking.getUser().getUsername(), booking.getRoom().getId(), booking.getStartDate().toString(), (context.localize("bookings.delete_reason." + reason)))} <br>
+        ${context.localize("mail.booking_deleted.message", booking.getUser().getUsername(), booking.getRoom().getId(), booking.getStartDate().toString(), context.localize("bookings.delete_reason." + reason))} <br>
         ${context.localize("mail.ending")}
     </p>
     <div style="text-align:center">
@@ -19,4 +20,4 @@
             </a>
         </button>
     </div>
-`, context = context, css = "css")
+`, context = context, css = css)

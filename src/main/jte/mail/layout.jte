@@ -12,21 +12,21 @@
 <table>
     <tr>
         <td style="padding: 18px;">
-            <table class="content" style="border-collapse: collapse; border: 1px solid oklch(var(--n));">
-                <tr>
-                    <td class="header" style="background-color: oklch(var(--p)); padding: 40px; text-align: center; color: oklch(var(--pc)); font-size: 24px;">
+            <table class="content">
+                <tr class="header">
+                    <td>
                         ${title}
                     </td>
                 </tr>
 
-                <tr>
-                    <td class="body" style="background-color: oklch(var(--n)); padding: 40px; text-align: left; color: oklch(var(--nc)); font-size: 16px; line-height: 1.6;">
+                <tr class="body">
+                    <td>
                         ${content}
                     </td>
                 </tr>
 
-                <tr>
-                    <td class="footer" style="background-color: oklch(var(--s)); padding: 40px; text-align: center; color: oklch(var(--sc)); font-size: 14px;">
+                <tr class="footer">
+                    <td>
                         ${context.localize("mail.footer.text")} <a href="/">${context.localize("mail.website.name")}</a>
                     </td>
                 </tr>
