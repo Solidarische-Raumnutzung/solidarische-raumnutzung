@@ -59,40 +59,52 @@
         <div class="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
             <div class="drawer-content w-full md:w-full">
-                @if(layout.getCurrentHighestBooking() != null && layout.getCurrentHighestBooking().getShareRoomType() == ShareRoomType.YES)
-                    <!-- there is a booking now, but it is collaborative -->
-                    <div class="navbar bg-warning text-primary-content">
-                        <div class="drawer-content flex flex-col items-center justify-center">
+                !{var headerColor = layout.getCurrentHighestBooking() == null ? "success" : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                    case YES, ON_REQUEST -> "warning";
+                    case NO -> "error";
+                };}
+                <!-- there is a booking now, but it is collaborative -->
+                <div class="navbar bg-${headerColor} text-primary-content">
+                    <div class="navbar-start">
+                        <div class="drawer-content flex flex-col items-center text-center justify-center">
                             <!-- Page content here -->
                             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
                                 Open drawer
                             </label>
-                            <p>${context.localize("room.status.collaborative.booked." + layout.getCurrentHighestBooking().getPriority())}</p>
+
                         </div>
                     </div>
-                @elseif(layout.getCurrentHighestBooking() != null)
-                    <!-- there is a booking now, but it is not collaborative -->
-                    <div class="navbar bg-error text-primary-content text-align: center">
-                        <div class="drawer-content flex flex-col items-center justify-center">
-                            <!-- Page content here -->
-                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                                Open drawer
-                            </label>
-                            <p>${context.localize("room.status.booked." + layout.getCurrentHighestBooking().getPriority())}</p>
-                        </div>
+                    <div class="navbar-center bg-${headerColor}">
+                        @if (layout.getRoom() == null)
+                            <div class="text-${headerColor}-content">${context.localize("room.status.none")}</div>
+                        @elseif (layout.getCurrentHighestBooking() == null)
+                            <div class="text-${headerColor}-content">${context.localize("room.status.open")}</div>
+                        @else
+                            <div class="text-${headerColor}-content">${context.localize("room.status.booked")}</div>
+                        @endif
                     </div>
-                @else
-                    <!-- there is no booking right now -->
-                    <div class="navbar bg-success text-primary-content">
-                        <div class="drawer-content flex flex-col items-center justify-center">
-                            <!-- Page content here -->
-                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                                Open drawer
-                            </label>
-                        </div>
-                        <p>${context.localize("room.status.open")}</p>
+                    <div class="navbar-end">
+                        !{var priority = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getPriority()) {
+                            case HIGHEST -> context.localize("bookings.priority.HIGHEST");
+                            case MEDIUM -> context.localize("bookings.priority.MEDIUM");
+                            case LOWEST -> context.localize("bookings.priority.LOWEST");
+                        };}
+                        @if(priority != null)
+                            <div class="badge badge-neutral m-3">Prio ${priority}</div>
+                        @endif
+
+                        !{var roomShareType = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                            case YES -> "users";
+                            case NO -> "users-slash";
+                            case ON_REQUEST -> "users-line";
+                        };}
+                        @if(roomShareType != null)
+                            <i class="fa-solid fa-${roomShareType} m-3"></i>
+                        @endif
                     </div>
-                @endif
+                </div>
+
+
 
 
                 <div class="p-4">

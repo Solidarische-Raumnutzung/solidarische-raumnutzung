@@ -6,6 +6,7 @@ import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -24,15 +25,17 @@ import java.time.LocalDateTime;
 public class LayoutParamsAdvice {
     private final UserService userService;
     private final BookingsService bookingsService;
+    private final TimeService timeService;
 
     /**
      * Constructs a LoginControllerAdvice with the specified UserService.
      *
      * @param userService the service for managing users
      */
-    public LayoutParamsAdvice(UserService userService, BookingsService bookingsService) {
+    public LayoutParamsAdvice(UserService userService, BookingsService bookingsService, TimeService timeService) {
         this.userService = userService;
         this.bookingsService = bookingsService;
+        this.timeService = timeService;
     }
 
     /**
@@ -75,11 +78,11 @@ public class LayoutParamsAdvice {
      */
     @ModelAttribute("layout")
     public LayoutParams getLayoutParams(@ModelAttribute("login") LoginStateModel login, HttpServletRequest request) {
-            Room currentRoom = (Room) request.getSession().getAttribute("room");
+        Room currentRoom = (Room) request.getSession().getAttribute("room");
 
         return new LayoutParams(
                 login, currentRoom,
                 room -> request.getSession().setAttribute("room", room),
-                bookingsService.getCurrentHighestBooking(currentRoom, LocalDateTime.now()).orElse(null));
+                bookingsService.getCurrentHighestBooking(currentRoom, timeService.now()).orElse(null));
     }
 }
