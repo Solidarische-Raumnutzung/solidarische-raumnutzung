@@ -5,6 +5,7 @@ import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.form.CreateEventForm;
+import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.TimeService;
@@ -46,6 +47,8 @@ public class BookingCreateControllerTest {
     @Autowired private BookingsService bookingsService;
     @Autowired private RoomService roomService;
     @Autowired private TimeService timeService;
+    @Autowired
+    private RoomRepository roomRepository;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -279,6 +282,7 @@ public class BookingCreateControllerTest {
     void testEndAfterClosingHours_ReturnsInvalidTimeError() {
         Room room = testService.room;
         room.setOpeningHours(Map.of(DayOfWeek.MONDAY, new TimeTuple(LocalTime.of(9, 0), LocalTime.of(17, 0))));
+        roomRepository.save(room);
         CreateEventForm formData = new CreateEventForm(
                 timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(16),
                 timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(18),
