@@ -62,7 +62,7 @@ dependencies {
     testAnnotationProcessor(annotationProcessor("org.projectlombok:lombok")!!)
     testCompileOnly(compileOnly("org.projectlombok:lombok")!!)
 
-    compileOnly("org.jetbrains:annotations:26.0.1")
+    compileOnly("org.jetbrains:annotations:26.0.2")
 
     doctex("edu.kit.hci.soli:doctex:1.0.1-SNAPSHOT")
 
