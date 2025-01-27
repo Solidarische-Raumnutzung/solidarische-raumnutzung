@@ -9,10 +9,15 @@
 @param BookingDeleteReason reason
 
 @template.mail.layout(title= context.lookup("mail.booking_deleted.heading"), content = @`
-    !{}
+    !{var deleteReason = switch (reason) {
+                    case SELF -> context.localize("bookings.delete_reason.SELF");
+                    case ADMIN -> context.localize("bookings.delete_reason.ADMIN");
+                    case CONFLICT -> context.localize("bookings.delete_reason.CONFLICT");
+                };}
     <p>
-        ${context.localize("mail.booking_deleted.message", booking.getUser().getUsername(), booking.getRoom().getId(), booking.getStartDate().toString(), context.localize("bookings.delete_reason." + reason))} <br>
-        ${context.localize("mail.ending")}
+        ${context.localize("mail.booking_deleted.message", booking.getUser().getUsername(), booking.getRoom().getId().toString(), booking.getStartDate().toString())} <br>
+        ${deleteReason}<br>
+        ${context.localize("mail.booking_deleted.ending")}
     </p>
     <div style="text-align:center">
         <button class="btn">
