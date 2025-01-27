@@ -4,7 +4,6 @@ import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.net.URI;
 import java.util.TimeZone;
 
 @Data @NoArgsConstructor
@@ -17,7 +16,6 @@ public class SoliConfiguration {
     private Guest guest = new Guest();
     private Pagination pagination = new Pagination();
     private TimeZone timeZone;
-    private URI holidayCalendarURL;
 
     public String getHostname() {
         return hostname.endsWith("/") ? hostname : hostname + "/";
