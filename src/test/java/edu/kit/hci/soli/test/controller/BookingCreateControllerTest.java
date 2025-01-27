@@ -7,9 +7,11 @@ import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.form.CreateEventForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.test.TestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,8 +25,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,6 +45,7 @@ public class BookingCreateControllerTest {
     @Autowired private BookingCreateController bookingsController;
     @Autowired private BookingsService bookingsService;
     @Autowired private RoomService roomService;
+    @Autowired private TimeService timeService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -66,8 +72,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testIllegalRoom() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().plusMinutes(30),
-                bookingsService.currentSlot().plusHours(1),
+                timeService.currentSlot().plusMinutes(30),
+                timeService.currentSlot().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -90,8 +96,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testMisalignedTime() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().minusMinutes(31),
-                bookingsService.currentSlot().plusHours(1),
+                timeService.minimumTime().minusMinutes(31),
+                timeService.minimumTime().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -100,11 +106,47 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    public void testMissingArgument_End() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                null,
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    public void testMissingArgument_Priority() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1),
+                null,
+                null,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    public void testMissingArgument_Cooperative() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                null
+        );
+        assertEquals(KnownError.MISSING_PARAMETER, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
     public void testLargeTime() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().minusMinutes(30),
-                bookingsService.currentSlot().plusHours(10),
-                null,
+                timeService.minimumTime().minusMinutes(30),
+                timeService.minimumTime().plusHours(10),
+                "",
                 Priority.HIGHEST,
                 ShareRoomType.NO
         );
@@ -114,8 +156,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testPastTime() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.currentSlot().minusMinutes(15),
-                bookingsService.currentSlot().plusMinutes(15),
+                timeService.minimumTime().minusMinutes(15),
+                timeService.minimumTime().plusMinutes(15),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -124,10 +166,134 @@ public class BookingCreateControllerTest {
     }
 
     @Test
+    void testStartAfterEnd_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusHours(2),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartBeforeMinimumTime_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().minusMinutes(15),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testEndAfterMaximumTime_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.maximumTime().plusMinutes(15),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartNotMultipleOf15Minutes_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(7),
+                timeService.minimumTime().plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testEndNotMultipleOf15Minutes_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1).plusMinutes(7),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartAndEndOnDifferentDays_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().withHour(23).withMinute(45),
+                timeService.minimumTime().plusDays(1).withHour(0).withMinute(15),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartOnSaturday_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.SATURDAY),
+                timeService.minimumTime().with(DayOfWeek.SATURDAY).plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartOnSunday_ReturnsInvalidTimeError() {
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.SUNDAY),
+                timeService.minimumTime().with(DayOfWeek.SUNDAY).plusHours(1),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, testService.room.getId()));
+    }
+
+    @Test
+    void testStartBeforeOpeningHours_ReturnsInvalidTimeError() {
+        Room room = testService.room;
+        room.setOpeningHours(Map.of(DayOfWeek.MONDAY, new TimeTuple(LocalTime.of(9, 0), LocalTime.of(17, 0))));
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(8),
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(10),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, room.getId()));
+    }
+
+    @Test
+    void testEndAfterClosingHours_ReturnsInvalidTimeError() {
+        Room room = testService.room;
+        room.setOpeningHours(Map.of(DayOfWeek.MONDAY, new TimeTuple(LocalTime.of(9, 0), LocalTime.of(17, 0))));
+        CreateEventForm formData = new CreateEventForm(
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(16),
+                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(18),
+                null,
+                Priority.HIGHEST,
+                ShareRoomType.NO
+        );
+        assertEquals(KnownError.INVALID_TIME, lsmCreateBooking(formData, testService.user, room.getId()));
+    }
+
+    @Test
     public void testCreateBooking() {
         CreateEventForm formData = new CreateEventForm(
-                bookingsService.minimumTime().plusMinutes(30),
-                bookingsService.minimumTime().plusHours(1),
+                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime().plusHours(1),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -140,9 +306,10 @@ public class BookingCreateControllerTest {
         HttpServletRequest request = new MockHttpServletRequest();
         HttpServletResponse response = new MockHttpServletResponse();
         Model model = new ExtendedModelMap();
-        roomService = mock(RoomService.class);
-        bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
@@ -162,11 +329,12 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), null, null, null);
 
@@ -186,13 +354,14 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalDateTime end = start.plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, null);
 
@@ -212,13 +381,14 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalDateTime end = start.plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(bookingsService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(bookingsService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, true);
 
@@ -245,11 +415,11 @@ public class BookingCreateControllerTest {
     public void testResolveConflict_RoomNotFound() {
         Booking attemptedBooking = new Booking();
         HttpServletRequest request = new MockHttpServletRequest();
-        request.getSession().setAttribute("attemptedBooking", null);
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         when(roomService.getOptional(1L)).thenReturn(Optional.empty());
 
@@ -264,14 +434,16 @@ public class BookingCreateControllerTest {
         Room room = new Room();
         room.setId(2L);
         HttpServletRequest request = new MockHttpServletRequest();
-        request.getSession().setAttribute("attemptedBooking", null);
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         Booking attemptedBooking = new Booking();
         attemptedBooking.setRoom(room);
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
 
         String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
@@ -290,7 +462,8 @@ public class BookingCreateControllerTest {
         Model model = new ExtendedModelMap();
         RoomService roomService = mock(RoomService.class);
         BookingsService bookingsService = mock(BookingsService.class);
-        BookingCreateController bookingsController = new BookingCreateController(bookingsService, roomService);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         Booking attemptedBooking = new Booking();
         attemptedBooking.setRoom(room);
@@ -308,4 +481,85 @@ public class BookingCreateControllerTest {
         assertEquals("redirect:/" + room.getId(), view);
     }
 
+    @Test
+    public void testResolveConflict_FailedBookingAttempt() {
+        Room room = new Room();
+        room.setId(1L);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Model model = new ExtendedModelMap();
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
+
+        Booking attemptedBooking = new Booking();
+        attemptedBooking.setRoom(room);
+
+        BookingAttemptResult.PossibleCooperation bookingResult = new BookingAttemptResult.PossibleCooperation.Immediate(List.of(), List.of());
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+        request.getSession().setAttribute("bookingResult", bookingResult);
+
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.affirm(attemptedBooking, bookingResult)).thenReturn(new BookingAttemptResult.Failure(List.of()));
+
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
+
+        assertEquals(KnownError.EVENT_CONFLICT, model.getAttribute("error"));
+        assertEquals("error/known", view);
+    }
+
+    @Test
+    public void testResolveConflict_StagedBookingAttempt() {
+        Room room = new Room();
+        room.setId(1L);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Model model = new ExtendedModelMap();
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
+
+        Booking attemptedBooking = new Booking();
+        attemptedBooking.setRoom(room);
+
+        BookingAttemptResult.PossibleCooperation bookingResult = new BookingAttemptResult.PossibleCooperation.Immediate(List.of(), List.of());
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+        request.getSession().setAttribute("bookingResult", bookingResult);
+
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.affirm(attemptedBooking, bookingResult)).thenReturn(new BookingAttemptResult.Staged(attemptedBooking));
+
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
+
+        assertEquals("bookings/create/success_staged", view);
+    }
+
+    @Test
+    public void testResolveConflict_PossibleCooperation() {
+        Room room = new Room();
+        room.setId(1L);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Model model = new ExtendedModelMap();
+        RoomService roomService = mock(RoomService.class);
+        BookingsService bookingsService = mock(BookingsService.class);
+        TimeService timeService = mock(TimeService.class);
+        BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
+
+        Booking attemptedBooking = new Booking();
+        attemptedBooking.setRoom(room);
+
+        BookingAttemptResult.PossibleCooperation bookingResult = new BookingAttemptResult.PossibleCooperation.Immediate(List.of(), List.of());
+
+        request.getSession().setAttribute("attemptedBooking", attemptedBooking);
+        request.getSession().setAttribute("bookingResult", bookingResult);
+
+        when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
+        when(bookingsService.affirm(attemptedBooking, bookingResult)).thenReturn(bookingResult);
+
+        String view = bookingsController.resolveConflict(model, request, 1L, testService.paramsFor(testService.user, request));
+
+        assertEquals("bookings/create/conflict", view);
+    }
 }

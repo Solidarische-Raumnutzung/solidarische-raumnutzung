@@ -8,6 +8,7 @@ import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.form.CreateEventForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import java.util.Set;
 @Slf4j
 @Controller("/bookings/new")
 public class BookingCreateController {
+    private final TimeService timeService;
     private final BookingsService bookingsService;
     private final RoomService roomService;
 
@@ -38,7 +40,8 @@ public class BookingCreateController {
      * @param bookingsService the service for managing bookings
      * @param roomService     the service for managing rooms
      */
-    public BookingCreateController(BookingsService bookingsService, RoomService roomService) {
+    public BookingCreateController(TimeService timeService, BookingsService bookingsService, RoomService roomService) {
+        this.timeService = timeService;
         this.bookingsService = bookingsService;
         this.roomService = roomService;
     }
@@ -69,7 +72,7 @@ public class BookingCreateController {
             return "error/known";
         }
         if (start == null) {
-            start = LocalDateTime.now();
+            start = timeService.minimumTime();
         }
         if (end == null) {
             end = start.plusMinutes(30);
@@ -82,8 +85,8 @@ public class BookingCreateController {
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
 
-        model.addAttribute("minimumTime", bookingsService.minimumTime());
-        model.addAttribute("maximumTime", bookingsService.maximumTime());
+        model.addAttribute("minimumTime", timeService.minimumTime());
+        model.addAttribute("maximumTime", timeService.maximumTime());
 
         return "bookings/create/form";
     }
@@ -122,15 +125,19 @@ public class BookingCreateController {
         formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
 
         // Validate start and end times
+        TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());
         if (formData.getStart().isAfter(formData.getEnd())
-                || formData.getStart().isBefore(bookingsService.minimumTime())
+                || formData.getStart().isBefore(timeService.minimumTime())
                 || formData.getEnd().isAfter(formData.getStart().plusHours(4)) // Keep these in sync with index.jte!
-                || formData.getEnd().isAfter(bookingsService.maximumTime())
+                || formData.getEnd().isAfter(timeService.maximumTime())
                 || formData.getStart().getMinute() % 15 != 0
                 || formData.getEnd().getMinute() % 15 != 0
                 || formData.getStart().getDayOfWeek() != formData.getEnd().getDayOfWeek()
                 || formData.getStart().getDayOfWeek() == DayOfWeek.SATURDAY
-                || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY) {
+                || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY
+                || formData.getStart().toLocalTime().isBefore(openingHours.getStart())
+                || formData.getEnd().toLocalTime().isAfter(openingHours.getEnd())
+        ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
             return "error/known";

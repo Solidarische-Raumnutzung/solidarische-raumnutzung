@@ -9,6 +9,7 @@ import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.form.EditBookingDescriptionForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.ServerRequest;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,6 +33,7 @@ public class BookingViewController {
     private final RoomService roomService;
     private final UserService userService;
     private final int maxPaginationSize;
+    private final TimeService timeService;
 
     /**
      * Constructs a BookingViewController with the specified services.
@@ -40,11 +43,12 @@ public class BookingViewController {
      * @param userService       the service for managing users
      * @param soliConfiguration the configuration of the application
      */
-    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService, SoliConfiguration soliConfiguration) {
+    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService, SoliConfiguration soliConfiguration, TimeService timeService) {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
         this.userService = userService;
         this.maxPaginationSize = soliConfiguration.getPagination().getMaxSize();
+        this.timeService = timeService;
     }
 
     /**
@@ -172,7 +176,7 @@ public class BookingViewController {
         model.addAttribute("showRequestButton",
                 ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
                         && !Objects.equals(booking.getUser(), principal.getUser())
-                        && booking.getStartDate().isBefore(bookingsService.minimumTime())
+                        && booking.getStartDate().isBefore(timeService.minimumTime())
         );
 
         User admin = userService.resolveAdminUser();
@@ -218,6 +222,7 @@ public class BookingViewController {
         String ical = bookingsService.getICalendar(booking, principal.getUser().getLocale());
 
         response.setContentType("text/calendar");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Soli-" + booking.getStartDate().toString().replace(':', '_') + ".ics\"");
         try (var w = response.getWriter()) {
             w.write(ical);
             w.flush();

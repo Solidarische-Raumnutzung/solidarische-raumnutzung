@@ -8,6 +8,7 @@ import edu.kit.hci.soli.dto.CalendarEvent;
 import edu.kit.hci.soli.repository.BookingsRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.EmailService;
+import edu.kit.hci.soli.service.TimeService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.MessageSource;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -31,6 +31,7 @@ public class BookingsServiceImpl implements BookingsService {
     private final EmailService emailService;
     private final SoliConfiguration soliConfiguration;
     private final MessageSource messageSource;
+    private final TimeService timeService;
 
     /**
      * Constructs a BookingsService with the specified {@link BookingsRepository}.
@@ -40,11 +41,12 @@ public class BookingsServiceImpl implements BookingsService {
      * @param soliConfiguration  the app configuration
      * @param messageSource      the message source for localization
      */
-    public BookingsServiceImpl(BookingsRepository bookingsRepository, EmailService emailService, SoliConfiguration soliConfiguration, MessageSource messageSource) {
+    public BookingsServiceImpl(BookingsRepository bookingsRepository, EmailService emailService, SoliConfiguration soliConfiguration, MessageSource messageSource, TimeService timeService) {
         this.bookingsRepository = bookingsRepository;
         this.emailService = emailService;
         this.soliConfiguration = soliConfiguration;
         this.messageSource = messageSource;
+        this.timeService = timeService;
     }
 
     /**
@@ -219,41 +221,6 @@ public class BookingsServiceImpl implements BookingsService {
         }
     }
 
-    /**
-     * Normalizes a given time to the nearest 15 minutes, computing the corresponding time slot.
-     *
-     * @param time the time to be normalized
-     * @return the normalized time
-     */
-    private LocalDateTime normalize(LocalDateTime time) {
-        return time.minusMinutes(time.getMinute() % 15).withSecond(0).withNano(0);
-    }
-
-    @Override
-    public LocalDateTime currentSlot() {
-        return normalize(LocalDateTime.now());
-    }
-
-    @Override
-    public LocalDateTime minimumTime() {
-        LocalDateTime ldt = normalize(LocalDateTime.now().plusMinutes(15));
-        return switch (ldt.getDayOfWeek()) {
-            case SATURDAY -> ldt.plusDays(2);
-            case SUNDAY -> ldt.plusDays(1);
-            default -> ldt;
-        };
-    }
-
-    @Override
-    public LocalDateTime maximumTime() {
-        LocalDateTime ldt = normalize(LocalDateTime.now().plusDays(14));
-        return switch (ldt.getDayOfWeek()) {
-            case SATURDAY -> ldt.minusDays(1);
-            case SUNDAY -> ldt.minusDays(2);
-            default -> ldt;
-        };
-    }
-
     private String formatICalInstant(LocalDateTime time) {
         time = time.minusNanos(time.getNano()).minusSeconds(time.getSecond());
         return DateTimeFormatter.ISO_INSTANT.format(
@@ -275,6 +242,7 @@ public class BookingsServiceImpl implements BookingsService {
     @Override
     public String getICalendar(Booking booking, Locale locale) {
         // TODO give the room a location!
+        // TODO: tests!
         String bookingUrl = soliConfiguration.getHostname() + booking.getRoom().getId() + "/bookings/" + booking.getId();
         UUID uuid = new UUID(0x4E58D14A39266471L, booking.getId());
         return """
@@ -294,7 +262,7 @@ public class BookingsServiceImpl implements BookingsService {
                 END:VCALENDAR
                 """.formatted(
                         uuid,
-                        formatICalInstant(LocalDateTime.now()),
+                        formatICalInstant(timeService.now()),
                         formatICalInstant(booking.getStartDate()),
                         formatICalInstant(booking.getEndDate()),
                         escapeICalString(messageSource.getMessage("booking.ical.summary", null, locale)),

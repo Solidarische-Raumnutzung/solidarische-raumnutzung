@@ -75,7 +75,7 @@
                         <li>
                             <span
                                     style="height: ${e.getValue() * 100 / max}%"
-                                    x-label="${context.format(e.getKey())}"
+                                    x-label="${context.format(e.getKey()).substring(0, 3)}"
                                     x-value="${e.getValue()}"
                                     title="${context.localize("administration.statistics.n_bookings", e.getValue())}"
                             ></span>

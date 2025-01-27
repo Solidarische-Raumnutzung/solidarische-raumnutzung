@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.*;
 import java.time.temporal.TemporalAmount;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,66 +31,80 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     @Transactional(readOnly = true)
     public Map<DayOfWeek, Long> countBookingsPerWeekdayAllTime() {
+        SortedMap<DayOfWeek, Long> result = new TreeMap<>();
         try (Stream<BookingByDay> stats = bookingsRepository.countBookingsPerWeekdayAllTime()) {
-            return stats.collect(Collectors.toMap(
-                    s -> getDayOfWeek(s.getDayOfWeek()),
-                    BookingByDay::getCount
-            ));
+            stats.forEach(e -> result.put(getDayOfWeek(e.getDayOfWeek()), e.getCount()));
         }
+        for (DayOfWeek value : DayOfWeek.values()) {
+            if (value == DayOfWeek.SATURDAY || value == DayOfWeek.SUNDAY) continue;
+            result.putIfAbsent(value, 0L);
+        }
+        return result;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Map<DayOfWeek, Long> countBookingsPerWeekdayRecent(TemporalAmount frame) {
+        SortedMap<DayOfWeek, Long> result = new TreeMap<>();
         try (Stream<BookingByDay> stats = bookingsRepository.countBookingsPerWeekdayRecent(Duration.from(frame))) {
-            return stats.collect(Collectors.toMap(
-                    s -> getDayOfWeek(s.getDayOfWeek()),
-                    BookingByDay::getCount
-            ));
+            stats.forEach(e -> result.put(getDayOfWeek(e.getDayOfWeek()), e.getCount()));
         }
+        for (DayOfWeek value : DayOfWeek.values()) {
+            if (value == DayOfWeek.SATURDAY || value == DayOfWeek.SUNDAY) continue;
+            result.putIfAbsent(value, 0L);
+        }
+        return result;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Map<Integer, Long> countBookingsPerHourAllTime() {
+        SortedMap<Integer, Long> result = new TreeMap<>();
         try (Stream<BookingByHour> stats = bookingsRepository.countBookingsPerHourAllTime()) {
-            return stats.collect(Collectors.toMap(
-                    BookingByHour::getHour,
-                    BookingByHour::getCount
-            ));
+            stats.forEach(e -> result.put(e.getHour(), e.getCount()));
         }
+        for (int i = 0; i < 24; i++) {
+            result.putIfAbsent(i, 0L);
+        }
+        return result;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Map<Integer, Long> countBookingsPerHourRecent(TemporalAmount frame) {
+        SortedMap<Integer, Long> result = new TreeMap<>();
         try (Stream<BookingByHour> stats = bookingsRepository.countBookingsPerHourRecent(Duration.from(frame))) {
-            return stats.collect(Collectors.toMap(
-                    BookingByHour::getHour,
-                    BookingByHour::getCount
-            ));
+            stats.forEach(e -> result.put(e.getHour(), e.getCount()));
         }
+        for (int i = 0; i < 24; i++) {
+            result.putIfAbsent(i, 0L);
+        }
+        return result;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Map<Month, Long> countBookingsPerMonthAllTime() {
+        SortedMap<Month, Long> result = new TreeMap<>();
         try (Stream<BookingByMonth> stats = bookingsRepository.countBookingsPerMonthAllTime()) {
-            return stats.collect(Collectors.toMap(
-                    s -> Month.of(s.getMonth()),
-                    BookingByMonth::getCount
-            ));
+            stats.forEach(e -> result.put(Month.of(e.getMonth()), e.getCount()));
         }
+        for (Month value : Month.values()) {
+            result.putIfAbsent(value, 0L);
+        }
+        return result;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Map<Month, Long> countBookingsPerMonthRecent(TemporalAmount frame) {
+        SortedMap<Month, Long> result = new TreeMap<>();
         try (Stream<BookingByMonth> stats = bookingsRepository.countBookingsPerMonthRecent(Duration.from(frame))) {
-            return stats.collect(Collectors.toMap(
-                    s -> Month.of(s.getMonth()),
-                    BookingByMonth::getCount
-            ));
+            stats.forEach(e -> result.put(Month.of(e.getMonth()), e.getCount()));
         }
+        for (Month value : Month.values()) {
+            result.putIfAbsent(value, 0L);
+        }
+        return result;
     }
 }
