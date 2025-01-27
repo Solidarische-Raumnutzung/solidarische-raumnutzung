@@ -126,17 +126,19 @@ public class BookingCreateController {
 
         // Validate start and end times
         TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());
-        if (formData.getStart().isAfter(formData.getEnd())
-                || formData.getStart().isBefore(timeService.minimumTime())
-                || formData.getEnd().isAfter(formData.getStart().plusHours(4)) // Keep these in sync with index.jte!
-                || formData.getEnd().isAfter(timeService.maximumTime())
-                || formData.getStart().getMinute() % 15 != 0
-                || formData.getEnd().getMinute() % 15 != 0
-                || formData.getStart().getDayOfWeek() != formData.getEnd().getDayOfWeek()
-                || formData.getStart().getDayOfWeek() == DayOfWeek.SATURDAY
-                || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY
-                || formData.getStart().toLocalTime().isBefore(openingHours.getStart())
-                || formData.getEnd().toLocalTime().isAfter(openingHours.getEnd())
+        LocalDateTime start = formData.getStart();
+        LocalDateTime end = formData.getEnd().atDate(start.toLocalDate());
+        if (start.isAfter(end)
+                || start.isBefore(timeService.minimumTime())
+                || end.isAfter(start.plusHours(4)) // Keep these in sync with index.jte!
+                || end.isAfter(timeService.maximumTime())
+                || start.getMinute() % 15 != 0
+                || end.getMinute() % 15 != 0
+                || start.getDayOfWeek() != end.getDayOfWeek()
+                || start.getDayOfWeek() == DayOfWeek.SATURDAY
+                || start.getDayOfWeek() == DayOfWeek.SUNDAY
+                || start.toLocalTime().isBefore(openingHours.getStart())
+                || end.toLocalTime().isAfter(openingHours.getEnd())
         ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
@@ -146,8 +148,8 @@ public class BookingCreateController {
         Booking attemptedBooking = new Booking(
                 null,
                 formData.getDescription(),
-                formData.getStart(),
-                formData.getEnd(),
+                start,
+                end,
                 formData.getCooperative(),
                 room.get(),
                 principal.getUser(),

@@ -33,8 +33,8 @@
             />
 
             <label class="fieldset-legend" for="end">${context.localize("bookings.end")} </label>
-            <input id="end" name="end" type="datetime-local" class="input validator"
-                   value="${end.toString()}"
+            <input id="end" name="end" type="time" class="input validator"
+                   value="${end.toLocalTime().toString()}"
                    min="${minimumTime.toString()}"
                    max="${maximumTime.toString()}"
                    step="${60 * 15}"

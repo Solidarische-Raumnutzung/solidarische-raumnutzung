@@ -4,13 +4,14 @@ import edu.kit.hci.soli.domain.Priority;
 import edu.kit.hci.soli.domain.ShareRoomType;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Data class for event creation form data.
  */
 public class CreateEventForm {
     private LocalDateTime start;
-    private LocalDateTime end;
+    private LocalTime end;
     private String description;
     private Priority priority;
     private ShareRoomType cooperative;
@@ -18,13 +19,13 @@ public class CreateEventForm {
     /**
      * Constructs a new CreateEventForm object with the specified parameters.
      *
-     * @param start        the start time of the event
+     * @param start        the start time and date of the event
      * @param end          the end time of the event
      * @param description  a brief description of the event
      * @param priority     the priority level of the event
      * @param cooperative  the cooperative (shared room) type of the event
      */
-    public CreateEventForm(LocalDateTime start, LocalDateTime end, String description, Priority priority, ShareRoomType cooperative) {
+    public CreateEventForm(LocalDateTime start, LocalTime end, String description, Priority priority, ShareRoomType cooperative) {
         this.start = start;
         this.end = end;
         this.description = description;
@@ -46,7 +47,7 @@ public class CreateEventForm {
      *
      * @return the end time of the event
      */
-    public LocalDateTime getEnd() {
+    public LocalTime getEnd() {
         return this.end;
     }
 
@@ -91,7 +92,7 @@ public class CreateEventForm {
      *
      * @param end the end time to set
      */
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(LocalTime end) {
         this.end = end;
     }
 
