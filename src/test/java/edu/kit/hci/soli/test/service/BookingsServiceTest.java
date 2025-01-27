@@ -249,4 +249,33 @@ public class BookingsServiceTest {
         assertEquals(testBooking3.getEndDate(), events.get(2).end());
         assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(2).classNames());
     }
+
+    @Test
+    public void testUpdateEventDescription() {
+        testBooking.setDescription("test description");
+        testBooking = bookingsRepository.save(testBooking);
+        assertEquals("test description", bookingsService.getBookingById(testBooking.getId()).getDescription());
+        assertEquals("test description", testBooking.getDescription());
+        bookingsService.updateDescription(testBooking, "new description");
+        assertEquals("new description", bookingsService.getBookingById(testBooking.getId()).getDescription());
+        assertEquals("new description", testBooking.getDescription());
+    }
+
+    @Test
+    public void testUpdateEventDescriptionMissing() {
+        testBooking.setDescription("test description");
+        assertEquals("test description", testBooking.getDescription());
+        assertThrows(IllegalArgumentException.class, () -> bookingsService.updateDescription(testBooking, "new description"));
+        assertEquals("test description", testBooking.getDescription());
+    }
+
+    @Test
+    public void testUpdateEventDescriptionWrongId() {
+        testBooking.setDescription("test description");
+        testBooking = bookingsRepository.save(testBooking);
+        testBooking.setId(testBooking.getId() + 1);
+        assertEquals("test description", testBooking.getDescription());
+        assertThrows(IllegalArgumentException.class, () -> bookingsService.updateDescription(testBooking, "new description"));
+        assertEquals("test description", testBooking.getDescription());
+    }
 }

@@ -2,7 +2,9 @@ package edu.kit.hci.soli.domain;
 
 import jakarta.persistence.*;
 import lombok.ToString;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 /**
@@ -53,6 +55,11 @@ public class User {
     private Locale locale;
 
     /**
+     * The date and time of the last login of the user.
+     */
+    private @NotNull LocalDateTime lastLogin;
+
+    /**
      * Constructs a new User with the specified details.
      *
      * @param id         the unique identifier for the user
@@ -69,6 +76,7 @@ public class User {
         this.userId = userId;
         this.isDisabled = isDisabled;
         this.locale = locale;
+        this.lastLogin = LocalDateTime.now();
     }
 
     /**
@@ -76,6 +84,7 @@ public class User {
      */
     public User() {
         this.locale = Locale.getDefault();
+        this.lastLogin = LocalDateTime.now();
     }
 
     /**
@@ -193,5 +202,23 @@ public class User {
 
     public int hashCode() {
         return getId().hashCode();
+    }
+
+    /**
+     * Gets the date and time of the last login of the user.
+     *
+     * @return the date and time of the last login of the user
+     */
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    /**
+     * Sets the date and time of the last login of the user.
+     *
+     * @param lastLogin the date and time of the last login of the user
+     */
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

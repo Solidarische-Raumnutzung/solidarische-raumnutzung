@@ -4,6 +4,7 @@ import edu.kit.hci.soli.controller.BookingCreateController;
 import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.form.CreateEventForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.test.TestService;
@@ -50,7 +51,7 @@ public class BookingCreateControllerTest {
         testService.reset();
     }
 
-    private @Nullable KnownError lsmCreateBooking(BookingCreateController.FormData formData, User user, long room) {
+    private @Nullable KnownError lsmCreateBooking(CreateEventForm formData, User user, long room) {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -64,7 +65,7 @@ public class BookingCreateControllerTest {
 
     @Test
     public void testIllegalRoom() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
+        CreateEventForm formData = new CreateEventForm(
                 bookingsService.currentSlot().plusMinutes(30),
                 bookingsService.currentSlot().plusHours(1),
                 null,
@@ -76,7 +77,7 @@ public class BookingCreateControllerTest {
 
     @Test
     public void testMissingArguments() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
+        CreateEventForm formData = new CreateEventForm(
                 null,
                 null,
                 null,
@@ -88,7 +89,7 @@ public class BookingCreateControllerTest {
 
     @Test
     public void testMisalignedTime() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
+        CreateEventForm formData = new CreateEventForm(
                 bookingsService.currentSlot().minusMinutes(31),
                 bookingsService.currentSlot().plusHours(1),
                 null,
@@ -100,7 +101,7 @@ public class BookingCreateControllerTest {
 
     @Test
     public void testLargeTime() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
+        CreateEventForm formData = new CreateEventForm(
                 bookingsService.currentSlot().minusMinutes(30),
                 bookingsService.currentSlot().plusHours(10),
                 null,
@@ -112,7 +113,7 @@ public class BookingCreateControllerTest {
 
     @Test
     public void testPastTime() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
+        CreateEventForm formData = new CreateEventForm(
                 bookingsService.currentSlot().minusMinutes(15),
                 bookingsService.currentSlot().plusMinutes(15),
                 null,
@@ -124,7 +125,7 @@ public class BookingCreateControllerTest {
 
     @Test
     public void testCreateBooking() {
-        BookingCreateController.FormData formData = new BookingCreateController.FormData(
+        CreateEventForm formData = new CreateEventForm(
                 bookingsService.minimumTime().plusMinutes(30),
                 bookingsService.minimumTime().plusHours(1),
                 null,

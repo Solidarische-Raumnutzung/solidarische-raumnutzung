@@ -34,9 +34,9 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testFindAllWithoutAdmin() {
+    public void testFindAllWithoutAdminOrAnon() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<User> userPage = userRepository.findAllWithoutAdmin(pageable);
+        Page<User> userPage = userRepository.findAllWithoutAdminOrAnon(pageable);
         assertIterableEquals(List.of(testService.user2, testService.user3), userPage.getContent());
     }
 }

@@ -16,10 +16,13 @@
     <ul class="list bg-base-100 rounded-box shadow-md mx-auto min-w-80">
         @for (Room room : rooms)
             <li class="list-row max-w-4xl">
-                <div class="list-col-grow">${room.getName()}</div>
-                <p class="list-col-wrap text-xs">
-                    ${room.getDescription()}
-                </p>
+                <div class="list-col-grow">
+                    <div>${room.getName()}</div>
+                    <div class="text-xs uppercase font-semibold opacity-60">
+                        <i class="fa-solid fa-location-dot"></i> &shy;
+                        ${room.getLocation()}</div>
+                </div>
+                <p class="list-col-wrap text-xs">${room.getDescription()}</p>
                 @if (edit)
                     <a href="/admin/rooms/${room.getId()}" class="btn btn-square btn-ghost" aria-label="${context.localize("bookings")}">
                         <i class="fas fa-pen"></i>
@@ -40,7 +43,7 @@
 
         @if (edit)
             <a href="/admin/rooms/new" aria-label="${context.localize("rooms.new")}">
-                <li class="btn btn-success w-full">
+                <li class="btn btn-primary w-full">
                     <i class="fas fa-plus"></i>
                 </li>
             </a>

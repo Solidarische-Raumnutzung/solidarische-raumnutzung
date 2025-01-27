@@ -2,6 +2,7 @@ package edu.kit.hci.soli;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Locale;
 
@@ -9,6 +10,7 @@ import java.util.Locale;
  * Main class for the SOLI application.
  * This class is responsible for bootstrapping the Spring Boot application.
  */
+@EnableScheduling
 @SpringBootApplication
 public class SoliApplication {
     /**

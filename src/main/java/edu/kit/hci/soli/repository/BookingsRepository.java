@@ -114,6 +114,16 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     Stream<BookingByMonth> countBookingsPerMonthRecent(Duration frame);
 
     /**
+     * Anonymizes bookings older than the specified date.
+     *
+     * @param date the date to compare the end date to
+     * @param anonymousUser the user to anonymize the bookings to
+     */
+    @Query("UPDATE Booking b SET b.user = :anonymousUser WHERE b.endDate < :date")
+    @Modifying
+    void anonymizeOlderThan(LocalDateTime date, User anonymousUser);
+
+    /**
      * Gets the highest priority of all bookings that overlap with the specified time.
      *
      * @param time the time to check for overlapping bookings

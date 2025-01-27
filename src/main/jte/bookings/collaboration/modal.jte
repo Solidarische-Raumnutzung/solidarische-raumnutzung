@@ -15,7 +15,7 @@
     <fieldset class="fieldset bg-base-200 w-80 mx-auto">
         <legend class="fieldset-legend">${context.localize("bookings.collaboration")}</legend>
         <p>${context.localize("bookings.collaboration.message")}</p>
-        @template.bookings.single(context = context, csrf = csrf, booking = booking, showRequestButton = false, showDeleteButton = false)
+        @template.bookings.single(context = context, csrf = csrf, booking = booking, allowEditing = false, showRequestButton = false)
         <div class="modal-action">
             <div class="card-actions justify-end">
                 @template.util.form(csrf = csrf, action = "/" + layout.getRoom().getId() + "/bookings/" + booking.getId() + "/collaboration", method = DELETE, content = @`

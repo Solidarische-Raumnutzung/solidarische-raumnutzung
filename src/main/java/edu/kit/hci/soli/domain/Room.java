@@ -21,6 +21,8 @@ public class Room {
 
     private String description;
 
+    private String location;
+
     /**
      * Constructs a new room with the specified details.
      *
@@ -28,10 +30,11 @@ public class Room {
      * @param name the name of the room
      * @param description the description of the room
      */
-    public Room(Long id, String name, String description) {
+    public Room(Long id, String name, String description, String location) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.location = location;
     }
 
     /**
@@ -92,6 +95,24 @@ public class Room {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Get the description for the location of the room.
+     *
+     * @return the location description
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * Set the description for the location of the room.
+     *
+     * @param location the new location for the room
+     */
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     /**
