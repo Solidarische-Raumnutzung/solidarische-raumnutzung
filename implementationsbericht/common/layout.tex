@@ -76,7 +76,6 @@
 
 \newcommand{\refsetcounter}[2]{\setcounter{#1}{#2}\addtocounter{#1}{-1}\refstepcounter{#1}}
 
-%\iffalse
 %%Funktion im Pflichtenheft
 %\newcounter{functioncount}
 %\newenvironment{function}[2]{\refsetcounter{functioncount}{#1}\large\textbf{\sffamily{#2 }}\namedlabel{F#1}{$\langle F#1\rangle$}\normalsize\begin{description}\setlength{\itemsep}{-5pt}}{\end{description}}
@@ -85,12 +84,12 @@
 %\newcounter{datacount}
 %\newenvironment{data}[2]{\refsetcounter{datacount}{#1}\textbf{#2} \namedlabel{D#1}{$\langle D#1\rangle$}\\}{}
 %
-%%Kriterien im Pflichtenheft
-%\newcounter{mustcount}
-%\newcommand{\must}[2]{\refsetcounter{mustcount}{#1}\namedlabel{MK#1}{$\langle MK#1\rangle$} #2\\}
-%
-%\newcounter{wishcount}
-%\newcommand{\wish}[2]{\refsetcounter{wishcount}{#1}\namedlabel{WK#1}{$\langle WK#1\rangle$} #2\\}
+%Kriterien im Pflichtenheft
+\newcounter{mustcount}
+\newcommand{\must}[2]{\refsetcounter{mustcount}{#1}\namedlabel{MK#1}{$\langle MK#1\rangle$} #2\\}
+
+\newcounter{wishcount}
+\newcommand{\wish}[2]{\refsetcounter{wishcount}{#1}\namedlabel{WK#1}{$\langle WK#1\rangle$} #2\\}
 %
 %\newcounter{wontcount}
 %\newcommand{\wont}[2]{\refsetcounter{wontcount}{#1}\namedlabel{RN#1}{$\langle AK#1\rangle$} #2\\}
@@ -100,7 +99,6 @@
 %
 %%Qualitätsanforderungen im Pflichtenheft
 %\newcommand{\qualityReq}[2]{\refsetcounter{datacount}{#1}\namedlabel{Q#1}{$\langle Q#1\rangle$} #2\\}
-%\endif
 
 % Benutzeroberflächen im Pflichtenheft
 \newcounter{uicount}

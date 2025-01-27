@@ -1,0 +1,54 @@
+%!TEX root = ../main.tex
+
+\chapter{Kriterien}
+\label{chap:kriterien}
+
+In diesem Kapitel wird auf die Musskriterien eingegangen, die im Pflichtenheft spezifiziert wurden.
+Für jedes Kriterium wird angegeben, ob es im Rahmen der Implementierung umgesetzt wurde,
+ob es in der Umsetzung geändert wurde und falls ja, wie es geändert wurde,
+oder ob es nicht umgesetzt wurde und warum.
+
+\section{Musskriterien}\label{sec:musskriterien}
+
+Die Funktionalität aller Musskriterien wurde in der Implementierung umgesetzt.
+Es gibt allerdings kleine Anpassungen, die im Folgenden beschrieben werden.
+
+\must{1}{Die Anwendung wurde als Web-Applikation realisiert.}
+\must{2}{Nutzende der Anwendung können sich mit ihrem KIT-Konto per \gls{OIDC} oder einem lokalen Gastkonto anmelden.}
+\must{3}{Nutzende können sich abmelden.}
+\must{4}{Die im Pflichtenheft beschriebenen Ansichten sind vorhanden.}
+\must{5}{Die Ansicht \textit{Kalender} gibt mit FullCalendar-Events einen Überblick über die reservierten Zeiten.}
+\must{6}{Die Ansicht \textit{Kalender} stellt die Öffnungszeiten des Raumes farblich dar.}
+\must{7}{Die Ansicht \textit{Kalender} hebt die Termine des angemeldeten Nutzenden mit einem Badge hervor.}
+\must{8}{Die Ansicht \textit{Termin} zeigt sowohl Start- und Endzeitpunkt als auch Beschreibung des Termins.}
+\must{9}{Die Ansicht \textit{Termin-Erstellen} ermöglicht es, einen Raum für eine bestimmte Zeitperiode zu reservieren.}
+\must{10}{Bei der Reservierung eines Raumes kann optional eine Beschreibung hinterlegt werden. Ein Paragraph informiert über die Sichtbarkeit dieser Beschreibung.}
+\must{11}{Die Ansicht \textit{Terminübersicht} zeigt alle Termine des angemeldeten Nutzenden in einer Tabelle an.}
+\must{12}{Die Priorität eines Termins ist in drei Stufen gegliedert.}
+\must{13}{Beim Erstellen eines Termins wählen die Nutzenden aus, ob sie ihren Raum mit anderen Personen teilen möchten. Dabei stehen die Optionen \textit{Ja}, \textit{Nein} und \textit{Auf Anfrage} zur Auswahl.}
+\must{14}{Die Anwendung löst Terminkonflikte mithilfe der Prioritäten. Termine mit höherer Priorität überschreiben andere. Nutzende werden dabei über die Überschreibung informiert.}
+\must{15}{Nutzende werden per E-Mail informiert, wenn ihr Termin durch einen Termin mit höherer Priorität überschrieben wurde.}
+\must{16}{Nutzende können eine Reservierung stornieren. Dies ist über die Terminansicht mit dem Button \textit{Löschen} möglich.}
+\must{17}{Es gibt ein Adminkonto, welches per Passwort authentifiziert wird. Es wird per Docker-Compose festgelegt und kann also nur durch den Server-Admin geändert werden.}
+\must{18}{Die Ansicht \textit{Kontoliste} ermöglicht es Admins, einzelne Konten sowie die Anmeldung per Gastkonto zu deaktivieren.}
+\must{19}{Admins können in der Ansicht \textit{Termin} Termine löschen.}
+\must{20}{Ein farbcodiertes Banner zeigt den aktuellen Status des Raumes an.}
+\must{21}{Admins können Öffnungszeiten einstellen, für diese Möglichkeit gibt es allerdings eine neue Ansicht.}
+
+\section{Wunschkriterien}\label{sec:wunschkriterien}
+
+Einige Wunschkriterien wurden ebenfalls umgesetzt.
+Im Folgenden wird beschrieben, welche Wunschkriterien umgesetzt wurden und welche nicht.
+
+\wish{1}{Es gibt die Möglichkeit, mehr als einen Raum zur Buchung anzubieten. Die zur Verfügung stehenden Räume können über die Ansicht \textit{Räume} konfiguriert werden. Dem Nutzer wird falls nötig eine Raumauswahl vor der Ansicht \textit{Kalender} präsentiert. Existiert nur ein Raum, wird diese Auswahl übersprungen.}
+\wish{2}{In der Ansicht \textit{Kalender} werden Feiertage automatisch eingebunden.}
+\wish{3}{Geplante Warn- und Sperrzeiten wurden nicht umgesetzt, da sie nicht als notwendig erachtet wurden.}
+\wish{4}{Termine können nach der Buchung im \gls{iCal}-Format zum Export angeboten werden.}
+\wish{5}{Nutzende können in der Ansicht \textit{Termin} die Beschreibung ihrer Termine bearbeiten. Um die Oberfläche einfach zu halten, wurde die Bearbeitung anderer Felder nicht umgesetzt.}
+\wish{6}{Die Ansicht \textit{Kalender} visualisiert, welche Termine bereits in der Vergangenheit liegen und wo der Übergang von der Vergangenheit zur Zukunft liegt. Dafür wird die aktuelle Zeit mit einem roten Strich markiert.}
+\wish{7}{Tooltips erklären Nutzenden, wofür die wichtigsten Elemente der \gls{UI} verwendet werden. Im Verlauf der QA-Phase sollen diese basierend auf Nutzerfeedback weiter verbessert werden.}
+\wish{9}{Ein physischer Panik-Button wurde nicht umgesetzt, da er nicht als notwendig erachtet wurde.}
+\wish{10}{Die Anwendung informiert Nutzende nicht, wenn ein gewünschter Termin frei wird, da keine überzeugende Kombination aus Use-Case und guter Nutzererfahrung gefunden wurde.}
+\wish{11}{Ein Quick-Checkin-Button wurde umgesetzt. Der Aktuelle Zeitslot ist bei Nutzung des Buttons bereits vorausgefüllt.}
+\wish{12}{Ein Quick-Checkout-Button wurde umgesetzt. Der Nutzer kann den aktuellen Termin vorzeitig beenden.}
+\wish{13}{Admins können eine globale Statistik-Ansicht nutzen um die Buchungen pro Wochentag, Tag des Monats und Monat anzuzeigen.}
