@@ -2,7 +2,6 @@ package edu.kit.hci.soli.config.template;
 
 import edu.kit.hci.soli.SoliApplication;
 import edu.kit.hci.soli.config.SoliConfiguration;
-import gg.jte.CodeResolver;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.DirectoryCodeResolver;
@@ -22,23 +21,24 @@ public class JteConfiguration {
 
     @Bean
     public TemplateEngine templateEngine(SoliConfiguration soliConfiguration) {
+        TemplateEngine templateEngine;
         if (soliConfiguration.isDevelopmentMode()) {
-            CodeResolver codeResolver = new DirectoryCodeResolver(Path.of("src", "main", "jte"));
-            TemplateEngine templateEngine = TemplateEngine.create(
-                    codeResolver,
+            templateEngine = TemplateEngine.create(
+                    new DirectoryCodeResolver(Path.of("src", "main", "jte")),
                     Paths.get("jte-classes"),
                     ContentType.Html,
                     SoliApplication.class.getClassLoader()
             );
-            templateEngine.setBinaryStaticContent(true);
-            return templateEngine;
         } else {
-            return TemplateEngine.createPrecompiled(
+            templateEngine = TemplateEngine.createPrecompiled(
                     null,
                     ContentType.Html,
                     null,
                     "edu.kit.hci.soli.view.jte"
             );
         }
+        templateEngine.setBinaryStaticContent(true);
+        templateEngine.setTrimControlStructures(true);
+        return templateEngine;
     }
 }
