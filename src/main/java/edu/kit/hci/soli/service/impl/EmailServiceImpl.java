@@ -16,8 +16,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -33,6 +36,7 @@ public class EmailServiceImpl implements EmailService {
     private final String hostname;
     private final String mailFrom;
     private final TimeZone timeZone;
+    private final String css;
 
     /**
      * Constructs an EmailService with the specified services.
@@ -56,6 +60,11 @@ public class EmailServiceImpl implements EmailService {
         this.hostname = soliConfiguration.getHostname();
         this.mailFrom = mailProperties.getUsername();
         this.timeZone = soliConfiguration.getTimeZone();
+        try (InputStream is = Objects.requireNonNull(EmailServiceImpl.class.getResourceAsStream("/static/soli-mail.css"))) {
+            this.css = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException("Could not load CSS", e);
+        }
     }
 
     /**
@@ -76,7 +85,7 @@ public class EmailServiceImpl implements EmailService {
         JteContext context = new JteContext(messageSource, hostname, to.getLocale(), timeZone);
         model = new HashMap<>(model);
         model.put("context", context);
-        model.put("css", EmailServiceImpl.class.getResource("/static/soli-mail.css"));
+        model.put("css", css);
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
