@@ -8,7 +8,7 @@
 
 @param KnownError error
 
-@template.layout(page = new PageSpec("Not Found", "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = new PageSpec(context.lookup(error.title), "Soli"), context = context, layout = layout, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize(error.title)}</h1>
