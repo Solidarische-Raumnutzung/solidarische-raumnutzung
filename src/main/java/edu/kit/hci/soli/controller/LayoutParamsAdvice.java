@@ -85,6 +85,6 @@ public class LayoutParamsAdvice {
         return new LayoutParams(
                 login, currentRoom,
                 room -> request.getSession().setAttribute("room", room),
-                bookingsService.getCurrentHighestBooking(currentRoom, timeService.now()).orElse(null));
+                currentRoom == null ? null : bookingsService.getCurrentHighestBooking(currentRoom, timeService.now()).orElse(null));
     }
 }
