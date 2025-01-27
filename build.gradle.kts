@@ -3,7 +3,7 @@ import kotlin.experimental.xor
 
 plugins {
     java
-    id("org.springframework.boot") version "3.4.1"
+    id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.flywaydb.flyway") version "11.2.0"
     id("gg.jte.gradle") version "3.1.16"
@@ -62,7 +62,7 @@ dependencies {
     testAnnotationProcessor(annotationProcessor("org.projectlombok:lombok")!!)
     testCompileOnly(compileOnly("org.projectlombok:lombok")!!)
 
-    compileOnly("org.jetbrains:annotations:26.0.1")
+    compileOnly("org.jetbrains:annotations:26.0.2")
 
     doctex("edu.kit.hci.soli:doctex:1.0.1-SNAPSHOT")
 
@@ -77,6 +77,7 @@ dependencies {
 jte {
     generate()
     binaryStaticContent = true
+    trimControlStructures = true
     packageName = "edu.kit.hci.soli.view.jte"
 }
 
@@ -149,6 +150,9 @@ tasks {
         reports {
             xml.required = true
         }
+        classDirectories = files(classDirectories.files.map { fileTree(it) {
+            exclude("edu/kit/hci/soli/config/**")
+        } })
     }
 
     val doctex by creating(JavaExec::class) {
