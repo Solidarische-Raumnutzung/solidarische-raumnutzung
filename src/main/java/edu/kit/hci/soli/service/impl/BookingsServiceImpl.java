@@ -241,8 +241,6 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Override
     public String getICalendar(Booking booking, Locale locale) {
-        // TODO give the room a location!
-        // TODO: tests!
         String bookingUrl = soliConfiguration.getHostname() + booking.getRoom().getId() + "/bookings/" + booking.getId();
         UUID uuid = new UUID(0x4E58D14A39266471L, booking.getId());
         return """
