@@ -297,7 +297,7 @@ public class BookingsServiceTest {
         assertEquals("""
                 :20250112T040000Z
                 DTEND:20250112T050000Z
-                SUMMARY:SOLI-Buchung
+                SUMMARY:SOLI-Booking
                 DESCRIPTION:test description\\n
                   very good\\:!
                 URL:http://localhost""".replace("\n", "\r\n"), ical.split("DTSTART")[1].split(":8080/")[0]);
