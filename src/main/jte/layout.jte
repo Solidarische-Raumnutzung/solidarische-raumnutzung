@@ -1,5 +1,3 @@
-@import edu.kit.hci.soli.domain.Priority
-@import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
@@ -74,23 +72,18 @@
 
                         </div>
                     </div>
-                    <div class="navbar-center bg-${headerColor}">
+                    <div class="navbar-center bg-${headerColor} text-${headerColor}-content font-semibold">
                         @if (layout.getRoom() == null)
-                            <div class="text-${headerColor}-content">${context.localize("room.status.none")}</div>
+                            ${context.localize("room.status.none")}
                         @elseif (layout.getCurrentHighestBooking() == null)
-                            <div class="text-${headerColor}-content">${context.localize("room.status.open")}</div>
+                            ${context.localize("room.status.open")}
                         @else
-                            <div class="text-${headerColor}-content">${context.localize("room.status.booked")}</div>
+                            ${context.localize("room.status.booked")}
                         @endif
                     </div>
                     <div class="navbar-end">
-                        !{var priority = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getPriority()) {
-                            case HIGHEST -> context.localize("bookings.priority.HIGHEST");
-                            case MEDIUM -> context.localize("bookings.priority.MEDIUM");
-                            case LOWEST -> context.localize("bookings.priority.LOWEST");
-                        };}
-                        @if(priority != null)
-                            <div class="badge badge-neutral m-3">Prio ${priority}</div>
+                        @if (layout.getCurrentHighestBooking() != null)
+                            <div class="badge badge-neutral m-3">p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
                         @endif
 
                         !{var roomShareType = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
@@ -98,14 +91,11 @@
                             case NO -> "users-slash";
                             case ON_REQUEST -> "users-line";
                         };}
-                        @if(roomShareType != null)
-                            <i class="fa-solid fa-${roomShareType} m-3"></i>
+                        @if (roomShareType != null)
+                            <i class="fa-solid fa-${roomShareType} text-neutral m-3"></i>
                         @endif
                     </div>
                 </div>
-
-
-
 
                 <div class="p-4">
                     <div class="card bg-base-100 w-full shadow-xl p-4">

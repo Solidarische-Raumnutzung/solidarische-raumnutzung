@@ -30,7 +30,9 @@ public class LayoutParamsAdvice {
     /**
      * Constructs a LoginControllerAdvice with the specified UserService.
      *
-     * @param userService the service for managing users
+     * @param userService     the service for managing users
+     * @param bookingsService the service for managing bookings
+     * @param timeService     the service for managing time
      */
     public LayoutParamsAdvice(UserService userService, BookingsService bookingsService, TimeService timeService) {
         this.userService = userService;
