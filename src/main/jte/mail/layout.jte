@@ -11,7 +11,7 @@
 </style>
 <table>
     <tr>
-        <td style="padding: 18px;">
+        <td>
             <table class="content">
                 <tr class="header">
                     <td>
