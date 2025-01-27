@@ -150,6 +150,9 @@ tasks {
         reports {
             xml.required = true
         }
+        classDirectories = files(classDirectories.files.map { fileTree(it) {
+            exclude("edu/kit/hci/soli/config/**")
+        } })
     }
 
     val doctex by creating(JavaExec::class) {
