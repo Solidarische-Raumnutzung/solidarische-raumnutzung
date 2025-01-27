@@ -1,8 +1,6 @@
 package edu.kit.hci.soli.repository;
 
-import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.Room;
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingByDay;
 import edu.kit.hci.soli.dto.BookingByHour;
 import edu.kit.hci.soli.dto.BookingByMonth;
@@ -13,6 +11,7 @@ import org.springframework.data.jpa.repository.*;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -123,4 +122,13 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     @Query("UPDATE Booking b SET b.user = :anonymousUser WHERE b.endDate < :date")
     @Modifying
     void anonymizeOlderThan(LocalDateTime date, User anonymousUser);
+
+    /**
+     * Gets the highest priority of all bookings that overlap with the specified time.
+     *
+     * @param time the time to check for overlapping bookings
+     * @return the highest priority of all bookings that overlap with the specified time
+     */
+    @Query("SELECT b FROM Booking b WHERE b.room = :room AND b.startDate <= :time AND b.endDate >= :time ORDER BY b.priority ASC, b.shareRoomType DESC")
+    Optional<Booking> getHighestPriority(Room room, LocalDateTime time);
 }

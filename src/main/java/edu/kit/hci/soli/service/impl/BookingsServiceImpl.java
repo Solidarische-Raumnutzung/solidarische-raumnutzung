@@ -280,6 +280,11 @@ public class BookingsServiceImpl implements BookingsService {
         bookingsRepository.save(booking);
     }
 
+    @Override
+    public Optional<Booking> getCurrentHighestBooking(Room room, LocalDateTime time) {
+        return bookingsRepository.getHighestPriority(room, time);
+    }
+
     /**
      * Enum representing the types of conflicts that can occur between bookings.
      */
