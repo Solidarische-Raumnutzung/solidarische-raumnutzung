@@ -2,25 +2,23 @@ package edu.kit.hci.soli.dto;
 
 import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.domain.Room;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 public class LayoutParams {
     private final LoginStateModel login;
     private final Consumer<Room> onRoomChange;
     private Room room;
-    private @Nullable Booking currentBooking;
+    private final @Nullable Booking currentHighestBooking;
 
-    public LayoutParams(@NotNull LoginStateModel login, @Nullable Room room, @NotNull Consumer<@Nullable Room> onRoomChange, @Nullable Booking currentBooking) {
+    public LayoutParams(@NotNull LoginStateModel login, @Nullable Room room, @NotNull Consumer<@Nullable Room> onRoomChange, @Nullable Booking currentHighestBooking) {
         this.login = Objects.requireNonNull(login);
         this.room = room;
         this.onRoomChange = Objects.requireNonNull(onRoomChange);
-        this.currentBooking = currentBooking;
+        this.currentHighestBooking = currentHighestBooking;
     }
 
     public @NotNull LoginStateModel getLogin() {
@@ -36,7 +34,7 @@ public class LayoutParams {
         onRoomChange.accept(room);
     }
 
-    public @Nullable Booking getCurrentBooking() {
-        return currentBooking;
+    public @Nullable Booking getCurrentHighestBooking() {
+        return currentHighestBooking;
     }
 }

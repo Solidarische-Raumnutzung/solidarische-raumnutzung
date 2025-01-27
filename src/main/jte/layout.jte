@@ -59,7 +59,7 @@
         <div class="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
             <div class="drawer-content w-full md:w-full">
-                @if(layout.getCurrentBooking() != null && layout.getCurrentBooking().getShareRoomType() == ShareRoomType.YES)
+                @if(layout.getCurrentHighestBooking() != null && layout.getCurrentHighestBooking().getShareRoomType() == ShareRoomType.YES)
                     <!-- there is a booking now, but it is collaborative -->
                     <div class="navbar bg-warning text-primary-content">
                         <div class="drawer-content flex flex-col items-center justify-center">
@@ -67,10 +67,10 @@
                             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
                                 Open drawer
                             </label>
-                            <p>${context.localize("room.status.collaborative.booked." + layout.getCurrentBooking().getPriority())}</p>
+                            <p>${context.localize("room.status.collaborative.booked." + layout.getCurrentHighestBooking().getPriority())}</p>
                         </div>
                     </div>
-                @elseif(layout.getCurrentBooking() != null)
+                @elseif(layout.getCurrentHighestBooking() != null)
                     <!-- there is a booking now, but it is not collaborative -->
                     <div class="navbar bg-error text-primary-content text-align: center">
                         <div class="drawer-content flex flex-col items-center justify-center">
@@ -78,7 +78,7 @@
                             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
                                 Open drawer
                             </label>
-                            <p>${context.localize("room.status.booked." + layout.getCurrentBooking().getPriority())}</p>
+                            <p>${context.localize("room.status.booked." + layout.getCurrentHighestBooking().getPriority())}</p>
                         </div>
                     </div>
                 @else
