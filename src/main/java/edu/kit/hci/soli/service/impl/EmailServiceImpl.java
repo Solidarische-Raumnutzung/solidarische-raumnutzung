@@ -2,6 +2,7 @@ package edu.kit.hci.soli.service.impl;
 
 import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.template.JteContext;
+import edu.kit.hci.soli.config.template.JteSoliTemplateOutput;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.service.EmailService;
 import gg.jte.TemplateEngine;
@@ -94,7 +95,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(to.getEmail());
             helper.setSubject(context.lookup(subject));
             StringOutput stringOutput = new StringOutput();
-            templateEngine.render(template + ".jte", model, stringOutput);
+            templateEngine.render(template + ".jte", model, new JteSoliTemplateOutput(stringOutput));
             helper.setText(stringOutput.toString(), true);
             mailSender.send(message);
             log.info("Sent {} email to user {} (address: {})", subject, to.getUserId(), to.getEmail());

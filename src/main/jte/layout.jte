@@ -57,14 +57,46 @@
         <div class="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
             <div class="drawer-content w-full md:w-full">
-                <div class="navbar bg-blue-600 text-primary-content">
-                    <div class="drawer-content flex flex-col items-center justify-center">
-                        <!-- Page content here -->
-                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                            Open drawer
-                        </label>
+                !{var headerColor = layout.getCurrentHighestBooking() == null ? "success" : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                    case YES, ON_REQUEST -> "warning";
+                    case NO -> "error";
+                };}
+                <!-- there is a booking now, but it is collaborative -->
+                <div class="navbar bg-${headerColor} text-primary-content">
+                    <div class="navbar-start">
+                        <div class="drawer-content flex flex-col items-center text-center justify-center">
+                            <!-- Page content here -->
+                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                                Open drawer
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="navbar-center bg-${headerColor} text-${headerColor}-content font-semibold">
+                        @if (layout.getRoom() == null)
+                            ${context.localize("room.status.none")}
+                        @elseif (layout.getCurrentHighestBooking() == null)
+                            ${context.localize("room.status.open")}
+                        @else
+                            ${context.localize("room.status.booked")}
+                        @endif
+                    </div>
+                    <div class="navbar-end">
+                        @if (layout.getCurrentHighestBooking() != null)
+                            <div class="badge badge-neutral m-3">p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
+                        @endif
+
+                        !{var roomShareType = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                            case YES -> "users";
+                            case NO -> "users-slash";
+                            case ON_REQUEST -> "users-line";
+                        };}
+                        @if (roomShareType != null)
+                            <i class="fa-solid fa-${roomShareType} text-neutral m-3"></i>
+                        @endif
                     </div>
                 </div>
+
                 <div class="p-4">
                     <div class="card bg-base-100 w-full shadow-xl p-4">
                         <div class="card-body">
@@ -118,6 +150,9 @@
                             <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
                             <li><a href="/admin/statistics"><i class="fa-solid fa-chart-line"></i> ${context.localize("administration.statistics")}</a></li>
                             <li><a href="/admin/rooms"><i class="fa-solid fa-house"></i> ${context.localize("rooms")}</a></li>
+                            @if(layout.getRoom() != null)
+                                <li><a href="/admin/opening-hours/${layout.getRoom().getId()}"><i class="fa-regular fa-clock"></i> ${context.localize("administration.opening_hours")}</a></li>
+                            @endif
                         @endif
 
                         <div class="divider"></div>

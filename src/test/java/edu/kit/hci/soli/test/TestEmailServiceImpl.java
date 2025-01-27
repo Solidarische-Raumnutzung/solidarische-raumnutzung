@@ -2,6 +2,7 @@ package edu.kit.hci.soli.test;
 
 import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.template.JteContext;
+import edu.kit.hci.soli.config.template.JteSoliTemplateOutput;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.service.EmailService;
 import gg.jte.TemplateEngine;
@@ -43,7 +44,7 @@ public class TestEmailServiceImpl implements EmailService {
         model.put("context", context);
 
         StringOutput stringOutput = new StringOutput();
-        templateEngine.render(template + ".jte", model, stringOutput);
+        templateEngine.render(template + ".jte", model, new JteSoliTemplateOutput(stringOutput));
 
         log.info("Would have sent email to {} with subject '{}':\n{}", to.getEmail(), subject, stringOutput);
     }

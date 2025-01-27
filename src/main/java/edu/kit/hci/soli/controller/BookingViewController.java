@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.ServerRequest;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -221,6 +222,7 @@ public class BookingViewController {
         String ical = bookingsService.getICalendar(booking, principal.getUser().getLocale());
 
         response.setContentType("text/calendar");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Soli-" + booking.getStartDate().toString().replace(':', '_') + ".ics\"");
         try (var w = response.getWriter()) {
             w.write(ical);
             w.flush();

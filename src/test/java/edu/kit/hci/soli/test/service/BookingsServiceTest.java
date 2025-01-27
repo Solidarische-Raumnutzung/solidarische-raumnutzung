@@ -14,7 +14,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -277,5 +279,32 @@ public class BookingsServiceTest {
         assertEquals("test description", testBooking.getDescription());
         assertThrows(IllegalArgumentException.class, () -> bookingsService.updateDescription(testBooking, "new description"));
         assertEquals("test description", testBooking.getDescription());
+    }
+
+    @Test
+    public void testGetICalendar() {
+        testBooking.setDescription("test description\n very good:!");
+        testBooking.setStartDate(LocalDateTime.of(2025, 1, 12, 5, 0));
+        testBooking.setEndDate(LocalDateTime.of(2025, 1, 12, 6, 0));
+        testBooking = bookingsRepository.save(testBooking);
+        var ical = bookingsService.getICalendar(testBooking, Locale.ENGLISH);
+        assertEquals("""
+                BEGIN:VCALENDAR
+                VERSION:2.0
+                PRODID:-//HCI SOLI//NONSGML HCI Solidarische Raumnutzung//EN
+                BEGIN:VEVENT
+                UID:4e58d14a-3926-6471-""".replace("\n", "\r\n"), ical.split("0000-")[0]);
+        assertEquals("""
+                :20250112T040000Z
+                DTEND:20250112T050000Z
+                SUMMARY:SOLI-Booking
+                DESCRIPTION:test description\\n
+                  very good\\:!
+                URL:http://localhost""".replace("\n", "\r\n"), ical.split("DTSTART")[1].split(":8080/")[0]);
+        assertTrue(ical.endsWith("""
+                LOCATION:Testort
+                END:VEVENT
+                END:VCALENDAR
+                """.replace("\n", "\r\n")));
     }
 }
