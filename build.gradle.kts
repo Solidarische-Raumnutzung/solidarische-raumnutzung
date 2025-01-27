@@ -77,6 +77,7 @@ dependencies {
 jte {
     generate()
     binaryStaticContent = true
+    trimControlStructures = true
     packageName = "edu.kit.hci.soli.view.jte"
 }
 
