@@ -13,11 +13,15 @@
     <tr>
         <td>
             <table class="content">
-                <tr class="header">
+                <tr>
                     <td>
                         <div class="w-20 rounded-full">
                             <img src="/favicon.svg">
                         </div>
+                    </td>
+                </tr>
+                <tr class="header">
+                    <td>
                         ${title}
                     </td>
                 </tr>

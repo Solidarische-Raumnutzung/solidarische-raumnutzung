@@ -9,9 +9,9 @@
 @template.mail.layout(title= context.lookup("mail.collaboration_request.heading"), content = @`
     <p>
         ${context.localize("mail.collaboration_request.message", booking.getUser().getUsername(), booking.getRoom().getId(), booking.getStartDate().toString())} <br>
-        ${context.localize("mail.ending")}
+        ${context.localize("mail.ending")}<br><br>
     </p>
-    <div style="text-align:center">
+    <div>
         <button class="btn-accent">
             <a href= "${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
                 <p>${context.localize("mail.collaboration_request.more_details")}</p>

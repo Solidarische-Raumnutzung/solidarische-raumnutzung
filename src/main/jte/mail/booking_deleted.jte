@@ -14,13 +14,11 @@
         ${context.localize("mail.booking_deleted.message", booking.getUser().getUsername(), booking.getRoom().getId().toString(), booking.getStartDate().toString())}<br>
         ${deleteReason}<br><br>
         ${context.localize("mail.booking_deleted.last_phrase")}
-        ${context.localize("mail.ending")}<br>
+        ${context.localize("mail.ending")}<br><br>
     </p>
-    <div style="text-align:center">
-        <button class="btn-accent">
-            <a href= "${context.getHostname()}${booking.getRoom().getId()}">
-                <p>${context.localize("mail.make_new_booking")}</p>
-            </a>
-        </button>
+    <div class="btn-accent">
+        <a href= "${context.getHostname()}${booking.getRoom().getId()}">
+            <p>${context.localize("mail.make_new_booking")}</p>
+        </a>
     </div>
 `, context = context, css = css)

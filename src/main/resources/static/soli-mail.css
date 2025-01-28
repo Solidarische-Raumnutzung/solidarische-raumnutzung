@@ -29,6 +29,14 @@
     --noise: 0;
 }
 
+.content {
+    text-align: center;
+}
+
+td, th {
+    padding: 25px;
+}
+
 .header {
     background-color: var(--color-primary);
     color: var(--color-primary-content);
@@ -37,12 +45,12 @@
     padding: 40px;
 }
 
-.content {
+.body {
+    padding: 40px;
     background-color: rgb(64, 64, 64);
     color: oklch(92% 0.004 286.32);
     font-size: 16px;
     line-height: 1.6;
-    padding: 40px;
     text-align: left;
 }
 
@@ -161,9 +169,10 @@
             }
         }
     }
+}
 
-    .btn-accent {
-        --btn-color: var(--color-accent);
-        --btn-fg: var(--color-accent-content)
-    }
+.btn-accent {
+    align-self: center;
+    --btn-color: var(--color-accent);
+    --btn-fg: var(--color-accent-content);
 }
