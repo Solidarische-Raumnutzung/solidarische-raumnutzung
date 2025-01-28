@@ -35,6 +35,7 @@ public class AutoAnonymizationServiceImpl implements AutoAnonymizationService {
     @Transactional
     public void scheduledAnonymize() {
         LocalDateTime cutoff = timeService.now().minusMonths(3);
+        bookingsRepository.deleteOutdatedRequests(timeService.now());
         bookingsRepository.anonymizeOlderThan(cutoff, userService.resolveAnonUser());
         userRepository.deleteUnusedOlderThan(cutoff);
     }

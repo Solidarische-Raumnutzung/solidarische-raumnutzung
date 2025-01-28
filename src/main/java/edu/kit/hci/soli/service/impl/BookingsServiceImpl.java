@@ -112,6 +112,9 @@ public class BookingsServiceImpl implements BookingsService {
     @Transactional
     public void deleteAllBookingsForUser(User user) {
         bookingsRepository.deleteAllByUser(user);
+        bookingsRepository.findWithOutstandingRequests(user).forEach(b -> {
+            confirmRequest(b, user);
+        });
     }
 
     @Transactional
@@ -152,7 +155,7 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Override
     public void delete(Booking booking, BookingDeleteReason reason) {
-        bookingsRepository.delete(booking);
+        bookingsRepository.delete(booking); //TODO cleanup open requests
         emailService.sendMail(
                 booking.getUser(),
                 "mail.booking_deleted.subject",
