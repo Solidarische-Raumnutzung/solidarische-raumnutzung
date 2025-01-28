@@ -204,6 +204,9 @@ public class User {
     }
 
     public boolean equals(final Object o) {
+        if (getId() == null) {
+            return false;
+        }
         return o instanceof User u && Objects.equals(u.getId(), getId());
     }
 

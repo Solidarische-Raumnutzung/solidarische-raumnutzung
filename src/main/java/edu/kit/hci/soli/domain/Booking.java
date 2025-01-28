@@ -260,6 +260,9 @@ public class Booking {
     }
 
     public boolean equals(final Object o) {
+        if (getId() == null) {
+            return false;
+        }
         return o instanceof Booking b && Objects.equals(getId(), b.getId());
     }
 

@@ -169,6 +169,9 @@ public class Room {
      */
     @Override
     public boolean equals(final Object o) {
+        if (getId() == null) {
+            return false;
+        }
         return o instanceof Room r && Objects.equals(getId(), r.getId());
     }
 
