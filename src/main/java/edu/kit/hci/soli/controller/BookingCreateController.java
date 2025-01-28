@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * Controller for handling booking creation requests.
@@ -62,7 +61,7 @@ public class BookingCreateController {
             Model model, HttpServletResponse response, @PathVariable Long roomId,
             @ModelAttribute("layout") LayoutParams layout,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalTime end,
             @RequestParam(required = false) Boolean cooperative
     ) {
         Optional<Room> room = roomService.getOptional(roomId);
@@ -75,7 +74,7 @@ public class BookingCreateController {
             start = timeService.minimumTime();
         }
         if (end == null) {
-            end = start.plusMinutes(30);
+            end = start.toLocalTime().plusMinutes(30);
         }
         if (cooperative == null) {
             cooperative = false;
@@ -85,8 +84,18 @@ public class BookingCreateController {
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
 
-        model.addAttribute("minimumTime", timeService.minimumTime());
-        model.addAttribute("maximumTime", timeService.maximumTime());
+        model.addAttribute("minimumStart", timeService.minimumTime());
+        model.addAttribute("maximumStart", timeService.maximumTime());
+
+        LocalTime minimumEnd = room.get().getOpeningHours().values().stream()
+                .map(TimeTuple::getStart)
+                .min(Comparator.naturalOrder()).orElseThrow()
+                .plusMinutes(15);
+        LocalTime maximumEnd = room.get().getOpeningHours().values().stream()
+                .map(TimeTuple::getEnd)
+                .max(Comparator.naturalOrder()).orElseThrow();
+        model.addAttribute("minimumEnd", minimumEnd);
+        model.addAttribute("maximumEnd", maximumEnd);
 
         return "bookings/create/form";
     }

@@ -110,7 +110,7 @@ public class Room {
      * @return the opening hours of the room
      */
     public Map<DayOfWeek, TimeTuple> getOpeningHours() {
-        Map<DayOfWeek, TimeTuple> result = new HashMap<>(openingHours);
+        Map<DayOfWeek, TimeTuple> result = openingHours == null ? new HashMap<>() : new HashMap<>(openingHours);
         for (DayOfWeek value : DayOfWeek.values()) {
             if (value == DayOfWeek.SATURDAY || value == DayOfWeek.SUNDAY) continue;
             result.putIfAbsent(value, new TimeTuple());
