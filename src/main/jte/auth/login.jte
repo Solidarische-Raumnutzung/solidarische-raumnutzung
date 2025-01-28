@@ -15,16 +15,16 @@
 @template.layout(page = new PageSpec(context.lookup("login.login"), "Soli"), context = context, layout = layout, content = @`
     <fieldset class="fieldset w-80 mx-auto bg-base-200 border border-base-300 p-4 rounded-box">
         <legend class="fieldset-legend">${context.localize("login.login")}</legend>
-        @if(error != null)
+        @if (error != null)
             <div role="alert" class="alert alert-error">
                 <i class="fas fa-xmark"></i>
-                <span>${error}</span>
+                <span>${context.localizeOrDefault(error, error)}</span>
             </div>
         @endif
-        @if(message != null)
+        @if (message != null)
             <div role="alert" class="alert alert-info">
                 <i class="fas fa-circle-info"></i>
-                <span>${message}</span>
+                <span>${context.localizeOrDefault(message, message)}</span>
             </div>
         @endif
         <a class="input btn btn-primary" href="/oauth2/authorization/kit">${context.localize("login.kit")}</a>
