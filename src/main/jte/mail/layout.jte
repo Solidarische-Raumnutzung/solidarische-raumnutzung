@@ -9,35 +9,26 @@
 <style>
     ${css}
 </style>
-<table>
-    <tr>
+<table class="center">
+
+    <tr class="header">
         <td>
-            <table class="content">
-                <tr>
-                    <td>
-                        <div class="w-20 rounded-full">
-                            <img src="/favicon.svg">
-                        </div>
-                    </td>
-                </tr>
-                <tr class="header">
-                    <td>
-                        ${title}
-                    </td>
-                </tr>
+            ${title}
+        </td>
+    </tr>
 
-                <tr class="body">
-                    <td>
-                        ${content}
-                    </td>
-                </tr>
+    <tr class="body">
+        <td>
+            <div>
+                <img class="w-20 rounded-full" src="${context.getHostname()}favicon_180x180.png" alt="Soli-Logo">
+            </div>
+            ${content}
+        </td>
+    </tr>
 
-                <tr class="footer">
-                    <td>
-                        ${context.localize("mail.footer.text")} <a href="/">${context.localize("mail.website.name")}</a>
-                    </td>
-                </tr>
-            </table>
+    <tr class="footer">
+        <td>
+            ${context.localize("mail.footer.text")} <a class="pretty-link" href="/">${context.localize("mail.website.name")}</a>
         </td>
     </tr>
 </table>
