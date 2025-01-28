@@ -12,7 +12,7 @@
         ${context.localize("mail.ending")}
     </p>
     <div style="text-align:center">
-        <button class="btn">
+        <button class="btn-accent">
             <a href= "${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
                 <p>${context.localize("mail.collaboration_request.more_details")}</p>
             </a>
