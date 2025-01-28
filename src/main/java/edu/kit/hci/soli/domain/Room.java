@@ -6,6 +6,7 @@ import lombok.ToString;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The datamodel for a room as it is stored in the database.
@@ -168,7 +169,7 @@ public class Room {
      */
     @Override
     public boolean equals(final Object o) {
-        return o instanceof Room r && getId().equals(r.getId());
+        return o instanceof Room r && Objects.equals(getId(), r.getId());
     }
 
     /**

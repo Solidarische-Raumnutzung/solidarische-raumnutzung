@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * The datamodel for a User as it is stored in the database.
@@ -203,7 +204,7 @@ public class User {
     }
 
     public boolean equals(final Object o) {
-        return o instanceof User u && u.getId().equals(getId());
+        return o instanceof User u && Objects.equals(u.getId(), getId());
     }
 
     public int hashCode() {
