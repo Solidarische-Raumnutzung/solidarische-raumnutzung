@@ -81,17 +81,15 @@ Folgende Wunschkriterien wurden im Pflichtenheft aufgeführt:
 Einige dieser Wunschkriterien wurden ebenfalls umgesetzt.
 Im Folgenden wird beschrieben, welche Wunschkriterien umgesetzt wurden und welche nicht.
 
-\todo{Add more wunschkrit!}
-\todo{seperate out the changes!}
-\wishchange{1}{Es gibt die Möglichkeit, mehr als einen Raum zur Buchung anzubieten. Die zur Verfügung stehenden Räume können über die Ansicht \textit{Räume} konfiguriert werden. Dem Nutzer wird falls nötig eine Raumauswahl vor der Ansicht \textit{Kalender} präsentiert. Existiert nur ein Raum, wird diese Auswahl übersprungen.}
-\wishchange{2}{In der Ansicht \textit{Kalender} werden Feiertage automatisch eingebunden.}
-\wishchange{3}{Geplante Warn- und Sperrzeiten wurden nicht umgesetzt, da sie nicht als notwendig erachtet wurden.}
-\wishchange{4}{Termine können nach der Buchung im \gls{iCal}-Format zum Export angeboten werden.}
-\wishchange{5}{Nutzende können in der Ansicht \textit{Termin} die Beschreibung ihrer Termine bearbeiten. Um die Oberfläche einfach zu halten, wurde die Bearbeitung anderer Felder nicht umgesetzt.}
-\wishchange{6}{Die Ansicht \textit{Kalender} visualisiert, welche Termine bereits in der Vergangenheit liegen und wo der Übergang von der Vergangenheit zur Zukunft liegt. Dafür wird die aktuelle Zeit mit einem roten Strich markiert.}
-\wishchange{7}{Tooltips erklären Nutzenden, wofür die wichtigsten Elemente der \gls{UI} verwendet werden. Im Verlauf der QA-Phase sollen diese basierend auf Nutzerfeedback weiter verbessert werden.}
-\wishchange{9}{Ein physischer Panik-Button wurde nicht umgesetzt, da er nicht als notwendig erachtet wurde.}
-\wishchange{10}{Die Anwendung informiert Nutzende nicht, wenn ein gewünschter Termin frei wird, da keine überzeugende Kombination aus Use-Case und guter Nutzererfahrung gefunden wurde.}
-\wishchange{11}{Ein Quick-Checkin-Button wurde umgesetzt. Der Aktuelle Zeitslot ist bei Nutzung des Buttons bereits vorausgefüllt.}
-\wishchange{12}{Ein Quick-Checkout-Button wurde umgesetzt. Der Nutzer kann den aktuellen Termin vorzeitig beenden.}
-\wishchange{13}{Admins können eine globale Statistik-Ansicht nutzen um die Buchungen pro Wochentag, Tag des Monats und Monat anzuzeigen.}
+\wishchange{1}{Umgesetzt. Die zur Verfügung stehenden Räume können über die Ansicht \textit{Räume} konfiguriert werden. Den Nutzenden wird falls nötig eine Raumauswahl vor der Ansicht \textit{Kalender} präsentiert. Existiert nur ein Raum, wird diese Auswahl übersprungen.}
+\wishchange{2}{Umgesetzt. Feiertage werden nur visuell angezeigt und blockieren keine Buchung. Eine URL zu einem \gls{iCal} Ferienkalender kann in der Docker-Compose Konfiguration hinterlegt werden. Aktuell wird der von Thunderbird (Mozilla) für Deutsche Feiertage verwendet.}
+\wishchange{3}{Nicht umgesetzt.}
+\wishchange{4}{Umgesetzt. Termine werden in der Ansicht \textit{Termin} im \gls{iCal}-Format zum Export angeboten. Diese können von Nutzenden reibungslos in persönliche Kalender importiert werden.}
+\wishchange{5}{Umgesetzt. Nutzende können in der Ansicht \textit{Termin} die Beschreibung ihrer Termine bearbeiten. Um die Oberfläche einfach zu halten, wurde die Bearbeitung anderer Felder nicht umgesetzt.}
+\wishchange{6}{Umgesetzt. Die Ansicht \textit{Kalender} visualisiert, welche Termine bereits in der Vergangenheit liegen und wo der Übergang von der Vergangenheit zur Zukunft liegt. Dafür wird die aktuelle Zeit mit einem roten Strich markiert.}
+\wishchange{7}{Umgesetzt. Tooltips erklären Nutzenden, wofür die wichtigsten Elemente der \gls{UI} verwendet werden. Im Verlauf der QA-Phase sollen diese basierend auf Nutzerfeedback weiter verbessert werden.}
+\wishchange{9}{Nicht umgesetzt.}
+\wishchange{10}{Nicht umgesetzt. Die Anwendung informiert Nutzende nicht, wenn ein gewünschter Termin frei wird, da keine überzeugende Kombination aus Use-Case und guter Nutzererfahrung gefunden wurde.}
+\wishchange{11}{Umgesetzt. Der Quick-Checkin-Button füllt im Buchungsdialog den Aktuellen Zeitslot bei Nutzung des Buttons bereits aus.}
+\wishchange{12}{Umgesetzt. Mit dem Quick-Checkout-Button können Nutzende den aktuellen Termin vorzeitig beenden.}
+\wishchange{13}{Umgesetzt. Admins können eine globale Statistik-Ansicht nutzen um die Buchungen pro Wochentag, Tag des Monats und Monat anzuzeigen.}
