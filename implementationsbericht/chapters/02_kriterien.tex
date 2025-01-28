@@ -5,7 +5,7 @@
 
 In diesem Kapitel wird auf die Kriterien eingegangen, die im Pflichtenheft spezifiziert wurden.
 Für jedes Kriterium wird angegeben, ob es im Rahmen der Implementierung umgesetzt wurde, beziehungsweise weshalb nicht.
-Wurde ein Kriterium abweichend vom Pflichten und Entwurfsheft implementiert werden hier diese Anpassungen erläutert und aufgeführt, weshalb die Änderungen notwendig waren.
+Wurde ein Kriterium abweichend vom Pflichten- und Entwurfsheft implementiert, werden hier diese Anpassungen erläutert und aufgeführt, weshalb die Änderungen notwendig waren.
 
 \section{Musskriterien}\label{sec:musskriterien}
 
@@ -44,21 +44,22 @@ Es gibt allerdings kleine Anpassungen, die im Folgenden beschrieben werden.
 \mustchange{4}{Umgesetzt.}
 \mustchange{5}{Umgesetzt.}
 \mustchange{6}{Umgesetzt.}
-\mustchange{7}{Umgesetzt. Mit einem Badge auf den eigens erstellten Terminen werden diese hervorgehoben.}
-\mustchange{8}{Umgesetzt. Es wird Start- und Endzeit, sowie die Beschreibung angezeigt.}
+\mustchange{7}{Umgesetzt. Mit einem Badge auf den Terminen werden die eigenen Termine hervorgehoben.}
+\mustchange{8}{Umgesetzt. In der Ansicht \textit{Termin} werden Start- und Endzeit, Priorität, sowie die Beschreibung angezeigt.}
+\todo{Collaborativität hier auch???}
 \mustchange{9}{Umgesetzt.}
-\mustchange{10}{Umgesetzt. Ein Paragraph informiert über die Sichtbarkeit dieser Beschreibung.}
+\mustchange{10}{Umgesetzt. Ein Paragraph informiert über die Sichtbarkeit der Buchungsbeschreibung.}
 \mustchange{11}{Die Ansicht \textit{Terminübersicht} zeigt alle Termine des angemeldeten Nutzenden in einer Tabelle an.}
 \mustchange{12}{Umgesetzt. Die Prioritäten sind Hoch, Mittel und Niedrig.}
 \mustchange{13}{Umgesetzt.}
-\mustchange{14}{Umgesetzt. Es wird zusätzlich noch nach einer Bestätigung zum Überschreiben anderer Termine gefragt.}
+\mustchange{14}{Umgesetzt. Bei der Terminkonfliktauflösung wird zusätzlich noch nach einer Bestätigung zum Überschreiben anderer Termine gefragt.}
 \mustchange{15}{Umgesetzt.}
-\mustchange{16}{Umgesetzt. Dies ist über die Terminansicht mit dem Button \textit{Löschen} möglich.}
-\mustchange{17}{Umgesetzt. Es wird per Docker-Compose festgelegt und kann demnach nur durch den Server-Admin geändert werden.}
+\mustchange{16}{Umgesetzt. Stornieren eines Termins ist über die Ansicht \textit{Termin} mit dem Button \textit{Löschen} möglich.}
+\mustchange{17}{Umgesetzt. Das Admin Password wird per Docker-Compose festgelegt und kann demnach nur durch den Server-Admin geändert werden.}
 \mustchange{18}{Umgesetzt.}
 \mustchange{19}{Umgesetzt.}
 \mustchange{20}{Umgesetzt.}
-\mustchange{21}{Umgesetzt. Admins können Öffnungszeiten einstellen, für diese Möglichkeit gibt es allerdings eine neue Ansicht.}
+\mustchange{21}{Umgesetzt. Admins können Öffnungszeiten einstellen, für diese Möglichkeit gibt es eine neue Ansicht.}
 
 \section{Wunschkriterien}\label{sec:wunschkriterien}
 
@@ -81,15 +82,25 @@ Folgende Wunschkriterien wurden im Pflichtenheft aufgeführt:
 Einige dieser Wunschkriterien wurden ebenfalls umgesetzt.
 Im Folgenden wird beschrieben, welche Wunschkriterien umgesetzt wurden und welche nicht.
 
-\wishchange{1}{Umgesetzt. Die zur Verfügung stehenden Räume können über die Ansicht \textit{Räume} konfiguriert werden. Den Nutzenden wird falls nötig eine Raumauswahl vor der Ansicht \textit{Kalender} präsentiert. Existiert nur ein Raum, wird diese Auswahl übersprungen.}
-\wishchange{2}{Umgesetzt. Feiertage werden nur visuell angezeigt und blockieren keine Buchung. Eine URL zu einem \gls{iCal} Ferienkalender kann in der Docker-Compose Konfiguration hinterlegt werden. Aktuell wird der von Thunderbird (Mozilla) für Deutsche Feiertage verwendet.}
+\wishchange{1}{Umgesetzt. Die zur Verfügung stehenden Räume können über die Ansicht \textit{Räume} konfiguriert werden.
+Den Nutzenden wird falls nötig eine Raumauswahl vor der Ansicht \textit{Kalender} präsentiert.
+Existiert nur ein Raum, wird diese Auswahl übersprungen.}
+\wishchange{2}{Umgesetzt. Feiertage werden nur visuell angezeigt und blockieren keine Buchung.
+Eine URL zu einem \gls{iCal} Ferienkalender kann in der Docker-Compose Konfiguration hinterlegt werden.
+Aktuell wird der von Thunderbird (Mozilla) für Deutsche Feiertage verwendet.}
 \wishchange{3}{Nicht umgesetzt.}
-\wishchange{4}{Umgesetzt. Termine werden in der Ansicht \textit{Termin} im \gls{iCal}-Format zum Export angeboten. Diese können von Nutzenden reibungslos in persönliche Kalender importiert werden.}
-\wishchange{5}{Umgesetzt. Nutzende können in der Ansicht \textit{Termin} die Beschreibung ihrer Termine bearbeiten. Um die Oberfläche einfach zu halten, wurde die Bearbeitung anderer Felder nicht umgesetzt.}
-\wishchange{6}{Umgesetzt. Die Ansicht \textit{Kalender} visualisiert, welche Termine bereits in der Vergangenheit liegen und wo der Übergang von der Vergangenheit zur Zukunft liegt. Dafür wird die aktuelle Zeit mit einem roten Strich markiert.}
-\wishchange{7}{Umgesetzt. Tooltips erklären Nutzenden, wofür die wichtigsten Elemente der \gls{UI} verwendet werden. Im Verlauf der QA-Phase sollen diese basierend auf Nutzerfeedback weiter verbessert werden.}
+\wishchange{4}{Umgesetzt. Termine werden in der Ansicht \textit{Termin} im \gls{iCal}-Format zum Export angeboten.
+Diese können von Nutzenden reibungslos in persönliche Kalender importiert werden.}
+\wishchange{5}{Umgesetzt. Nutzende können in der Ansicht \textit{Termin} die Beschreibung ihrer Termine bearbeiten.
+Um die Oberfläche einfach zu halten, wurde die Bearbeitung anderer Felder nicht umgesetzt.}
+\wishchange{6}{Umgesetzt. Die Ansicht \textit{Kalender} visualisiert, welche Termine bereits in der Vergangenheit liegen
+und wo der Übergang von der Vergangenheit zur Zukunft liegt.
+Dafür wird die aktuelle Zeit mit einem roten Strich markiert.}
+\wishchange{7}{Umgesetzt. Tooltips erklären, wofür die wichtigsten Elemente der \gls{UI} verwendet werden. Im Verlauf der QA-Phase sollen diese basierend auf Feedback weiter verbessert werden.}
 \wishchange{9}{Nicht umgesetzt.}
-\wishchange{10}{Nicht umgesetzt. Die Anwendung informiert Nutzende nicht, wenn ein gewünschter Termin frei wird, da keine überzeugende Kombination aus Use-Case und guter Nutzererfahrung gefunden wurde.}
+\wishchange{10}{Nicht umgesetzt. Die Anwendung informiert Nutzende nicht, wenn ein gewünschter Termin frei wird,
+    da keine überzeugende Kombination aus Use-Case und guter Nutzererfahrung gefunden wurde.}
 \wishchange{11}{Umgesetzt. Der Quick-Checkin-Button füllt im Buchungsdialog den Aktuellen Zeitslot bei Nutzung des Buttons bereits aus.}
 \wishchange{12}{Umgesetzt. Mit dem Quick-Checkout-Button können Nutzende den aktuellen Termin vorzeitig beenden.}
-\wishchange{13}{Umgesetzt. Admins können eine globale Statistik-Ansicht nutzen um die Buchungen pro Wochentag, Tag des Monats und Monat anzuzeigen.}
+\wishchange{13}{Umgesetzt. Admins können eine globale Statistik-Ansicht nutzen um die Buchungen pro Wochentag,
+    Tag des Monats und Monat anzuzeigen.}
