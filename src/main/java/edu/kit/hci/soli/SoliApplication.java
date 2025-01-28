@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.filter.UrlHandlerFilter;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -40,5 +41,12 @@ public class SoliApplication {
         source.setDefaultEncoding("UTF-8");
         source.setFallbackToSystemLocale(false);
         return source;
+    }
+
+    @Bean
+    public UrlHandlerFilter urlHandlerFilter() {
+        return UrlHandlerFilter
+                .trailingSlashHandler("/**").wrapRequest()
+                .build();
     }
 }
