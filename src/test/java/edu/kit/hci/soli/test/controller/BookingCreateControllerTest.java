@@ -12,7 +12,6 @@ import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.test.TestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -44,11 +43,8 @@ import static org.mockito.Mockito.mock;
 public class BookingCreateControllerTest {
     @Autowired private TestService testService;
     @Autowired private BookingCreateController bookingsController;
-    @Autowired private BookingsService bookingsService;
-    @Autowired private RoomService roomService;
     @Autowired private TimeService timeService;
-    @Autowired
-    private RoomRepository roomRepository;
+    @Autowired private RoomRepository roomRepository;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -344,7 +340,7 @@ public class BookingCreateControllerTest {
 
         assertEquals("bookings/create/form", view);
         assertEquals(room, request.getSession().getAttribute("room"));
-        assertEquals(LocalDateTime.now().plusMinutes(30).getMinute(), ((LocalDateTime) model.getAttribute("end")).getMinute());
+        assertEquals(LocalTime.now().plusMinutes(30).getMinute(), ((LocalTime) model.getAttribute("end")).getMinute());
         assertEquals(LocalDateTime.now().getMinute(), ((LocalDateTime) model.getAttribute("start")).getMinute());
         assertEquals(ShareRoomType.NO, model.getAttribute("cooperative"));
     }
@@ -362,7 +358,7 @@ public class BookingCreateControllerTest {
         BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         LocalDateTime start = LocalDateTime.now().plusHours(1);
-        LocalDateTime end = start.plusMinutes(30);
+        LocalTime end = start.toLocalTime().plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
         when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
         when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
@@ -389,7 +385,7 @@ public class BookingCreateControllerTest {
         BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         LocalDateTime start = LocalDateTime.now().plusHours(1);
-        LocalDateTime end = start.plusMinutes(30);
+        LocalTime end = start.toLocalTime().plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
         when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
         when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));

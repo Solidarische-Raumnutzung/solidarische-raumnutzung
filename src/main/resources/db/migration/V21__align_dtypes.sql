@@ -1,0 +1,14 @@
+ALTER TABLE persistent_logins ALTER COLUMN username TYPE TEXT;
+ALTER TABLE persistent_logins ALTER COLUMN series TYPE TEXT;
+ALTER TABLE persistent_logins ALTER COLUMN token TYPE TEXT;
+
+ALTER TABLE soli_bookings ALTER COLUMN description TYPE TEXT;
+ALTER TABLE soli_bookings ADD CONSTRAINT CHK_SHARE_ROOM_TYPE CHECK (share_room_type BETWEEN 0 AND 2);
+ALTER TABLE soli_bookings ADD CONSTRAINT CHK_START_END_DATE CHECK (start_date < end_date);
+ALTER TABLE soli_bookings ADD CONSTRAINT CHK_PRIORITY CHECK (priority BETWEEN 0 AND 2);
+
+ALTER TABLE soli_rooms ALTER COLUMN location TYPE TEXT;
+
+ALTER TABLE soli_users ALTER COLUMN username TYPE TEXT;
+ALTER TABLE soli_users ALTER COLUMN email TYPE TEXT;
+ALTER TABLE soli_users ALTER COLUMN user_id TYPE TEXT;

@@ -26,7 +26,7 @@ public class JteContext implements LocalizationSupport {
         this.messageSource = messageSource;
         this.hostname = hostname;
         this.locale = locale;
-        this.symbols = new DateFormatSymbols(locale);
+        this.symbols = new DateFormatSymbols(locale == null ? Locale.getDefault() : locale);
         this.dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                 .withLocale(locale)
                 .withZone(timeZone.toZoneId());
@@ -41,6 +41,11 @@ public class JteContext implements LocalizationSupport {
     @Override
     public Content localize(String key, Object... params) {
         String result = messageSource.getMessage(key, params, locale);
+        return output -> output.writeUserContent(result);
+    }
+
+    public Content localizeOrDefault(String key, String defaultValue, Object... params) {
+        String result = messageSource.getMessage(key, params, defaultValue, locale);
         return output -> output.writeUserContent(result);
     }
 

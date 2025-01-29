@@ -44,7 +44,8 @@
         <label for="edit-description-submit" class="absolute top-1 right-1 btn btn-ghost z-50" aria-label="${context.localize("bookings.description.edit")}" title="${context.localize("bookings.description.edit")}">
             <i class="fa-solid fa-check"></i>
         </label>
-        <textarea id="edit-description-content" name="description" class="w-full textarea textarea-bordered">${booking.getDescription()}</textarea>
+        <textarea id="edit-description-content" name="description" class="w-full input validator textarea textarea-bordered"
+                  maxlength="1024">${booking.getDescription()}</textarea>
         <input type="submit" id="edit-description-submit" class="hidden" />
     `)
 @endif
@@ -60,7 +61,7 @@
             `)
         @endif
         @if (showRequestButton)
-            <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().format(DateTimeFormatter.ISO_DATE_TIME)}&cooperative=true">${context.localize("bookings.request")}</a>
+            <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME)}&cooperative=true">${context.localize("bookings.request")}</a>
         @endif
     </div>
 @endif

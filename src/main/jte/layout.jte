@@ -111,10 +111,9 @@
                     <ul class="menu bg-base-200 text-base-content min-h-80 w-80 p-4">
                         <div class="flex flex-row gap-3">
                             <li>
-                                <div class="basis-1/4"><a aria-label="home" class="avatar avatar-placeholder" href="/">
-                                        <div class="w-20 rounded-full">
-                                            <img src="/favicon.svg">
-                                        </div>
+                                <div class="basis-1/4">
+                                    <a aria-label="home" class="avatar avatar-placeholder w-20" href="/">
+                                        <img src="/favicon.svg" alt="SOLI">
                                     </a>
                                 </div>
                             </li>
@@ -165,6 +164,7 @@
                             <div class="divider"></div>
 
                             <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                            <%-- TODO <li><a class="btn btn-outline btn-error mt-2" href="/${layout.getRoom().getId()}/bookings/new"><i class="fas fa-trash-alt"></i> Checkout</a></li> --%>
                         @endif
                     </ul>
 

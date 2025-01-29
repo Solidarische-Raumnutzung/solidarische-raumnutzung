@@ -36,7 +36,7 @@ public class TimeServiceTest {
         // as there will be a slight delay between the two timestamps, allow for a bit of leeway
         LocalDateTime ldt1 = timeService.now();
         LocalDateTime ldt2 = LocalDateTime.now();
-        assertTrue(ldt1.isBefore(ldt2));
-        assertTrue(ldt1.plusSeconds(5).isAfter(ldt2));
+        assertTrue(ldt1.isBefore(ldt2) || ldt1.isEqual(ldt2));
+        assertTrue(ldt1.plusSeconds(5).isAfter(ldt2) || ldt1.plusSeconds(5).isEqual(ldt2));
     }
 }

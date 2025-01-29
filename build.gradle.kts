@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.incremental.createDirectory
 import java.util.*
 import kotlin.experimental.xor
 
@@ -26,6 +27,7 @@ configurations {
 }
 
 val doctex by configurations.creating
+val cdg by configurations.creating
 
 // Used to un-salt the credentials for the GitHub package repository
 // For some reason, GitHub does not allow anonymous access to public packages,
@@ -65,6 +67,7 @@ dependencies {
     compileOnly("org.jetbrains:annotations:26.0.2")
 
     doctex("edu.kit.hci.soli:doctex:1.0.1-SNAPSHOT")
+    cdg("edu.kit.hci.soli:cdg:1.0-SNAPSHOT")
 
     // https://docs.spring.io/spring-boot/reference/features/dev-services.html#features.dev-services.docker-compose
     testAndDevelopmentOnly("org.springframework.boot:spring-boot-docker-compose")
@@ -160,6 +163,23 @@ tasks {
         description = "Generate documentation from LaTeX sources"
         mainClass = "de.mr_pine.doctex.CliKt"
         classpath = doctex
-        args("--output=./entwurfsheft/javadoc", "src/main/java", "edu.kit.hci.soli")
+        args(
+            "--output=./entwurfsheft/javadoc",
+            layout.projectDirectory.dir("src/main/java"),
+            "edu.kit.hci.soli"
+        )
+    }
+
+    val classDiagram by creating(JavaExec::class) {
+        group = "documentation"
+        description = "Generate a class diagram"
+        mainClass = "edu.kit.hci.soli.cdg.MainKt"
+        classpath = cdg
+        args(
+            layout.projectDirectory.dir("src/main/java"),
+            "edu.kit.hci.soli"
+        )
+        workingDir = layout.buildDirectory.dir("cdg").get().asFile
+        doFirst { workingDir.createDirectory() }
     }
 }
