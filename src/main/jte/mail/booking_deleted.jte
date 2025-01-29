@@ -8,21 +8,20 @@
 @param Booking booking
 @param BookingDeleteReason reason
 
-@template.mail.layout(title= context.lookup("mail.booking_deleted.heading"), content = @`
-    !{var deleteReason = context.localize("bookings.delete_reason." + reason);}
-    <style>
-        ${css}
-    </style>
-
+@template.mail.layout(title = context.lookup("mail.booking_deleted.heading"), context = context, css = css, content = @`
     <p>
-        ${context.localize("mail.booking_deleted.message", booking.getUser().getUsername(), booking.getRoom().getId().toString(), booking.getStartDate().toString())}<br>
-        ${deleteReason}<br><br>
-        ${context.localize("mail.booking_deleted.last_phrase")}<br>
-        ${context.localize("mail.ending")}<br><br>
+        ${context.localize("mail.booking_deleted.message", booking.getUser().getUsername(), booking.getRoom().getId().toString(), booking.getStartDate().toString())}
     </p>
-    <div class="btn btn-accent">
-        <a class="pretty-link" href= "${context.getHostname()}${booking.getRoom().getId()}">
-            <p>${context.localize("mail.make_new_booking")}</p>
+    <p>
+        ${context.localize("bookings.delete_reason." + reason)}
+    </p>
+    <p>
+        ${context.localize("mail.booking_deleted.last_phrase")}<br>
+        ${context.localize("mail.ending")}
+    </p>
+    <p>
+        <a class="btn btn-accent" href="${context.getHostname()}${booking.getRoom().getId()}">
+            ${context.localize("mail.make_new_booking")}
         </a>
-    </div>
-`, context = context, css = css)
+    </p>
+`)

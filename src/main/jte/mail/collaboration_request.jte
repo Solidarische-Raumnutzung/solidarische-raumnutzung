@@ -6,16 +6,16 @@
 
 @param Booking booking
 
-@template.mail.layout(title= context.lookup("mail.collaboration_request.heading"), content = @`
+@template.mail.layout(title = context.lookup("mail.collaboration_request.heading"), context = context, css = css, content = @`
     <p>
-        ${context.localize("mail.collaboration_request.message", booking.getUser().getUsername(), booking.getRoom().getId(), booking.getStartDate().toString())} <br><br>
-        ${context.localize("mail.ending")}<br><br>
+        ${context.localize("mail.collaboration_request.message", booking.getUser().getUsername(), booking.getRoom().getId(), booking.getStartDate().toString())}
     </p>
-    <div>
-        <button class="btn btn-accent">
-            <a class="pretty-link" href= "${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
-                <p>${context.localize("mail.collaboration_request.more_details")}</p>
-            </a>
-        </button>
-    </div>
-`, context = context, css = css)
+    <p>
+        ${context.localize("mail.ending")}
+    </p>
+    <p>
+        <a class="btn btn-accent" href="${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
+            ${context.localize("mail.collaboration_request.more_details")}
+        </a>
+    </p>
+`)

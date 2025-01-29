@@ -28,7 +28,7 @@
 
     <tr class="footer">
         <td>
-            ${context.localize("mail.footer.text")} <a class="pretty-link" href="/">${context.localize("mail.website.name")}</a>
+            ${context.localize("mail.footer.text")} <a href="${context.getHostname()}">${context.localize("mail.website.name")}</a>
         </td>
     </tr>
 </table>
