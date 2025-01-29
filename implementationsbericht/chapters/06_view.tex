@@ -1,0 +1,180 @@
+%!TEX root = ../main.tex
+
+\chapter{View}
+\label{chap:view}
+
+
+\section{Haupseite und Buchung}
+
+Das Mockup der Startseite der Anwendung ist in \ref{fig:startseite} dargestellt.
+
+Die entsprechende implementierte Startseite wird gezeigt in \ref{fig:impl-startseite}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/mockup/calendar}
+    \caption{Startseite der Anwendung}
+    \label{fig:startseite}
+\end{figure}
+\pagebreak
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar}
+    \caption{Implementierung: Startseite der Anwendung}
+    \label{fig:impl-startseite}
+\end{figure}
+\pagebreak
+
+Sollten Nutzende eine Buchung vornehmen wollen, so klicken diese in den gewünschten Zeitraum
+und es wird der Dialog in \ref{fig:buchung} dargestellt.
+
+Der Dialog bietet Nutzenden die Möglichkeit, den genauen Start- und Endzeitpunkt des Termins festzulegen.
+
+Außerdem können Nutzende die Priorität des Termins in Form einer Zahl zwischen 1 und 3 festlegen.
+Nutzende können auch angeben, ob sie bereit sind, den Raum mit anderen Nutzenden zu teilen.
+Für diesen Zweck werden Ihnen drei Optionen bereitgestellt: \textit{Ja}, \textit{Nein} und \textit{Auf Anfrage}.
+
+Letztlich können Nutzende eine Beschreibung für den Termin hinterlegen, die anderen angemeldeten Nutzenden angezeigt wird.
+
+Die Implementierung des Dialogs ist in \ref{fig:impl-buchung} zu sehen.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/mockup/bookings_create_form}
+    \caption{Termin-erstellen}
+    \label{fig:buchung}
+\end{figure}
+\pagebreak
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_create_form}
+    \caption{Implementierung: Termin-erstellen}
+    \label{fig:implbuchung}
+\end{figure}
+\clearpage
+
+In \ref{fig:login} ist die Anmeldungsansicht dargestellt und in \ref{fig:impl-login} ist die tatsächliche Implementierung zu sehen.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/mockup/auth_login}
+    \caption{Anmeldungsseite}
+    \label{fig:login}
+\end{figure}
+\clearpage
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/auth_login}
+    \caption{Implementierung: Anmeldungsseite}
+    \label{fig:impl-login}
+\end{figure}
+\clearpage
+
+Sind Nutzende eingeloggt und belegen den Raum,
+so wird ihnen die in Abbildung \ref{fig:checkout} dargestellte Ansicht angezeigt.
+Hier können Nutzende den Raum wieder über den Quick-Checkout-Button freigeben.
+
+Die Implementierung davon ist in \ref{fig:impl-checkout} zu sehen.
+
+
+Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnötigen Mehraufwand zu ermöglichen.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/mockup/calendar_checkout}
+    \caption{Quick Checkout}
+    \label{fig:checkout}
+\end{figure}
+\clearpage
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar_checkout}
+    \caption{Implementierung: Quick Checkout}
+    \label{fig:impl-checkout}
+\end{figure}
+\clearpage
+
+
+\section{Terminübersicht}
+Nutzende, die eine Buchung vorgenommen haben, können diese in der Terminübersicht,
+die in Abbildung \ref{fig:overview} dargestellt ist, einsehen und verwalten.
+
+Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen und die der Terminansicht in \ref{fig:impl-calendarviewbooking}.
+
+\begin{figure}[ht]
+    \includegraphics[width=\textwidth]{figures/mockup/bookings_list}
+    \caption{Reservierungsübersicht}
+    \label{fig:overview}
+\end{figure}
+\begin{figure}[ht]
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_list}
+    \caption{Implementierung: Reservierungsübersicht}
+    \label{fig:impl-overview}
+\end{figure}
+\clearpage
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/mockup/bookings_single}
+    \caption{Reserverierung im Kalender}
+    \label{fig:calendarviewbooking}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_single}
+    \caption{Implementierung: Reserverierung im Kalender}
+    \label{fig:impl-calendarviewbooking}
+\end{figure}
+\clearpage
+
+
+\section{Adminstration}
+Ein/e Administrator*in hat die Möglichkeit, über die Benutzeradministrationsoberfläche, die in Abbildung \ref{fig:adminuser} dargestellt ist, Nutzende einzusehen und zu verwalten.
+
+Die Implementierung der Kontenlsite ist in \ref{fig:impl-adminuser}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/mockup/admin_users}
+    \caption{Benutzeradminstrationsoberfläche}
+    \label{fig:adminuser}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/admin_users}
+    \caption{Implementierung: Benutzeradminstrationsoberfläche}
+    \label{fig:impl-adminuser}
+\end{figure}
+\clearpage
+
+Die Funktionalität der einstellbaren Öffnungszeiten für einen Raum, welche nur von Administrator*innen genutzt werden kann
+ist in seiner implementierten Form in \ref{fig:impl-adminopeninghours_config} zu sehen.
+
+\todo{Bild für die Visualisierung der Öffnungszeiten einfügen}
+
+Die implementierte Visualisierung der Öffnungszeiten in der \textit{Kalender} Ansicht in \ref{fig:impl-adminopeninghours} zu sehen ist.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/placeholder} % TODO Change this link to correct impl pic
+    \caption{Implementierung: Konfiguration}
+    \label{fig:impl-adminopeninghours_config}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/admin_opening_hours}
+    \caption{Implementierung: Visualisierung der Öffnungszeiten}
+    \label{fig:impl-adminopeninghours}
+\end{figure}
+\clearpage
+
+Die Implementierung des Wunschkriteriums einer Statistikansicht für ein/e Administrator*in ist in \ref{fig:impl-adminstatistic}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/admin_statistics}
+    \caption{Implementierung: Statistikansicht}
+    \label{fig:impl-adminstatistic}
+\end{figure}

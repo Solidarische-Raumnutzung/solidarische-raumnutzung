@@ -7,12 +7,15 @@ import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.CalendarEvent;
+import edu.kit.hci.soli.repository.BookingsRepository;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Service class for managing {@link Booking} entities.
@@ -130,4 +133,11 @@ public interface BookingsService {
      * @param description the new description
      */
     void updateDescription(Booking booking, String description);
+
+    /**
+     * Gets the booking of the highest priority, which is right now if there is one.
+     *
+     * @return the current booking
+     */
+    Optional<Booking> getCurrentHighestBooking(Room room, LocalDateTime time);
 }

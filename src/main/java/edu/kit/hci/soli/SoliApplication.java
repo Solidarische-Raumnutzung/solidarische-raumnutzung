@@ -5,7 +5,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.filter.UrlHandlerFilter;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -30,5 +32,21 @@ public class SoliApplication {
     @Bean
     public InitializingBean initialize(SoliConfiguration config) {
         return () -> TimeZone.setDefault(config.getTimeZone());
+    }
+
+    @Bean
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+        source.setBasename("messages");
+        source.setDefaultEncoding("UTF-8");
+        source.setFallbackToSystemLocale(false);
+        return source;
+    }
+
+    @Bean
+    public UrlHandlerFilter urlHandlerFilter() {
+        return UrlHandlerFilter
+                .trailingSlashHandler("/**").wrapRequest()
+                .build();
     }
 }

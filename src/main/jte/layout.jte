@@ -62,14 +62,46 @@
         <div class="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
             <div class="drawer-content w-full md:w-full">
-                <div class="navbar bg-blue-600 text-primary-content">
-                    <div class="drawer-content flex flex-col items-center justify-center">
-                        <!-- Page content here -->
-                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                            Open drawer
-                        </label>
+                !{var headerColor = layout.getCurrentHighestBooking() == null ? "success" : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                    case YES, ON_REQUEST -> "warning";
+                    case NO -> "error";
+                };}
+                <!-- there is a booking now, but it is collaborative -->
+                <div class="navbar bg-${headerColor} text-primary-content">
+                    <div class="navbar-start">
+                        <div class="drawer-content flex flex-col items-center text-center justify-center">
+                            <!-- Page content here -->
+                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                                Open drawer
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="navbar-center bg-${headerColor} text-${headerColor}-content font-semibold">
+                        @if (layout.getRoom() == null)
+                            ${context.localize("room.status.none")}
+                        @elseif (layout.getCurrentHighestBooking() == null)
+                            ${context.localize("room.status.open")}
+                        @else
+                            ${context.localize("room.status.booked")}
+                        @endif
+                    </div>
+                    <div class="navbar-end">
+                        @if (layout.getCurrentHighestBooking() != null)
+                            <div class="badge badge-neutral m-3">p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
+                        @endif
+
+                        !{var roomShareType = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                            case YES -> "users";
+                            case NO -> "users-slash";
+                            case ON_REQUEST -> "users-line";
+                        };}
+                        @if (roomShareType != null)
+                            <i class="fa-solid fa-${roomShareType} text-neutral m-3"></i>
+                        @endif
                     </div>
                 </div>
+
                 <div class="p-4">
                     <div class="card bg-base-100 w-full shadow-xl p-4">
                         <div class="card-body">
@@ -84,10 +116,9 @@
                     <ul class="menu bg-base-200 text-base-content min-h-80 w-80 p-4">
                         <div class="flex flex-row gap-3">
                             <li>
-                                <div class="basis-1/4"><a aria-label="home" class="avatar avatar-placeholder" href="/">
-                                        <div class="w-20 rounded-full">
-                                            <img src="/favicon.svg">
-                                        </div>
+                                <div class="basis-1/4">
+                                    <a aria-label="home" class="avatar avatar-placeholder w-20" href="/">
+                                        <img src="/favicon.svg" alt="SOLI">
                                     </a>
                                 </div>
                             </li>
@@ -138,6 +169,7 @@
                             <div class="divider"></div>
 
                             <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                            <%-- TODO <li><a class="btn btn-outline btn-error mt-2" href="/${layout.getRoom().getId()}/bookings/new"><i class="fas fa-trash-alt"></i> Checkout</a></li> --%>
                         @endif
                     </ul>
 

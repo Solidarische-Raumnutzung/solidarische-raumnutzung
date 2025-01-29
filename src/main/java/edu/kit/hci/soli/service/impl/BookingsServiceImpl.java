@@ -112,6 +112,11 @@ public class BookingsServiceImpl implements BookingsService {
     @Transactional
     public void deleteAllBookingsForUser(User user) {
         bookingsRepository.deleteAllByUser(user);
+        try (Stream<Booking> freed = bookingsRepository.findWithOutstandingRequests(user)) {
+            freed.forEach(b -> {
+                confirmRequest(b, user);
+            });
+        }
     }
 
     @Transactional
@@ -151,8 +156,20 @@ public class BookingsServiceImpl implements BookingsService {
     }
 
     @Override
+    @Transactional
     public void delete(Booking booking, BookingDeleteReason reason) {
         bookingsRepository.delete(booking);
+        Set<Booking> others;
+        try (Stream<Booking> bs = bookingsRepository.findOverlappingBookings(booking.getRoom(), booking.getStartDate(), booking.getEndDate(), booking.getUser())) {
+            others = bs.filter(s -> s.getOpenRequests().isEmpty()).collect(Collectors.toSet());
+        }
+        try (Stream<Booking> bs = bookingsRepository.findOverlappingWithOutstandingRequests(booking.getRoom(), booking.getStartDate(), booking.getEndDate())) {
+            bs.forEach(b -> {
+                if (others.stream().noneMatch(b2 -> overlaps(b, b2))) {
+                    confirmRequest(b, booking.getUser());
+                }
+            });
+        }
         emailService.sendMail(
                 booking.getUser(),
                 "mail.booking_deleted.subject",
@@ -162,6 +179,24 @@ public class BookingsServiceImpl implements BookingsService {
                         "reason", reason
                 )
         );
+    }
+
+    /**
+     * Checks whether two bookings overlap.
+     *
+     * @param left  the first booking
+     * @param right the second booking
+     * @return whether the two bookings overlap
+     */
+    private boolean overlaps(Booking left, Booking right) {
+        LocalDateTime start1 = left.getStartDate();
+        LocalDateTime end1 = left.getEndDate();
+        LocalDateTime start2 = right.getStartDate();
+        LocalDateTime end2 = right.getEndDate();
+        if (start1.isAfter(start2) && start1.isBefore(end2)) return true;
+        if (end1.isAfter(start2) && end1.isBefore(end2)) return true;
+        if (start1.isBefore(start2) && end1.isAfter(end2)) return true;
+        return false;
     }
 
     @Transactional
@@ -241,8 +276,6 @@ public class BookingsServiceImpl implements BookingsService {
 
     @Override
     public String getICalendar(Booking booking, Locale locale) {
-        // TODO give the room a location!
-        // TODO: tests!
         String bookingUrl = soliConfiguration.getHostname() + booking.getRoom().getId() + "/bookings/" + booking.getId();
         UUID uuid = new UUID(0x4E58D14A39266471L, booking.getId());
         return """
@@ -280,6 +313,11 @@ public class BookingsServiceImpl implements BookingsService {
         }
         booking.setDescription(description);
         bookingsRepository.save(booking);
+    }
+
+    @Override
+    public Optional<Booking> getCurrentHighestBooking(Room room, LocalDateTime time) {
+        return bookingsRepository.getHighestPriority(room, time);
     }
 
     /**

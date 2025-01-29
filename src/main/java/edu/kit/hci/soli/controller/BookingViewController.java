@@ -174,9 +174,9 @@ public class BookingViewController {
 
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
-                ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
+                !ShareRoomType.NO.equals(booking.getShareRoomType())
                         && !Objects.equals(booking.getUser(), principal.getUser())
-                        && booking.getStartDate().isBefore(timeService.minimumTime())
+                        && !booking.getStartDate().isBefore(timeService.minimumTime())
         );
 
         User admin = userService.resolveAdminUser();
