@@ -20,7 +20,7 @@ Die entsprechende implementierte Startseite wird gezeigt in \ref{fig:impl-starts
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/mockup/calendar}
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar}
     \caption{Implentierung: Startseite der Anwendung}
     \label{fig:impl-startseite}
 \end{figure}
@@ -34,15 +34,24 @@ Der Dialog bietet Nutzenden die Möglichkeit, den genauen Start- und Endzeitpunk
 Außerdem können Nutzende die Priorität des Termins in Form einer Zahl zwischen 1 und 3 festlegen.
 Nutzende können auch angeben, ob sie bereit sind, den Raum mit anderen Nutzenden zu teilen.
 Für diesen Zweck werden Ihnen drei Optionen bereitgestellt: \textit{Ja}, \textit{Nein} und \textit{Auf Anfrage}.
-Siehe dazu auch \ref{fig:buchung}.
 
 Letztlich können Nutzende eine Beschreibung für den Termin hinterlegen, die anderen angemeldeten Nutzenden angezeigt wird.
 
+Die Implementierung des Dialogs ist in \ref{fig:impl-buchung} zu sehen.
+
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/mockup/bookings_create_form} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/mockup/bookings_create_form}
     \caption{Termin-erstellen}
     \label{fig:buchung}
+\end{figure}
+\pagebreak
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_create_form}
+    \caption{Implentierung: Termin-erstellen}
+    \label{fig:implbuchung}
 \end{figure}
 \clearpage
 
@@ -58,7 +67,7 @@ In \ref{fig:login} ist die Anmeldungsansicht dargestellt und in \ref{fig:impl-lo
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/mockup/auth_login} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/auth_login}
     \caption{Implementierung: Anmeldungsseite}
     \label{fig:impl-login}
 \end{figure}
@@ -82,7 +91,7 @@ Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnö
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/mockup/calendar_checkout} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar_checkout}
     \caption{Implementierung: Quick Checkout}
     \label{fig:impl-checkout}
 \end{figure}
@@ -101,7 +110,7 @@ Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen
     \label{fig:overview}
 \end{figure}
 \begin{figure}[ht]
-    \includegraphics[width=\textwidth]{figures/mockup/bookings_list} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_list}
     \caption{Implementierung: Reservierungsübersicht}
     \label{fig:impl-overview}
 \end{figure}
@@ -114,7 +123,7 @@ Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{figures/mockup/bookings_single} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_single}
     \caption{Implementierung: Reserverierung im Kalender}
     \label{fig:impl-calendarviewbooking}
 \end{figure}
@@ -134,7 +143,7 @@ Die Implementierung der Kontenlsite ist in \ref{fig:impl-adminuser}
 \end{figure}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/mockup/admin_users} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/admin_users}
     \caption{Implementierung: Benutzeradminstrationsoberfläche}
     \label{fig:impl-adminuser}
 \end{figure}
@@ -142,6 +151,8 @@ Die Implementierung der Kontenlsite ist in \ref{fig:impl-adminuser}
 
 Die Funktionalität der einstellbaren Öffnungszeiten für einen Raum, welche nur von Administrator*innen genutzt werden kann
 ist in seiner implementierten Form in \ref{fig:impl-adminopeninghours_config} zu sehen.
+
+\todo{Bild für die Visualisierung der Öffnungszeiten einfügen}
 
 Die implementierte Visualisierung der Öffnungszeiten in der \textit{Kalender} Ansicht in \ref{fig:impl-adminopeninghours} zu sehen ist.
 
@@ -153,7 +164,7 @@ Die implementierte Visualisierung der Öffnungszeiten in der \textit{Kalender} A
 \end{figure}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/placeholder} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/admin_opening_hours}
     \caption{Implementierung: Visualisierung der Öffnungszeiten}
     \label{fig:impl-adminopeninghours}
 \end{figure}
@@ -163,7 +174,7 @@ Die Implementierung des Wunschkriteriums einer Statistikansicht für ein/e Admin
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/placeholder} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/admin_statistics}
     \caption{Implementierung: Statistikansicht}
     \label{fig:impl-adminstatistic}
 \end{figure}
