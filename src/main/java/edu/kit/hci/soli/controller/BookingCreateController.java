@@ -132,6 +132,11 @@ public class BookingCreateController {
         }
         layout.setRoom(room.get());
         formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
+        if (formData.getDescription().length() > 1024) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error/known";
+        }
 
         // Validate start and end times
         TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());

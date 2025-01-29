@@ -17,7 +17,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.ServerRequest;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -273,7 +272,15 @@ public class BookingViewController {
             return "error/known";
         }
 
-        bookingsService.updateDescription(booking, formData.getDescription());
+        String newDescription = formData.getDescription().trim();
+
+        if (newDescription.length() > 1024) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error/known";
+        }
+
+        bookingsService.updateDescription(booking, newDescription);
 
         return viewEvent(model, response, principal, roomId, eventId, layout);
     }

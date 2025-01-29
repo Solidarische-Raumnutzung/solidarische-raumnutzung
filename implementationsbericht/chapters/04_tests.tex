@@ -3,4 +3,13 @@
 \chapter{Tests und Coverage}
 \label{ch:tests}
 
-\todo{explain tests and coverage (+ CI part?)}
+Für kontinuierliches Testen und zur Sicherstellung der Qualität des Codes wurden sowohl Unit- als auch Integrationstests geschrieben.
+Diese werden nach jedem Push auf das Repository durch GitHub CI automatisiert ausgeführt.
+Umgesetzt sind die Tests mit JUnit als Testframework, Mockito für Mocking und werden von Gradle gestartet.
+Damit sichergestellt werden kann, dass die Tests in einem Realitätsnahen Umfeld laufen, wird eine normale Postgres-Datenbank verwendet,
+welche in einem von Gradle gestarteten Docker-Container läuft.
+Außerdem setzen wir JaCoCo ein, um die Abdeckung unseres Quellcodes durch die Tests sicherzustellen.
+JaCoCo wird ebenfalls von Gradle gestartet und generiert nach jedem Testdurchlauf einen Report, der in GitHub CI angezeigt wird.
+Bei einer zu niedrigen Testabdeckung wird außerdem ein fehlgeschlagener Check in GitHub CI generiert.
+Ausgenommen von den Tests ist lediglich der Inhalt des Pakets \textit{config}, da dieser lediglich der Konfiguration von Spring dient
+und nicht gut durch Unit- oder Integrationstests geprüft werden kann.
