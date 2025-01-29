@@ -44,7 +44,8 @@
         <label for="edit-description-submit" class="absolute top-1 right-1 btn btn-ghost z-50" aria-label="${context.localize("bookings.description.edit")}" title="${context.localize("bookings.description.edit")}">
             <i class="fa-solid fa-check"></i>
         </label>
-        <textarea id="edit-description-content" name="description" class="w-full textarea textarea-bordered">${booking.getDescription()}</textarea>
+        <textarea id="edit-description-content" name="description" class="w-full input validator textarea textarea-bordered"
+                  maxlength="1024">${booking.getDescription()}</textarea>
         <input type="submit" id="edit-description-submit" class="hidden" />
     `)
 @endif

@@ -46,8 +46,9 @@
 
             <br><br>
 
-            <textarea id="description" name="description" class="input textarea textarea-bordered"
+            <textarea id="description" name="description" class="input validator textarea textarea-bordered"
                       placeholder="${context.localize("bookings.description")}"
+                      maxlength="1024"
             ></textarea>
             <label class="label">
                 <span class="label-text-alt">${context.localize("bookings.optional")}</span>
