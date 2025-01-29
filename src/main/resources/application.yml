@@ -7,7 +7,7 @@ spring:
             client-id: ${KIT_CLIENT_ID}
             client-secret: ${KIT_CLIENT_SECRET}
             scope: openid, profile, email
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "https://cc415dc2-136a-4cfd-adc9-45a126ee849e.ka.bw-cloud-instance.org/login/oauth2/code/{registrationId}"
             client-name: Kit
         provider:
           kit:
