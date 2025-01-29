@@ -8,7 +8,11 @@
 
 Das Mockup der Startseite der Anwendung ist in \ref{fig:startseite} dargestellt.
 
-Die entsprechende implementierte Startseite wird gezeigt in \ref{fig:impl-startseite}.
+Die entsprechende implementierte Startseite wird gezeigt in \ref{fig:impl-startseite},
+dabei ist zu beachten, dass wir neben einen Dark mode auch einen Light mode implementiert haben,
+welcher beispielhaft für die \textit{Kalender} Ansicht in \ref{fig:impl-startseite_lightmode} zu sehen ist.
+
+Der Wechsel zwischen den beiden Modi ist über die Browser-Systemeinstellungen möglich.
 
 \begin{figure}[ht]
     \centering
@@ -23,6 +27,12 @@ Die entsprechende implementierte Startseite wird gezeigt in \ref{fig:impl-starts
     \includegraphics[width=\textwidth]{figures/impl-views/calendar}
     \caption{Implementierung: Startseite der Anwendung}
     \label{fig:impl-startseite}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar}
+    \caption{Implementierung: Startseite der Anwendung im Lightmode} % TODO Change this link to correct impl pic
+    \label{fig:impl-startseite_lightmode}
 \end{figure}
 \pagebreak
 
@@ -51,7 +61,7 @@ Die Implementierung des Dialogs ist in \ref{fig:impl-buchung} zu sehen.
     \centering
     \includegraphics[width=\textwidth]{figures/impl-views/bookings_create_form}
     \caption{Implementierung: Termin-erstellen}
-    \label{fig:implbuchung}
+    \label{fig:impl-buchung}
 \end{figure}
 \clearpage
 
@@ -133,7 +143,7 @@ Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen
 \section{Adminstration}
 Ein/e Administrator*in hat die Möglichkeit, über die Benutzeradministrationsoberfläche, die in Abbildung \ref{fig:adminuser} dargestellt ist, Nutzende einzusehen und zu verwalten.
 
-Die Implementierung der Kontenlsite ist in \ref{fig:impl-adminuser}
+Die Implementierung der Kontenliste ist in \ref{fig:impl-adminuser}
 
 \begin{figure}[ht]
     \centering
