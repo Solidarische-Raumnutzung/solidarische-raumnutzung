@@ -11,8 +11,11 @@ Das Mockup der Startseite der Anwendung ist in \ref{fig:startseite} dargestellt.
 Die entsprechende implementierte Startseite wird gezeigt in \ref{fig:impl-startseite},
 dabei ist zu beachten, dass wir neben einen Dark mode auch einen Light mode implementiert haben,
 welcher beispielhaft für die \textit{Kalender} Ansicht in \ref{fig:impl-startseite_lightmode} zu sehen ist.
+Im Folgenden werden wir zur besseren Erkenntlichkeit im Dokument immer die Bilder der Implementation des Lightmodes
+verwenden.
 
 Der Wechsel zwischen den beiden Modi ist über die Browser-Systemeinstellungen möglich.
+
 
 \begin{figure}[ht]
     \centering
@@ -24,14 +27,14 @@ Der Wechsel zwischen den beiden Modi ist über die Browser-Systemeinstellungen m
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/calendar}
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar_dark}
     \caption{Implementierung: Startseite der Anwendung}
     \label{fig:impl-startseite}
 \end{figure}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/calendar}
-    \caption{Implementierung: Startseite der Anwendung im Lightmode} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar_light}
+    \caption{Implementierung: Startseite der Anwendung im Lightmode}
     \label{fig:impl-startseite_lightmode}
 \end{figure}
 \pagebreak
@@ -47,7 +50,7 @@ Für diesen Zweck werden Ihnen drei Optionen bereitgestellt: \textit{Ja}, \texti
 
 Letztlich können Nutzende eine Beschreibung für den Termin hinterlegen, die anderen angemeldeten Nutzenden angezeigt wird.
 
-Die Implementierung des Dialogs ist in \ref{fig:impl-buchung} zu sehen.
+Die Implementierung des Dialogs ist in \ref{fig:impl-buchung1} und \ref{fig:impl-buchung2} zu sehen.
 
 \begin{figure}[ht]
     \centering
@@ -59,9 +62,16 @@ Die Implementierung des Dialogs ist in \ref{fig:impl-buchung} zu sehen.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/bookings_create_form}
+    \includegraphics[width=\textwidth]{figures/impl-views/book1_light}
     \caption{Implementierung: Termin-erstellen}
-    \label{fig:impl-buchung}
+    \label{fig:impl-buchung1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/book2_light}
+    \caption{Implementierung: Termin-erstellen}
+    \label{fig:impl-buchung2}
 \end{figure}
 \clearpage
 
@@ -77,7 +87,7 @@ In \ref{fig:login} ist die Anmeldungsansicht dargestellt und in \ref{fig:impl-lo
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/auth_login}
+    \includegraphics[width=\textwidth]{figures/impl-views/login_light}
     \caption{Implementierung: Anmeldungsseite}
     \label{fig:impl-login}
 \end{figure}
@@ -101,7 +111,7 @@ Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnö
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/calendar_checkout}
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar_checkout} %TODO auch in light ändern?
     \caption{Implementierung: Quick Checkout}
     \label{fig:impl-checkout}
 \end{figure}
@@ -120,7 +130,7 @@ Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen
     \label{fig:overview}
 \end{figure}
 \begin{figure}[ht]
-    \includegraphics[width=\textwidth]{figures/impl-views/bookings_list}
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_list_light}
     \caption{Implementierung: Reservierungsübersicht}
     \label{fig:impl-overview}
 \end{figure}
@@ -133,7 +143,7 @@ Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/bookings_single}
+    \includegraphics[width=\textwidth]{figures/impl-views/view_booking_light}
     \caption{Implementierung: Reserverierung im Kalender}
     \label{fig:impl-calendarviewbooking}
 \end{figure}
@@ -153,7 +163,7 @@ Die Implementierung der Kontenliste ist in \ref{fig:impl-adminuser}
 \end{figure}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/admin_users}
+    \includegraphics[width=\textwidth]{figures/impl-views/user_list_light}
     \caption{Implementierung: Benutzeradminstrationsoberfläche}
     \label{fig:impl-adminuser}
 \end{figure}
@@ -162,19 +172,17 @@ Die Implementierung der Kontenliste ist in \ref{fig:impl-adminuser}
 Die Funktionalität der einstellbaren Öffnungszeiten für einen Raum, welche nur von Administrator*innen genutzt werden kann
 ist in seiner implementierten Form in \ref{fig:impl-adminopeninghours_config} zu sehen.
 
-\todo{Bild für die Visualisierung der Öffnungszeiten einfügen}
-
 Die implementierte Visualisierung der Öffnungszeiten in der \textit{Kalender} Ansicht in \ref{fig:impl-adminopeninghours} zu sehen ist.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/placeholder} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/set_opening_hours_light}
     \caption{Implementierung: Konfiguration}
     \label{fig:impl-adminopeninghours_config}
 \end{figure}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/admin_opening_hours}
+    \includegraphics[width=\textwidth]{figures/impl-views/opening_hours_calendar_light}
     \caption{Implementierung: Visualisierung der Öffnungszeiten}
     \label{fig:impl-adminopeninghours}
 \end{figure}
@@ -184,7 +192,7 @@ Die Implementierung des Wunschkriteriums einer Statistikansicht für ein/e Admin
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/admin_statistics}
+    \includegraphics[width=\textwidth]{figures/impl-views/stats_light}
     \caption{Implementierung: Statistikansicht}
     \label{fig:impl-adminstatistic}
 \end{figure}
