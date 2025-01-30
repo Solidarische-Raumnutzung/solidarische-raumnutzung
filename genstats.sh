@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eux
 data="$(git log "$@" --pretty=format:%ad --date=format:"%w %H" |
     awk '
         $1 == 0 { $1 = 7 }
