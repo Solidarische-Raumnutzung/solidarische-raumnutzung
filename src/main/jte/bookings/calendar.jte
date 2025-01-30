@@ -17,6 +17,7 @@
                 nowIndicator: true,
                 weekends: false,
                 allDaySlot: false,
+                displayEventTime: false,
                 locale: navigator.language,
                 slotLabelFormat: {
                     hour: '2-digit',
