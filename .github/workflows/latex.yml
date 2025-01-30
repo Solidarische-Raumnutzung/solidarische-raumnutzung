@@ -30,6 +30,7 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         run: |
+          ./genstats.sh
           cd presi_template
           pdflatex presentation.tex
           biber presentation
@@ -50,22 +51,19 @@ jobs:
           pdflatex main.tex
           
           cd ../implementationsbericht
+          wget https://solidarische-raumnutzung.github.io/ClassDiagramGenerator/cdg.jar
+          java -jar cdg.jar ../src/main/java edu.kit.hci.soli
+          mv ./result.png figures/classes.png
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
-          
-          cd ..
-          
-          wget https://solidarische-raumnutzung.github.io/ClassDiagramGenerator/cdg.jar
-          java -jar cdg.jar src/main/java edu.kit.hci.soli
           
           mkdir -p pages
           mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
           mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
           mv ./implementationsbericht/main.pdf ./pages/implementationsbericht.pdf
-          mv ./result.png ./pages/classes.png
           python3 .github/genindex.py pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
