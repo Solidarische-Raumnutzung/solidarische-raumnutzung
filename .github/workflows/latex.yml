@@ -30,6 +30,7 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           ./genstats.sh
           cd presi_template
           pdflatex presentation.tex
