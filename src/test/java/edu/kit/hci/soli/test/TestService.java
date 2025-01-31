@@ -23,7 +23,7 @@ public class TestService {
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private UserService userService;
     @Autowired private RoomService roomService;
-    @Autowired private BookingsService bookingsService;
+    @Autowired private TimeService timeService;
     @Autowired private LayoutParamsAdvice layoutParamsAdvice;
 
     public User user;
@@ -33,8 +33,6 @@ public class TestService {
     public Room room;
 
     private LocalDateTime currentSlot;
-    @Autowired
-    private TimeService timeService;
 
     public void reset() {
         bookingsRepository.deleteAll(bookingsRepository.findAll());
@@ -51,11 +49,15 @@ public class TestService {
     }
 
     public Booking createBooking(User user) {
+        return createBooking(user, currentSlot.plusDays(1));
+    }
+
+    public Booking createBooking(User user, LocalDateTime start) {
         Booking booking = new Booking();
         booking.setRoom(room);
         booking.setUser(user);
-        booking.setStartDate(currentSlot.plusDays(1));
-        booking.setEndDate(currentSlot.plusDays(2));
+        booking.setStartDate(start);
+        booking.setEndDate(start.plusDays(1));
         booking.setPriority(Priority.HIGHEST);
         booking.setShareRoomType(ShareRoomType.ON_REQUEST);
         return booking;
