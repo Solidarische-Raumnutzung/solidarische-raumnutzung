@@ -34,16 +34,17 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           ./genstats.sh
-          cd presi_template
-          pdflatex presentation.tex
-          biber presentation
-          pdflatex presentation.tex
           
-          cd ../pflichtenheft
+          cd pflichtenheft
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
+          
+          cd ../presi_pflichtenheft
+          pdflatex presentation.tex
+          biber presentation
+          pdflatex presentation.tex
           
           cd ../entwurfsheft
           wget https://solidarische-raumnutzung.github.io/DocTeX/doctex.jar
@@ -53,21 +54,33 @@ jobs:
           pdflatex main.tex
           pdflatex main.tex
           
+          cd ../presi_entwurfsheft
+          pdflatex presentation.tex
+          biber presentation
+          pdflatex presentation.tex
+          
           cd ../implementationsbericht
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
           
+          cd ../presi_implementierung
+          pdflatex presentation.tex
+          biber presentation
+          pdflatex presentation.tex
+          
           cd ..
           wget https://solidarische-raumnutzung.github.io/ClassDiagramGenerator/cdg.jar
           java -jar cdg.jar src/main/java edu.kit.hci.soli
           
           mkdir -p pages
-          mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
+          mv ./presi_pflichtenheft/presentation.pdf ./pages/presi_pflichtenheft.pdf
           mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
+          mv ./presi_entwurfsheft/presentation.pdf ./pages/presi_entwurfsheft.pdf
           mv ./implementationsbericht/main.pdf ./pages/implementationsbericht.pdf
+          mv ./presi_implementierung/presentation.pdf ./pages/presi_implementierung.pdf
           mv ./result.png ./pages/classes.png
           python3 .github/genindex.py pages
       - name: Upload artifact
