@@ -18,47 +18,56 @@
         <div class="max-w-md">
             <h1 class="text-2xl font-bold mb-2">${context.localize("bookings.conflict.resolution")}</h1>
 
-            <ul class="list bg-base-100 rounded-box shadow-md">
+            <ul class="list bg-base-100 rounded-box shadow-md text-left">
                 <li class="mb-4">${context.localize("bookings.conflict.recommend")}</li>
 
                 @if (!bookingResult.contact().isEmpty())
-                    <h2 class="text-left">${context.localize("bookings.conflict.contact")}</h2>
+                    <h2>${context.localize("bookings.conflict.contact")}</h2>
                     @for (Booking booking : bookingResult.contact())
                         <li class="list-row">
-                            <div class="text-xs uppercase font-semibold opacity-60">
+                            <div class="text-xs uppercase font-semibold opacity-60 list-col-grow">
                                 ${context.format(booking.getStartDate())} - ${context.format(booking.getEndDate().toLocalTime())}
                             </div>
-                            <p class="list-col-wrap list-col-grow">
+                            <p class="list-col-wrap">
                                 ${booking.getDescription().isBlank() ? context.lookup("bookings.description.none") : booking.getDescription()}
                             </p>
+                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
                         </li>
                     @endfor
                 @endif
 
                 @if (!bookingResult.override().isEmpty())
-                    <h2 class="text-left">${context.localize("bookings.conflict.delete")}</h2>
+                    <h2>${context.localize("bookings.conflict.delete")}</h2>
                     @for (Booking booking : bookingResult.override())
                         <li class="list-row">
-                            <div class="text-xs uppercase font-semibold opacity-60">
+                            <div class="text-xs uppercase font-semibold opacity-60 list-col-grow">
                                 ${context.format(booking.getStartDate())} - ${context.format(booking.getEndDate().toLocalTime())}
                             </div>
-                            <p class="list-col-wrap list-col-grow">
+                            <p class="list-col-wrap">
                                 ${booking.getDescription().isBlank() ? context.lookup("bookings.description.none") : booking.getDescription()}
                             </p>
+                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
                         </li>
                     @endfor
                 @endif
 
                 @if (!bookingResult.cooperate().isEmpty())
-                    <h2 class="text-left">${context.localize("bookings.conflict.cooperate")}</h2>
+                    <h2>${context.localize("bookings.conflict.cooperate")}</h2>
                     @for (Booking booking : bookingResult.cooperate())
                         <li class="list-row">
-                            <div class="text-xs uppercase font-semibold opacity-60">
+                            <div class="text-xs uppercase font-semibold opacity-60 list-col-grow">
                                 ${context.format(booking.getStartDate())} - ${context.format(booking.getEndDate().toLocalTime())}
                             </div>
-                            <p class="list-col-wrap list-col-grow">
+                            <p class="list-col-wrap">
                                 ${booking.getDescription().isBlank() ? context.lookup("bookings.description.none") : booking.getDescription()}
                             </p>
+                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
                         </li>
                     @endfor
                 @endif
