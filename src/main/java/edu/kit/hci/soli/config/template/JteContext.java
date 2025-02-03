@@ -6,9 +6,7 @@ import lombok.Getter;
 import org.springframework.context.MessageSource;
 
 import java.text.DateFormatSymbols;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
@@ -21,6 +19,7 @@ public class JteContext implements LocalizationSupport {
     private final DateFormatSymbols symbols;
     @Getter private final TimeZone timeZone;
     private final DateTimeFormatter dateTimeFormatter;
+    private final DateTimeFormatter timeFormatter;
 
     public JteContext(MessageSource messageSource, String hostname, Locale locale, TimeZone timeZone) {
         this.messageSource = messageSource;
@@ -28,6 +27,9 @@ public class JteContext implements LocalizationSupport {
         this.locale = locale;
         this.symbols = new DateFormatSymbols(locale == null ? Locale.getDefault() : locale);
         this.dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(locale)
+                .withZone(timeZone.toZoneId());
+        this.timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
                 .withLocale(locale)
                 .withZone(timeZone.toZoneId());
         this.timeZone = timeZone;
@@ -63,5 +65,9 @@ public class JteContext implements LocalizationSupport {
 
     public String format(LocalDateTime dateTime) {
         return dateTimeFormatter.format(dateTime);
+    }
+
+    public String format(LocalTime time) {
+        return timeFormatter.format(time);
     }
 }
