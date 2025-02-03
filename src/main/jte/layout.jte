@@ -31,7 +31,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" />
     <!-- This version of tailwind is incredibly old, but appears to be the latest one that can be used in any (sane) manner. -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://solidarische-raumnutzung.github.io/tailwind-typography-stylesheet/style.css">
     <link rel="stylesheet" type="text/css" href="/soli.css">
     <style>
         :root {

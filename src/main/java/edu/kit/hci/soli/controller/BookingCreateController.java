@@ -71,7 +71,7 @@ public class BookingCreateController {
             return "error/known";
         }
         if (start == null) {
-            start = timeService.minimumTime();
+            start = timeService.minimumTime(room.get());
         }
         if (end == null) {
             end = start.toLocalTime().plusMinutes(30);
@@ -84,8 +84,8 @@ public class BookingCreateController {
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
 
-        model.addAttribute("minimumStart", timeService.minimumTime());
-        model.addAttribute("maximumStart", timeService.maximumTime());
+        model.addAttribute("minimumStart", timeService.minimumTime(room.get()));
+        model.addAttribute("maximumStart", timeService.maximumTime(room.get()));
 
         LocalTime minimumEnd = room.get().getOpeningHours().values().stream()
                 .map(TimeTuple::getStart)
@@ -132,15 +132,20 @@ public class BookingCreateController {
         }
         layout.setRoom(room.get());
         formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
+        if (formData.getDescription().length() > 1024) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error/known";
+        }
 
         // Validate start and end times
         TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());
         LocalDateTime start = formData.getStart();
         LocalDateTime end = formData.getEnd().atDate(start.toLocalDate());
         if (start.isAfter(end)
-                || start.isBefore(timeService.minimumTime())
+                || start.isBefore(timeService.minimumTime(room.get()))
                 || end.isAfter(start.plusHours(4)) // Keep these in sync with index.jte!
-                || end.isAfter(timeService.maximumTime())
+                || end.isAfter(timeService.maximumTime(room.get()))
                 || start.getMinute() % 15 != 0
                 || end.getMinute() % 15 != 0
                 || start.getDayOfWeek() != end.getDayOfWeek()

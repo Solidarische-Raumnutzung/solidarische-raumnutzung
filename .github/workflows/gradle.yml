@@ -37,7 +37,7 @@ jobs:
     - name: Check coverage percentage
       id: coverage
       run: |
-        THRESHOLD=70.0 # Set your desired minimum coverage percentage
+        THRESHOLD=75.0 # Set your desired minimum coverage percentage
         COVERAGE=$(xmllint --xpath "string(//report/counter[@type='LINE']/@covered)" build/reports/jacoco/test/jacocoTestReport.xml)
         MISSED=$(xmllint --xpath "string(//report/counter[@type='LINE']/@missed)" build/reports/jacoco/test/jacocoTestReport.xml)
         TOTAL=$((COVERAGE + MISSED))

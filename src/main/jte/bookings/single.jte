@@ -1,5 +1,6 @@
 @import edu.kit.hci.soli.domain.Booking
 @import edu.kit.hci.soli.config.template.JteContext
+@import edu.kit.hci.soli.domain.ShareRoomType
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.time.format.DateTimeFormatter
@@ -16,6 +17,15 @@
     <i class="fa-solid fa-download"></i>
 </a>
 
+<div class="absolute top-5 left-5">
+    @if(booking.getShareRoomType() == ShareRoomType.YES)
+        <i class="fa-solid fa-users"></i>
+    @elseif(booking.getShareRoomType() == ShareRoomType.NO)
+        <i class="fa-solid fa-users-slash"></i>
+    @else
+        <i class="fa-solid fa-users-line"></i>
+    @endif
+</div>
 
 <p>${context.localize("bookings.start.value", context.format(booking.getStartDate()))}</p>
 <p>${context.localize("bookings.end.value", context.format(booking.getEndDate()))}</p>
@@ -44,7 +54,8 @@
         <label for="edit-description-submit" class="absolute top-1 right-1 btn btn-ghost z-50" aria-label="${context.localize("bookings.description.edit")}" title="${context.localize("bookings.description.edit")}">
             <i class="fa-solid fa-check"></i>
         </label>
-        <textarea id="edit-description-content" name="description" class="w-full textarea textarea-bordered">${booking.getDescription()}</textarea>
+        <textarea id="edit-description-content" name="description" class="w-full input validator textarea textarea-bordered"
+                  maxlength="1024">${booking.getDescription()}</textarea>
         <input type="submit" id="edit-description-submit" class="hidden" />
     `)
 @endif

@@ -20,12 +20,12 @@
 @template.layout(page = new PageSpec(context.lookup("administration.statistics"), "Soli"), context = context, layout = layout, content = @`
     <div role="tablist" class="tabs tabs-lift w-full">
         <input type="radio" name="frame_tabs" role="tab" class="tab" aria-label="${context.localize("administration.statistics.recent")}" checked>
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 prose text-center">
-            <h1>${context.localize("administration.statistics.weekday")}</h1>
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 text-center">
+            <h1 class="text-2xl font-bold mb-2">${context.localize("administration.statistics.weekday")}</h1>
             @if(bookingsPerWeekdayRecent.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>
             @else
-                <ul class="not-prose chart">
+                <ul class="chart">
                     !{var max = bookingsPerWeekdayRecent.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerWeekdayRecent.entrySet())
                         <li>
@@ -43,11 +43,11 @@
 
             <div class="divider"></div>
 
-            <h1>${context.localize("administration.statistics.hour")}</h1>
+            <h1 class="text-2xl font-bold mb-2">${context.localize("administration.statistics.hour")}</h1>
             @if(bookingsPerHourRecent.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>
             @else
-                <ul class="not-prose chart">
+                <ul class="chart">
                     !{var max = bookingsPerHourRecent.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerHourRecent.entrySet())
                         <li>
@@ -65,11 +65,11 @@
 
             <div class="divider"></div>
 
-            <h1>${context.localize("administration.statistics.month")}</h1>
+            <h1 class="text-2xl font-bold mb-2">${context.localize("administration.statistics.month")}</h1>
             @if(bookingsPerMonthRecent.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>
             @else
-                <ul class="not-prose chart">
+                <ul class="chart">
                     !{var max = bookingsPerMonthRecent.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerMonthRecent.entrySet())
                         <li>
@@ -86,12 +86,12 @@
             @endif
         </div>
         <input type="radio" name="frame_tabs" role="tab" class="tab" aria-label="${context.localize("administration.statistics.all_time")}">
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 prose text-center">
-            <h1>${context.localize("administration.statistics.weekday")}</h1>
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 text-center">
+            <h1 class="text-2xl font-bold mb-2">${context.localize("administration.statistics.weekday")}</h1>
             @if(bookingsPerWeekdayAllTime.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>
             @else
-                <ul class="not-prose chart">
+                <ul class="chart">
                     !{var max = bookingsPerWeekdayAllTime.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerWeekdayAllTime.entrySet())
                         <li>
@@ -109,11 +109,11 @@
 
             <div class="divider"></div>
 
-            <h1>${context.localize("administration.statistics.hour")}</h1>
+            <h1 class="text-2xl font-bold mb-2">${context.localize("administration.statistics.hour")}</h1>
             @if(bookingsPerHourAllTime.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>
             @else
-                <ul class="not-prose chart">
+                <ul class="chart">
                     !{var max = bookingsPerHourAllTime.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerHourAllTime.entrySet())
                         <li>
@@ -131,11 +131,11 @@
 
             <div class="divider"></div>
 
-            <h1>${context.localize("administration.statistics.month")}</h1>
+            <h1 class="text-2xl font-bold mb-2">${context.localize("administration.statistics.month")}</h1>
             @if(bookingsPerMonthAllTime.size() <= 1)
                 <p>${context.localize("administration.statistics.no_data")}</p>
             @else
-                <ul class="not-prose chart">
+                <ul class="chart">
                     !{var max = bookingsPerMonthAllTime.values().stream().mapToDouble(s -> s).max().orElse(1);}
                     @for (var e : bookingsPerMonthAllTime.entrySet())
                         <li>

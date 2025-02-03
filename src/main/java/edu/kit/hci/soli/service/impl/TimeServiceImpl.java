@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.service.impl;
 
 import edu.kit.hci.soli.config.SoliConfiguration;
+import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.service.TimeService;
 import org.springframework.stereotype.Service;
 
@@ -49,13 +50,17 @@ public class TimeServiceImpl implements TimeService {
      * @return the minimum valid time slot as a {@link LocalDateTime}
      */
     @Override
-    public LocalDateTime minimumTime() {
+    public LocalDateTime minimumTime(Room room) {
         LocalDateTime ldt = normalize(now().plusMinutes(15));
         return switch (ldt.getDayOfWeek()) {
-            case SATURDAY -> ldt.plusDays(2);
-            case SUNDAY -> ldt.plusDays(1);
+            case SATURDAY -> minimize(room ,ldt.plusDays(2));
+            case SUNDAY -> minimize(room, ldt.plusDays(1));
             default -> ldt;
         };
+    }
+
+    private LocalDateTime minimize(Room room, LocalDateTime ldt) {
+        return room.getOpeningHours().get(ldt.getDayOfWeek()).getStart().atDate(ldt.toLocalDate());
     }
 
     /**
@@ -66,13 +71,17 @@ public class TimeServiceImpl implements TimeService {
      * @return the maximum valid time slot
      */
     @Override
-    public LocalDateTime maximumTime() {
+    public LocalDateTime maximumTime(Room room) {
         LocalDateTime ldt = normalize(now().plusDays(14));
         return switch (ldt.getDayOfWeek()) {
-            case SATURDAY -> ldt.minusDays(1);
-            case SUNDAY -> ldt.minusDays(2);
+            case SATURDAY -> maximize(room, ldt.minusDays(1));
+            case SUNDAY -> maximize(room, ldt.minusDays(2));
             default -> ldt;
         };
+    }
+
+    private LocalDateTime maximize(Room room, LocalDateTime ldt) {
+        return room.getOpeningHours().get(ldt.getDayOfWeek()).getEnd().atDate(ldt.toLocalDate());
     }
 
     /**

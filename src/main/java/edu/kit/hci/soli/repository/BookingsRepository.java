@@ -7,6 +7,9 @@ import edu.kit.hci.soli.dto.BookingByMonth;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -160,9 +163,9 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      *
      * @param date the date to compare the start date to
      */
-    @Query("DELETE FROM Booking b WHERE b.startDate < :date AND b.openRequests IS NOT EMPTY")
+    @Procedure("soli_bookings_cleanup_outdated_requests")
     @Modifying
-    void deleteOutdatedRequests(LocalDateTime date);
+    void deleteOutdatedRequests(@Param("p_date") LocalDateTime date);
 
     /**
      * Gets the highest priority of all bookings that overlap with the specified time.
