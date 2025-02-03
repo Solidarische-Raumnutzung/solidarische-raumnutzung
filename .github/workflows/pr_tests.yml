@@ -16,15 +16,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Validate charset
       run: |
-        set -x
-        git config core.quotepath off
-        for file in $(git ls-files | grep -v '\.jpg$'); do
-          encoding=$(file -b --mime-encoding "$file")
-          if [ "$encoding" != "utf-8" ] && [ "$encoding" != "us-ascii" ] && [ "$encoding" != "binary" ]; then
-            echo "$file has invalid encoding: $encoding"
-            exit 1
-          fi
-        done
+        ./.github/validate_charset.sh
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
