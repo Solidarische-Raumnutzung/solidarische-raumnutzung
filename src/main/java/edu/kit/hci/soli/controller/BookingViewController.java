@@ -189,7 +189,7 @@ public class BookingViewController {
     }
 
     /**
-     * Download the iCalender file for a booking.
+     * Download the iCalendar file for a booking.
      *
      * @param model     the model to be used in the view
      * @param response  the HTTP response
@@ -199,7 +199,7 @@ public class BookingViewController {
      * @return the view name
      */
     @GetMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/booking.ics")
-    public String bookingICalender(Model model, HttpServletResponse response,
+    public String bookingICalendar(Model model, HttpServletResponse response,
                                    @AuthenticationPrincipal SoliUserDetails principal,
                                    @PathVariable Long roomId,
                                    @PathVariable Long eventId) {

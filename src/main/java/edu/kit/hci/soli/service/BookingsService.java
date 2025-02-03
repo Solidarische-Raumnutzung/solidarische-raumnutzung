@@ -118,7 +118,7 @@ public interface BookingsService {
     List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user);
 
     /**
-     * Exports a booking in the iCalender format.
+     * Exports a booking in the iCalendar format.
      *
      * @param booking the booking
      * @param locale the locale for wich to localize

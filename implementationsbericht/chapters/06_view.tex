@@ -6,13 +6,15 @@
 
 \section{Haupseite und Buchung}
 
-Das Mockup der Startseite der Anwendung ist in \ref{fig:startseite} dargestellt.
+Das Mockup der Startseite der Anwendung ist in Abbildung \ref{fig:startseite} dargestellt.
 
-Die entsprechende implementierte Startseite wird gezeigt in \ref{fig:impl-startseite},
-dabei ist zu beachten, dass wir neben einen Dark mode auch einen Light mode implementiert haben,
-welcher beispielhaft für die \textit{Kalender} Ansicht in \ref{fig:impl-startseite_lightmode} zu sehen ist.
+Die entsprechende implementierte Startseite wird gezeigt in Abbildung \ref{fig:impl-startseite_lightmode},
+dabei ist zu beachten, dass wir neben einen \textit{Light Mode} auch einen \textit{Dark Mode} implementiert haben,
+welcher beispielhaft für die \textit{Kalender} Ansicht in Abbildung \ref{fig:impl-startseite} zu sehen ist.
+Im Folgenden werden wir zur besseren Erkenntlichkeit im Dokument immer die Bilder der Implementation im \textit{Light Mode}
+verwenden.
 
-Der Wechsel zwischen den beiden Modi ist über die Browser-Systemeinstellungen möglich.
+Der Wechsel zwischen den beiden Modi ist über die Browser-Einstellungen möglich.
 
 \begin{figure}[ht]
     \centering
@@ -24,20 +26,20 @@ Der Wechsel zwischen den beiden Modi ist über die Browser-Systemeinstellungen m
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/calendar}
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar_dark}
     \caption{Implementierung: Startseite der Anwendung}
     \label{fig:impl-startseite}
 \end{figure}
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/impl-views/calendar}
-    \caption{Implementierung: Startseite der Anwendung im Lightmode} % TODO Change this link to correct impl pic
+    \caption{Implementierung: Startseite der Anwendung im Lightmode}
     \label{fig:impl-startseite_lightmode}
 \end{figure}
 \pagebreak
 
 Sollten Nutzende eine Buchung vornehmen wollen, so klicken diese in den gewünschten Zeitraum
-und es wird der Dialog in \ref{fig:buchung} dargestellt.
+und es wird der Dialog in Abbildung \ref{fig:buchung} dargestellt.
 
 Der Dialog bietet Nutzenden die Möglichkeit, den genauen Start- und Endzeitpunkt des Termins festzulegen.
 
@@ -47,7 +49,7 @@ Für diesen Zweck werden Ihnen drei Optionen bereitgestellt: \textit{Ja}, \texti
 
 Letztlich können Nutzende eine Beschreibung für den Termin hinterlegen, die anderen angemeldeten Nutzenden angezeigt wird.
 
-Die Implementierung des Dialogs ist in \ref{fig:impl-buchung} zu sehen.
+Die Implementierung des Dialogs ist in Abbildung \ref{fig:impl-buchung1} und Abbildung \ref{fig:impl-buchung2} zu sehen.
 
 \begin{figure}[ht]
     \centering
@@ -59,9 +61,16 @@ Die Implementierung des Dialogs ist in \ref{fig:impl-buchung} zu sehen.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/bookings_create_form}
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_create_form_1}
     \caption{Implementierung: Termin-erstellen}
-    \label{fig:impl-buchung}
+    \label{fig:impl-buchung1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/impl-views/bookings_create_form_2}
+    \caption{Implementierung: Termin-erstellen}
+    \label{fig:impl-buchung2}
 \end{figure}
 \clearpage
 
@@ -87,7 +96,7 @@ Sind Nutzende eingeloggt und belegen den Raum,
 so wird ihnen die in Abbildung \ref{fig:checkout} dargestellte Ansicht angezeigt.
 Hier können Nutzende den Raum wieder über den Quick-Checkout-Button freigeben.
 
-Die Implementierung davon ist in \ref{fig:impl-checkout} zu sehen.
+Die Implementierung davon ist in Abbildung \ref{fig:impl-checkout} zu sehen.
 
 
 Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnötigen Mehraufwand zu ermöglichen.
@@ -112,7 +121,7 @@ Ziel dieser Ansicht ist es, Nutzenden das frühe Freigeben des Raumes ohne unnö
 Nutzende, die eine Buchung vorgenommen haben, können diese in der Terminübersicht,
 die in Abbildung \ref{fig:overview} dargestellt ist, einsehen und verwalten.
 
-Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen und die der Terminansicht in \ref{fig:impl-calendarviewbooking}.
+Die Implementierung der Terminübersicht ist in Abbildung \ref{fig:impl-overview} zu sehen und die der Terminansicht in Abbildung \ref{fig:impl-calendarviewbooking}.
 
 \begin{figure}[ht]
     \includegraphics[width=\textwidth]{figures/mockup/bookings_list}
@@ -143,7 +152,7 @@ Die Implementierung der Terminübersicht ist in \ref{fig:impl-overview} zu sehen
 \section{Adminstration}
 Ein/e Administrator*in hat die Möglichkeit, über die Benutzeradministrationsoberfläche, die in Abbildung \ref{fig:adminuser} dargestellt ist, Nutzende einzusehen und zu verwalten.
 
-Die Implementierung der Kontenliste ist in \ref{fig:impl-adminuser}
+Die Implementierung der Kontenliste ist in Abbildung \ref{fig:impl-adminuser} dargestellt.
 
 \begin{figure}[ht]
     \centering
@@ -160,27 +169,25 @@ Die Implementierung der Kontenliste ist in \ref{fig:impl-adminuser}
 \clearpage
 
 Die Funktionalität der einstellbaren Öffnungszeiten für einen Raum, welche nur von Administrator*innen genutzt werden kann
-ist in seiner implementierten Form in \ref{fig:impl-adminopeninghours_config} zu sehen.
+ist in seiner implementierten Form in Abbildung \ref{fig:impl-adminopeninghours_config} zu sehen.
 
-\todo{Bild für die Visualisierung der Öffnungszeiten einfügen}
-
-Die implementierte Visualisierung der Öffnungszeiten in der \textit{Kalender} Ansicht in \ref{fig:impl-adminopeninghours} zu sehen ist.
+Die implementierte Visualisierung der Öffnungszeiten in der \textit{Kalender} Ansicht in Abbildung \ref{fig:impl-adminopeninghours} zu sehen ist.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/placeholder} % TODO Change this link to correct impl pic
+    \includegraphics[width=\textwidth]{figures/impl-views/admin_opening_hours}
     \caption{Implementierung: Konfiguration}
     \label{fig:impl-adminopeninghours_config}
 \end{figure}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/impl-views/admin_opening_hours}
+    \includegraphics[width=\textwidth]{figures/impl-views/calendar_opening_hours}
     \caption{Implementierung: Visualisierung der Öffnungszeiten}
     \label{fig:impl-adminopeninghours}
 \end{figure}
 \clearpage
 
-Die Implementierung des Wunschkriteriums einer Statistikansicht für ein/e Administrator*in ist in \ref{fig:impl-adminstatistic}
+Die Implementierung des Wunschkriteriums einer Statistikansicht für ein/e Administrator*in ist in Abbildung \ref{fig:impl-adminstatistic} zu sehen.
 
 \begin{figure}[ht]
     \centering
