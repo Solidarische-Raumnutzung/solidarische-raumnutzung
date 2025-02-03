@@ -10,11 +10,6 @@
     --soli-chart-height: 300px;
 }
 
-/* Allow wide prose */
-.prose {
-    max-width: unset;
-}
-
 /* Our default light and dark themes (picked automatically by the browser) */
 :root {
     color-scheme: light;
