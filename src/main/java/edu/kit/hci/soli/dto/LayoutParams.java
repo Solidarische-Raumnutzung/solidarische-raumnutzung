@@ -13,12 +13,14 @@ public class LayoutParams {
     private final RoomChangeListener onRoomChange;
     private @Nullable Room room;
     private @Nullable Booking currentHighestBooking;
+    private @Nullable Booking currentBookingOfUser;
 
-    public LayoutParams(@NotNull LoginStateModel login, @Nullable Room room, @NotNull RoomChangeListener onRoomChange, @Nullable Booking currentHighestBooking) {
+    public LayoutParams(@NotNull LoginStateModel login, @Nullable Room room, @NotNull RoomChangeListener onRoomChange, @Nullable Booking currentHighestBooking, @Nullable Booking currentBookingOfUser) {
         this.login = Objects.requireNonNull(login);
         this.room = room;
         this.onRoomChange = Objects.requireNonNull(onRoomChange);
         this.currentHighestBooking = currentHighestBooking;
+        this.currentBookingOfUser = currentBookingOfUser;
     }
 
     public @NotNull LoginStateModel getLogin() {
@@ -36,6 +38,10 @@ public class LayoutParams {
 
     public @Nullable Booking getCurrentHighestBooking() {
         return currentHighestBooking;
+    }
+
+    public @Nullable Booking getCurrentBookingOfUser() {
+        return currentBookingOfUser;
     }
 
     public interface RoomChangeListener {

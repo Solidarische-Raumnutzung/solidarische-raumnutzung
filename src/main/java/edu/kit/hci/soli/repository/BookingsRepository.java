@@ -170,9 +170,21 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     /**
      * Gets the highest priority of all bookings that overlap with the specified time.
      *
+     * @param room the currently selected room
      * @param time the time to check for overlapping bookings
      * @return the highest priority of all bookings that overlap with the specified time
      */
     @Query("SELECT b FROM Booking b WHERE b.room = :room AND b.openRequests IS EMPTY AND b.startDate <= :time AND b.endDate >= :time ORDER BY b.priority ASC, b.shareRoomType DESC")
     Optional<Booking> getHighestPriority(Room room, LocalDateTime time);
+
+    /**
+     * Gets the booking of the logged-in user that overlaps with the given time if there is one.
+     *
+     * @param room the currently selected room
+     * @param time the time to check for booking
+     * @param currentUser user that is logged in
+     * @return the highest priority of all bookings that overlap with the specified time
+     */
+    @Query("SELECT b FROM Booking b WHERE b.room = :room AND b.openRequests IS EMPTY AND b.startDate <= :time AND b.endDate >= :time AND b.user = :currentUser")
+    Optional<Booking> getCurrentBookingOfUser(Room room, LocalDateTime time, User currentUser);
 }

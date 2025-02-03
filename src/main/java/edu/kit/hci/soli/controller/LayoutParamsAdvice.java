@@ -3,6 +3,7 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.domain.Room;
+import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
@@ -90,10 +91,15 @@ public class LayoutParamsAdvice {
                     request.getSession().setAttribute("room", room);
                     return getCurrentHighestBooking(room);
                 },
-                getCurrentHighestBooking(currentRoom));
+                getCurrentHighestBooking(currentRoom),
+                getCurrentBookingOfUser(currentRoom, login.user()));
     }
 
     private Booking getCurrentHighestBooking(@Nullable Room room) {
         return room == null ? null : bookingsService.getCurrentHighestBooking(room, timeService.now()).orElse(null);
+    }
+
+    private Booking getCurrentBookingOfUser(@Nullable Room room, User user) {
+        return room == null ? null : bookingsService.getCurrentBookingOfUser(room,timeService.now(), user).orElse(null);
     }
 }

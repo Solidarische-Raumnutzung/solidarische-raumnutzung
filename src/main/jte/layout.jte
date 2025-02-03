@@ -162,7 +162,13 @@
                             <div class="divider"></div>
 
                             <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
-                            <%-- TODO <li><a class="btn btn-outline btn-error mt-2" href="/${layout.getRoom().getId()}/bookings/new"><i class="fas fa-trash-alt"></i> Checkout</a></li> --%>
+                            @if(layout.getCurrentBookingOfUser() != null)
+                                <li>
+                                    @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/" + layout.getRoom() + "/bookings/" + layout.getCurrentBookingOfUser().getId(), method = DELETE, content = @`
+                                        <button type="submit" class="btn btn-outline btn-error mt-2" href="/${layout.getRoom().getId()}/bookings/new"><i class="fas fa-trash-alt"></i> Checkout</button>
+                                    `)
+                                </li>
+                            @endif
                         @endif
                     </ul>
 

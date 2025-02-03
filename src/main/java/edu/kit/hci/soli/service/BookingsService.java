@@ -140,4 +140,11 @@ public interface BookingsService {
      * @return the current booking
      */
     Optional<Booking> getCurrentHighestBooking(Room room, LocalDateTime time);
+
+    /**
+     * Gets booking of logged-in user, which is at the given time if there is one.
+     *
+     * @return thr current booking of user if there is one
+     */
+    Optional<Booking> getCurrentBookingOfUser(Room room, LocalDateTime time, User user);
 }
