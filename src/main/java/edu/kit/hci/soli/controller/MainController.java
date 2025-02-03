@@ -3,6 +3,7 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.dto.KnownError;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -79,11 +80,13 @@ public class MainController extends AbstractErrorController {
     /**
      * Returns the security.txt file content.
      *
+     * @param response the Http response
      * @return the security.txt content
      */
     @GetMapping("/.well-known/security.txt")
     @ResponseBody
-    public String securityTxt() {
+    public String securityTxt(HttpServletResponse response) {
+        response.setContentType("text/plain");
         return """
                 Contact: soli@iar.kit.edu
                 Expires: 2099-12-31T23:00:00.000Z
