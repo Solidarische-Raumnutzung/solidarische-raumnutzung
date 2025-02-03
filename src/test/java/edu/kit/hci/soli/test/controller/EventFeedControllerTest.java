@@ -1,6 +1,5 @@
 package edu.kit.hci.soli.test.controller;
 
-import edu.kit.hci.soli.config.NIHCache;
 import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.controller.EventFeedController;
@@ -21,24 +20,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class EventFeedControllerTest {
-
     private BookingsService bookingsService;
     private RoomService roomService;
-    private SoliConfiguration soliConfiguration;
-//    private NIHCache holidaysCache;
     private EventFeedController eventFeedController;
 
     @BeforeEach
     void setUp() {
         bookingsService = mock(BookingsService.class);
         roomService = mock(RoomService.class);
-        this.soliConfiguration = new SoliConfiguration();
+        SoliConfiguration soliConfiguration = new SoliConfiguration();
         soliConfiguration.setHolidayCalendarURL(URI.create("https://www.thunderbird.net/media/caldata/autogen/GermanHolidays.ics"));
-//        holidaysCache = mock(NIHCache.class);
         eventFeedController = new EventFeedController(bookingsService, roomService, soliConfiguration);
-//        eventFeedController.setHolidaysCache(holidaysCache);
-
-        //        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -62,7 +54,7 @@ class EventFeedControllerTest {
     void getEvents_throwsExceptionWhenEndBeforeStart() {
         LocalDateTime start = LocalDateTime.of(2023, 1, 2, 0, 0);
         LocalDateTime end = LocalDateTime.of(2023, 1, 1, 0, 0);
-        Long roomId = 1L;
+        long roomId = 1L;
         SoliUserDetails principal = mock(SoliUserDetails.class);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -75,7 +67,7 @@ class EventFeedControllerTest {
     void getEvents_throwsExceptionWhenTimeRangeExceedsThreeMonths() {
         LocalDateTime start = LocalDateTime.of(2023, 1, 1, 0, 0);
         LocalDateTime end = LocalDateTime.of(2023, 5, 1, 0, 0);
-        Long roomId = 1L;
+        long roomId = 1L;
         SoliUserDetails principal = mock(SoliUserDetails.class);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -88,7 +80,7 @@ class EventFeedControllerTest {
     void getEvents_throwsExceptionWhenRoomNotFound() {
         LocalDateTime start = LocalDateTime.of(2023, 1, 1, 0, 0);
         LocalDateTime end = LocalDateTime.of(2023, 1, 2, 0, 0);
-        Long roomId = 1L;
+        long roomId = 1L;
         SoliUserDetails principal = mock(SoliUserDetails.class);
 
         when(roomService.getOptional(roomId)).thenReturn(Optional.empty());
