@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.test.controller;
 
+import edu.kit.hci.soli.config.NIHCache;
 import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.security.SoliUserDetails;
 import edu.kit.hci.soli.controller.EventFeedController;
@@ -9,11 +10,9 @@ import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -23,21 +22,23 @@ import static org.mockito.Mockito.*;
 
 class EventFeedControllerTest {
 
-    @Mock
     private BookingsService bookingsService;
-
-    @Mock
     private RoomService roomService;
-
-    @Mock
     private SoliConfiguration soliConfiguration;
-
-    @InjectMocks
+//    private NIHCache holidaysCache;
     private EventFeedController eventFeedController;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        bookingsService = mock(BookingsService.class);
+        roomService = mock(RoomService.class);
+        this.soliConfiguration = new SoliConfiguration();
+        soliConfiguration.setHolidayCalendarURL(URI.create("https://www.thunderbird.net/media/caldata/autogen/GermanHolidays.ics"));
+//        holidaysCache = mock(NIHCache.class);
+        eventFeedController = new EventFeedController(bookingsService, roomService, soliConfiguration);
+//        eventFeedController.setHolidaysCache(holidaysCache);
+
+        //        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -105,5 +106,13 @@ class EventFeedControllerTest {
         ResponseEntity<String> response = eventFeedController.handleIllegalArgumentException(exception);
 
         assertEquals(ResponseEntity.badRequest().body("Test exception"), response);
+    }
+
+    @Test
+    void getHolidays_returnsHolidays() throws Exception {
+        String result = eventFeedController.getHolidays();
+
+        assertNotNull(result);
+        assertTrue(result.startsWith("BEGIN:VCALENDAR"));
     }
 }
