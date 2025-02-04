@@ -1,3 +1,4 @@
+@import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.dto.LoginStateModel
 @import edu.kit.hci.soli.config.template.JteContext
@@ -84,13 +85,17 @@
                             <div class="badge badge-neutral m-3">p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
                         @endif
 
-                        !{var roomShareType = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
-                            case YES -> "users";
-                            case NO -> "users-slash";
-                            case ON_REQUEST -> "users-line";
-                        };}
-                        @if (roomShareType != null)
-                            <i class="fa-solid fa-${roomShareType} text-neutral m-3"></i>
+                        !{var currentHighestBooking = layout.getCurrentHighestBooking();}
+                        @if (currentHighestBooking != null)
+                            !{var bookingShareType = currentHighestBooking.getShareRoomType();}
+                            @if(bookingShareType == ShareRoomType.YES)
+                                <i class="fa-solid fa-users"></i>
+                            @elseif(bookingShareType == ShareRoomType.NO)
+                                <i class="fa-solid fa-users-slash"></i>
+                            @else
+                                <i class="fa-solid fa-question"></i>
+                                <i class="fa-solid fa-users"></i>
+                            @endif
                         @endif
                     </div>
                 </div>
