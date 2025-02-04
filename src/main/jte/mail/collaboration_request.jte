@@ -2,13 +2,20 @@
 @import edu.kit.hci.soli.domain.Booking
 
 @param JteContext context
+@param String css
 
 @param Booking booking
 
-<p>
-    Dear ${booking.getUser().getUsername()},
-</p>
-<p>${context.localize("bookings.collaboration.message")}</p>
-<a href="${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
-    <p>${context.localize("bookings.collaboration.more_details")}</p>
-</a>
+@template.mail.layout(title = context.lookup("mail.collaboration_request.heading"), context = context, css = css, content = @`
+    <p>
+        ${context.localize("mail.collaboration_request.message", booking.getUser().getUsername(), booking.getRoom().getId(), booking.getStartDate().toString())}
+    </p>
+    <p>
+        ${context.localize("mail.ending")}
+    </p>
+    <p>
+        <a class="btn btn-accent" href="${context.getHostname()}${booking.getRoom().getId()}/bookings/${booking.getId()}/collaboration">
+            ${context.localize("mail.collaboration_request.more_details")}
+        </a>
+    </p>
+`)
