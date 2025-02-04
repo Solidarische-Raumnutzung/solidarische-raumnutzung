@@ -89,17 +89,16 @@ public class LayoutParamsAdvice {
                 login, currentRoom,
                 room -> {
                     request.getSession().setAttribute("room", room);
-                    return getCurrentHighestBooking(room);
+                    return getUpdate(currentRoom, login.user());
                 },
-                getCurrentHighestBooking(currentRoom),
-                getCurrentBookingOfUser(currentRoom, login.user()));
+                getUpdate(currentRoom, login.user()));
     }
 
-    private Booking getCurrentHighestBooking(@Nullable Room room) {
-        return room == null ? null : bookingsService.getCurrentHighestBooking(room, timeService.now()).orElse(null);
-    }
-
-    private Booking getCurrentBookingOfUser(@Nullable Room room, User user) {
-        return room == null ? null : bookingsService.getCurrentBookingOfUser(room,timeService.now(), user).orElse(null);
+    private LayoutParams.RoomChangeListener.ParamsUpdate getUpdate(@Nullable Room room, User user) {
+        if (room == null) return new LayoutParams.RoomChangeListener.ParamsUpdate(null, null);
+        return new LayoutParams.RoomChangeListener.ParamsUpdate(
+                bookingsService.getCurrentHighestBooking(room, timeService.now()).orElse(null),
+                bookingsService.getCurrentBookingOfUser(room,timeService.now(), user).orElse(null)
+        );
     }
 }

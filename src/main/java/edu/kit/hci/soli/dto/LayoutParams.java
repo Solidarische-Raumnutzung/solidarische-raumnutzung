@@ -5,6 +5,7 @@ import edu.kit.hci.soli.domain.Room;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.print.Book;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -15,12 +16,12 @@ public class LayoutParams {
     private @Nullable Booking currentHighestBooking;
     private @Nullable Booking currentBookingOfUser;
 
-    public LayoutParams(@NotNull LoginStateModel login, @Nullable Room room, @NotNull RoomChangeListener onRoomChange, @Nullable Booking currentHighestBooking, @Nullable Booking currentBookingOfUser) {
+    public LayoutParams(@NotNull LoginStateModel login, @Nullable Room room, @NotNull RoomChangeListener onRoomChange, @NotNull RoomChangeListener.ParamsUpdate paramsUpdate) {
         this.login = Objects.requireNonNull(login);
         this.room = room;
         this.onRoomChange = Objects.requireNonNull(onRoomChange);
-        this.currentHighestBooking = currentHighestBooking;
-        this.currentBookingOfUser = currentBookingOfUser;
+        this.currentHighestBooking = paramsUpdate.currentHighestBooking();
+        this.currentBookingOfUser = paramsUpdate.currentBookingOfUser();
     }
 
     public @NotNull LoginStateModel getLogin() {
@@ -32,8 +33,10 @@ public class LayoutParams {
     }
 
     public void setRoom(@Nullable Room room) {
+        RoomChangeListener.ParamsUpdate paramsUpdate = onRoomChange.onRoomChange(room);
         this.room = room;
-        this.currentHighestBooking = onRoomChange.onRoomChange(room);
+        this.currentHighestBooking = paramsUpdate.currentHighestBooking();
+        this.currentBookingOfUser = paramsUpdate.currentBookingOfUser();
     }
 
     public @Nullable Booking getCurrentHighestBooking() {
@@ -49,6 +52,8 @@ public class LayoutParams {
          * @param room the new room
          * @return the new current highest booking
          */
-        @Nullable Booking onRoomChange(@Nullable Room room);
+        @NotNull ParamsUpdate onRoomChange(@Nullable Room room);
+
+        record ParamsUpdate(@Nullable Booking currentHighestBooking, @Nullable Booking currentBookingOfUser) {}
     }
 }
