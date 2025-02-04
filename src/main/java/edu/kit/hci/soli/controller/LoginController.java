@@ -35,8 +35,8 @@ public class LoginController {
      */
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model) {
-        if (request.getParameter("error") != null) model.addAttribute("error", "Invalid username or password");
-        if (request.getParameter("logout") != null) model.addAttribute("message", "You have been logged out");
+        if (request.getParameter("error") != null) model.addAttribute("error", "error.invalid_username");
+        if (request.getParameter("logout") != null) model.addAttribute("message", "error.logout");
         model.addAttribute("guestEnabled", systemConfigurationService.isGuestLoginEnabled());
 
         return "auth/login";

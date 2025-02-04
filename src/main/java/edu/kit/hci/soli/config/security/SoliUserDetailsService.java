@@ -3,14 +3,21 @@ package edu.kit.hci.soli.config.security;
 import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.service.SystemConfigurationService;
 import edu.kit.hci.soli.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+import java.util.regex.Pattern;
+
 @Service
 public class SoliUserDetailsService implements UserDetailsService {
+    // E-Mail pattern taken verbatim from OWASP Validation Regex Repository
+    private static final Pattern mailPattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$");
+    private static final int maxMailLength = 320;
+    private static final int maxIdLength = maxMailLength + "guest//".length() + UUID.randomUUID().toString().length();
+
     private final UserService userService;
     private final SystemConfigurationService systemConfigurationService;
     private final String adminPassword;
@@ -25,13 +32,32 @@ public class SoliUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("admin".equals(username)) return new SoliAdminUserDetails(userService.resolveAdminUser(), adminPassword);
-        else if (systemConfigurationService.isGuestLoginEnabled()) return new SoliGuestUserDetails(
-                username.startsWith("guest/")
-                        ? userService.resolveGuestUser(username)
-                        : userService.createGuestUser(username),
-                "{noop}" + guestMarker
-        );
-        else throw new UsernameNotFoundException("User not found: " + username);
+        if ("admin".equals(username)) {
+            return new SoliAdminUserDetails(userService.resolveAdminUser(), adminPassword);
+        } else if (systemConfigurationService.isGuestLoginEnabled()) {
+            if (username.startsWith("guest/")) {
+                if (username.length() > maxIdLength) {
+                    throw new UsernameNotFoundException("Invalid E-Mail address: " + username);
+                }
+                return new SoliGuestUserDetails(
+                        userService.resolveGuestUser(username),
+                        "{noop}" + guestMarker
+                );
+            } else {
+                if (username.length() > maxMailLength) {
+                    throw new UsernameNotFoundException("Invalid E-Mail address: " + username);
+                }
+                if (mailPattern.matcher(username).matches()) {
+                    return new SoliGuestUserDetails(
+                            userService.createGuestUser(username),
+                            "{noop}" + guestMarker
+                    );
+                } else {
+                    throw new UsernameNotFoundException("Invalid E-Mail address: " + username);
+                }
+            }
+        } else {
+            throw new UsernameNotFoundException("User not found: " + username);
+        }
     }
 }

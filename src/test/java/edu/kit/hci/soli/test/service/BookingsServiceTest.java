@@ -125,6 +125,49 @@ public class BookingsServiceTest {
     }
 
     @Test
+    public void testAttemptToBookLeftNo() {
+        testBooking.setShareRoomType(ShareRoomType.YES);
+        testBooking2.setShareRoomType(ShareRoomType.NO);
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.Failure failure = assertInstanceOf(
+                BookingAttemptResult.Failure.class,
+                result
+        );
+        assertIterableEquals(List.of(testBooking), failure.conflict());
+        assertNull(testBooking2.getId());
+    }
+
+    @Test
+    public void testAttemptToBookLeftNoHigher() {
+        testBooking.setShareRoomType(ShareRoomType.YES);
+        testBooking.setPriority(Priority.LOWEST);
+        testBooking2.setShareRoomType(ShareRoomType.NO);
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Immediate failure = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Immediate.class,
+                result
+        );
+        assertIterableEquals(List.of(testBooking), failure.override());
+        assertNull(testBooking2.getId());
+    }
+
+    @Test
+    public void testAttemptToBookOtherNull() {
+        testBooking.setShareRoomType(null);
+        testBooking2.setShareRoomType(ShareRoomType.YES);
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.Failure failure = assertInstanceOf(
+                BookingAttemptResult.Failure.class,
+                result
+        );
+        assertIterableEquals(List.of(testBooking), failure.conflict());
+        assertNull(testBooking2.getId());
+    }
+
+    @Test
     public void testConfirmRequestSingle() {
         testBooking = bookingsRepository.save(testBooking);
         BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
@@ -210,10 +253,29 @@ public class BookingsServiceTest {
 
     @Test
     public void testDelete() {
+        Booking distantBooking = testService.createBooking(testService.user, testBooking.getEndDate().plusHours(2));
+        distantBooking = bookingsRepository.save(distantBooking);
+        testBooking.setEndDate(testBooking.getEndDate().plusHours(3));
         testBooking = bookingsRepository.save(testBooking);
+        testBooking2.setOpenRequests(Set.of(testService.user));
+        testBooking2 = bookingsRepository.save(testBooking2);
         assertTrue(bookingsRepository.existsById(testBooking.getId()));
+
         bookingsService.delete(testBooking, BookingDeleteReason.ADMIN);
         assertFalse(bookingsRepository.existsById(testBooking.getId()));
+        assertTrue(bookingsRepository.existsById(distantBooking.getId()));
+        assertIterableEquals(List.of(), bookingsRepository.findById(testBooking2.getId()).get().getOpenRequests());
+    }
+
+    @Test
+    public void testDeleteAllBookingsForUser() {
+        testBooking.setOpenRequests(Set.of(testService.user2));
+        testBooking = bookingsRepository.save(testBooking);
+        testBooking2 = bookingsRepository.save(testBooking2);
+        bookingsService.deleteAllBookingsForUser(testService.user2);
+        assertFalse(bookingsRepository.existsById(testBooking2.getId()));
+        assertTrue(bookingsRepository.existsById(testBooking.getId()));
+        assertIterableEquals(List.of(), bookingsRepository.findById(testBooking.getId()).get().getOpenRequests());
     }
 
     @Test
@@ -282,7 +344,7 @@ public class BookingsServiceTest {
     }
 
     @Test
-    public void testGetICalendar() {
+    public void testGetICalendarEnglish() {
         testBooking.setDescription("test description\n very good:!");
         testBooking.setStartDate(LocalDateTime.of(2025, 1, 12, 5, 0));
         testBooking.setEndDate(LocalDateTime.of(2025, 1, 12, 6, 0));
@@ -298,6 +360,33 @@ public class BookingsServiceTest {
                 :20250112T040000Z
                 DTEND:20250112T050000Z
                 SUMMARY:SOLI-Booking
+                DESCRIPTION:test description\\n
+                  very good\\:!
+                URL:http://localhost""".replace("\n", "\r\n"), ical.split("DTSTART")[1].split(":8080/")[0]);
+        assertTrue(ical.endsWith("""
+                LOCATION:Testort
+                END:VEVENT
+                END:VCALENDAR
+                """.replace("\n", "\r\n")));
+    }
+
+    @Test
+    public void testGetICalendarGerman() {
+        testBooking.setDescription("test description\n very good:!");
+        testBooking.setStartDate(LocalDateTime.of(2025, 1, 12, 5, 0));
+        testBooking.setEndDate(LocalDateTime.of(2025, 1, 12, 6, 0));
+        testBooking = bookingsRepository.save(testBooking);
+        var ical = bookingsService.getICalendar(testBooking, Locale.GERMAN);
+        assertEquals("""
+                BEGIN:VCALENDAR
+                VERSION:2.0
+                PRODID:-//HCI SOLI//NONSGML HCI Solidarische Raumnutzung//EN
+                BEGIN:VEVENT
+                UID:4e58d14a-3926-6471-""".replace("\n", "\r\n"), ical.split("0000-")[0]);
+        assertEquals("""
+                :20250112T040000Z
+                DTEND:20250112T050000Z
+                SUMMARY:SOLI-Buchung
                 DESCRIPTION:test description\\n
                   very good\\:!
                 URL:http://localhost""".replace("\n", "\r\n"), ical.split("DTSTART")[1].split(":8080/")[0]);

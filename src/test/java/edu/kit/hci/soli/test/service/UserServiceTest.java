@@ -3,6 +3,7 @@ package edu.kit.hci.soli.test.service;
 import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
+import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.*;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,6 +29,10 @@ public class UserServiceTest {
     @Autowired private RoomService roomService;
     @Autowired
     private SystemConfigurationService systemConfigurationService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private TimeService timeService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -47,8 +53,12 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testToggleUserEnabled() {
+    public void testSetUserActive() {
+        assertThrows(IllegalArgumentException.class, () -> userService.setUserActive(testService.user, true));
+        assertThrows(IllegalArgumentException.class, () -> userService.setUserActive(testService.user, false));
         userService.setUserActive(testService.user2, false);
+        assertTrue(userService.findByUserId(testService.user2.getUserId()).isDisabled());
+        assertThrows(IllegalArgumentException.class, () -> userService.setUserActive(testService.user2, false));
         assertTrue(userService.findByUserId(testService.user2.getUserId()).isDisabled());
         userService.setUserActive(testService.user2, true);
         assertFalse(userService.findByUserId(testService.user2.getUserId()).isDisabled());
@@ -76,8 +86,12 @@ public class UserServiceTest {
 
     @Test
     public void testResolveGuestUser() {
+        long count = userRepository.count();
         assertEquals(testService.user2, userService.resolveGuestUser(testService.user2.getUserId()));
         assertEquals(testService.user3, userService.resolveGuestUser(testService.user3.getUserId()));
+        assertEquals(count, userRepository.count());
+        userService.resolveGuestUser("guest/" + UUID.randomUUID() + "/neue");
+        assertEquals(count + 1, userRepository.count());
     }
 
     @Test
@@ -86,6 +100,15 @@ public class UserServiceTest {
         assertFalse(userService.isGuest(testService.user));
         assertTrue(userService.isGuest(testService.user2));
         assertTrue(userService.isGuest(testService.user3));
+    }
+
+    @Test
+    public void testUpdateLastLogin() {
+        testService.user.setLastLogin(timeService.now().minusMonths(3));
+        testService.user = userRepository.save(testService.user);
+        assertFalse(userService.getById(testService.user.getId()).getLastLogin().isAfter(timeService.now().minusMinutes(1)));
+        userService.updateLastLogin(testService.user);
+        assertTrue(userService.getById(testService.user.getId()).getLastLogin().isAfter(timeService.now().minusMinutes(1)));
     }
 
     @Test

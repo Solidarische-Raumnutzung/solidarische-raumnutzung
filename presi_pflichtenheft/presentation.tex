@@ -4,27 +4,40 @@
 %% Siehe https://sdqweb.ipd.kit.edu/wiki/Dokumentvorlagen
 
 %% Beispiel-Präsentation
-\documentclass{sdqbeamer}
+\documentclass{sdqbeamer} 
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[]{title}
+    \centering\usebeamerfont{title}\huge\underline\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
  
 %% Titelbild
 \titleimage{banner_2020_kit}
 
 %% Gruppenlogo
-%\grouplogo{mylogo}
+%\grouplogo{mylogo} 
 
 %% Gruppenname und Breite (Standard: 50 mm)
-\groupname{Abteilungs-, KIT-Fakultäts-, Institutsbezeichnung}
-%\groupnamewidth{50mm}
+\groupname{Human-Computer Interaction and Accessibility}
+\groupnamewidth{50mm}
+\grouplogo{grouplogo.jpg}
 
 % Beginn der Präsentation
 
-\title[KIT-Beamer-Vorlage]{Präsentation mit \LaTeX{} Beamer im KIT-Design}
-\subtitle{entsprechend den Gestaltungsrichtlinien vom 1. August 2020}
-\author[Erik Burger]{Dr.-Ing. Erifsdfk Burger}
+\title[Solidarische Raumnutzung Pflichtenheft]{Kolloquium Pflichtenheft zur Solidarischen Raumnutzung}
+\subtitle{PSE-Projekt WS24/25} 
+\author[Soli-Gruppe]{Alexander Klee, Jannik Hönlinger, Johannes Frohnmeyer, Ben Steinle und Antonia Ammon}
 
-\date[10.\,8.\,2021]{10. August 2021}
+\date[27.\,11.\,2024]{27. November 2024}
 
-% Literatur
+% Literatur 
  
 \usepackage[citestyle=authoryear,bibstyle=numeric,hyperref,backend=biber]{biblatex}
 \addbibresource{presentation.bib}
@@ -40,248 +53,280 @@
 \tableofcontents
 \end{frame}
 
-\section{Erster Abschnitt}
+\section{Anforderungserhebung}
 
-\subsection{Erster Unterabschnitt}
-\begin{frame}{Blöcke}{in den KIT-Farben}
-	\begin{columns}
-		\column{.3\textwidth}
-		\begin{greenblock}{Greenblock}
-			Standard (\texttt{block})
+\begin{frame}{Aufgabenstellung}
+    \begin{columns}
+        \column{.4\textwidth}
+        \begin{greenblock}{Problemstellung}
+            \begin{itemize}
+                \item Raum zur Verfügung
+                \begin{itemize}
+                    \item Ruheraum
+                \end{itemize}
+                \item Nur Türschild als Informationsquelle
+    \end{itemize}
         \end{greenblock}
-		\column{.3\textwidth}
-		\begin{blueblock}{Blueblock}
-			= \texttt{exampleblock}
-        \end{blueblock}
-		\column{.3\textwidth}
-		\begin{redblock}{Redblock}
-			= \texttt{alertblock}
-        \end{redblock}
-	\end{columns}
-	\begin{columns}
-		\column{.3\textwidth}
-        \begin{brownblock}{Brownblock}
-        \end{brownblock}
-		\column{.3\textwidth}
-        \begin{purpleblock}{Purpleblock}
-        \end{purpleblock}
-		\column{.3\textwidth}
-        \begin{cyanblock}{Cyanblock}
-        \end{cyanblock}
-	\end{columns}
-	\begin{columns}
-		\column{.3\textwidth}
-        \begin{yellowblock}{Yellowblock}
-        \end{yellowblock}
-		\column{.3\textwidth}
-        \begin{lightgreenblock}{Lightgreenblock}
-        \end{lightgreenblock}
-		\column{.3\textwidth}
-        \begin{orangeblock}{Orangeblock}
-        \end{orangeblock}
-	\end{columns}
-	\begin{columns}
-		\column{.3\textwidth}
-        \begin{grayblock}{Grayblock}
-        \end{grayblock}
-		\column{.3\textwidth}
-		\begin{contentblock}{Contentblock}
-			(farblos)
-		\end{contentblock}
-		\column{.3\textwidth}
-	\end{columns}
-\end{frame}
-	  
-\subsection{Zweiter Unterabschnitt}
-\begin{frame}{Auflistungen}
-	Text
-	\begin{itemize}
-		\item Auflistung\\ Umbruch
-		\item Auflistung
-		\begin{itemize}
-			\item Auflistung
-			\item Auflistung
-		\end{itemize}
-	\end{itemize}
+        \column{.4\textwidth}
+        \begin{greenblock}{Anforderungen}
+            \begin{itemize}
+                \item Buchungssystem
+                \item Nuancen in Bedarf dargestellt
+                \item Aushandlung vereinfachen
+            \end{itemize}
+        \end{greenblock}
+    \end{columns}
 \end{frame}
 
-\section{Zweiter Abschnitt}
-
-\begin{frame}
-        Bei Frames ohne Titel wird die Kopfzeile nicht angezeigt, und
-    der freie Platz kann für Inhalte genutzt werden.
+\subsection{Befragungen}
+\begin{frame}{\insertsubsectionhead}
+    \begin{columns}
+        \column{.4\textwidth}
+        \begin{greenblock}{Mitarbeiter*innen}
+        des HCI
+        \end{greenblock}
+        \begin{greenblock}{Flux}
+        Hochschulgruppe für neurodivergente Menschen
+        \end{greenblock}
+    \end{columns}
 \end{frame}
 
-\begin{frame}[plain]
-    Bei Frames mit Option \texttt{[plain]} werden weder Kopf- noch Fußzeile angezeigt.
+\begin{frame}{Befragung der Mitarbeiter*innen}
+    \begin{itemize}
+        \item Möglichkeit zur \textcolor{kit-red100}{gemeinsamen Nutzung} oder Verhandlung 
+        \item Auch \textcolor{kit-cyan100}{spontane} Raumnutzung soll möglich bleiben
+        \item \textcolor{kit-green100}{Übersichtlichkeit}
+        \note{wenige Prios}
+        \item Ruheraum
+        \note{Priorität hat Funktion als Ruheraum}
+        \begin{itemize}
+            \item Hinweise über Verhalten
+            \note{z.B. Panikattacken}
+        \end{itemize}
+        \item Mehrsprachig
+        \item Screenreader
+    \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{Beispielinhalt}
-    Bei Frames mit Option \texttt{[t]} werden die Inhalte nicht vertikal zentriert, sondern an der Oberkante begonnen.
+\begin{frame}{Befragung der Leute von Flux}
+    \begin{itemize}
+        \item Gut sichtbare \textcolor{kit-lightgreen100}{Statusanzeige}
+        \item \textcolor{kit-orange100}{Reibungslose} Nutzung
+        \item Einfaches \textcolor{kit-purple100}{Checkout}
+        \begin{itemize}
+            \item evtl. Hardware im Raum
+        \end{itemize}
+        \item Darkmode
+    \end{itemize}
 \end{frame}
 
-
-\begin{frame}{Beispielinhalt: Literatur}
-    Literaturzitat: \cite{klare2021jss}
+\subsection{Anforderungen}
+\begin{frame}{\insertsubsectionhead}
+    \begin{itemize}
+        \item Pflichten
+        \item Wünsche
+    \end{itemize}
 \end{frame}
 
-\appendix
-\beginbackup
-
-\begin{frame}{Literatur}
-\begin{exampleblock}{Backup-Teil}
-    Folien, die nach \texttt{\textbackslash beginbackup} eingefügt werden, zählen nicht in die Gesamtzahl der Folien.
-\end{exampleblock}
-
-\printbibliography
+\begin{frame}{Pflichten}
+    \begin{itemize}
+        \item Web-Applikation mit KIT-Login
+        \item Ansichten
+        \begin{itemize}
+            \item Kalender
+            \item Login
+            \item Termin-Erstellen
+            \item Termin
+            \item Terminübersicht
+            \item Kontenliste
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
-\section{Farben}
-%% ----------------------------------------
-%% | Test-Folie mit definierten Farben |
-%% ----------------------------------------
-\begin{frame}{Farbpalette}
-\tiny
-
-% GREEN
-	\colorbox{kit-green100}{kit-green100}
-	\colorbox{kit-green90}{kit-green90}
-	\colorbox{kit-green80}{kit-green80}
-	\colorbox{kit-green70}{kit-green70}
-	\colorbox{kit-green60}{kit-green60}
-	\colorbox{kit-green50}{kit-green50}
-	\colorbox{kit-green40}{kit-green40}
-	\colorbox{kit-green30}{kit-green30}
-	\colorbox{kit-green25}{kit-green25}
-	\colorbox{kit-green20}{kit-green20}
-	\colorbox{kit-green15}{kit-green15}
-	\colorbox{kit-green10}{kit-green10}
-	\colorbox{kit-green5}{kit-green5}
-
-% BLUE
-	\colorbox{kit-blue100}{kit-blue100}
-	\colorbox{kit-blue90}{kit-blue90}
-	\colorbox{kit-blue80}{kit-blue80}
-	\colorbox{kit-blue70}{kit-blue70}
-	\colorbox{kit-blue60}{kit-blue60}
-	\colorbox{kit-blue50}{kit-blue50}
-	\colorbox{kit-blue40}{kit-blue40}
-	\colorbox{kit-blue30}{kit-blue30}
-	\colorbox{kit-blue25}{kit-blue25}
-	\colorbox{kit-blue20}{kit-blue20}
-	\colorbox{kit-blue15}{kit-blue15}
-	\colorbox{kit-blue10}{kit-blue10}
-	\colorbox{kit-blue5}{kit-blue5}
-
-% RED
-	\colorbox{kit-red100}{kit-red100}
-	\colorbox{kit-red90}{kit-red90}
-	\colorbox{kit-red80}{kit-red80}
-	\colorbox{kit-red70}{kit-red70}
-	\colorbox{kit-red60}{kit-red60}
-	\colorbox{kit-red50}{kit-red50}
-	\colorbox{kit-red40}{kit-red40}
-	\colorbox{kit-red30}{kit-red30}
-	\colorbox{kit-red25}{kit-red25}
-	\colorbox{kit-red20}{kit-red20}
-	\colorbox{kit-red15}{kit-red15}
-	\colorbox{kit-red10}{kit-red10}
-	\colorbox{kit-red5}{kit-red5}
-
-% GREY
-	\colorbox{kit-gray100}{\color{white}kit-gray100}
-	\colorbox{kit-gray90}{\color{white}kit-gray90}
-	\colorbox{kit-gray80}{\color{white}kit-gray80}
-	\colorbox{kit-gray70}{\color{white}kit-gray70}
-	\colorbox{kit-gray60}{\color{white}kit-gray60}
-	\colorbox{kit-gray50}{\color{white}kit-gray50}
-	\colorbox{kit-gray40}{kit-gray40}
-	\colorbox{kit-gray30}{kit-gray30}
-	\colorbox{kit-gray25}{kit-gray25}
-	\colorbox{kit-gray20}{kit-gray20}
-	\colorbox{kit-gray15}{kit-gray15}
-	\colorbox{kit-gray10}{kit-gray10}
-	\colorbox{kit-gray5}{kit-gray5}
-
-% Orange
-	\colorbox{kit-orange100}{kit-orange100}
-	\colorbox{kit-orange90}{kit-orange90}
-	\colorbox{kit-orange80}{kit-orange80}
-	\colorbox{kit-orange70}{kit-orange70}
-	\colorbox{kit-orange60}{kit-orange60}
-	\colorbox{kit-orange50}{kit-orange50}
-	\colorbox{kit-orange40}{kit-orange40}
-	\colorbox{kit-orange30}{kit-orange30}
-	\colorbox{kit-orange25}{kit-orange25}
-	\colorbox{kit-orange20}{kit-orange20}
-	\colorbox{kit-orange15}{kit-orange15}
-	\colorbox{kit-orange10}{kit-orange10}
-	\colorbox{kit-orange5}{kit-orange5}
-
-% lightgreen
-	\colorbox{kit-lightgreen100}{kit-lightgreen100}
-	\colorbox{kit-lightgreen90}{kit-lightgreen90}
-	\colorbox{kit-lightgreen80}{kit-lightgreen80}
-	\colorbox{kit-lightgreen70}{kit-lightgreen70}
-	\colorbox{kit-lightgreen60}{kit-lightgreen60}
-	\colorbox{kit-lightgreen50}{kit-lightgreen50}
-	\colorbox{kit-lightgreen40}{kit-lightgreen40}
-	\colorbox{kit-lightgreen30}{kit-lightgreen30}
-	\colorbox{kit-lightgreen25}{kit-lightgreen25}
-	\colorbox{kit-lightgreen20}{kit-lightgreen20}
-	\colorbox{kit-lightgreen15}{kit-lightgreen15}
-	\colorbox{kit-lightgreen10}{kit-lightgreen10}
-	\colorbox{kit-lightgreen5}{kit-lightgreen5}
-
-% Brown
-	\colorbox{kit-brown100}{kit-brown100}
-	\colorbox{kit-brown90}{kit-brown90}
-	\colorbox{kit-brown80}{kit-brown80}
-	\colorbox{kit-brown70}{kit-brown70}
-	\colorbox{kit-brown60}{kit-brown60}
-	\colorbox{kit-brown50}{kit-brown50}
-	\colorbox{kit-brown40}{kit-brown40}
-	\colorbox{kit-brown30}{kit-brown30}
-	\colorbox{kit-brown25}{kit-brown25}
-	\colorbox{kit-brown20}{kit-brown20}
-	\colorbox{kit-brown15}{kit-brown15}
-	\colorbox{kit-brown10}{kit-brown10}
-	\colorbox{kit-brown5}{kit-brown5}
-
-% Purple
-	\colorbox{kit-purple100}{kit-purple100}
-	\colorbox{kit-purple90}{kit-purple90}
-	\colorbox{kit-purple80}{kit-purple80}
-	\colorbox{kit-purple70}{kit-purple70}
-	\colorbox{kit-purple60}{kit-purple60}
-	\colorbox{kit-purple50}{kit-purple50}
-	\colorbox{kit-purple40}{kit-purple40}
-	\colorbox{kit-purple30}{kit-purple30}
-	\colorbox{kit-purple25}{kit-purple25}
-	\colorbox{kit-purple20}{kit-purple20}
-	\colorbox{kit-purple15}{kit-purple15}
-	\colorbox{kit-purple10}{kit-purple10}
-	\colorbox{kit-purple5}{kit-purple5}
-
-% Cyan
-	\colorbox{kit-cyan100}{kit-cyan100}
-	\colorbox{kit-cyan90}{kit-cyan90}
-	\colorbox{kit-cyan80}{kit-cyan80}
-	\colorbox{kit-cyan70}{kit-cyan70}
-	\colorbox{kit-cyan60}{kit-cyan60}
-	\colorbox{kit-cyan50}{kit-cyan50}
-	\colorbox{kit-cyan40}{kit-cyan40}
-	\colorbox{kit-cyan30}{kit-cyan30}
-	\colorbox{kit-cyan25}{kit-cyan25}
-	\colorbox{kit-cyan20}{kit-cyan20}
-	\colorbox{kit-cyan15}{kit-cyan15}
-	\colorbox{kit-cyan10}{kit-cyan10}
-	\colorbox{kit-cyan5}{kit-cyan5}
-		
+\begin{frame}{Pflichten}
+    \begin{itemize}
+        \item Terminkonflikte mit Prioritäten lösen (\textcolor{kit-orange100}{reibungslos})
+        \item 3 Prioritäten (\textcolor{kit-green}{Übersichtlichkeit})
+        \note{info per Mail, falls termin überschrieben}
+        \item Angabe, ob parallel nutzbar (\textcolor{kit-red100}{gemeinsame Nutzung})
+        \note{wie genau umgesetzt bei Benutzeroberfläche}
+        \item Banner mit Raumstatus (\textcolor{kit-lightgreen100}{Statusanzeige})
+        \item Möglichkeit für Admin Gastkontos zu deaktivieren 
+        \item Admin kann Termine löschen
+    \end{itemize}
 \end{frame}
-%% ----------------------------------------
-%% | /Test-Folie mit definierten Farben |
-%% ----------------------------------------
-\backupend
+
+\begin{frame}{Wünsche}
+    \begin{itemize}
+        \item Physischer Panikbutton (\textcolor{kit-purple100}{Hardware im Raum})
+        \note{erstellt automatisch termin höchster priorität}
+        \item Quick-Checkout/-in (\textcolor{kit-orange100}{reibungslos}, \textcolor{kit-purple100}{einfaches Checkout})
+        \item Mehrere Räume möglich (Erweiterbarkeit)
+        \item Hinweis auf Feiertage
+        \item Termin in iCal-Format exportierbar
+        \item Statistikansicht für Admins
+    \end{itemize}
+\end{frame}
+
+\subsection{Was wir nicht anbieten}
+\begin{frame}{\insertsubsectionhead}
+    \begin{itemize}
+        \item Mehrere Räume
+        \note{Verteilung von Buchungen von ähnlichen Räumen usw.}
+        \item Mehrere Arbeitplätze
+        \item Langzeitplanung oder Buchungen länger als einen Tag
+        \item Verifikation von Gastkonten
+    \end{itemize}
+\end{frame}
+
+\section{Produkt}
+\note{erst Benutzeroberfläche und dann 2 Beispielinterkationen für genauere Infos}
+
+\subsection{Benutzeroberfläche}
+
+\begin{frame}{{\insertsubsectionhead} - Kalenderansicht}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Benutzeroberfläche/BenutzeroberflächeKalender.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+\note {Übersicht über gebuchte Termine der Woche + öffnungszeiten + eigenene Termine hervorgehoben}
+
+\begin{frame}{{\insertsubsectionhead} - Login}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Benutzeroberfläche/BenutzeroberflächeLogin.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+\note {Login mit KIT account oder Gast auch Admin}
+
+\begin{frame}{\insertsubsectionhead}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Benutzeroberfläche/BenutzeroberflächeKalender2.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+\note{wenn Buchung fertig z.B. direkt das nächste mal buchen}
+
+\begin{frame}{{\insertsubsectionhead} - Buchen}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Benutzeroberfläche/BenutzeroberflächeBuchung.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+\note {neuer Termin --> aktuelle Zeit, Priorität und verhandelbarkeit + Beschreibung optional mit Hinweis}
+
+\begin{frame}{{\insertsubsectionhead} - Terminansicht}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Benutzeroberfläche/BenutzeroberflächeTerminansicht.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+\note {Infos zu Termin --> wichtige Infos werden angezeit}
+
+\begin{frame}{{\insertsubsectionhead} - Terminübersicht}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Benutzeroberfläche/BenutzeroberflächeTerminübersicht.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+\note {Auflistung der eigenen Termine zur Verwaltung}
+
+\begin{frame}{\insertsubsectionhead - Nutzer*innenübersicht}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{Benutzeroberfläche/BenutzeroberflächeNutzerinnenansicht.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+\note {für Admin --> Verwaltung von Konten}
+
+\subsection{Beispielinteraktionen} 
+\begin{frame}{{\insertsubsectionhead} - Anmeldefunktionalität}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Beispielinteraktionen/Anmeldung.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{{\insertsubsectionhead} - Adminfunktionalität}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Beispielinteraktionen/Adminfunktionalität.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\subsection{Technische Umgebung}
+
+\begin{frame}{\insertsubsectionhead}
+    \begin{columns}
+        \column{.4\textwidth}
+        \begin{greenblock}{Entwicklungsumgebung}
+            \begin{itemize}
+                \item Devcontainer
+                \note{reproduzierbare Entwicklungsumgebung}
+                \item GitHub
+                \note{z. B. Continuous Integration/Development}
+            \end{itemize}
+        \end{greenblock}
+        \column{.4\textwidth}
+        \begin{greenblock}{Hardware}
+            \begin{itemize}
+                \item AMD64-kompatibler Prozessor
+                \item Min. 1 GB RAM
+                \note{Backend}
+                \item Mobiles Endgerät mit Internetzugang
+                \note{frontend}
+            \end{itemize}
+        \end{greenblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+    \begin{columns}
+        \column{.4\textwidth}
+        \begin{greenblock}{Software}
+            \begin{itemize}
+                \item Ubuntu Linux 24.04 LTS 
+                \note{Betriebssystem}
+                \item Docker
+                \note{Containerisierung der Anwendung}
+                \item Springboot mit Java 
+                \note{als Backend framework}
+                \item JTE
+                \note{generierung von HTML Seiten}
+                \item Caddy
+                \note{HTTPS-Reverse-Proxy}
+                \note{und als frontend:}
+                \item HTML mit Javaskript
+                \item CSS-Framework
+                \note{für konsistentes Design}
+                \item FullCalendar
+                \item Moderner Browser
+            \end{itemize}
+        \end{greenblock}
+        \column{.4\textwidth}
+        \begin{greenblock}{Schnittstelle}
+            \begin{itemize}
+                \item SSR
+                \note{generiert statische HTML Seiten}
+                \item HTML Forms
+                \note{Interaktion mit Backend}
+                \item Minimale REST-API
+                \note{prüfen auf Verfügbarkeit}
+            \end{itemize}
+        \end{greenblock}
+    \end{columns}
+\end{frame}
+
+\section{Q\&A}
 
 \end{document}

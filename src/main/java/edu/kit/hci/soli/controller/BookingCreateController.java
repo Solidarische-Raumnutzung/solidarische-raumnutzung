@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * Controller for handling booking creation requests.
@@ -62,7 +61,7 @@ public class BookingCreateController {
             Model model, HttpServletResponse response, @PathVariable Long roomId,
             @ModelAttribute("layout") LayoutParams layout,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalTime end,
             @RequestParam(required = false) Boolean cooperative
     ) {
         Optional<Room> room = roomService.getOptional(roomId);
@@ -72,10 +71,10 @@ public class BookingCreateController {
             return "error/known";
         }
         if (start == null) {
-            start = timeService.minimumTime();
+            start = timeService.minimumTime(room.get());
         }
         if (end == null) {
-            end = start.plusMinutes(30);
+            end = start.toLocalTime().plusMinutes(30);
         }
         if (cooperative == null) {
             cooperative = false;
@@ -85,8 +84,18 @@ public class BookingCreateController {
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
 
-        model.addAttribute("minimumTime", timeService.minimumTime());
-        model.addAttribute("maximumTime", timeService.maximumTime());
+        model.addAttribute("minimumStart", timeService.minimumTime(room.get()));
+        model.addAttribute("maximumStart", timeService.maximumTime(room.get()));
+
+        LocalTime minimumEnd = room.get().getOpeningHours().values().stream()
+                .map(TimeTuple::getStart)
+                .min(Comparator.naturalOrder()).orElseThrow()
+                .plusMinutes(15);
+        LocalTime maximumEnd = room.get().getOpeningHours().values().stream()
+                .map(TimeTuple::getEnd)
+                .max(Comparator.naturalOrder()).orElseThrow();
+        model.addAttribute("minimumEnd", minimumEnd);
+        model.addAttribute("maximumEnd", maximumEnd);
 
         return "bookings/create/form";
     }
@@ -123,20 +132,27 @@ public class BookingCreateController {
         }
         layout.setRoom(room.get());
         formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
+        if (formData.getDescription().length() > 1024) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error/known";
+        }
 
         // Validate start and end times
         TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());
-        if (formData.getStart().isAfter(formData.getEnd())
-                || formData.getStart().isBefore(timeService.minimumTime())
-                || formData.getEnd().isAfter(formData.getStart().plusHours(4)) // Keep these in sync with index.jte!
-                || formData.getEnd().isAfter(timeService.maximumTime())
-                || formData.getStart().getMinute() % 15 != 0
-                || formData.getEnd().getMinute() % 15 != 0
-                || formData.getStart().getDayOfWeek() != formData.getEnd().getDayOfWeek()
-                || formData.getStart().getDayOfWeek() == DayOfWeek.SATURDAY
-                || formData.getStart().getDayOfWeek() == DayOfWeek.SUNDAY
-                || formData.getStart().toLocalTime().isBefore(openingHours.getStart())
-                || formData.getEnd().toLocalTime().isAfter(openingHours.getEnd())
+        LocalDateTime start = formData.getStart();
+        LocalDateTime end = formData.getEnd().atDate(start.toLocalDate());
+        if (start.isAfter(end)
+                || start.isBefore(timeService.minimumTime(room.get()))
+                || end.isAfter(start.plusHours(4)) // Keep these in sync with index.jte!
+                || end.isAfter(timeService.maximumTime(room.get()))
+                || start.getMinute() % 15 != 0
+                || end.getMinute() % 15 != 0
+                || start.getDayOfWeek() != end.getDayOfWeek()
+                || start.getDayOfWeek() == DayOfWeek.SATURDAY
+                || start.getDayOfWeek() == DayOfWeek.SUNDAY
+                || start.toLocalTime().isBefore(openingHours.getStart())
+                || end.toLocalTime().isAfter(openingHours.getEnd())
         ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
@@ -146,8 +162,8 @@ public class BookingCreateController {
         Booking attemptedBooking = new Booking(
                 null,
                 formData.getDescription(),
-                formData.getStart(),
-                formData.getEnd(),
+                start,
+                end,
                 formData.getCooperative(),
                 room.get(),
                 principal.getUser(),

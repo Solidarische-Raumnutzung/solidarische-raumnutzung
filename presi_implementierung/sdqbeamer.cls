@@ -144,7 +144,7 @@
 \setlength{\kitbottommargin}{\kitinnermargin}
 
 % Ränder außen
-\setbeamersize{text margin left=\kitinnermargin,text margin right=\kitinnermargin}
+\setbeamersize{text margin left=\kitinnermargin,text margin right=\kitinnermargin} 
 
 % keine Navigationssymbole
 \setbeamertemplate{navigation symbols}{}
@@ -156,7 +156,7 @@
 \setbeamertemplate{frametitle}{
   \ifbeamer@plainframe\else%
     % Unterkante Titeltext: 22,5 mm -> 15 mm von Seitenkopf
-    \begin{textblock*}{\dimexpr\paperwidth-30mm-2\kitinnermargin}[0,1](\kitinnermargin,15mm)%
+    \begin{textblock*}{\dimexpr\paperwidth-30mm}[0,1](\kitinnermargin,15mm)%
       \usebeamerfont{frametitle}\insertframetitle%
       \ifx\insertframesubtitle\@empty\else\\[.1em]\fi
       \usebeamerfont{framesubtitle}\insertframesubtitle%
@@ -254,7 +254,7 @@
           \raggedleft\@groupname%
         \vfill}%
     \end{beamercolorbox}%
-    \fi%
+    \fi% 
   }%
 }
 
@@ -283,11 +283,11 @@
 % Trennlinie
 \newcommand{\kitseparationline}{
   \begin{pgfpicture}{0mm}{0mm}{\paperwidth}{\paperheight}
-    \pgfsetstrokecolor{black!15}
+    \pgfsetstrokecolor{black!15} 
     \pgfsetlinewidth{.5pt}
     \pgfpathmoveto{\pgfpoint{\kitoutermargin}{\kitinnermargin}}
     \pgfpathlineto{\pgfpoint{\paperwidth-\kitoutermargin}{\kitinnermargin}}
-    \pgfusepath{stroke}
+    \pgfusepath{stroke} 
   \end{pgfpicture}%
 }
 
@@ -316,19 +316,19 @@
 
   % KIT-Logo
   \begin{textblock*}{30mm}(\kitinnermargin,6.7mm)
-  \includegraphics[width=30mm]{logos/\@kitlogo}
+  \includegraphics[width=30mm]{logos/\@kitlogo} 
   \end{textblock*}
   
   % Gruppenlogo
   \ifdefined\@grouplogo
     \ifx\@grouplogo\empty \else
       \begin{textblock*}{20mm}(\dimexpr\paperwidth-24mm\relax,6.7mm)
-      \includegraphics[width=20mm,height=20mm,keepaspectratio]{logos/\@grouplogo}
+      \includegraphics[width=20mm,height=20mm,keepaspectratio]{logos/\@grouplogo} 
       \end{textblock*}
     \fi % falls \grouplogo{} aufgerufen wird, kein Gruppenlogo einbinden
     \else
       \begin{textblock*}{20mm}(\dimexpr\paperwidth-24mm\relax,6.7mm)
-      \colorbox{kit-purple100!20}{\parbox[t][12mm][c]{19mm}{\color{kit-purple100}\scriptsize\centering
+      \colorbox{kit-purple100!20}{\parbox[t][12mm][c]{19mm}{\color{kit-purple100}\scriptsize\centering 
         \ifgerman
         Bitte Logo über \texttt{\textbackslash grouplogo\{\}} festlegen.
         \else
@@ -336,7 +336,7 @@
         \fi
         }}
       \end{textblock*}
-  \fi
+  \fi 
   
   % Titel
   \begin{textblock*}{\dimexpr\paperwidth-8mm\relax}[0,.5](\kitinnermargin,28mm)
@@ -358,7 +358,7 @@
   \begin{textblock*}{\paperwidth}(\kitoutermargin,\dimexpr\paperheight-\kitbottommargin-\kittitleimageheight)
   \begin{pgfpicture}{0mm}{0mm}{\paperwidth}{\kittitleimageheight}
     % Clipping-Pfad um titelbild
-    \pgfsetstrokecolor{black!15}
+    \pgfsetstrokecolor{black!15} 
     \pgfsetlinewidth{1pt}
     \pgfsetcornersarced{\pgfpoint{3mm}{3mm}}
     \pgfpathmoveto{\pgfpoint{\paperwidth-2\kitoutermargin}{0mm}}
@@ -369,8 +369,7 @@
     \pgfpathlineto{\pgfpointorigin}
     \pgfsetcornersarced{\pgfpointorigin}
     \pgfpathclose
-    \pgfusepath{stroke,clip}
-    \pgfsetstrokecolor{black}
+    \pgfusepath{stroke,clip} 
     
     % Titelbild
     \ifdefined\@titleimage
@@ -379,7 +378,7 @@
           \includegraphics[height=40mm]{logos/\@titleimage}
         }
         \fi % Bei Aufruf von \titleimage{} leeren Rahmen anzeigen.
-      \else
+      \else 
         \pgftext[at=\pgfpoint{.5\paperwidth}{.5\kittitleimageheight},center,base]{%
           \colorbox{kit-purple100!20}{\parbox[c][\kittitleimageheight][c]{\paperwidth}{\color{kit-purple100}\centering Bitte Titelbild über \texttt{\textbackslash titleimage\{\}} festlegen.
           }}%
@@ -625,8 +624,8 @@
 % KIT-Aufzählungszeichen
 \newcommand{\KITmark}{%
 	\begin{pgfpicture}{0mm}{0mm}{1ex}{1ex}
-		{\pgfsetcornersarced{\pgfpoint{.3ex}{.3ex}}
-			\pgfpathmoveto{\pgfpoint{0cm}{1ex}}
+		{\pgfsetcornersarced{\pgfpoint{.3ex}{.3ex}} 
+			\pgfpathmoveto{\pgfpoint{0cm}{1ex}} 
 			\pgfpathlineto{\pgfpoint{1ex}{1ex}}
 			\pgfpathlineto{\pgfpoint{1ex}{0cm}}}
 		{\pgfsetcornersarced{\pgfpoint{.3ex}{.3ex}}
@@ -696,9 +695,9 @@
     \begin{pgfpicture}{0bp}{+-\ht\bmb@box}{0bp}{+-\ht\bmb@box}
       \ifdim\wd\bmb@box=0pt%
         \color{lower.bg}%
-      \else%
+      \else%        
         \color{upper.bg}%
-      \fi%
+      \fi%  
       \pgfpathqmoveto{-4bp}{-1bp}
       % Adaption for "KIT-Design"
       \pgfpathlineto{\pgfpoint{-4bp}{3bp}}
@@ -950,5 +949,5 @@
 }
 \newcommand{\backupend}{
    \addtocounter{framenumbervorappendix}{-\value{framenumber}}
-   \addtocounter{framenumber}{\value{framenumbervorappendix}}
+   \addtocounter{framenumber}{\value{framenumbervorappendix}} 
 }

@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.test.service;
 
 import edu.kit.hci.soli.service.TimeService;
+import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles(profiles = {"dev", "test"})
 public class TimeServiceTest {
     @Autowired private TimeService timeService;
+    @Autowired private TestService testService;
 
     @Test
     public void testRelative() {
@@ -24,9 +26,9 @@ public class TimeServiceTest {
             case SUNDAY -> 1;
             default -> 0;
         });
-        assertFalse(currentSlotNormalized.isAfter(timeService.minimumTime()));
-        assertTrue(currentSlotNormalized.isBefore(timeService.maximumTime()));
-        assertTrue(currentSlotNormalized.plusMinutes(16).isAfter(timeService.minimumTime()));
+        assertFalse(currentSlotNormalized.isAfter(timeService.minimumTime(testService.room)));
+        assertTrue(currentSlotNormalized.isBefore(timeService.maximumTime(testService.room)));
+        assertTrue(currentSlotNormalized.plusMinutes(16).isAfter(timeService.minimumTime(testService.room)));
     }
 
     @Test
@@ -36,7 +38,7 @@ public class TimeServiceTest {
         // as there will be a slight delay between the two timestamps, allow for a bit of leeway
         LocalDateTime ldt1 = timeService.now();
         LocalDateTime ldt2 = LocalDateTime.now();
-        assertTrue(ldt1.isBefore(ldt2));
-        assertTrue(ldt1.plusSeconds(5).isAfter(ldt2));
+        assertTrue(ldt1.isBefore(ldt2) || ldt1.isEqual(ldt2));
+        assertTrue(ldt1.plusSeconds(5).isAfter(ldt2) || ldt1.plusSeconds(5).isEqual(ldt2));
     }
 }

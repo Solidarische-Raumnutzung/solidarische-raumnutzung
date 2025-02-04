@@ -17,7 +17,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.ServerRequest;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -174,9 +173,9 @@ public class BookingViewController {
 
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
-                ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
+                !ShareRoomType.NO.equals(booking.getShareRoomType())
                         && !Objects.equals(booking.getUser(), principal.getUser())
-                        && booking.getStartDate().isBefore(timeService.minimumTime())
+                        && !booking.getStartDate().isBefore(timeService.minimumTime(room.get()))
         );
 
         User admin = userService.resolveAdminUser();
@@ -190,7 +189,7 @@ public class BookingViewController {
     }
 
     /**
-     * Download the iCalender file for a booking.
+     * Download the iCalendar file for a booking.
      *
      * @param model     the model to be used in the view
      * @param response  the HTTP response
@@ -200,7 +199,7 @@ public class BookingViewController {
      * @return the view name
      */
     @GetMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/booking.ics")
-    public String bookingICalender(Model model, HttpServletResponse response,
+    public String bookingICalendar(Model model, HttpServletResponse response,
                                    @AuthenticationPrincipal SoliUserDetails principal,
                                    @PathVariable Long roomId,
                                    @PathVariable Long eventId) {
@@ -273,7 +272,15 @@ public class BookingViewController {
             return "error/known";
         }
 
-        bookingsService.updateDescription(booking, formData.getDescription());
+        String newDescription = formData.getDescription().trim();
+
+        if (newDescription.length() > 1024) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error/known";
+        }
+
+        bookingsService.updateDescription(booking, newDescription);
 
         return viewEvent(model, response, principal, roomId, eventId, layout);
     }

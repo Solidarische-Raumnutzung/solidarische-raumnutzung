@@ -1,6 +1,7 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.config.security.SoliUserDetails;
+import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.LoginStateModel;
@@ -10,6 +11,7 @@ import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -84,7 +86,14 @@ public class LayoutParamsAdvice {
 
         return new LayoutParams(
                 login, currentRoom,
-                room -> request.getSession().setAttribute("room", room),
-                currentRoom == null ? null : bookingsService.getCurrentHighestBooking(currentRoom, timeService.now()).orElse(null));
+                room -> {
+                    request.getSession().setAttribute("room", room);
+                    return getCurrentHighestBooking(room);
+                },
+                getCurrentHighestBooking(currentRoom));
+    }
+
+    private Booking getCurrentHighestBooking(@Nullable Room room) {
+        return room == null ? null : bookingsService.getCurrentHighestBooking(room, timeService.now()).orElse(null);
     }
 }

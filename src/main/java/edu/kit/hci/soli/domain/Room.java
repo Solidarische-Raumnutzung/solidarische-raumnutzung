@@ -6,6 +6,7 @@ import lombok.ToString;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The datamodel for a room as it is stored in the database.
@@ -110,7 +111,7 @@ public class Room {
      * @return the opening hours of the room
      */
     public Map<DayOfWeek, TimeTuple> getOpeningHours() {
-        Map<DayOfWeek, TimeTuple> result = new HashMap<>(openingHours);
+        Map<DayOfWeek, TimeTuple> result = openingHours == null ? new HashMap<>() : new HashMap<>(openingHours);
         for (DayOfWeek value : DayOfWeek.values()) {
             if (value == DayOfWeek.SATURDAY || value == DayOfWeek.SUNDAY) continue;
             result.putIfAbsent(value, new TimeTuple());
@@ -168,7 +169,10 @@ public class Room {
      */
     @Override
     public boolean equals(final Object o) {
-        return o instanceof Room r && getId().equals(r.getId());
+        if (getId() == null) {
+            return false;
+        }
+        return o instanceof Room r && Objects.equals(getId(), r.getId());
     }
 
     /**

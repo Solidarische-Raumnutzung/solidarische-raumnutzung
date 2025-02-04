@@ -16,15 +16,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Validate charset
       run: |
-        set -x
-        git config core.quotepath off
-        for file in $(git ls-files | grep -v '\.jpg$'); do
-          encoding=$(file -b --mime-encoding "$file")
-          if [ "$encoding" != "utf-8" ] && [ "$encoding" != "us-ascii" ] && [ "$encoding" != "binary" ]; then
-            echo "$file has invalid encoding: $encoding"
-            exit 1
-          fi
-        done
+        ./.github/validate_charset.sh
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -51,7 +43,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        THRESHOLD=70.0 # Set your desired minimum coverage percentage
+        THRESHOLD=75.0 # Set your desired minimum coverage percentage
         COVERAGE=$(xmllint --xpath "string(//report/counter[@type='LINE']/@covered)" build/reports/jacoco/test/jacocoTestReport.xml)
         MISSED=$(xmllint --xpath "string(//report/counter[@type='LINE']/@missed)" build/reports/jacoco/test/jacocoTestReport.xml)
         TOTAL=$((COVERAGE + MISSED))

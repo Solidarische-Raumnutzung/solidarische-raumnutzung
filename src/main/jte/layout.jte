@@ -31,7 +31,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" />
     <!-- This version of tailwind is incredibly old, but appears to be the latest one that can be used in any (sane) manner. -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://solidarische-raumnutzung.github.io/tailwind-typography-stylesheet/style.css">
     <link rel="stylesheet" type="text/css" href="/soli.css">
     <style>
         :root {
@@ -48,7 +47,6 @@
             }
         </style>
     </noscript>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
 
 <body>
@@ -111,10 +109,9 @@
                     <ul class="menu bg-base-200 text-base-content min-h-80 w-80 p-4">
                         <div class="flex flex-row gap-3">
                             <li>
-                                <div class="basis-1/4"><a aria-label="home" class="avatar avatar-placeholder" href="/">
-                                        <div class="w-20 rounded-full">
-                                            <img src="/favicon.svg">
-                                        </div>
+                                <div class="basis-1/4">
+                                    <a aria-label="home" class="avatar avatar-placeholder w-20" href="/">
+                                        <img src="/favicon.svg" alt="SOLI">
                                     </a>
                                 </div>
                             </li>
@@ -165,6 +162,7 @@
                             <div class="divider"></div>
 
                             <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                            <%-- TODO <li><a class="btn btn-outline btn-error mt-2" href="/${layout.getRoom().getId()}/bookings/new"><i class="fas fa-trash-alt"></i> Checkout</a></li> --%>
                         @endif
                     </ul>
 

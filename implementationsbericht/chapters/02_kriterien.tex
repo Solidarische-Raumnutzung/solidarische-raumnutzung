@@ -1,0 +1,105 @@
+%!TEX root = ../main.tex
+
+\chapter{Kriterien}
+\label{chap:kriterien}
+
+In diesem Kapitel wird auf die Kriterien eingegangen, die im Pflichtenheft spezifiziert wurden.
+Für jedes Kriterium wird angegeben, ob es im Rahmen der Implementierung umgesetzt wurde, beziehungsweise weshalb nicht.
+Wurde ein Kriterium abweichend vom Pflichten- und Entwurfsheft implementiert, werden hier diese Anpassungen erläutert und aufgeführt, weshalb die Änderungen notwendig waren.
+
+\section{Musskriterien}\label{sec:musskriterien}
+
+Folgende Musskriterien wurden im Pflichtenheft aufgeführt:
+
+\must{1}{Die Anwendung muss als Web-Applikation realisiert werden.}
+\must{2}{Nutzende der Anwendung müssen sich mit ihrem KIT-Konto per \gls{OIDC} oder einem lokalen Gastkonto anmelden können.}
+\must{3}{Nutzende müssen sich abmelden können.}
+\must{4}{Die Anwendung muss die Ansichten Kalender, Termin, Termin-erstellen, Login, Kontenliste und Terminübersicht anbieten.}
+\must{5}{Die Ansicht \textit{Kalender} muss einen klaren Überblick über die bereits reservierten Zeiten geben.}
+\must{6}{Die Ansicht \textit{Kalender} muss die Öffnungszeiten des Raumes darstellen.}
+\must{7}{Die Ansicht \textit{Kalender} muss die Termine des/r angemeldeten Nutzenden hervorgehoben darstellen.}
+\must{8}{Die Ansicht \textit{Termin} muss die Möglichkeit bieten, genauere Informationen über einen Termin darzustellen.}
+\must{9}{Die Ansicht \textit{Termin-Erstellen} muss die Möglichkeit bieten, einen Raum für eine bestimmte Zeitperiode zu reservieren.}
+\must{10}{Bei der Reservierung eines Raumes muss optional die Möglichkeit bestehen eine Beschreibung zu hinterlegen. Hierbei müssen die Nutzenden klar darauf hingewiesen werden, wer diese Daten einsehen kann.}
+\must{11}{Die Terminübersicht muss den Nutzenden die Möglichkeit bieten, all ihre Termine zu verwalten.}
+\must{12}{Die Priorität eines Termins ist in drei Stufen gegliedert.}
+\must{13}{Beim Erstellen eines Termins wählen die Nutzenden aus, ob sie ihren Raum mit anderen Personen teilen möchten. Dabei stehen die Optionen \textit{Ja}, \textit{Nein} und \textit{Auf Anfrage} zur Auswahl.}
+\must{14}{Die Anwendung muss Terminkonflikte reibungslos mithilfe der Prioritäten lösen können. Dabei überschreiben Termine mit höherer Priorität andere.}
+\must{15}{Die Anwendung muss in der Lage sein, Nutzende per E-Mail darüber zu informieren, wenn ihr Termin durch einen Termin mit höherer Priorität überschrieben wurde.}
+\must{16}{Nutzende der Anwendung müssen in der Lage sein, eine Reservierung zu stornieren.}
+\must{17}{Es muss ein Adminkonto geben, welches per Passwort authentifiziert wird. Nur der Server-Admin darf dieses Passwort ändern können.}
+\must{18}{Die Ansicht \textit{Kontoliste} muss den Admins die Möglichkeit bieten, einzelne Konten sowie die Anmeldung per Gastkonto zu deaktivieren.}
+\must{19}{Admins müssen in der Ansicht \textit{Termin} Termine löschen können.}
+\must{20}{Es muss ein farbcodiertes Banner geben, der den aktuellen Status des Raumes anzeigt.}
+\must{21}{Admins müssen in der Ansicht \textit{Kalender} die Öffnungszeiten einstellen können}
+
+\section{Musskriterien Implementierung}\label{sec:musskriterien_implementierung}
+
+Die Funktionalität aller Musskriterien wurde in der Implementierung umgesetzt.
+Es gibt allerdings kleine Anpassungen, die im Folgenden beschrieben werden.
+
+\mustchange{1}{Umgesetzt.}
+\mustchange{2}{Umgesetzt.}
+\mustchange{3}{Umgesetzt.}
+\mustchange{4}{Umgesetzt.}
+\mustchange{5}{Umgesetzt.}
+\mustchange{6}{Umgesetzt.}
+\mustchange{7}{Umgesetzt. Mit einem Badge auf den Terminen werden die eigenen Termine hervorgehoben.}
+\mustchange{8}{Umgesetzt. In der Ansicht \textit{Termin} werden Start- und Endzeit, Priorität, Kollaborativität, sowie die Beschreibung angezeigt.}
+\mustchange{9}{Umgesetzt.}
+\mustchange{10}{Umgesetzt. Ein Paragraph informiert über die Sichtbarkeit der Buchungsbeschreibung.}
+\mustchange{11}{Umgesetzt. Die Ansicht \textit{Terminübersicht} zeigt alle Termine des angemeldeten Nutzenden in einer Tabelle an und gibt die Möglichkeit, Termine zu löschen.}
+\mustchange{12}{Umgesetzt. Die Prioritäten sind Hoch, Mittel und Niedrig.}
+\mustchange{13}{Umgesetzt.}
+\mustchange{14}{Umgesetzt. Bei der Terminkonfliktauflösung wird zusätzlich noch nach einer Bestätigung zum Überschreiben anderer Termine gefragt.}
+\mustchange{15}{Umgesetzt.}
+\mustchange{16}{Umgesetzt. Stornieren eines Termins ist über die Ansicht \textit{Termin} mit dem Button \textit{Löschen} möglich.}
+\mustchange{17}{Umgesetzt. Das Admin Password wird per Docker-Compose festgelegt und kann demnach nur durch den Server-Admin geändert werden.}
+\mustchange{18}{Umgesetzt.}
+\mustchange{19}{Umgesetzt.}
+\mustchange{20}{Umgesetzt.}
+\mustchange{21}{Umgesetzt. Admins können Öffnungszeiten einstellen, für diese Möglichkeit gibt es eine neue Ansicht.}
+
+\section{Wunschkriterien}\label{sec:wunschkriterien}
+
+Folgende Wunschkriterien wurden im Pflichtenheft aufgeführt:
+
+\wish{1}{Es könnte die Möglichkeit geben, mehr als einen Raum zur Buchung anzubieten. Dabei könnte eine Raumauswahl vor der Ansicht \textit{Kalender} die verschiedenen Möglichkeiten präsentieren. Existiert nur ein Raum, wird diese Auswahl übersprungen.}
+\wish{2}{In der Ansicht \textit{Kalender} könnten Feiertage automatisch eingebunden werden.}
+\wish{3}{Admins könnten die Möglichkeit haben, geplante Wartungs- und Sperrzeiten einzurichten.}
+\wish{4}{Termine könnten nach der Buchung im \gls{iCal}-Format zum Export angeboten werden.}
+\wish{5}{Nutzende könnten in der Ansicht \textit{Termin} die Möglichkeit haben, ihre eigenen Termine zu bearbeiten.}
+\wish{6}{Die Ansicht \textit{Kalender} könnte visualisieren, welche Termine bereits in der Vergangenheit liegen und wo der Übergang von der Vergangenheit zur Zukunft liegt.}
+\wish{7}{Tooltips könnten Nutzenden erklären, wofür bestimmte Elemente der \gls{UI} verwendet werden.}
+\wish{9}{Es könnte einen physischen Panik-Button geben.}
+\wish{10}{Die Anwendung könnte in der Lage sein, Nutzende zu informieren, falls ein gewünschter Termin frei wird.}
+\wish{11}{Es könnte einen Quick-Checkin-Button geben, welcher eine vorausgefüllte Terminerstellung öffnet. Dieser bietet auch eine Alternative zur Interaktion mit dem Kalender.}
+\wish{12}{Es könnte einen Quick-Checkout-Button geben, der vorzeitiges Beenden eines Termines ermöglicht.}
+\wish{13}{Admins könnten eine Statistik-Ansicht nutzen.}
+
+\section{Wunschkriterien Implementierung}\label{sec:wunschkriterien_implementierung}
+Einige dieser Wunschkriterien wurden ebenfalls umgesetzt.
+Im Folgenden wird beschrieben, welche Wunschkriterien umgesetzt wurden und welche nicht.
+
+\wishchange{1}{Umgesetzt. Die zur Verfügung stehenden Räume können über die Ansicht \textit{Räume} konfiguriert werden.
+Den Nutzenden wird falls nötig eine Raumauswahl vor der Ansicht \textit{Kalender} präsentiert.
+Existiert nur ein Raum, wird diese Auswahl übersprungen.}
+\wishchange{2}{Umgesetzt. Feiertage werden nur visuell angezeigt und blockieren keine Buchung.
+Eine URL zu einem \gls{iCal} Ferienkalender kann in der Docker-Compose Konfiguration hinterlegt werden.
+Aktuell wird der von Thunderbird (Mozilla) für Deutsche Feiertage verwendet.}
+\wishchange{3}{Nicht umgesetzt.}
+\wishchange{4}{Umgesetzt. Termine werden in der Ansicht \textit{Termin} im \gls{iCal}-Format zum Export angeboten.
+Diese können von Nutzenden reibungslos in persönliche Kalender importiert werden.}
+\wishchange{5}{Umgesetzt. Nutzende können in der Ansicht \textit{Termin} die Beschreibung ihrer Termine bearbeiten.
+Um die Oberfläche einfach zu halten, wurde die Bearbeitung anderer Felder nicht umgesetzt.}
+\wishchange{6}{Umgesetzt. Die Ansicht \textit{Kalender} visualisiert, welche Termine bereits in der Vergangenheit liegen
+und wo der Übergang von der Vergangenheit zur Zukunft liegt.
+Dafür wird die aktuelle Zeit mit einem roten Strich markiert.}
+\wishchange{7}{Umgesetzt. Tooltips erklären, wofür die wichtigsten Elemente der \gls{UI} verwendet werden. Im Verlauf der QA-Phase sollen diese basierend auf Feedback weiter verbessert werden.}
+\wishchange{9}{Nicht umgesetzt.}
+\wishchange{10}{Nicht umgesetzt. Die Anwendung informiert Nutzende nicht, wenn ein gewünschter Termin frei wird,
+    da keine überzeugende Kombination aus Use-Case und guter Nutzererfahrung gefunden wurde.}
+\wishchange{11}{Umgesetzt. Der Quick-Checkin-Button mit der Benennung "Jetzt Buchen" füllt im Buchungsdialog den Aktuellen Zeitslot bei Nutzung des Buttons bereits aus.}
+\wishchange{12}{Umgesetzt. Mit dem Quick-Checkout-Button können Nutzende den aktuellen Termin vorzeitig beenden.}
+\wishchange{13}{Umgesetzt. Admins können eine globale Statistik-Ansicht nutzen um die Buchungen pro Wochentag,
+    Tag des Monats und Monat anzuzeigen.}
