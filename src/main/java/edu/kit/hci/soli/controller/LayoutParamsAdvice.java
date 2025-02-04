@@ -1,13 +1,11 @@
 package edu.kit.hci.soli.controller;
 
 import edu.kit.hci.soli.config.security.SoliUserDetails;
-import edu.kit.hci.soli.domain.Booking;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.LayoutParams;
 import edu.kit.hci.soli.dto.LoginStateModel;
 import edu.kit.hci.soli.service.BookingsService;
-import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import java.time.LocalDateTime;
 
 /**
  * Controller advice for injecting the login state.
@@ -90,13 +86,12 @@ public class LayoutParamsAdvice {
                 room -> {
                     request.getSession().setAttribute("room", room);
                     return getUpdate(currentRoom, login.user());
-                },
-                getUpdate(currentRoom, login.user()));
+                });
     }
 
-    private LayoutParams.RoomChangeListener.ParamsUpdate getUpdate(@Nullable Room room, User user) {
-        if (room == null) return new LayoutParams.RoomChangeListener.ParamsUpdate(null, null);
-        return new LayoutParams.RoomChangeListener.ParamsUpdate(
+    private LayoutParams.ParamsUpdate getUpdate(@Nullable Room room, User user) {
+        if (room == null) return new LayoutParams.ParamsUpdate(null, null);
+        return new LayoutParams.ParamsUpdate(
                 bookingsService.getCurrentHighestBooking(room, timeService.now()).orElse(null),
                 bookingsService.getCurrentBookingOfUser(room,timeService.now(), user).orElse(null)
         );
