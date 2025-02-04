@@ -9,8 +9,8 @@
 <style>
     ${css}
 </style>
-<table class="center">
 
+<table class="center">
     <tr class="header">
         <td>
             ${title}
@@ -19,9 +19,7 @@
 
     <tr class="body">
         <td>
-            <div>
-                <img class="w-20 rounded-full" src="${context.getHostname()}favicon_180x180.png" alt="Soli-Logo">
-            </div>
+            <img class="w-20" src="${context.getHostname()}favicon.svg" alt="Soli-Logo">
             ${content}
         </td>
     </tr>
