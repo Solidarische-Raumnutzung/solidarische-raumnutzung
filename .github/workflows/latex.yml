@@ -19,6 +19,8 @@ jobs:
     container: ghcr.io/solidarische-raumnutzung/docker-texlive
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -30,16 +32,19 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         run: |
-          cd presi_template
-          pdflatex presentation.tex
-          biber presentation
-          pdflatex presentation.tex
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          ./.github/genstats.sh
           
-          cd ../pflichtenheft
+          cd pflichtenheft
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
+          
+          cd ../presi_pflichtenheft
+          pdflatex presentation.tex
+          biber presentation
+          pdflatex presentation.tex
           
           cd ../entwurfsheft
           wget https://solidarische-raumnutzung.github.io/DocTeX/doctex.jar
@@ -49,22 +54,33 @@ jobs:
           pdflatex main.tex
           pdflatex main.tex
           
+          cd ../presi_entwurfsheft
+          pdflatex presentation.tex
+          biber presentation
+          pdflatex presentation.tex
+          
           cd ../implementationsbericht
           pdflatex main.tex
           makeglossaries main
           pdflatex main.tex
           pdflatex main.tex
           
-          cd ..
+          cd ../presi_implementierung
+          pdflatex presentation.tex
+          biber presentation
+          pdflatex presentation.tex
           
+          cd ..
           wget https://solidarische-raumnutzung.github.io/ClassDiagramGenerator/cdg.jar
           java -jar cdg.jar src/main/java edu.kit.hci.soli
           
           mkdir -p pages
-          mv ./presi_template/presentation.pdf ./pages/presentation.pdf
           mv ./pflichtenheft/main.pdf ./pages/pflichtenheft.pdf
+          mv ./presi_pflichtenheft/presentation.pdf ./pages/presi_pflichtenheft.pdf
           mv ./entwurfsheft/main.pdf ./pages/entwurfsheft.pdf
+          mv ./presi_entwurfsheft/presentation.pdf ./pages/presi_entwurfsheft.pdf
           mv ./implementationsbericht/main.pdf ./pages/implementationsbericht.pdf
+          mv ./presi_implementierung/presentation.pdf ./pages/presi_implementierung.pdf
           mv ./result.png ./pages/classes.png
           python3 .github/genindex.py pages
       - name: Upload artifact

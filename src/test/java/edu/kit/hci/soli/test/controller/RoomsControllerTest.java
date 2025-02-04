@@ -25,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RoomsControllerTest {
     @Autowired private TestService testService;
     @Autowired private RoomsController roomsController;
-    @Autowired
-    private RoomService roomService;
+    @Autowired private RoomService roomService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {

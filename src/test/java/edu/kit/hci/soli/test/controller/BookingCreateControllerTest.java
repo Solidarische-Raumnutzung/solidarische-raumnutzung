@@ -95,8 +95,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testMisalignedTime() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().minusMinutes(31),
-                timeService.minimumTime().plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).minusMinutes(31),
+                timeService.minimumTime(testService.room).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -107,7 +107,7 @@ public class BookingCreateControllerTest {
     @Test
     public void testMissingArgument_End() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusMinutes(30),
+                timeService.minimumTime(testService.room).plusMinutes(30),
                 null,
                 null,
                 Priority.HIGHEST,
@@ -119,8 +119,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testMissingArgument_Priority() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusMinutes(30),
-                timeService.minimumTime().plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).plusMinutes(30),
+                timeService.minimumTime(testService.room).plusHours(1).toLocalTime(),
                 null,
                 null,
                 ShareRoomType.NO
@@ -131,8 +131,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testMissingArgument_Cooperative() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusMinutes(30),
-                timeService.minimumTime().plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).plusMinutes(30),
+                timeService.minimumTime(testService.room).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 null
@@ -143,8 +143,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testLargeTime() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().minusMinutes(30),
-                timeService.minimumTime().plusHours(10).toLocalTime(),
+                timeService.minimumTime(testService.room).minusMinutes(30),
+                timeService.minimumTime(testService.room).plusHours(10).toLocalTime(),
                 "",
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -155,8 +155,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testPastTime() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().minusMinutes(15),
-                timeService.minimumTime().plusMinutes(15).toLocalTime(),
+                timeService.minimumTime(testService.room).minusMinutes(15),
+                timeService.minimumTime(testService.room).plusMinutes(15).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -167,8 +167,8 @@ public class BookingCreateControllerTest {
     @Test
     void testStartAfterEnd_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusHours(2),
-                timeService.minimumTime().plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).plusHours(2),
+                timeService.minimumTime(testService.room).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -179,8 +179,8 @@ public class BookingCreateControllerTest {
     @Test
     void testStartBeforeMinimumTime_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().minusMinutes(15),
-                timeService.minimumTime().plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).minusMinutes(15),
+                timeService.minimumTime(testService.room).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -191,8 +191,8 @@ public class BookingCreateControllerTest {
     @Test
     void testEndAfterMaximumTime_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusMinutes(30),
-                timeService.maximumTime().plusMinutes(15).toLocalTime(),
+                timeService.minimumTime(testService.room).plusMinutes(30),
+                timeService.maximumTime(testService.room).plusMinutes(15).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -203,8 +203,8 @@ public class BookingCreateControllerTest {
     @Test
     void testStartNotMultipleOf15Minutes_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusMinutes(7),
-                timeService.minimumTime().plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).plusMinutes(7),
+                timeService.minimumTime(testService.room).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -215,8 +215,8 @@ public class BookingCreateControllerTest {
     @Test
     void testEndNotMultipleOf15Minutes_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusMinutes(30),
-                timeService.minimumTime().plusHours(1).plusMinutes(7).toLocalTime(),
+                timeService.minimumTime(testService.room).plusMinutes(30),
+                timeService.minimumTime(testService.room).plusHours(1).plusMinutes(7).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -227,8 +227,8 @@ public class BookingCreateControllerTest {
     @Test
     void testStartAndEndOnDifferentDays_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().withHour(23).withMinute(45),
-                timeService.minimumTime().plusDays(1).withHour(0).withMinute(15).toLocalTime(),
+                timeService.minimumTime(testService.room).withHour(23).withMinute(45),
+                timeService.minimumTime(testService.room).plusDays(1).withHour(0).withMinute(15).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -239,8 +239,8 @@ public class BookingCreateControllerTest {
     @Test
     void testStartOnSaturday_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().with(DayOfWeek.SATURDAY),
-                timeService.minimumTime().with(DayOfWeek.SATURDAY).plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).with(DayOfWeek.SATURDAY),
+                timeService.minimumTime(testService.room).with(DayOfWeek.SATURDAY).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -251,8 +251,8 @@ public class BookingCreateControllerTest {
     @Test
     void testStartOnSunday_ReturnsInvalidTimeError() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().with(DayOfWeek.SUNDAY),
-                timeService.minimumTime().with(DayOfWeek.SUNDAY).plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).with(DayOfWeek.SUNDAY),
+                timeService.minimumTime(testService.room).with(DayOfWeek.SUNDAY).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -265,8 +265,8 @@ public class BookingCreateControllerTest {
         Room room = testService.room;
         room.setOpeningHours(Map.of(DayOfWeek.MONDAY, new TimeTuple(LocalTime.of(9, 0), LocalTime.of(17, 0))));
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(8),
-                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(10).toLocalTime(),
+                timeService.minimumTime(testService.room).with(DayOfWeek.MONDAY).withHour(8),
+                timeService.minimumTime(testService.room).with(DayOfWeek.MONDAY).withHour(10).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -280,8 +280,8 @@ public class BookingCreateControllerTest {
         room.setOpeningHours(Map.of(DayOfWeek.MONDAY, new TimeTuple(LocalTime.of(9, 0), LocalTime.of(17, 0))));
         roomRepository.save(room);
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(16),
-                timeService.minimumTime().with(DayOfWeek.MONDAY).withHour(18).toLocalTime(),
+                timeService.minimumTime(testService.room).with(DayOfWeek.MONDAY).withHour(16),
+                timeService.minimumTime(testService.room).with(DayOfWeek.MONDAY).withHour(18).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -292,8 +292,8 @@ public class BookingCreateControllerTest {
     @Test
     public void testCreateBooking() {
         CreateEventForm formData = new CreateEventForm(
-                timeService.minimumTime().plusMinutes(30),
-                timeService.minimumTime().plusHours(1).toLocalTime(),
+                timeService.minimumTime(testService.room).plusMinutes(30),
+                timeService.minimumTime(testService.room).plusHours(1).toLocalTime(),
                 null,
                 Priority.HIGHEST,
                 ShareRoomType.NO
@@ -333,8 +333,8 @@ public class BookingCreateControllerTest {
         BookingCreateController bookingsController = new BookingCreateController(timeService, bookingsService, roomService);
 
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime(room)).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime(room)).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), null, null, null);
 
@@ -360,8 +360,8 @@ public class BookingCreateControllerTest {
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalTime end = start.toLocalTime().plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime(testService.room)).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime(testService.room)).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, null);
 
@@ -387,8 +387,8 @@ public class BookingCreateControllerTest {
         LocalDateTime start = LocalDateTime.now().plusHours(1);
         LocalTime end = start.toLocalTime().plusMinutes(30);
         when(roomService.getOptional(1L)).thenReturn(Optional.of(room));
-        when(timeService.minimumTime()).thenReturn(LocalDateTime.now().minusDays(1));
-        when(timeService.maximumTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        when(timeService.minimumTime(testService.room)).thenReturn(LocalDateTime.now().minusDays(1));
+        when(timeService.maximumTime(testService.room)).thenReturn(LocalDateTime.now().plusDays(1));
 
         String view = bookingsController.newBooking(model, response, 1L, testService.paramsFor(testService.user, request), start, end, true);
 

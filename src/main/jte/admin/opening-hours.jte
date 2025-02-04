@@ -15,9 +15,9 @@
             <table class="table table-zebra w-full">
                 <thead>
                 <tr>
-                    <th>Day</th>
-                    <th>Start Time</th>
-                    <th>Closing Time</th>
+                    <th>${context.localize("administration.opening_hours.day")}</th>
+                    <th>${context.localize("administration.opening_hours.start_time")}</th>
+                    <th>${context.localize("administration.opening_hours.closing_time")}</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -125,6 +125,49 @@ public class BookingsServiceTest {
     }
 
     @Test
+    public void testAttemptToBookLeftNo() {
+        testBooking.setShareRoomType(ShareRoomType.YES);
+        testBooking2.setShareRoomType(ShareRoomType.NO);
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.Failure failure = assertInstanceOf(
+                BookingAttemptResult.Failure.class,
+                result
+        );
+        assertIterableEquals(List.of(testBooking), failure.conflict());
+        assertNull(testBooking2.getId());
+    }
+
+    @Test
+    public void testAttemptToBookLeftNoHigher() {
+        testBooking.setShareRoomType(ShareRoomType.YES);
+        testBooking.setPriority(Priority.LOWEST);
+        testBooking2.setShareRoomType(ShareRoomType.NO);
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.PossibleCooperation.Immediate failure = assertInstanceOf(
+                BookingAttemptResult.PossibleCooperation.Immediate.class,
+                result
+        );
+        assertIterableEquals(List.of(testBooking), failure.override());
+        assertNull(testBooking2.getId());
+    }
+
+    @Test
+    public void testAttemptToBookOtherNull() {
+        testBooking.setShareRoomType(null);
+        testBooking2.setShareRoomType(ShareRoomType.YES);
+        testBooking = bookingsRepository.save(testBooking);
+        BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
+        BookingAttemptResult.Failure failure = assertInstanceOf(
+                BookingAttemptResult.Failure.class,
+                result
+        );
+        assertIterableEquals(List.of(testBooking), failure.conflict());
+        assertNull(testBooking2.getId());
+    }
+
+    @Test
     public void testConfirmRequestSingle() {
         testBooking = bookingsRepository.save(testBooking);
         BookingAttemptResult result = bookingsService.attemptToBook(testBooking2);
@@ -210,10 +253,29 @@ public class BookingsServiceTest {
 
     @Test
     public void testDelete() {
+        Booking distantBooking = testService.createBooking(testService.user, testBooking.getEndDate().plusHours(2));
+        distantBooking = bookingsRepository.save(distantBooking);
+        testBooking.setEndDate(testBooking.getEndDate().plusHours(3));
         testBooking = bookingsRepository.save(testBooking);
+        testBooking2.setOpenRequests(Set.of(testService.user));
+        testBooking2 = bookingsRepository.save(testBooking2);
         assertTrue(bookingsRepository.existsById(testBooking.getId()));
+
         bookingsService.delete(testBooking, BookingDeleteReason.ADMIN);
         assertFalse(bookingsRepository.existsById(testBooking.getId()));
+        assertTrue(bookingsRepository.existsById(distantBooking.getId()));
+        assertIterableEquals(List.of(), bookingsRepository.findById(testBooking2.getId()).get().getOpenRequests());
+    }
+
+    @Test
+    public void testDeleteAllBookingsForUser() {
+        testBooking.setOpenRequests(Set.of(testService.user2));
+        testBooking = bookingsRepository.save(testBooking);
+        testBooking2 = bookingsRepository.save(testBooking2);
+        bookingsService.deleteAllBookingsForUser(testService.user2);
+        assertFalse(bookingsRepository.existsById(testBooking2.getId()));
+        assertTrue(bookingsRepository.existsById(testBooking.getId()));
+        assertIterableEquals(List.of(), bookingsRepository.findById(testBooking.getId()).get().getOpenRequests());
     }
 
     @Test
