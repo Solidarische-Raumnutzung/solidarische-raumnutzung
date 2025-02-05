@@ -3,11 +3,9 @@ package edu.kit.hci.soli.controller;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LayoutParams;
+import edu.kit.hci.soli.dto.form.EditOrCreateRoomForm;
 import edu.kit.hci.soli.service.RoomService;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -160,52 +158,29 @@ public class RoomsController {
      * @return the name of the view to be rendered
      */
     @PostMapping(value = "/admin/rooms", consumes = "application/x-www-form-urlencoded")
-    public String editOrCreateRoom(Model model, HttpServletResponse response, @ModelAttribute FormData formData) {
-        Objects.requireNonNull(formData.name);
-        Objects.requireNonNull(formData.description);
-        Objects.requireNonNull(formData.location);
-        if (formData.target != null) {
+    public String editOrCreateRoom(Model model, HttpServletResponse response, @ModelAttribute EditOrCreateRoomForm formData) {
+        String name = Objects.requireNonNullElse(formData.getName(), "New Room");
+        String description = Objects.requireNonNullElse(formData.getDescription(), "");
+        String location = Objects.requireNonNullElse(formData.getLocation(), "Unknown Location");
+        Room room;
+        if (formData.getTarget() != null) {
             // Some target was picked, edit it
-            Optional<Room> room = roomService.getOptional(formData.target);
-            if (room.isEmpty()) {
+            Optional<Room> optionalRoom = roomService.getOptional(formData.getTarget());
+            if (optionalRoom.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 model.addAttribute("error", KnownError.NOT_FOUND);
                 return "error/known";
             }
-            room.get().setName(formData.name);
-            room.get().setDescription(formData.description);
-            room.get().setLocation(formData.location);
-            roomService.save(room.get());
-            return "redirect:/admin/rooms";
+            room = optionalRoom.get();
+            room.setName(name);
+            room.setDescription(description);
+            room.setLocation(location);
         } else {
             // No target was picked, create a new room
-            roomService.save(new Room(null, formData.name, formData.description, formData.location));
-            return "redirect:/admin/rooms";
+            room = new Room(null, name, description, location);
         }
+        roomService.save(room);
+        return "redirect:/admin/rooms";
     }
 
-    /**
-     * Data class for room creation form data.
-     */
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class FormData {
-        /**
-         * The target room ID for editing.
-         */
-        public Long target;
-        /**
-         * The name of the room.
-         */
-        public String name;
-        /**
-         * The description of the room.
-         */
-        public String description;
-        /**
-         * The location of the room.
-         */
-        public String location;
-    }
 }

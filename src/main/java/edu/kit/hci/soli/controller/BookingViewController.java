@@ -6,8 +6,10 @@ import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LayoutParams;
+import edu.kit.hci.soli.dto.form.EditBookingDescriptionForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class BookingViewController {
     private final RoomService roomService;
     private final UserService userService;
     private final int maxPaginationSize;
+    private final TimeService timeService;
 
     /**
      * Constructs a BookingViewController with the specified services.
@@ -39,11 +42,12 @@ public class BookingViewController {
      * @param userService       the service for managing users
      * @param soliConfiguration the configuration of the application
      */
-    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService, SoliConfiguration soliConfiguration) {
+    public BookingViewController(BookingsService bookingsService, RoomService roomService, UserService userService, SoliConfiguration soliConfiguration, TimeService timeService) {
         this.bookingsService = bookingsService;
         this.roomService = roomService;
         this.userService = userService;
         this.maxPaginationSize = soliConfiguration.getPagination().getMaxSize();
+        this.timeService = timeService;
     }
 
     /**
@@ -169,14 +173,14 @@ public class BookingViewController {
 
         model.addAttribute("booking", booking);
         model.addAttribute("showRequestButton",
-                ShareRoomType.ON_REQUEST.equals(booking.getShareRoomType())
+                !ShareRoomType.NO.equals(booking.getShareRoomType())
                         && !Objects.equals(booking.getUser(), principal.getUser())
-                        && booking.getStartDate().isBefore(bookingsService.minimumTime())
+                        && !booking.getStartDate().isBefore(timeService.minimumTime(room.get()))
         );
 
         User admin = userService.resolveAdminUser();
 
-        model.addAttribute("showDeleteButton",
+        model.addAttribute("allowEditing",
                 admin.equals(principal.getUser())
                         || Objects.equals(booking.getUser(), principal.getUser())
         );
@@ -184,8 +188,18 @@ public class BookingViewController {
         return "bookings/single_page";
     }
 
+    /**
+     * Download the iCalendar file for a booking.
+     *
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
+     * @param principal the authenticated user details
+     * @param roomId    the ID of the room
+     * @param eventId   the ID of the event
+     * @return the view name
+     */
     @GetMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}/booking.ics")
-    public String bookingICalender(Model model, HttpServletResponse response,
+    public String bookingICalendar(Model model, HttpServletResponse response,
                                    @AuthenticationPrincipal SoliUserDetails principal,
                                    @PathVariable Long roomId,
                                    @PathVariable Long eventId) {
@@ -207,6 +221,7 @@ public class BookingViewController {
         String ical = bookingsService.getICalendar(booking, principal.getUser().getLocale());
 
         response.setContentType("text/calendar");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Soli-" + booking.getStartDate().toString().replace(':', '_') + ".ics\"");
         try (var w = response.getWriter()) {
             w.write(ical);
             w.flush();
@@ -215,5 +230,58 @@ public class BookingViewController {
             log.error("Could not render calendar to response", e);
         }
         return null;
+    }
+
+
+    /**
+     * Edit the Description for a booking.
+     *
+     * @param model     the model to be used in the view
+     * @param response  the HTTP response
+     * @param principal the authenticated user details
+     * @param roomId    the ID of the room
+     * @param eventId   the ID of the event
+     * @param layout    state of the site layout
+     * @return the view name
+     */
+    @PatchMapping("/{roomId:\\d+}/bookings/{eventId:\\d+}")
+    public String editBooking(Model model, HttpServletResponse response,
+                @AuthenticationPrincipal SoliUserDetails principal,
+                @PathVariable Long roomId,
+                @PathVariable Long eventId,
+                @ModelAttribute("layout") LayoutParams layout,
+                @ModelAttribute EditBookingDescriptionForm formData) {
+
+        Optional<Room> room = roomService.getOptional(roomId);
+        if (room.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error/known";
+        }
+
+        Booking booking = bookingsService.getBookingById(eventId);
+        if (booking == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("error", KnownError.NOT_FOUND);
+            return "error/known";
+        }
+
+        if (!Objects.equals(booking.getUser(), principal.getUser()) && !userService.isAdmin(principal.getUser())) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            model.addAttribute("error", KnownError.EDIT_NO_PERMISSION);
+            return "error/known";
+        }
+
+        String newDescription = formData.getDescription().trim();
+
+        if (newDescription.length() > 1024) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error/known";
+        }
+
+        bookingsService.updateDescription(booking, newDescription);
+
+        return viewEvent(model, response, principal, roomId, eventId, layout);
     }
 }

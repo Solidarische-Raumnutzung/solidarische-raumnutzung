@@ -35,7 +35,7 @@ public class JteView extends AbstractTemplateView {
         model.put("context", new JteContext(context.getMessageSource(), soliConfiguration.getHostname(), context.getLocale(), soliConfiguration.getTimeZone()));
 
         Utf8ByteOutput output = new Utf8ByteOutput();
-        templateEngine.render(url, model, output);
+        templateEngine.render(url, model, new JteSoliTemplateOutput(output));
 
         response.setContentType(MediaType.TEXT_HTML_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());

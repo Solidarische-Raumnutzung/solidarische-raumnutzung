@@ -8,6 +8,7 @@ import edu.kit.hci.soli.repository.RoomRepository;
 import edu.kit.hci.soli.repository.UserRepository;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import edu.kit.hci.soli.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class TestService {
     @Autowired private BookingsRepository bookingsRepository;
     @Autowired private UserService userService;
     @Autowired private RoomService roomService;
-    @Autowired private BookingsService bookingsService;
+    @Autowired private TimeService timeService;
     @Autowired private LayoutParamsAdvice layoutParamsAdvice;
 
     public User user;
@@ -44,15 +45,19 @@ public class TestService {
         user3 = userService.createGuestUser("testuser3");
         room = roomService.save(new Room(null, "Testraum", "Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi convallis rutrum aenean, dolor quis ut.", "Testort"));
 
-        currentSlot = bookingsService.currentSlot();
+        currentSlot = timeService.currentSlot();
     }
 
     public Booking createBooking(User user) {
+        return createBooking(user, currentSlot.plusDays(1));
+    }
+
+    public Booking createBooking(User user, LocalDateTime start) {
         Booking booking = new Booking();
         booking.setRoom(room);
         booking.setUser(user);
-        booking.setStartDate(currentSlot.plusDays(1));
-        booking.setEndDate(currentSlot.plusDays(2));
+        booking.setStartDate(start);
+        booking.setEndDate(start.plusDays(1));
         booking.setPriority(Priority.HIGHEST);
         booking.setShareRoomType(ShareRoomType.ON_REQUEST);
         return booking;

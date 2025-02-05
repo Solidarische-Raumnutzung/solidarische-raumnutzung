@@ -31,7 +31,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" />
     <!-- This version of tailwind is incredibly old, but appears to be the latest one that can be used in any (sane) manner. -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://solidarische-raumnutzung.github.io/tailwind-typography-stylesheet/style.css">
     <link rel="stylesheet" type="text/css" href="/soli.css">
     <style>
         :root {
@@ -48,7 +47,6 @@
             }
         </style>
     </noscript>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
 
 <body>
@@ -57,14 +55,46 @@
         <div class="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
             <div class="drawer-content w-full md:w-full">
-                <div class="navbar bg-blue-600 text-primary-content">
-                    <div class="drawer-content flex flex-col items-center justify-center">
-                        <!-- Page content here -->
-                        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                            Open drawer
-                        </label>
+                !{var headerColor = layout.getCurrentHighestBooking() == null ? "success" : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                    case YES, ON_REQUEST -> "warning";
+                    case NO -> "error";
+                };}
+                <!-- there is a booking now, but it is collaborative -->
+                <div class="navbar bg-${headerColor} text-primary-content">
+                    <div class="navbar-start">
+                        <div class="drawer-content flex flex-col items-center text-center justify-center">
+                            <!-- Page content here -->
+                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+                                Open drawer
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="navbar-center bg-${headerColor} text-${headerColor}-content font-semibold">
+                        @if (layout.getRoom() == null)
+                            ${context.localize("room.status.none")}
+                        @elseif (layout.getCurrentHighestBooking() == null)
+                            ${context.localize("room.status.open")}
+                        @else
+                            ${context.localize("room.status.booked")}
+                        @endif
+                    </div>
+                    <div class="navbar-end">
+                        @if (layout.getCurrentHighestBooking() != null)
+                            <div class="badge badge-neutral m-3">p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
+                        @endif
+
+                        !{var roomShareType = layout.getCurrentHighestBooking() == null ? null : switch (layout.getCurrentHighestBooking().getShareRoomType()) {
+                            case YES -> "users";
+                            case NO -> "users-slash";
+                            case ON_REQUEST -> "users-line";
+                        };}
+                        @if (roomShareType != null)
+                            <i class="fa-solid fa-${roomShareType} text-neutral m-3"></i>
+                        @endif
                     </div>
                 </div>
+
                 <div class="p-4">
                     <div class="card bg-base-100 w-full shadow-xl p-4">
                         <div class="card-body h-full w-full">
@@ -73,23 +103,24 @@
                     </div>
                 </div>
             </div>
-            <div class="drawer-side flex shadow-xl">
+            <div class="drawer-side shadow-xl">
                 <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                 <div class="min-h-screen bg-base-200">
                     <ul class="menu bg-base-200 text-base-content min-h-80 w-80 p-4">
                         <div class="flex flex-row gap-3">
                             <li>
-                                <div class="basis-1/4"><a aria-label="home" class="avatar avatar-placeholder" href="/">
-                                        <div class="w-20 rounded-full">
-                                            <img src="/favicon.svg">
-                                        </div>
+                                <div class="basis-1/4">
+                                    <a aria-label="home" class="avatar avatar-placeholder w-20" href="/">
+                                        <img src="/favicon.svg" alt="SOLI">
                                     </a>
                                 </div>
                             </li>
                             <div class="basis-1/4">
                                 <div class="relative h-20 w-20">
                                     <div class="absolute inset-x-0 bottom-0 h-16">
-                                        <label>${context.localize("layout.welcome", layout.getLogin().name())}</label>
+                                        <label>${context.localize("layout.welcome", layout.getLogin().kind() == LoginStateModel.Kind.VISITOR
+                                                                    ? context.lookup("user.visitor")
+                                                                    : layout.getLogin().name())}</label>
                                     </div>
                                 </div>
                             </div>
@@ -118,6 +149,9 @@
                             <li><a href="/admin/users"><i class="fa-solid fa-list"></i> ${context.localize("administration.user")}</a></li>
                             <li><a href="/admin/statistics"><i class="fa-solid fa-chart-line"></i> ${context.localize("administration.statistics")}</a></li>
                             <li><a href="/admin/rooms"><i class="fa-solid fa-house"></i> ${context.localize("rooms")}</a></li>
+                            @if(layout.getRoom() != null)
+                                <li><a href="/admin/opening-hours/${layout.getRoom().getId()}"><i class="fa-regular fa-clock"></i> ${context.localize("administration.opening_hours")}</a></li>
+                            @endif
                         @endif
 
                         <div class="divider"></div>
@@ -130,6 +164,15 @@
                             <div class="divider"></div>
 
                             <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
+                            @if(layout.getCurrentBookingOfUser() != null)
+                                @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/" + layout.getRoom().getId() + "/bookings/" + layout.getCurrentBookingOfUser().getId(), method = DELETE, content = @`
+                                    <li>
+                                        <button type="submit" class="btn btn-outline btn-error mt-2">
+                                            <i class="fas fa-trash-alt"></i>${context.localize("bookings.check_out")}
+                                        </button>
+                                    </li>
+                                `)
+                            @endif
                         @endif
                     </ul>
 

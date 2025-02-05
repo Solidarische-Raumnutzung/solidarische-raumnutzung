@@ -3,6 +3,7 @@ package edu.kit.hci.soli.test.controller;
 import edu.kit.hci.soli.controller.RoomsController;
 import edu.kit.hci.soli.domain.Room;
 import edu.kit.hci.soli.dto.KnownError;
+import edu.kit.hci.soli.dto.form.EditOrCreateRoomForm;
 import edu.kit.hci.soli.service.RoomService;
 import edu.kit.hci.soli.test.TestService;
 import org.junit.jupiter.api.AfterEach;
@@ -24,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RoomsControllerTest {
     @Autowired private TestService testService;
     @Autowired private RoomsController roomsController;
-    @Autowired
-    private RoomService roomService;
+    @Autowired private RoomService roomService;
 
     @BeforeAll
     public static void clean(@Autowired TestService testService) {
@@ -73,7 +73,7 @@ public class RoomsControllerTest {
     public void testEditUnknownRoom() {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        RoomsController.FormData formData = new RoomsController.FormData(testService.room.getId() + 1, "Testraum", "Beschreibung", "Ort");
+        EditOrCreateRoomForm formData = new EditOrCreateRoomForm(testService.room.getId() + 1, "Testraum", "Beschreibung", "Ort");
         assertEquals("error/known", roomsController.editOrCreateRoom(model, response, formData));
         assertEquals(KnownError.NOT_FOUND, model.getAttribute("error"));
     }
@@ -82,7 +82,7 @@ public class RoomsControllerTest {
     public void testEditRoom() {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        RoomsController.FormData formData = new RoomsController.FormData(testService.room.getId(), "Testraum", "Beschreibung", "Ort");
+        EditOrCreateRoomForm formData = new EditOrCreateRoomForm(testService.room.getId(), "Testraum", "Beschreibung", "Ort");
         assertEquals("redirect:/admin/rooms", roomsController.editOrCreateRoom(model, response, formData));
         assertEquals("Beschreibung", roomService.getOptional(testService.room.getId()).orElseThrow().getDescription());
     }
@@ -91,7 +91,7 @@ public class RoomsControllerTest {
     public void testCreateRoom() {
         ExtendedModelMap model = new ExtendedModelMap();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        RoomsController.FormData formData = new RoomsController.FormData(null, "Testraum", "Beschreibung", "Ort");
+        EditOrCreateRoomForm formData = new EditOrCreateRoomForm(null, "Testraum", "Beschreibung", "Ort");
         assertEquals("redirect:/admin/rooms", roomsController.editOrCreateRoom(model, response, formData));
         assertEquals("Beschreibung", roomService.getOptional(testService.room.getId() + 1).orElseThrow().getDescription());
     }

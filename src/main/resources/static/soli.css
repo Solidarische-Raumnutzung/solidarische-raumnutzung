@@ -10,11 +10,6 @@
     --soli-chart-height: 300px;
 }
 
-/* Allow wide prose */
-.prose {
-    max-width: unset;
-}
-
 /* Our default light and dark themes (picked automatically by the browser) */
 :root {
     color-scheme: light;
@@ -31,6 +26,7 @@
     --color-neutral: rgb(64, 64, 64);
     --color-neutral-content: oklch(92% 0.004 286.32);
     --color-info: rgb(35, 161, 224);
+    --color-info-rgb: 35, 161, 224; /* Needed for semi-transparent calendar events. DO NOT REMOVE! */
     --color-info-content: oklch(29% 0.066 243.157);
     --color-success: rgb(140, 182, 60);
     --color-success-content: oklch(37% 0.077 168.94);
@@ -64,6 +60,7 @@
         --color-neutral: rgb(64, 64, 64);
         --color-neutral-content: oklch(92% 0.004 286.32);
         --color-info: rgb(35, 161, 224);
+        --color-info-rgb: 35, 161, 224; /* Needed for semi-transparent calendar events. DO NOT REMOVE! */
         --color-info-content: oklch(29% 0.066 243.157);
         --color-success: rgb(140, 182, 60);
         --color-success-content: oklch(37% 0.077 168.94);
@@ -80,6 +77,11 @@
         --depth: 1;
         --noise: 0;
     }
+}
+
+/* Show the drawer above the calendar */
+.drawer-side {
+    z-index: 20;
 }
 
 /* Make the now-indicator more visible */
@@ -103,6 +105,14 @@
     color: var(--color-info-content);
 }
 
+.calendar-event-holiday {
+    background-color: rgba(var(--color-info-rgb), 0.3) !important;
+    /* Since we add transparency to our background, our theme color becomes hard to read either in light or dark mode */
+    /* As such, we use the system-default color instead, which should be easier to read :) */
+    /*color: var(--color-info-content) !important;*/
+    opacity: 1 !important;
+}
+
 /* Tweak event formatting to prevent overflow and ensure pleasant padding */
 .fc-event-main {
     color: inherit !important;
@@ -118,6 +128,14 @@
 
 .fc-event-title-container {
     padding-top: 1px;
+}
+
+.fc-direction-ltr .fc-timegrid-col-events {
+    margin: 0 2px 0 2px;
+}
+
+.fc-direction-rtl .fc-timegrid-col-events {
+    margin: 0 2px 0 2px;
 }
 
 /* Instead of plain text, add badges to our events based on server-injected CSS classes */
@@ -216,7 +234,6 @@
     display: table;
     table-layout: fixed;
     width: 100%;
-    max-width: 700px;
     height: var(--soli-chart-height);
     margin: 0 auto;
     background-image: linear-gradient(to top, oklch(var(--color-neutral-content) / 0.8) 2%, oklch(var(--color-neutral-content) / 0.0) 2%);
@@ -261,4 +278,18 @@
     0% {
         height: 0;
     }
+}
+
+/* View/Edit-Switch component */
+.soli-edit-content {
+ display: none;
+}
+:has(#soli-edit-toggle:checked) .soli-edit-content {
+    display: block;
+}
+.soli-view-content {
+    display: block;
+}
+:has(#soli-edit-toggle:checked) .soli-view-content {
+    display: none
 }

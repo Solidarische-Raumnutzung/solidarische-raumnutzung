@@ -1,18 +1,20 @@
 package edu.kit.hci.soli.repository;
 
-import edu.kit.hci.soli.domain.Booking;
-import edu.kit.hci.soli.domain.Room;
-import edu.kit.hci.soli.domain.User;
+import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingByDay;
 import edu.kit.hci.soli.dto.BookingByHour;
 import edu.kit.hci.soli.dto.BookingByMonth;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -30,6 +32,29 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      */
     @Query("SELECT b FROM Booking b WHERE b.room = :room AND ((b.startDate > :start AND b.startDate < :end) OR (b.endDate > :start AND b.endDate < :end) OR (b.startDate <= :start AND b.endDate >= :end))")
     Stream<Booking> findOverlappingBookings(Room room, LocalDateTime start, LocalDateTime end);
+
+    /**
+     * Finds bookings that overlap with the specified time range.
+     *
+     * @param room  the room in which to search
+     * @param start the start of the time range
+     * @param end   the end of the time range
+     * @param user  the user to filter by
+     * @return a stream of bookings that overlap with the specified time range
+     */
+    @Query("SELECT b FROM Booking b WHERE b.room = :room AND b.user = :user AND ((b.startDate > :start AND b.startDate < :end) OR (b.endDate > :start AND b.endDate < :end) OR (b.startDate <= :start AND b.endDate >= :end))")
+    Stream<Booking> findOverlappingBookings(Room room, LocalDateTime start, LocalDateTime end, User user);
+
+    /**
+     * Finds bookings that overlap with the specified time range and have open requests.
+     *
+     * @param room  the room in which to search
+     * @param start the start of the time range
+     * @param end   the end of the time range
+     * @return a stream of bookings that overlap with the specified time range and have open requests
+     */
+    @Query("SELECT b FROM Booking b WHERE b.room = :room AND b.openRequests IS NOT EMPTY AND ((b.startDate > :start AND b.startDate < :end) OR (b.endDate > :start AND b.endDate < :end) OR (b.startDate <= :start AND b.endDate >= :end))")
+    Stream<Booking> findOverlappingWithOutstandingRequests(Room room, LocalDateTime start, LocalDateTime end);
 
     /**
      * Finds bookings by user and room.
@@ -57,6 +82,15 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     void deleteAllByUser(User user);
 
     /**
+     * Finds bookings with outstanding requests for the specified user.
+     *
+     * @param user the user to check for
+     * @return a stream of bookings with outstanding requests for the specified user
+     */
+    @Query("SELECT b FROM Booking b WHERE :user IN elements(b.openRequests)")
+    Stream<Booking> findWithOutstandingRequests(User user);
+
+    /**
      * Deletes all bookings for guests.
      */
     @Modifying
@@ -68,7 +102,7 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      *
      * @return the number of bookings per weekday
      */
-    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByDay(DAY_OF_WEEK(b.startDate), COUNT(b)) FROM Booking b GROUP BY DAY_OF_WEEK(b.startDate)")
+    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByDay(DAY_OF_WEEK(b.startDate), COUNT(b)) FROM Booking b WHERE b.openRequests IS EMPTY GROUP BY DAY_OF_WEEK(b.startDate)")
     Stream<BookingByDay> countBookingsPerWeekdayAllTime();
 
     /**
@@ -77,7 +111,7 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      * @param frame the amount of time to look back
      * @return the number of bookings per weekday
      */
-    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByDay(DAY_OF_WEEK(b.startDate), COUNT(b)) FROM Booking b WHERE CURRENT_TIMESTAMP - b.endDate <= :frame GROUP BY DAY_OF_WEEK(b.startDate)")
+    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByDay(DAY_OF_WEEK(b.startDate), COUNT(b)) FROM Booking b WHERE CURRENT_TIMESTAMP - b.endDate <= :frame AND b.openRequests IS EMPTY GROUP BY DAY_OF_WEEK(b.startDate)")
     Stream<BookingByDay> countBookingsPerWeekdayRecent(Duration frame);
 
     /**
@@ -85,7 +119,7 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      *
      * @return the number of bookings per hour of day
      */
-    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByHour(EXTRACT(HOUR FROM b.startDate), COUNT(b)) FROM Booking b GROUP BY EXTRACT(HOUR FROM b.startDate)")
+    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByHour(EXTRACT(HOUR FROM b.startDate), COUNT(b)) FROM Booking b WHERE b.openRequests IS EMPTY GROUP BY EXTRACT(HOUR FROM b.startDate)")
     Stream<BookingByHour> countBookingsPerHourAllTime();
 
     /**
@@ -94,7 +128,7 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      * @param frame the amount of time to look back
      * @return the number of bookings per hour of day
      */
-    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByHour(EXTRACT(HOUR FROM b.startDate), COUNT(b)) FROM Booking b WHERE CURRENT_TIMESTAMP - b.endDate <= :frame GROUP BY EXTRACT(HOUR FROM b.startDate)")
+    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByHour(EXTRACT(HOUR FROM b.startDate), COUNT(b)) FROM Booking b WHERE CURRENT_TIMESTAMP - b.endDate <= :frame AND b.openRequests IS EMPTY GROUP BY EXTRACT(HOUR FROM b.startDate)")
     Stream<BookingByHour> countBookingsPerHourRecent(Duration frame);
 
     /**
@@ -102,7 +136,7 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      *
      * @return the number of bookings per month
      */
-    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByMonth(EXTRACT(MONTH FROM b.startDate), COUNT(b)) FROM Booking b GROUP BY EXTRACT(MONTH FROM b.startDate)")
+    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByMonth(EXTRACT(MONTH FROM b.startDate), COUNT(b)) FROM Booking b WHERE b.openRequests IS EMPTY GROUP BY EXTRACT(MONTH FROM b.startDate)")
     Stream<BookingByMonth> countBookingsPerMonthAllTime();
 
     /**
@@ -111,7 +145,7 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
      * @param frame the amount of time to look back
      * @return the number of bookings per month
      */
-    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByMonth(EXTRACT(MONTH FROM b.startDate), COUNT(b)) FROM Booking b WHERE CURRENT_TIMESTAMP - b.endDate <= :frame GROUP BY EXTRACT(MONTH FROM b.startDate)")
+    @Query("SELECT NEW edu.kit.hci.soli.dto.BookingByMonth(EXTRACT(MONTH FROM b.startDate), COUNT(b)) FROM Booking b WHERE CURRENT_TIMESTAMP - b.endDate <= :frame AND b.openRequests IS EMPTY GROUP BY EXTRACT(MONTH FROM b.startDate)")
     Stream<BookingByMonth> countBookingsPerMonthRecent(Duration frame);
 
     /**
@@ -123,4 +157,34 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     @Query("UPDATE Booking b SET b.user = :anonymousUser WHERE b.endDate < :date")
     @Modifying
     void anonymizeOlderThan(LocalDateTime date, User anonymousUser);
+
+    /**
+     * Deletes all bookings that are outdated and have open requests.
+     *
+     * @param date the date to compare the start date to
+     */
+    @Procedure("soli_bookings_cleanup_outdated_requests")
+    @Modifying
+    void deleteOutdatedRequests(@Param("p_date") LocalDateTime date);
+
+    /**
+     * Gets the highest priority of all bookings that overlap with the specified time.
+     *
+     * @param room the currently selected room
+     * @param time the time to check for overlapping bookings
+     * @return the highest priority of all bookings that overlap with the specified time
+     */
+    @Query("SELECT b FROM Booking b WHERE b.room = :room AND b.openRequests IS EMPTY AND b.startDate <= :time AND b.endDate >= :time ORDER BY b.priority ASC, b.shareRoomType DESC")
+    Optional<Booking> getHighestPriority(Room room, LocalDateTime time);
+
+    /**
+     * Gets the booking of the logged-in user that overlaps with the given time if there is one.
+     *
+     * @param room the currently selected room
+     * @param time the time to check for booking
+     * @param currentUser user that is logged in
+     * @return the highest priority of all bookings that overlap with the specified time
+     */
+    @Query("SELECT b FROM Booking b WHERE b.room = :room AND b.openRequests IS EMPTY AND b.startDate <= :time AND b.endDate >= :time AND b.user = :currentUser")
+    Optional<Booking> getCurrentBookingOfUser(Room room, LocalDateTime time, User currentUser);
 }

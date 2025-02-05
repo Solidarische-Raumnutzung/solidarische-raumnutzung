@@ -2,6 +2,7 @@ package edu.kit.hci.soli.service.impl;
 
 import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.config.template.JteContext;
+import edu.kit.hci.soli.config.template.JteSoliTemplateOutput;
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.service.EmailService;
 import gg.jte.TemplateEngine;
@@ -16,8 +17,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -33,6 +37,7 @@ public class EmailServiceImpl implements EmailService {
     private final String hostname;
     private final String mailFrom;
     private final TimeZone timeZone;
+    private final String css;
 
     /**
      * Constructs an EmailService with the specified services.
@@ -56,6 +61,11 @@ public class EmailServiceImpl implements EmailService {
         this.hostname = soliConfiguration.getHostname();
         this.mailFrom = mailProperties.getUsername();
         this.timeZone = soliConfiguration.getTimeZone();
+        try (InputStream is = Objects.requireNonNull(EmailServiceImpl.class.getResourceAsStream("/static/soli-mail.css"))) {
+            this.css = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException("Could not load CSS", e);
+        }
     }
 
     /**
@@ -76,6 +86,7 @@ public class EmailServiceImpl implements EmailService {
         JteContext context = new JteContext(messageSource, hostname, to.getLocale(), timeZone);
         model = new HashMap<>(model);
         model.put("context", context);
+        model.put("css", css);
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -84,7 +95,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(to.getEmail());
             helper.setSubject(context.lookup(subject));
             StringOutput stringOutput = new StringOutput();
-            templateEngine.render(template + ".jte", model, stringOutput);
+            templateEngine.render(template + ".jte", model, new JteSoliTemplateOutput(stringOutput));
             helper.setText(stringOutput.toString(), true);
             mailSender.send(message);
             log.info("Sent {} email to user {} (address: {})", subject, to.getUserId(), to.getEmail());

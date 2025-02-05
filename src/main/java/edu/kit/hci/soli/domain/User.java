@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * The datamodel for a User as it is stored in the database.
@@ -68,21 +69,27 @@ public class User {
      * @param userId     the unique user ID
      * @param isDisabled whether the user is disabled
      * @param locale     the locale of the user
+     * @param lastLogin  time of the last login of the user
      */
-    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale) {
+    public User(Long id, String username, String email, String userId, boolean isDisabled, Locale locale, LocalDateTime lastLogin) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.userId = userId;
         this.isDisabled = isDisabled;
         this.locale = locale;
-        this.lastLogin = LocalDateTime.now();
+        this.lastLogin = lastLogin;
     }
 
     /**
      * Default constructor for User.
      */
     public User() {
+        // JPA requires us to provide this constructor without arguments
+        // Since this means we cannot access our services or configuration,
+        // we just guess reasonable defaults for these.
+        // They should get updated as soon as the object is actually used,
+        // so this should be fine.
         this.locale = Locale.getDefault();
         this.lastLogin = LocalDateTime.now();
     }
@@ -197,7 +204,10 @@ public class User {
     }
 
     public boolean equals(final Object o) {
-        return o instanceof User u && u.getId().equals(getId());
+        if (getId() == null) {
+            return false;
+        }
+        return o instanceof User u && Objects.equals(u.getId(), getId());
     }
 
     public int hashCode() {

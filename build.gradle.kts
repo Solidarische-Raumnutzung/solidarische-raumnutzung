@@ -1,11 +1,12 @@
+import org.jetbrains.kotlin.incremental.createDirectory
 import java.util.*
 import kotlin.experimental.xor
 
 plugins {
     java
-    id("org.springframework.boot") version "3.4.1"
+    id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.flywaydb.flyway") version "11.2.0"
+    id("org.flywaydb.flyway") version "11.3.0"
     id("gg.jte.gradle") version "3.1.16"
     jacoco
 }
@@ -26,6 +27,7 @@ configurations {
 }
 
 val doctex by configurations.creating
+val cdg by configurations.creating
 
 // Used to un-salt the credentials for the GitHub package repository
 // For some reason, GitHub does not allow anonymous access to public packages,
@@ -47,8 +49,8 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
-    implementation("org.flywaydb:flyway-core:11.2.0") // TODO: remove explicit version when the Spring Boot version is updated
-    implementation("org.flywaydb:flyway-database-postgresql:11.2.0")
+    implementation("org.flywaydb:flyway-core:11.3.0") // TODO: remove explicit version when the Spring Boot version is updated
+    implementation("org.flywaydb:flyway-database-postgresql:11.3.0")
 
     implementation("org.springframework.boot:spring-boot-starter-mail")
 
@@ -62,9 +64,10 @@ dependencies {
     testAnnotationProcessor(annotationProcessor("org.projectlombok:lombok")!!)
     testCompileOnly(compileOnly("org.projectlombok:lombok")!!)
 
-    compileOnly("org.jetbrains:annotations:26.0.1")
+    compileOnly("org.jetbrains:annotations:26.0.2")
 
     doctex("edu.kit.hci.soli:doctex:1.0.1-SNAPSHOT")
+    cdg("edu.kit.hci.soli:cdg:1.0-SNAPSHOT")
 
     // https://docs.spring.io/spring-boot/reference/features/dev-services.html#features.dev-services.docker-compose
     testAndDevelopmentOnly("org.springframework.boot:spring-boot-docker-compose")
@@ -77,6 +80,7 @@ dependencies {
 jte {
     generate()
     binaryStaticContent = true
+    trimControlStructures = true
     packageName = "edu.kit.hci.soli.view.jte"
 }
 
@@ -149,6 +153,9 @@ tasks {
         reports {
             xml.required = true
         }
+        classDirectories = files(classDirectories.files.map { fileTree(it) {
+            exclude("edu/kit/hci/soli/config/**")
+        } })
     }
 
     val doctex by creating(JavaExec::class) {
@@ -156,6 +163,23 @@ tasks {
         description = "Generate documentation from LaTeX sources"
         mainClass = "de.mr_pine.doctex.CliKt"
         classpath = doctex
-        args("--output=./entwurfsheft/javadoc", "src/main/java", "edu.kit.hci.soli")
+        args(
+            "--output=./entwurfsheft/javadoc",
+            layout.projectDirectory.dir("src/main/java"),
+            "edu.kit.hci.soli"
+        )
+    }
+
+    val classDiagram by creating(JavaExec::class) {
+        group = "documentation"
+        description = "Generate a class diagram"
+        mainClass = "edu.kit.hci.soli.cdg.MainKt"
+        classpath = cdg
+        args(
+            layout.projectDirectory.dir("src/main/java"),
+            "edu.kit.hci.soli"
+        )
+        workingDir = layout.buildDirectory.dir("cdg").get().asFile
+        doFirst { workingDir.createDirectory() }
     }
 }

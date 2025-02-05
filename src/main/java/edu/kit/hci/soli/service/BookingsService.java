@@ -7,12 +7,15 @@ import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.BookingDeleteReason;
 import edu.kit.hci.soli.dto.CalendarEvent;
+import edu.kit.hci.soli.repository.BookingsRepository;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Service class for managing {@link Booking} entities.
@@ -115,32 +118,38 @@ public interface BookingsService {
     List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user);
 
     /**
-     * Retrieves the current time slot.
-     *
-     * @return the current time slot
-     */
-    LocalDateTime currentSlot();
-
-    /**
-     * Retrieves the minimum starting time for a booking.
-     *
-     * @return the minimum time for a booking
-     */
-    LocalDateTime minimumTime();
-
-    /**
-     * Retrieves the maximum ending time for a booking, which is 14 days from now.
-     *
-     * @return the maximum time for a booking
-     */
-    LocalDateTime maximumTime();
-
-    /**
-     * Exports a booking in the iCalender format.
+     * Exports a booking in the iCalendar format.
      *
      * @param booking the booking
      * @param locale the locale for wich to localize
      * @return the content for the .ics file
      */
     String getICalendar(Booking booking, Locale locale);
+
+    /**
+     * Update the description for a booking.
+     *
+     * @param booking the booking
+     * @param description the new description
+     */
+    void updateDescription(Booking booking, String description);
+
+    /**
+     * Gets the booking of the highest priority, which is right now if there is one.
+     *
+     * @param room room that is currently selected
+     * @param time current time
+     * @return the current booking
+     */
+    Optional<Booking> getCurrentHighestBooking(Room room, LocalDateTime time);
+
+    /**
+     * Gets booking of logged-in user, which is at the given time if there is one.
+     *
+     * @param room room that is currently selected
+     * @param user logged-in user
+     * @param time current time
+     * @return the current booking of user if there is one
+     */
+    Optional<Booking> getCurrentBookingOfUser(Room room, LocalDateTime time, User user);
 }

@@ -9,19 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
     steps:
     - uses: actions/checkout@v4
     - name: Validate charset
       run: |
-        set -x
-        git config core.quotepath off
-        for file in $(git ls-files | grep -v '\.jpg$'); do
-          encoding=$(file -b --mime-encoding "$file")
-          if [ "$encoding" != "utf-8" ] && [ "$encoding" != "us-ascii" ] && [ "$encoding" != "binary" ]; then
-            echo "$file has invalid encoding: $encoding"
-            exit 1
-          fi
-        done
+        ./.github/validate_charset.sh
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -38,4 +33,49 @@ jobs:
         validate-wrappers: true
         add-job-summary-as-pr-comment: on-failure
     - name: Build and test with Gradle
-      run: ./gradlew clean build test
+      run: ./gradlew clean build test jacocoTestReport
+
+    - name: Install xmllint
+      run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+    - name: Check coverage percentage
+      id: coverage
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        THRESHOLD=75.0 # Set your desired minimum coverage percentage
+        COVERAGE=$(xmllint --xpath "string(//report/counter[@type='LINE']/@covered)" build/reports/jacoco/test/jacocoTestReport.xml)
+        MISSED=$(xmllint --xpath "string(//report/counter[@type='LINE']/@missed)" build/reports/jacoco/test/jacocoTestReport.xml)
+        TOTAL=$((COVERAGE + MISSED))
+        PERCENTAGE=$(awk "BEGIN {printf \"%.2f\", ($COVERAGE / $TOTAL) * 100}")
+        if (( $(echo "$PERCENTAGE < $THRESHOLD" | bc -l) )); then
+          echo "::warning title=Coverage::Your coverage is only $PERCENTAGE and should be improved"
+          CONCLUSION="failure"
+        else
+          CONCLUSION="success"
+        fi
+        echo "**Test Coverage:** $PERCENTAGE%" >> $GITHUB_STEP_SUMMARY
+
+        # Get the SHA of the current commit (or PR)
+        HEAD_SHA=$(jq -r ".pull_request.head.sha" < "$GITHUB_EVENT_PATH")
+        if [ "$HEAD_SHA" == "null" ]; then
+          HEAD_SHA=$GITHUB_SHA
+        fi
+
+        # Create the check using cURL
+        curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github+json" \
+          https://api.github.com/repos/${{ github.repository }}/check-runs \
+          -d @- <<EOF
+        {
+          "name": "Coverage Check",
+          "head_sha": "$HEAD_SHA",
+          "status": "completed",
+          "conclusion": "$CONCLUSION",
+          "output": {
+            "title": "Coverage: $PERCENTAGE%",
+            "summary": "Coverage Report",
+            "text": "Detailed information about test coverage can be found in the JaCoCo report."
+          }
+        }
+        EOF

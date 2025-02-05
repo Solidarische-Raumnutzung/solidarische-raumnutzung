@@ -5,13 +5,12 @@ import edu.kit.hci.soli.domain.*;
 import edu.kit.hci.soli.dto.BookingAttemptResult;
 import edu.kit.hci.soli.dto.KnownError;
 import edu.kit.hci.soli.dto.LayoutParams;
+import edu.kit.hci.soli.dto.form.CreateEventForm;
 import edu.kit.hci.soli.service.BookingsService;
 import edu.kit.hci.soli.service.RoomService;
+import edu.kit.hci.soli.service.TimeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,10 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalQueries;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * Controller for handling booking creation requests.
@@ -32,6 +29,7 @@ import java.util.Set;
 @Slf4j
 @Controller("/bookings/new")
 public class BookingCreateController {
+    private final TimeService timeService;
     private final BookingsService bookingsService;
     private final RoomService roomService;
 
@@ -41,7 +39,8 @@ public class BookingCreateController {
      * @param bookingsService the service for managing bookings
      * @param roomService     the service for managing rooms
      */
-    public BookingCreateController(BookingsService bookingsService, RoomService roomService) {
+    public BookingCreateController(TimeService timeService, BookingsService bookingsService, RoomService roomService) {
+        this.timeService = timeService;
         this.bookingsService = bookingsService;
         this.roomService = roomService;
     }
@@ -62,7 +61,7 @@ public class BookingCreateController {
             Model model, HttpServletResponse response, @PathVariable Long roomId,
             @ModelAttribute("layout") LayoutParams layout,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalTime end,
             @RequestParam(required = false) Boolean cooperative
     ) {
         Optional<Room> room = roomService.getOptional(roomId);
@@ -72,10 +71,10 @@ public class BookingCreateController {
             return "error/known";
         }
         if (start == null) {
-            start = LocalDateTime.now();
+            start = timeService.minimumTime(room.get());
         }
         if (end == null) {
-            end = start.plusMinutes(30);
+            end = start.toLocalTime().plusMinutes(30);
         }
         if (cooperative == null) {
             cooperative = false;
@@ -85,8 +84,18 @@ public class BookingCreateController {
         model.addAttribute("end", end);
         model.addAttribute("cooperative", cooperative ? ShareRoomType.YES : ShareRoomType.NO);
 
-        model.addAttribute("minimumTime", bookingsService.minimumTime());
-        model.addAttribute("maximumTime", bookingsService.maximumTime());
+        model.addAttribute("minimumStart", timeService.minimumTime(room.get()));
+        model.addAttribute("maximumStart", timeService.maximumTime(room.get()));
+
+        LocalTime minimumEnd = room.get().getOpeningHours().values().stream()
+                .map(TimeTuple::getStart)
+                .min(Comparator.naturalOrder()).orElseThrow()
+                .plusMinutes(15);
+        LocalTime maximumEnd = room.get().getOpeningHours().values().stream()
+                .map(TimeTuple::getEnd)
+                .max(Comparator.naturalOrder()).orElseThrow();
+        model.addAttribute("minimumEnd", minimumEnd);
+        model.addAttribute("maximumEnd", maximumEnd);
 
         return "bookings/create/form";
     }
@@ -108,7 +117,7 @@ public class BookingCreateController {
             @PathVariable Long roomId,
             @ModelAttribute("layout") LayoutParams layout,
             @AuthenticationPrincipal SoliUserDetails principal,
-            @ModelAttribute FormData formData
+            @ModelAttribute CreateEventForm formData
     ) {
         Optional<Room> room = roomService.getOptional(roomId);
         if (room.isEmpty()) {
@@ -116,24 +125,35 @@ public class BookingCreateController {
             model.addAttribute("error", KnownError.NOT_FOUND);
             return "error/known";
         }
-        if (formData.start == null || formData.end == null || formData.priority == null || formData.cooperative == null) {
+        if (formData.getStart() == null || formData.getEnd() == null || formData.getPriority() == null || formData.getCooperative() == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.MISSING_PARAMETER);
             return "error/known";
         }
         layout.setRoom(room.get());
-        formData.description = formData.description == null ? "" : formData.description.trim();
+        formData.setDescription(formData.getDescription() == null ? "" : formData.getDescription().trim());
+        if (formData.getDescription().length() > 1024) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            model.addAttribute("error", KnownError.MISSING_PARAMETER);
+            return "error/known";
+        }
 
         // Validate start and end times
-        if (formData.start.isAfter(formData.end)
-                || formData.start.isBefore(bookingsService.minimumTime())
-                || formData.end.isAfter(formData.start.plusHours(4)) // Keep these in sync with index.jte!
-                || formData.end.isAfter(bookingsService.maximumTime())
-                || formData.start.getMinute() % 15 != 0
-                || formData.end.getMinute() % 15 != 0
-                || formData.start.getDayOfWeek() != formData.end.getDayOfWeek()
-                || formData.start.getDayOfWeek() == DayOfWeek.SATURDAY
-                || formData.start.getDayOfWeek() == DayOfWeek.SUNDAY) {
+        TimeTuple openingHours = room.get().getOpeningHours().get(formData.getStart().getDayOfWeek());
+        LocalDateTime start = formData.getStart();
+        LocalDateTime end = formData.getEnd().atDate(start.toLocalDate());
+        if (start.isAfter(end)
+                || start.isBefore(timeService.minimumTime(room.get()))
+                || end.isAfter(start.plusHours(4)) // Keep these in sync with index.jte!
+                || end.isAfter(timeService.maximumTime(room.get()))
+                || start.getMinute() % 15 != 0
+                || end.getMinute() % 15 != 0
+                || start.getDayOfWeek() != end.getDayOfWeek()
+                || start.getDayOfWeek() == DayOfWeek.SATURDAY
+                || start.getDayOfWeek() == DayOfWeek.SUNDAY
+                || start.toLocalTime().isBefore(openingHours.getStart())
+                || end.toLocalTime().isAfter(openingHours.getEnd())
+        ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("error", KnownError.INVALID_TIME);
             return "error/known";
@@ -141,13 +161,13 @@ public class BookingCreateController {
 
         Booking attemptedBooking = new Booking(
                 null,
-                formData.description,
-                formData.start,
-                formData.end,
-                formData.cooperative,
+                formData.getDescription(),
+                start,
+                end,
+                formData.getCooperative(),
                 room.get(),
                 principal.getUser(),
-                formData.priority,
+                formData.getPriority(),
                 Set.of()
         );
         return handleBookingAttempt(attemptedBooking, bookingsService.attemptToBook(attemptedBooking), request, model);
@@ -217,17 +237,4 @@ public class BookingCreateController {
         };
     }
 
-    /**
-     * Data class for event creation form data.
-     */
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class FormData {
-        public LocalDateTime start;
-        public LocalDateTime end;
-        public String description;
-        public Priority priority;
-        public ShareRoomType cooperative;
-    }
 }

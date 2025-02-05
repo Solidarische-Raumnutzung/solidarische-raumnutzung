@@ -1,9 +1,10 @@
 package edu.kit.hci.soli.controller;
 
+import edu.kit.hci.soli.config.SoliConfiguration;
 import edu.kit.hci.soli.dto.KnownError;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
@@ -24,13 +25,17 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.P
 @Controller("/misc")
 @Slf4j
 public class MainController extends AbstractErrorController {
+    private final SoliConfiguration soliConfiguration;
+
     /**
-     * Constructs an MainController with the specified {@link DefaultErrorAttributes}.
+     * Constructs a MainController with the specified {@link DefaultErrorAttributes}.
      *
-     * @param errorAttributes the default error attributes
+     * @param errorAttributes   the default error attributes
+     * @param soliConfiguration the configuration of the application
      */
-    public MainController(DefaultErrorAttributes errorAttributes) {
+    public MainController(DefaultErrorAttributes errorAttributes, SoliConfiguration soliConfiguration) {
         super(errorAttributes);
+        this.soliConfiguration = soliConfiguration;
     }
 
     /**
@@ -70,5 +75,23 @@ public class MainController extends AbstractErrorController {
     @RequestMapping("/disabled")
     public String getDisabled(Model model) {
         return "error/disabled_user";
+    }
+
+    /**
+     * Returns the security.txt file content.
+     *
+     * @param response the Http response
+     * @return the security.txt content
+     */
+    @GetMapping("/.well-known/security.txt")
+    @ResponseBody
+    public String securityTxt(HttpServletResponse response) {
+        response.setContentType("text/plain");
+        return """
+                Contact: soli@iar.kit.edu
+                Expires: 2099-12-31T23:00:00.000Z
+                Preferred-Languages: de, en
+                Canonical: %s.well-known/security.txt
+                """.formatted(soliConfiguration.getHostname());
     }
 }

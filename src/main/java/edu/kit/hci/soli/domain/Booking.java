@@ -5,6 +5,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -262,7 +263,7 @@ public class Booking {
         if (getId() == null) {
             return false;
         }
-        return o instanceof Booking b && getId().equals(b.getId());
+        return o instanceof Booking b && Objects.equals(getId(), b.getId());
     }
 
     public int hashCode() {
