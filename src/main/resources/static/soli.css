@@ -125,6 +125,14 @@
     padding-top: 1px;
 }
 
+.fc-direction-ltr .fc-timegrid-col-events {
+    margin: 0 2px 0 2px;
+}
+
+.fc-direction-rtl .fc-timegrid-col-events {
+    margin: 0 2px 0 2px;
+}
+
 /* Instead of plain text, add badges to our events based on server-injected CSS classes */
 .calendar-event-highest .fc-event-title::before {
     content: var(--soli-priority-highest);
