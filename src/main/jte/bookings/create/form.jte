@@ -2,7 +2,6 @@
 @import edu.kit.hci.soli.domain.ShareRoomType
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.time.LocalDateTime
@@ -21,7 +20,7 @@
 @param LocalTime minimumEnd
 @param LocalTime maximumEnd
 
-@template.layout(page = new PageSpec(context.lookup("bookings.new"), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("bookings.new"), context = context, layout = layout, content = @`
     <fieldset class="fieldset w-80 mx-auto bg-base-200 border border-base-300 p-4 rounded-box">
         <legend class="fieldset-legend">${context.localize("bookings.new")}</legend>
 

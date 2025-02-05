@@ -5,7 +5,6 @@
 @param Page<?> content
 @param String baseUrl
 
-
 <div class="join grid grid-cols-3 mt-4 ">
     @if(content.hasPrevious())
         <a class="join-item btn btn-outline"

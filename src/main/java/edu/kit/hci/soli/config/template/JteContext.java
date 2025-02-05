@@ -3,6 +3,7 @@ package edu.kit.hci.soli.config.template;
 import gg.jte.Content;
 import gg.jte.support.LocalizationSupport;
 import lombok.Getter;
+import org.jetbrains.annotations.PropertyKey;
 import org.springframework.context.MessageSource;
 
 import java.text.DateFormatSymbols;
@@ -75,5 +76,9 @@ public class JteContext implements LocalizationSupport {
 
     public String format(LocalTime time) {
         return timeFormatter.format(time);
+    }
+
+    public PageSpec page(@PropertyKey(resourceBundle = "messages") String key) {
+        return new PageSpec(lookup(key), "SOLI");
     }
 }

@@ -1,14 +1,13 @@
 @import edu.kit.hci.soli.domain.TimeTuple
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import java.time.DayOfWeek
 @import java.util.Comparator
 
 @param JteContext context
 @param LayoutParams layout
 
-@template.layout(page = new PageSpec("Index", "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("calendar"), context = context, layout = layout, content = @`
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js"></script> <%-- dependency of timegrid --%>

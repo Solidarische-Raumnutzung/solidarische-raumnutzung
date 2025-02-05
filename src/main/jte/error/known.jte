@@ -1,4 +1,3 @@
-@import edu.kit.hci.soli.config.template.PageSpec
 @import edu.kit.hci.soli.dto.KnownError
 @import edu.kit.hci.soli.config.template.JteContext
 @import edu.kit.hci.soli.dto.LayoutParams
@@ -8,7 +7,7 @@
 
 @param KnownError error
 
-@template.layout(page = new PageSpec(context.lookup(error.title), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page(error.title), context = context, layout = layout, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize(error.title)}</h1>

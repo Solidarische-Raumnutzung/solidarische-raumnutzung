@@ -2,7 +2,6 @@
 @import edu.kit.hci.soli.dto.BookingAttemptResult
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 
@@ -13,7 +12,7 @@
 @param Booking attemptedBooking
 @param BookingAttemptResult.PossibleCooperation bookingResult
 
-@template.layout(page = new PageSpec(context.lookup("bookings.conflict.resolution"), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("bookings.conflict.resolution"), context = context, layout = layout, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-2xl font-bold mb-2">${context.localize("bookings.conflict.resolution")}</h1>

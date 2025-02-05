@@ -1,6 +1,5 @@
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 
@@ -10,7 +9,7 @@
 
 @param String guestMarker
 
-@template.layout(page = new PageSpec(context.lookup("login.login"), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("login.login"), context = context, layout = layout, content = @`
     <fieldset class="fieldset w-80 mx-auto bg-base-200 border border-base-300 p-4 rounded-box">
         <legend class="fieldset-legend">${context.localize("login.login")}</legend>
         <p>${context.localize("login.guest.description")}</p>

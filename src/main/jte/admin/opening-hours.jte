@@ -1,6 +1,5 @@
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 @import java.time.DayOfWeek
@@ -9,7 +8,7 @@
 @param LayoutParams layout
 @param CsrfToken csrf
 
-@template.layout(page = new PageSpec(context.lookup("administration.opening_hours"), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("administration.opening_hours"), context = context, layout = layout, content = @`
     <div class="overflow-x-auto">
         @template.util.form(csrf = csrf, action = "/admin/opening-hours/" + layout.getRoom().getId(), method = PUT, content = @`
             <table class="table table-zebra w-full">

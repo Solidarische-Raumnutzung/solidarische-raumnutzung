@@ -1,7 +1,6 @@
 @import edu.kit.hci.soli.domain.*
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 
@@ -11,7 +10,7 @@
 
 @param Booking booking
 
-@template.layout(page = new PageSpec(context.lookup("bookings.collaboration"), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("bookings.collaboration"), context = context, layout = layout, content = @`
     <div class="card bg-base-200 border border-base-300 w-96 mx-auto">
         <div class="card-body items-center text-center">
             <p class="fieldset-legend">${context.localize("bookings.collaboration")}</p>
