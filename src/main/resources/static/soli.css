@@ -79,6 +79,11 @@
     }
 }
 
+/* Show the drawer above the calendar */
+.drawer-side {
+    z-index: 20;
+}
+
 /* Make the now-indicator more visible */
 .fc-timegrid-now-indicator-line {
     border-width: 2px !important;

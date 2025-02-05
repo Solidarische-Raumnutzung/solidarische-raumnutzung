@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <div class="drawer-side flex shadow-xl">
+            <div class="drawer-side shadow-xl">
                 <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                 <div class="min-h-screen bg-base-200">
                     <ul class="menu bg-base-200 text-base-content min-h-80 w-80 p-4">
