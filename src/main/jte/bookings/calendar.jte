@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ical.js@1.5.0/build/ical.min.js"></script> <%-- dependency of fc/icalendar --%>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/icalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/de.global.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
@@ -23,7 +24,7 @@
                 nowIndicator: true,
                 weekends: false,
                 allDaySlot: false,
-                locale: navigator.language,
+                locale: "${context.getLocale().getLanguage()}",
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
