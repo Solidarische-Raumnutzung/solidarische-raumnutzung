@@ -159,27 +159,28 @@ public class RoomsController {
      */
     @PostMapping(value = "/admin/rooms", consumes = "application/x-www-form-urlencoded")
     public String editOrCreateRoom(Model model, HttpServletResponse response, @ModelAttribute EditOrCreateRoomForm formData) {
-        Objects.requireNonNull(formData.getName());
-        Objects.requireNonNull(formData.getDescription());
-        Objects.requireNonNull(formData.getLocation());
+        String name = Objects.requireNonNullElse(formData.getName(), "New Room");
+        String description = Objects.requireNonNullElse(formData.getDescription(), "");
+        String location = Objects.requireNonNullElse(formData.getLocation(), "Unknown Location");
+        Room room;
         if (formData.getTarget() != null) {
             // Some target was picked, edit it
-            Optional<Room> room = roomService.getOptional(formData.getTarget());
-            if (room.isEmpty()) {
+            Optional<Room> optionalRoom = roomService.getOptional(formData.getTarget());
+            if (optionalRoom.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 model.addAttribute("error", KnownError.NOT_FOUND);
                 return "error/known";
             }
-            room.get().setName(formData.getName());
-            room.get().setDescription(formData.getDescription());
-            room.get().setLocation(formData.getLocation());
-            roomService.save(room.get());
-            return "redirect:/admin/rooms";
+            room = optionalRoom.get();
+            room.setName(name);
+            room.setDescription(description);
+            room.setLocation(location);
         } else {
             // No target was picked, create a new room
-            roomService.save(new Room(null, formData.getName(), formData.getDescription(), formData.getLocation()));
-            return "redirect:/admin/rooms";
+            room = new Room(null, name, description, location);
         }
+        roomService.save(room);
+        return "redirect:/admin/rooms";
     }
 
 }
