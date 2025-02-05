@@ -121,49 +121,9 @@
     padding-top: 1px;
 }
 
-/* Instead of plain text, add badges to our events based on server-injected CSS classes */
-.calendar-event-highest .fc-event-title::before {
-    content: var(--soli-priority-highest);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
+.fc-timegrid-event .fc-event-main {
+    padding: 0 1px 0;
 }
-
-.calendar-event-medium .fc-event-title::before {
-    content: var(--soli-priority-medium);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
-}
-
-.calendar-event-lowest .fc-event-title::before {
-    content: var(--soli-priority-lowest);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
-}
-
 
 /* Simple bar charts */
 .chart {

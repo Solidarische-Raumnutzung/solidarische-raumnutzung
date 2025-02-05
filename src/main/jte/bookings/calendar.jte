@@ -25,26 +25,14 @@
                 allDaySlot: false,
                 displayEventTime: false,
                 eventContent: function(arg) {
-                    let sticky_container = document.createElement('div');
-                    sticky_container.className += 'fc-event-title-container';
-
-                    let sticky = document.createElement('div');
-                    sticky.className += 'fc-event-title fc-sticky';
-                    sticky_container.appendChild(sticky);
-
                     let collaboration_icon = document.createElement('i');
-
-                    let arrayOfDomNodes = [ sticky_container, collaboration_icon ];
+                    let arrayOfDomNodes = [ collaboration_icon ];
 
                     if (arg.event.extendedProps.shareRoomType === 'YES') {
                         collaboration_icon.className += 'fa-solid fa-users';
                     } else if (arg.event.extendedProps.shareRoomType === 'NO') {
                         collaboration_icon.className += 'fa-solid fa-users-slash';
                     } else {
-                        icon.className += 'fa-solid fa-question';
-                        let icon2 = document.createElement('i');
-                        icon2.className += 'fa-solid fa-users';
-                        arrayOfDomNodes.push(icon2);
                         collaboration_icon.className += 'fa-solid fa-question';
                         let collaboration_icon2 = document.createElement('i');
                         collaboration_icon2.className += 'fa-solid fa-users';
@@ -56,6 +44,12 @@
                         favorite_icon.className += ' fa-solid fa-star absolute top-1 right-1';
                         arrayOfDomNodes.push(favorite_icon);
                     }
+
+                    let badge = document.createElement('div');
+                    arrayOfDomNodes.push(badge);
+
+                    badge.className += 'badge ml-2 badge-sm calendar-event-' + arg.event.extendedProps.priority.toLowerCase();
+                    badge.textContent = arg.event.extendedProps.priority;
 
                     return { domNodes: arrayOfDomNodes }
                 }
