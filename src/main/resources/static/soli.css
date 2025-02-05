@@ -88,6 +88,11 @@
 .soli-content-height {
     height: calc(100% - 4rem);
 }
+@media (width < 64rem) {
+    .soli-content-height {
+        height: calc(100vh - 4rem);
+    }
+}
 
 /* Make the now-indicator more visible */
 .fc-timegrid-now-indicator-line {
