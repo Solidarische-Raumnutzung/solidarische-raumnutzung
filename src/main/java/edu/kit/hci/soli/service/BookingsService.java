@@ -137,7 +137,19 @@ public interface BookingsService {
     /**
      * Gets the booking of the highest priority, which is right now if there is one.
      *
+     * @param room room that is currently selected
+     * @param time current time
      * @return the current booking
      */
     Optional<Booking> getCurrentHighestBooking(Room room, LocalDateTime time);
+
+    /**
+     * Gets booking of logged-in user, which is at the given time if there is one.
+     *
+     * @param room room that is currently selected
+     * @param user logged-in user
+     * @param time current time
+     * @return the current booking of user if there is one
+     */
+    Optional<Booking> getCurrentBookingOfUser(Room room, LocalDateTime time, User user);
 }

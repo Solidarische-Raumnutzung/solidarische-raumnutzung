@@ -123,7 +123,9 @@
                             <div class="basis-1/4">
                                 <div class="relative h-20 w-20">
                                     <div class="absolute inset-x-0 bottom-0 h-16">
-                                        <label>${context.localize("layout.welcome", layout.getLogin().name())}</label>
+                                        <label>${context.localize("layout.welcome", layout.getLogin().kind() == LoginStateModel.Kind.VISITOR
+                                                                    ? context.lookup("user.visitor")
+                                                                    : layout.getLogin().name())}</label>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +169,15 @@
                             <div class="divider"></div>
 
                             <li><a class="btn btn-outline btn-primary" href="/${layout.getRoom().getId()}/bookings/new"><i class="fa-solid fa-plus"></i> ${context.localize("bookings.new")}</a></li>
-                            <%-- TODO <li><a class="btn btn-outline btn-error mt-2" href="/${layout.getRoom().getId()}/bookings/new"><i class="fas fa-trash-alt"></i> Checkout</a></li> --%>
+                            @if(layout.getCurrentBookingOfUser() != null)
+                                @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/" + layout.getRoom().getId() + "/bookings/" + layout.getCurrentBookingOfUser().getId(), method = DELETE, content = @`
+                                    <li>
+                                        <button type="submit" class="btn btn-outline btn-error mt-2">
+                                            <i class="fas fa-trash-alt"></i>${context.localize("bookings.check_out")}
+                                        </button>
+                                    </li>
+                                `)
+                            @endif
                         @endif
                     </ul>
 
