@@ -80,7 +80,7 @@ public class BookingsServiceImpl implements BookingsService {
     private List<String> getEventClasses(Booking booking, @Nullable User user) {
         List<String> classes = new ArrayList<>();
         classes.add("calendar-event-" + booking.getPriority().name().toLowerCase());
-        if (booking.getUser().equals(user)) classes.add("calendar-event-own");
+        if (Objects.equals(booking.getUser(), user)) classes.add("calendar-event-own");
         return classes;
     }
 
@@ -250,7 +250,10 @@ public class BookingsServiceImpl implements BookingsService {
                             booking.getStartDate(),
                             booking.getEndDate(),
                             getEventClasses(booking, user),
-                            booking.getShareRoomType()
+                            booking.getShareRoomType(),
+                            Objects.equals(booking.getUser(), user) ? "var(--color-warning)" : null,
+                            Objects.equals(booking.getUser(), user),
+                            booking.getPriority()
                     ))
                     .toList();
         }
