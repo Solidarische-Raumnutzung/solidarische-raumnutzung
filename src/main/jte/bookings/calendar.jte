@@ -8,7 +8,7 @@
 @param JteContext context
 @param LayoutParams layout
 
-@template.layout(page = new PageSpec("Index", "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = new PageSpec("Index", "Soli"), screenHeight = true, context = context, layout = layout, content = @`
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js"></script> <%-- dependency of timegrid --%>
@@ -25,7 +25,7 @@
                 weekends: false,
                 allDaySlot: false,
                 locale: "${context.getLocale().getLanguage()}",
-                height: "75vh",
+                height: "100%",
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -96,7 +96,7 @@
         });
     </script>
 
-    <div id="calendar" class="w-full h-5/6"></div>
+    <div id="calendar" class="w-full"></div>
 
     <noscript class="w-full">
         <h1 class="text-center">

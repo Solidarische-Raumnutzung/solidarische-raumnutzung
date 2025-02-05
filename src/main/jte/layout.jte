@@ -10,6 +10,7 @@
 @param JteContext context
 
 @param Content content
+@param boolean screenHeight = false
 
 <!DOCTYPE html>
 <html lang="${context.localize("code")}" data-theme="light">
@@ -59,11 +60,9 @@
                     case YES, ON_REQUEST -> "warning";
                     case NO -> "error";
                 };}
-                <!-- there is a booking now, but it is collaborative -->
                 <div class="navbar bg-${headerColor} text-primary-content">
                     <div class="navbar-start">
                         <div class="drawer-content flex flex-col items-center text-center justify-center">
-                            <!-- Page content here -->
                             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
                                 Open drawer
                             </label>
@@ -94,9 +93,8 @@
                         @endif
                     </div>
                 </div>
-
-                <div class="p-4">
-                    <div class="card bg-base-100 w-full shadow-xl p-4">
+                <div class="p-4 ${screenHeight ? "soli-content-height" : ""}">
+                    <div class="card bg-base-100 w-full shadow-xl p-4 ${screenHeight ? "h-full" : ""}">
                         <div class="card-body h-full w-full">
                             ${content}
                         </div>
