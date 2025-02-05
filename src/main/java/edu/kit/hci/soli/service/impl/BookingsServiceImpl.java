@@ -251,7 +251,6 @@ public class BookingsServiceImpl implements BookingsService {
                             booking.getEndDate(),
                             getEventClasses(booking, user),
                             booking.getShareRoomType(),
-                            Objects.equals(booking.getUser(), user) ? "var(--color-warning)" : null,
                             Objects.equals(booking.getUser(), user),
                             booking.getPriority()
                     ))

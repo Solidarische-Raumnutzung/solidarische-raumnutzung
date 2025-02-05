@@ -32,19 +32,29 @@
                     sticky.className += 'fc-event-title fc-sticky';
                     sticky_container.appendChild(sticky);
 
-                    let icon = document.createElement('i');
+                    let collaboration_icon = document.createElement('i');
 
-                    let arrayOfDomNodes = [ sticky_container, icon]
+                    let arrayOfDomNodes = [ sticky_container, collaboration_icon ];
 
                     if (arg.event.extendedProps.shareRoomType === 'YES') {
-                        icon.className += 'fa-solid fa-users';
+                        collaboration_icon.className += 'fa-solid fa-users';
                     } else if (arg.event.extendedProps.shareRoomType === 'NO') {
-                        icon.className += 'fa-solid fa-users-slash';
+                        collaboration_icon.className += 'fa-solid fa-users-slash';
                     } else {
                         icon.className += 'fa-solid fa-question';
                         let icon2 = document.createElement('i');
                         icon2.className += 'fa-solid fa-users';
                         arrayOfDomNodes.push(icon2);
+                        collaboration_icon.className += 'fa-solid fa-question';
+                        let collaboration_icon2 = document.createElement('i');
+                        collaboration_icon2.className += 'fa-solid fa-users';
+                        arrayOfDomNodes.push(collaboration_icon2);
+                    }
+
+                    if (arg.event.extendedProps.favorite) {
+                        let favorite_icon = document.createElement('i');
+                        favorite_icon.className += ' fa-solid fa-star absolute top-1 right-1';
+                        arrayOfDomNodes.push(favorite_icon);
                     }
 
                     return { domNodes: arrayOfDomNodes }

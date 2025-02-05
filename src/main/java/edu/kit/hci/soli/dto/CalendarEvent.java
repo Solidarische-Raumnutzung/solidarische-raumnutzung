@@ -1,5 +1,6 @@
 package edu.kit.hci.soli.dto;
 
+import edu.kit.hci.soli.domain.Priority;
 import edu.kit.hci.soli.domain.ShareRoomType;
 
 import java.time.LocalDateTime;
@@ -15,5 +16,5 @@ import java.util.List;
  * @param classNames    the list of CSS classes to use for the generated HTML element of this event
  * @param shareRoomType the type of room sharing
  */
-public record CalendarEvent(String url, String title, LocalDateTime start, LocalDateTime end, List<String> classNames, ShareRoomType shareRoomType) {
+public record CalendarEvent(String url, String title, LocalDateTime start, LocalDateTime end, List<String> classNames, ShareRoomType shareRoomType, boolean favorite, Priority priority) {
 }

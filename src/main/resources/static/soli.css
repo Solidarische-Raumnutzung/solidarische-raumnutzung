@@ -164,19 +164,6 @@
     color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
 }
 
-.calendar-event-own .fc-event-title::after {
-    content: var(--soli-booking-own);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
-}
 
 /* Simple bar charts */
 .chart {
