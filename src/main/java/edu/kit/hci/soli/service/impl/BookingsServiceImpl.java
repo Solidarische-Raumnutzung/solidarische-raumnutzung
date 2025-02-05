@@ -70,21 +70,6 @@ public class BookingsServiceImpl implements BookingsService {
         }
     }
 
-    /**
-     * Retrieves the CSS classes for a calendar event based on the booking and user.
-     *
-     * @param booking the booking associated with the event
-     * @param user    the user associated with the event (nullable)
-     * @return a list of CSS classes for the event
-     */
-    private List<String> getEventClasses(Booking booking, @Nullable User user) {
-        List<String> classes = new ArrayList<>();
-        classes.add("calendar-event-" + booking.getPriority().name().toLowerCase());
-        classes.add("calendar-event-" + booking.getShareRoomType().name().toLowerCase());
-        if (booking.getUser().equals(user)) classes.add("calendar-event-own");
-        return classes;
-    }
-
     @Transactional
     @Override
     public BookingAttemptResult attemptToBook(Booking booking) {
@@ -250,7 +235,9 @@ public class BookingsServiceImpl implements BookingsService {
                             "",
                             booking.getStartDate(),
                             booking.getEndDate(),
-                            getEventClasses(booking, user)
+                            booking.getShareRoomType(),
+                            Objects.equals(booking.getUser(), user),
+                            booking.getPriority()
                     ))
                     .toList();
         }

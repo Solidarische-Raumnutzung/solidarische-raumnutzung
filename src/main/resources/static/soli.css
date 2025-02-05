@@ -118,10 +118,6 @@
     color: inherit !important;
 }
 
-.fc-event-time {
-    display: none;
-}
-
 .fc-event-title {
     padding-bottom: 2px;
 }
@@ -138,95 +134,8 @@
     margin: 0 2px 0 2px;
 }
 
-/* Instead of plain text, add badges to our events based on server-injected CSS classes */
-.calendar-event-highest .fc-event-title::before {
-    content: var(--soli-priority-highest);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
-}
-
-.calendar-event-medium .fc-event-title::before {
-    content: var(--soli-priority-medium);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
-}
-
-.calendar-event-lowest .fc-event-title::before {
-    content: var(--soli-priority-lowest);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
-}
-
-.calendar-event-own .fc-event-title::after {
-    content: var(--soli-booking-own);
-    justify-content: center;
-    height: 1.25rem;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding-left: .563rem;
-    padding-right: .563rem;
-    border-radius: var(--radius-selector);
-    border-width: 1px;
-    /*background-color: oklch(var(--color-primary)/var(--tw-bg-opacity));*/
-    color: oklch(var(--color-primary-content)/var(--tw-text-opacity));
-}
-
-/* Render the sharing type using a FontAwesome icon (injected in layout.jte) */
-.calendar-event-yes .fc-event-title-container::after {
-    content: "\f0c0"; /* fa-users */
-    font-family: 'Font Awesome 5 Free';
-    font-display: block;
-    font-style: normal;
-    font-variant: normal;
-    line-height: 1;
-    text-rendering: auto;
-    font-weight: 700;
-}
-
-.calendar-event-no .fc-event-title-container::after {
-    content: "\e073"; /* fa-users-slash */
-    font-family: 'Font Awesome 5 Free';
-    font-display: block;
-    font-style: normal;
-    font-variant: normal;
-    line-height: 1;
-    text-rendering: auto;
-    font-weight: 700;
-}
-
-.calendar-event-on_request .fc-event-title-container::after {
-    content: "\e592"; /* fa-users-line */
-    font-family: 'Font Awesome 5 Free';
-    font-display: block;
-    font-style: normal;
-    font-variant: normal;
-    line-height: 1;
-    text-rendering: auto;
-    font-weight: 700;
+.fc-timegrid-event .fc-event-main {
+    padding: 0 1px 0;
 }
 
 /* Simple bar charts */

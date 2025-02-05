@@ -23,6 +23,37 @@
                 nowIndicator: true,
                 weekends: false,
                 allDaySlot: false,
+                displayEventTime: false,
+                eventContent: function(arg) {
+                    let collaboration_icon = document.createElement('i');
+                    let arrayOfDomNodes = [ collaboration_icon ];
+
+                    if (arg.event.extendedProps.shareRoomType === 'YES') {
+                        collaboration_icon.className += 'fa-solid fa-users';
+                    } else if (arg.event.extendedProps.shareRoomType === 'NO') {
+                        collaboration_icon.className += 'fa-solid fa-users-slash';
+                    } else {
+                        collaboration_icon.className += 'fa-solid fa-question';
+                        let collaboration_icon2 = document.createElement('i');
+                        collaboration_icon2.className += 'fa-solid fa-users';
+                        arrayOfDomNodes.push(collaboration_icon2);
+                    }
+
+                    if (arg.event.extendedProps.favorite) {
+                        let favorite_icon = document.createElement('i');
+                        favorite_icon.className += ' fa-solid fa-star absolute top-1 right-1';
+                        arrayOfDomNodes.push(favorite_icon);
+                    }
+
+                    let badge = document.createElement('div');
+                    arrayOfDomNodes.push(badge);
+
+                    badge.className += 'badge ml-2 badge-sm calendar-event-' + arg.event.extendedProps.priority.toLowerCase();
+                    badge.textContent = arg.event.extendedProps.priority;
+
+                    return { domNodes: arrayOfDomNodes }
+                }
+                ,
                 locale: "${context.getLocale().getLanguage()}",
                 slotLabelFormat: {
                     hour: '2-digit',
