@@ -287,13 +287,19 @@ public class BookingsServiceTest {
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
-        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(0).classNames());
+        assertEquals(Priority.HIGHEST, events.get(0).priority());
+        assertEquals(ShareRoomType.ON_REQUEST, events.get(0).shareRoomType());
+        assertFalse(events.get(0).favorite());
         assertEquals(testBooking2.getStartDate(), events.get(1).start());
         assertEquals(testBooking2.getEndDate(), events.get(1).end());
-        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(1).classNames());
+        assertEquals(Priority.HIGHEST, events.get(1).priority());
+        assertEquals(ShareRoomType.ON_REQUEST, events.get(1).shareRoomType());
+        assertFalse(events.get(1).favorite());
         assertEquals(testBooking3.getStartDate(), events.get(2).start());
         assertEquals(testBooking3.getEndDate(), events.get(2).end());
-        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(2).classNames());
+        assertEquals(Priority.HIGHEST, events.get(2).priority());
+        assertEquals(ShareRoomType.ON_REQUEST, events.get(2).shareRoomType());
+        assertFalse(events.get(2).favorite());
     }
 
     @Test
@@ -305,13 +311,19 @@ public class BookingsServiceTest {
         assertEquals(3, events.size());
         assertEquals(testBooking.getStartDate(), events.get(0).start());
         assertEquals(testBooking.getEndDate(), events.get(0).end());
-        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request", "calendar-event-own"), events.get(0).classNames());
+        assertEquals(Priority.HIGHEST, events.get(0).priority());
+        assertEquals(ShareRoomType.ON_REQUEST, events.get(0).shareRoomType());
+        assertTrue(events.get(0).favorite());
         assertEquals(testBooking2.getStartDate(), events.get(1).start());
         assertEquals(testBooking2.getEndDate(), events.get(1).end());
-        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(1).classNames());
+        assertEquals(Priority.HIGHEST, events.get(1).priority());
+        assertEquals(ShareRoomType.ON_REQUEST, events.get(1).shareRoomType());
+        assertFalse(events.get(1).favorite());
         assertEquals(testBooking3.getStartDate(), events.get(2).start());
         assertEquals(testBooking3.getEndDate(), events.get(2).end());
-        assertEquals(List.of("calendar-event-highest", "calendar-event-on_request"), events.get(2).classNames());
+        assertEquals(Priority.HIGHEST, events.get(2).priority());
+        assertEquals(ShareRoomType.ON_REQUEST, events.get(2).shareRoomType());
+        assertFalse(events.get(2).favorite());
     }
 
     @Test

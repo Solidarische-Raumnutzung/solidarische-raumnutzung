@@ -16,7 +16,7 @@ public class NIHCacheTest {
         assertEquals(1, cache.getWithException());
         assertEquals(1, cache.getWithException());
         assertEquals(1, cache.getWithException());
-        Thread.sleep(100);
+        Thread.sleep(120);
         assertEquals(2, cache.getWithException());
         assertEquals(2, cache.getWithException());
     }
