@@ -230,15 +230,24 @@ public class BookingsServiceImpl implements BookingsService {
     public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
         try (Stream<Booking> bs = bookingsRepository.findOverlappingBookings(room, start, end)) {
             return bs.filter(s -> s.getOpenRequests().isEmpty())
-                    .map(booking -> new CalendarEvent(
-                            "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
-                            "",
-                            booking.getStartDate(),
-                            booking.getEndDate(),
-                            booking.getShareRoomType(),
-                            Objects.equals(booking.getUser(), user),
-                            booking.getPriority()
-                    ))
+                    .map(booking -> {
+                        String semanticColor = switch (booking.getPriority()) {
+                            case HIGHEST -> "error";
+                            case MEDIUM -> "warning";
+                            case LOWEST -> "info";
+                        };
+                        return new CalendarEvent(
+                                "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
+                                "",
+                                booking.getStartDate(),
+                                booking.getEndDate(),
+                                booking.getShareRoomType(),
+                                Objects.equals(booking.getUser(), user),
+                                "var(--color-" + semanticColor + ")",
+                                "var(--color-" + semanticColor + "-content)",
+                                booking.getPriority()
+                                );
+                    })
                     .toList();
         }
     }

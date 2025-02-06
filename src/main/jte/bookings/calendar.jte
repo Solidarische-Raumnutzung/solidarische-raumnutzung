@@ -48,7 +48,7 @@
                     let badge = document.createElement('div');
                     arrayOfDomNodes.push(badge);
 
-                    badge.className += 'badge ml-2 badge-sm calendar-event-' + arg.event.extendedProps.priority.toLowerCase();
+                    badge.className += 'badge ml-2 badge-sm';
                     badge.textContent = arg.event.extendedProps.priority;
 
                     return { domNodes: arrayOfDomNodes }

@@ -114,10 +114,6 @@
 }
 
 /* Tweak event formatting to prevent overflow and ensure pleasant padding */
-.fc-event-main {
-    color: inherit !important;
-}
-
 .fc-event-title {
     padding-bottom: 2px;
 }
