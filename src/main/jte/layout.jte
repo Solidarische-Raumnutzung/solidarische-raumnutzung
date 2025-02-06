@@ -65,8 +65,8 @@
                     <div class="navbar-start">
                         <div class="drawer-content flex flex-col items-center text-center justify-center">
                             <!-- Page content here -->
-                            <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-                                Open drawer
+                            <label for="my-drawer-2" class="btn btn-square btn-ghost drawer-button lg:hidden">
+                                <i class="fa-solid fa-bars text-${headerColor}-content"></i>
                             </label>
 
                         </div>
