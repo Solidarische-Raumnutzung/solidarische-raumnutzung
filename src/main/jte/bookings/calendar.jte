@@ -20,7 +20,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
                 timeZone: '${context.getTimeZone().getID()}',
-                initialView: 'timeGridWeek',
+                initialView: window.matchMedia("(width < 64rem)").matches ? 'timeGridDay' : 'timeGridWeek',
                 nowIndicator: true,
                 weekends: false,
                 allDaySlot: false,
@@ -40,7 +40,7 @@
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'timeGridWeek,timeGridDay'
+                    right: window.matchMedia("(width < 64rem)").matches ? null : 'timeGridWeek,timeGridDay'
                 },
                 themeSystem: 'bootstrap5',
                 selectable: true,
