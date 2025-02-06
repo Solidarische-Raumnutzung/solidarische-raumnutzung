@@ -70,21 +70,6 @@ public class BookingsServiceImpl implements BookingsService {
         }
     }
 
-    /**
-     * Retrieves the CSS classes for a calendar event based on the booking and user.
-     *
-     * @param booking the booking associated with the event
-     * @param user    the user associated with the event (nullable)
-     * @return a list of CSS classes for the event
-     */
-    private List<String> getEventClasses(Booking booking, @Nullable User user) {
-        List<String> classes = new ArrayList<>();
-        classes.add("calendar-event-" + booking.getPriority().name().toLowerCase());
-        classes.add("calendar-event-" + booking.getShareRoomType().name().toLowerCase());
-        if (booking.getUser().equals(user)) classes.add("calendar-event-own");
-        return classes;
-    }
-
     @Transactional
     @Override
     public BookingAttemptResult attemptToBook(Booking booking) {
@@ -245,13 +230,24 @@ public class BookingsServiceImpl implements BookingsService {
     public List<CalendarEvent> getCalendarEvents(Room room, LocalDateTime start, LocalDateTime end, @Nullable User user) {
         try (Stream<Booking> bs = bookingsRepository.findOverlappingBookings(room, start, end)) {
             return bs.filter(s -> s.getOpenRequests().isEmpty())
-                    .map(booking -> new CalendarEvent(
-                            "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
-                            "",
-                            booking.getStartDate(),
-                            booking.getEndDate(),
-                            getEventClasses(booking, user)
-                    ))
+                    .map(booking -> {
+                        String semanticColor = switch (booking.getPriority()) {
+                            case HIGHEST -> "error";
+                            case MEDIUM -> "warning";
+                            case LOWEST -> "info";
+                        };
+                        return new CalendarEvent(
+                                "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(),
+                                "",
+                                booking.getStartDate(),
+                                booking.getEndDate(),
+                                booking.getShareRoomType(),
+                                Objects.equals(booking.getUser(), user),
+                                "var(--color-" + semanticColor + ")",
+                                "var(--color-" + semanticColor + "-content)",
+                                booking.getPriority()
+                                );
+                    })
                     .toList();
         }
     }

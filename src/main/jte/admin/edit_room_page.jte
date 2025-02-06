@@ -1,6 +1,5 @@
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
 
@@ -13,10 +12,10 @@
 @param String description
 @param String location
 
-!{var title = id == null ? context.lookup("rooms.new") : context.lookup("rooms.edit");}
-@template.layout(page = new PageSpec(title, "Soli"), context = context, layout = layout, content = @`
+!{var title = id == null ? "rooms.new" : "rooms.edit";}
+@template.layout(page = context.page(title), context = context, layout = layout, content = @`
     <fieldset class="fieldset w-80 mx-auto bg-base-200 border border-base-300 p-4 rounded-box">
-        <legend class="fieldset-legend">${title}</legend>
+        <legend class="fieldset-legend">${context.localize(title)}</legend>
 
         @template.util.form(csrf = csrf, action = "/admin/rooms", method = POST, content = @`
             <input type="hidden" name="target" value="${id}">

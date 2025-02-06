@@ -18,12 +18,14 @@
 </a>
 
 <div class="absolute top-5 left-5">
-    @if(booking.getShareRoomType() == ShareRoomType.YES)
+    !{var bookingShareType = booking.getShareRoomType();}
+    @if(bookingShareType == ShareRoomType.YES)
         <i class="fa-solid fa-users"></i>
-    @elseif(booking.getShareRoomType() == ShareRoomType.NO)
+    @elseif(bookingShareType == ShareRoomType.NO)
         <i class="fa-solid fa-users-slash"></i>
     @else
-        <i class="fa-solid fa-users-line"></i>
+        <i class="fa-solid fa-question"></i>
+        <i class="fa-solid fa-users"></i>
     @endif
 </div>
 

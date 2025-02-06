@@ -1,14 +1,13 @@
 @import edu.kit.hci.soli.domain.TimeTuple
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import java.time.DayOfWeek
 @import java.util.Comparator
 
 @param JteContext context
 @param LayoutParams layout
 
-@template.layout(page = new PageSpec("Index", "Soli"), screenHeight = true, context = context, layout = layout, content = @`
+@template.layout(page = context.page("calendar"), screenHeight = true, context = context, layout = layout, content = @`
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js"></script> <%-- dependency of timegrid --%>
@@ -24,6 +23,37 @@
                 nowIndicator: true,
                 weekends: false,
                 allDaySlot: false,
+                displayEventTime: false,
+                eventContent: function(arg) {
+                    let collaboration_icon = document.createElement('i');
+                    let arrayOfDomNodes = [ collaboration_icon ];
+
+                    if (arg.event.extendedProps.shareRoomType === 'YES') {
+                        collaboration_icon.className += 'fa-solid fa-users';
+                    } else if (arg.event.extendedProps.shareRoomType === 'NO') {
+                        collaboration_icon.className += 'fa-solid fa-users-slash';
+                    } else {
+                        collaboration_icon.className += 'fa-solid fa-question';
+                        let collaboration_icon2 = document.createElement('i');
+                        collaboration_icon2.className += 'fa-solid fa-users';
+                        arrayOfDomNodes.push(collaboration_icon2);
+                    }
+
+                    if (arg.event.extendedProps.favorite) {
+                        let favorite_icon = document.createElement('i');
+                        favorite_icon.className += ' fa-solid fa-star absolute top-1 right-1';
+                        arrayOfDomNodes.push(favorite_icon);
+                    }
+
+                    let badge = document.createElement('div');
+                    arrayOfDomNodes.push(badge);
+
+                    badge.className += 'badge ml-2 badge-sm';
+                    badge.textContent = arg.event.extendedProps.priority;
+
+                    return { domNodes: arrayOfDomNodes }
+                }
+                ,
                 locale: "${context.getLocale().getLanguage()}",
                 height: "100%",
                 slotLabelFormat: {

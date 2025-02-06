@@ -1,7 +1,6 @@
 @import edu.kit.hci.soli.domain.Booking
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.data.domain.Page
 @import org.springframework.security.web.csrf.CsrfToken
 @import static org.springframework.http.HttpMethod.*
@@ -12,7 +11,7 @@
 
 @param Page<Booking> bookings
 
-@template.layout(page = new PageSpec(context.lookup("bookings.my_bookings"), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("bookings.my_bookings"), context = context, layout = layout, content = @`
     <div class="overflow-x-auto">
         @if(bookings.isEmpty())
             <div class="card">

@@ -1,6 +1,5 @@
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 
 @param JteContext context
 @param LayoutParams layout
@@ -8,7 +7,7 @@
 @param String message = null
 @param String error = null
 
-@template.layout(page = new PageSpec("Error", "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("error"), context = context, layout = layout, content = @`
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">${context.localize("error.unknown.title")}</h1>

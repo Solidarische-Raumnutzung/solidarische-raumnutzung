@@ -1,6 +1,5 @@
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import java.time.DayOfWeek
 @import java.time.Month
@@ -17,7 +16,7 @@
 @param Map<Month, Long> bookingsPerMonthAllTime
 @param Map<Month, Long> bookingsPerMonthRecent
 
-@template.layout(page = new PageSpec(context.lookup("administration.statistics"), "Soli"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("administration.statistics"), context = context, layout = layout, content = @`
     <div role="tablist" class="tabs tabs-lift w-full">
         <input type="radio" name="frame_tabs" role="tab" class="tab" aria-label="${context.localize("administration.statistics.recent")}" checked>
         <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 text-center">

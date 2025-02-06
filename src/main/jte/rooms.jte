@@ -1,7 +1,6 @@
 @import edu.kit.hci.soli.domain.Room
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
-@import edu.kit.hci.soli.config.template.PageSpec
 @import org.springframework.security.web.csrf.CsrfToken
 @import java.util.List
 
@@ -12,7 +11,7 @@
 @param List<Room> rooms
 @param boolean edit = false
 
-@template.layout(page = new PageSpec(context.lookup("rooms"), "Soli"), layout = layout, context = context, content = @`
+@template.layout(page = context.page("rooms"), layout = layout, context = context, content = @`
     <ul class="list bg-base-100 rounded-box shadow-md mx-auto min-w-80">
         @for (Room room : rooms)
             <li class="list-row max-w-4xl">
