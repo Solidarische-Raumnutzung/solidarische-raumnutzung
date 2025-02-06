@@ -20,12 +20,21 @@
 <div class="absolute top-5 left-5">
     !{var bookingShareType = booking.getShareRoomType();}
     @if(bookingShareType == ShareRoomType.YES)
-        <i class="fa-solid fa-users"></i>
+        <label class="label" aria-label="${context.localize("bookings.collaboration.share_room")}"
+               title="${context.localize("bookings.collaboration.share_room")}">
+            <i class="fa-solid fa-users"></i>
+        </label>
     @elseif(bookingShareType == ShareRoomType.NO)
-        <i class="fa-solid fa-users-slash"></i>
+        <label class="label" aria-label="${context.localize("bookings.collaboration.no_share_room")}"
+               title="${context.localize("bookings.collaboration.no_share_room")}">
+            <i class="fa-solid fa-users-slash"></i>
+        </label>
     @else
-        <i class="fa-solid fa-question"></i>
-        <i class="fa-solid fa-users"></i>
+        <label class="label" aria-label="${context.localize("bookings.collaboration.on_request_share_room")}"
+               title="${context.localize("bookings.collaboration.on_request_share_room")}">
+            <i class="fa-solid fa-question"></i>
+            <i class="fa-solid fa-users"></i>
+        </label>
     @endif
 </div>
 
@@ -45,7 +54,7 @@
     </p>
 @elseif (allowEditing)
     <br>
-    <label class="btn btn-ghost text-gray-500 text-sm soli-view-content" for="soli-edit-toggle">
+    <label class="btn btn-ghost text-gray-500 text-sm soli-view-content" for="soli-edit-toggle" aria-label="${context.localize("bookings.description.new")}" title="${context.localize("bookings.description.new")}">
         ${context.localize("bookings.description.new")}
         <i class="fa-solid fa-pen"></i>
     </label>
@@ -66,14 +75,14 @@
     <div class="card-actions justify-end">
         @if (allowEditing)
             @template.util.form(csrf = csrf, action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
-                <button type="submit" class="btn btn-ghost">
+                <button type="submit" class="btn btn-ghost" aria-label="${context.localize("bookings.tooltip.delete")}" title="${context.localize("bookings.tooltip.delete")}">
                     <i class="fas fa-trash-alt"></i>
                     ${context.localize("bookings.delete")}
                 </button>
             `)
         @endif
         @if (showRequestButton)
-            <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME)}&cooperative=true">${context.localize("bookings.request")}</a>
+            <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME)}&cooperative=true" aria-label="${context.localize("bookings.tooltip.request")}" title="${context.localize("bookings.tooltip.request")}">${context.localize("bookings.request")}</a>
         @endif
     </div>
 @endif
