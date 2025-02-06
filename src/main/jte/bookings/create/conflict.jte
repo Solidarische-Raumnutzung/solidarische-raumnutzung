@@ -30,7 +30,7 @@
                             <p class="list-col-wrap">
                                 ${booking.getDescription().isBlank() ? context.lookup("bookings.description.none") : booking.getDescription()}
                             </p>
-                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}">
+                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}" title="${context.localize("bookings.view")}">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                         </li>
@@ -47,7 +47,7 @@
                             <p class="list-col-wrap">
                                 ${booking.getDescription().isBlank() ? context.lookup("bookings.description.none") : booking.getDescription()}
                             </p>
-                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}">
+                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}" title="${context.localize("bookings.view")}">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                         </li>
@@ -64,7 +64,7 @@
                             <p class="list-col-wrap">
                                 ${booking.getDescription().isBlank() ? context.lookup("bookings.description.none") : booking.getDescription()}
                             </p>
-                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}">
+                            <a class="btn btn-square btn-ghost" href="/${booking.getRoom().getId()}/bookings/${booking.getId()}" target="_blank" aria-label="${context.localize("bookings.view")}" title="${context.localize("bookings.view")}">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                         </li>
@@ -72,7 +72,7 @@
                 @endif
             </ul>
             @template.util.form(csrf = csrf, action = "/" + attemptedBooking.getRoom().getId() + "/bookings/new/conflict", method = POST, content = @`
-                <button class="btn btn-primary" type="submit">${context.localize("bookings.conflict.solve")}</button>
+                <button class="btn btn-primary" type="submit" aria-label="${context.localize("bookings.conflict.tooltip.solve")}" title="${context.localize("bookings.conflict.tooltip.solve")}">${context.localize("bookings.conflict.solve")}</button>
             `)
         </div>
     </div>
