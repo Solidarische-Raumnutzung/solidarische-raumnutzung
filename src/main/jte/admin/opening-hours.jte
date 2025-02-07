@@ -51,7 +51,8 @@
                 </tbody>
             </table>
             <button type="submit"
-                    class="btn btn-primary">${context.localize("administration.opening_hours.save")}</button>
+                    class="btn btn-primary" aria-label="${context.localize("administration.opening_hours.save")}"
+                    title="${context.localize("administration.opening_hours.save")}">${context.localize("administration.opening_hours.save")}</button>
         `)
     </div>
 `)
