@@ -51,17 +51,23 @@
                         <td>${user.getUsername()}</td>
                         <td>${user.getEmail()}</td>
                         <td>${user.getUserId()}</td>
-                        <td>${user.isDisabled()}</td>
+                        @if(user.isDisabled())
+                            <td>${context.localize("administration.user.is_disabled.true")}</td>
+                        @else
+                            <td>${context.localize("administration.user.is_disabled.false")}</td>
+                        @endif
                         <td>
                             @if (user.isDisabled())
                                 @template.util.form(csrf = csrf, action = "/admin/users/" + user.getId() + "/reactivate", method = PUT, content = @`
-                                    <button type="submit" class="btn btn-ghost">${context.localize("administration.user.reactivate")}</button>
+                                    <button type="submit" class="btn btn-ghost" aria-label="${context.localize("administration.user.reactivate")}">${context.localize("administration.user.reactivate")}</button>
                                 `)
                             @else
                                 !{var id = "modal_" + UUID.randomUUID().toString().replace("-", "");}
+                                <label class="label" aria-label="${context.localize("administration.user.deactivate")}">
                                 @template.util.modal.open(message = context.localize("administration.user.deactivate"), id = id, alternate = "/admin/users/" + user.getId() + "/deactivate", content = @`
                                     @template.admin.confirmation.deactivate_user(context = context, csrf = csrf, id = id, user = user)
                                 `)
+                                </label>
                             @endif
                         </td>
                     </tr>

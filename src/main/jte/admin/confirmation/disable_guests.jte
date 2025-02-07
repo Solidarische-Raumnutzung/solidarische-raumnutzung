@@ -11,6 +11,6 @@
 <div class="modal-action">
     @template.util.modal.close(message = context.localize("generic.cancel"), id = id)
     @template.util.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/disable-guests", method = PUT, content = @`
-        <input class="btn btn-error" type="submit" value="${context.localize("administration.user.guests.disable")}">
+        <input class="btn btn-error" type="submit" value="${context.localize("administration.user.guests.disable")}" aria-label="${context.localize("administration.user.guests.disable")}">
     `)
 </div>
