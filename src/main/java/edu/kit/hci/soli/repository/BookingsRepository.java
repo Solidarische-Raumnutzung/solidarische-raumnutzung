@@ -93,8 +93,8 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     /**
      * Finds all bookings created by a guest.
      */
-    @Query("SELECT b FROM Booking b WHERE b.id IN (SELECT b1.id FROM Booking b1 JOIN b1.user u WHERE u.userId LIKE 'guest/%')")
-    Stream<Booking> findBookingsByGuests();
+    @Query("SELECT b FROM Booking b WHERE b.startDate > :time AND b.id IN (SELECT b1.id FROM Booking b1 JOIN b1.user u WHERE u.userId LIKE 'guest/%')")
+    Stream<Booking> findFutureBookingsByGuests(LocalDateTime time);
 
     /**
      * Returns the number of bookings per weekday (all time).
