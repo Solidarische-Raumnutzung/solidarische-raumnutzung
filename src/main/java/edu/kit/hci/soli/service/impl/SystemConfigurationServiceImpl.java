@@ -20,6 +20,9 @@ public class SystemConfigurationServiceImpl implements SystemConfigurationServic
      * Constructs a SystemConfigurationService with the specified {@link SystemConfigurationRepository}.
      *
      * @param systemConfigurationRepository the repository for managing the configuration
+     * @param bookingsRepository            the repository for managing bookings
+     * @param bookingsService               the service for managing bookings
+     * @param timeService                   the service for managing time
      */
     public SystemConfigurationServiceImpl(SystemConfigurationRepository systemConfigurationRepository, BookingsRepository bookingsRepository, BookingsService bookingsService, TimeService timeService) {
         this.systemConfigurationRepository = systemConfigurationRepository;
