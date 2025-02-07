@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         }
         if (!active) {
             bookingsService.deleteAllBookingsForUser(user);
-            emailService.sendMail(user, "mail.user_banned.subject", "mail/user_banned", Map.of());
+            emailService.sendMail(user, "mail.user_banned.subject", "mail/user_banned", Map.of("user", user));
         }
         user.setDisabled(!active);
         userRepository.save(user);
