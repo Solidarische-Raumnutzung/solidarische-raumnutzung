@@ -91,11 +91,10 @@ public interface BookingsRepository extends JpaRepository<Booking, Serializable>
     Stream<Booking> findWithOutstandingRequests(User user);
 
     /**
-     * Deletes all bookings for guests.
+     * Finds all bookings created by a guest.
      */
-    @Modifying
-    @Query("DELETE FROM Booking b WHERE b.id IN (SELECT b1.id FROM Booking b1 JOIN b1.user u WHERE u.userId LIKE 'guest/%')")
-    void deleteAllBookingsByGuests();
+    @Query("SELECT b FROM Booking b WHERE b.id IN (SELECT b1.id FROM Booking b1 JOIN b1.user u WHERE u.userId LIKE 'guest/%')")
+    Stream<Booking> findBookingsByGuests();
 
     /**
      * Returns the number of bookings per weekday (all time).

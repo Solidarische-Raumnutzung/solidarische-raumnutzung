@@ -2,9 +2,7 @@ package edu.kit.hci.soli.service.impl;
 
 import edu.kit.hci.soli.domain.User;
 import edu.kit.hci.soli.repository.UserRepository;
-import edu.kit.hci.soli.service.BookingsService;
-import edu.kit.hci.soli.service.TimeService;
-import edu.kit.hci.soli.service.UserService;
+import edu.kit.hci.soli.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -25,17 +24,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BookingsService bookingsService;
     private final TimeService timeService;
+    private final EmailService emailService;
 
     /**
      * Constructs a UserService with the specified {@link UserRepository} and {@link BookingsService}.
      *
      * @param userRepository  the repository for managing User entities
      * @param bookingsService the service for managing bookings
+     * @param timeService     the service for managing time
+     * @param emailService    the service for sending emails
      */
-    public UserServiceImpl(UserRepository userRepository, BookingsService bookingsService, TimeService timeService) {
+    public UserServiceImpl(UserRepository userRepository, BookingsService bookingsService, TimeService timeService, EmailService emailService) {
         this.userRepository = userRepository;
         this.bookingsService = bookingsService;
         this.timeService = timeService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -56,6 +59,7 @@ public class UserServiceImpl implements UserService {
         }
         if (!active) {
             bookingsService.deleteAllBookingsForUser(user);
+            emailService.sendMail(user, "mail.user_banned.subject", "mail/user_banned", Map.of());
         }
         user.setDisabled(!active);
         userRepository.save(user);
