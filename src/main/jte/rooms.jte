@@ -33,7 +33,7 @@
                         @template.admin.confirmation.delete_room(context = context, csrf = csrf, id = id, room = room)
                     `)
                 @else
-                    <a href="/${room.getId()}" class="btn btn-primary" aria-label="${context.localize("rooms.edit")}" title="${context.localize("rooms.edit")}">
+                    <a href="/${room.getId()}" class="btn btn-primary" aria-label="${context.localize("rooms.select")}" title="${context.localize("rooms.select")}">
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 @endif
