@@ -82,19 +82,29 @@
                     </div>
                     <div class="navbar-end">
                         @if (layout.getCurrentHighestBooking() != null)
-                            <div class="badge badge-neutral m-3">p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
+                            <div class="badge badge-neutral m-3" aria-label="${context.localize("bookings.priority")}" title="${context.localize("bookings.priority.tooltip")}">
+                                p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
                         @endif
 
                         !{var currentHighestBooking = layout.getCurrentHighestBooking();}
                         @if (currentHighestBooking != null)
                             !{var bookingShareType = currentHighestBooking.getShareRoomType();}
                             @if(bookingShareType == ShareRoomType.YES)
-                                <i class="fa-solid fa-users"></i>
+                                <label class="label" aria-label="${context.localize("bookings.collaboration.share_room")}"
+                                       title="${context.localize("bookings.collaboration.share_room")}">
+                                    <i class="fa-solid fa-users"></i>
+                                </label>
                             @elseif(bookingShareType == ShareRoomType.NO)
-                                <i class="fa-solid fa-users-slash"></i>
+                                <label class="label" aria-label="${context.localize("bookings.collaboration.no_share_room")}"
+                                       title="${context.localize("bookings.collaboration.no_share_room")}">
+                                    <i class="fa-solid fa-users-slash"></i>
+                                </label>
                             @else
-                                <i class="fa-solid fa-question"></i>
-                                <i class="fa-solid fa-users"></i>
+                                <label class="label" aria-label="${context.localize("bookings.collaboration.on_request_share_room")}"
+                                       title="${context.localize("bookings.collaboration.on_request_share_room")}">
+                                    <i class="fa-solid fa-question"></i>
+                                    <i class="fa-solid fa-users"></i>
+                                </label>
                             @endif
                         @endif
                     </div>
@@ -115,7 +125,7 @@
                         <div class="flex flex-row gap-3">
                             <li>
                                 <div class="basis-1/4">
-                                    <a aria-label="home" class="avatar avatar-placeholder w-20" href="/">
+                                    <a aria-label="${context.localize("index")}" title="${context.localize("index")}" class="avatar avatar-placeholder w-20" href="/">
                                         <img src="/favicon.svg" alt="SOLI">
                                     </a>
                                 </div>
@@ -133,12 +143,12 @@
                                 <div class="relative h-20 w-20">
                                     <div class="absolute inset-x-0 bottom-0 h-16">
                                         @if (layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
-                                            <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
+                                            <a href="/login" aria-label="${context.localize("login.login")}" title="${context.localize("login.login")}" class="btn btn-outline btn-primary">
                                                 <i class="fa-solid fa-right-to-bracket"></i>
                                             </a>
                                         @else
                                             @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/logout", method = POST, content = @`
-                                                <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" type="submit">
+                                                <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" title="${context.localize("login.logout")}" type="submit">
                                                     <i class="fa-solid fa-right-from-bracket"></i>
                                                 </button>
                                             `)
