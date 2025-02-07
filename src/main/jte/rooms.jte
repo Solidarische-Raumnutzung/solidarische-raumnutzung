@@ -41,7 +41,7 @@
         @endfor
 
         @if (edit)
-            <a href="/admin/rooms/new" aria-label="${context.localize("rooms.new")}" title="${context.localize("rooms.create")}">
+            <a href="/admin/rooms/new" aria-label="${context.localize("rooms.new")}" title="${context.localize("rooms.new")}">
                 <li class="btn btn-primary w-full">
                     <i class="fas fa-plus"></i>
                 </li>

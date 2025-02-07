@@ -37,7 +37,7 @@
 
             <br><br>
 
-            <input type="submit" class="input btn btn-primary" value="OK" aria-label="${context.localize("rooms.create")}" title="${context.localize("rooms.create")}">
+            <input type="submit" class="input btn btn-primary" value="OK" aria-label="${context.localize("rooms.save")}" title="${context.localize("rooms.save")}">
         `)
     </fieldset>
 `)
