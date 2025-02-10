@@ -1,3 +1,4 @@
+@import edu.kit.hci.soli.domain.Priority
 @import edu.kit.hci.soli.domain.TimeTuple
 @import edu.kit.hci.soli.dto.LayoutParams
 @import edu.kit.hci.soli.config.template.JteContext
@@ -17,6 +18,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/de.global.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const priorityNames = {
+                @for (var priority : Priority.values())
+                    ${priority}: "${context.localize("bookings.priority." + priority)}",
+                @endfor
+            }
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
                 timeZone: '${context.getTimeZone().getID()}',
                 initialView: window.matchMedia("(width < 64rem)").matches ? 'timeGridDay' : 'timeGridWeek',
@@ -53,7 +59,7 @@
                     div.appendChild(badge);
 
                     badge.className += 'badge ml-2 badge-sm';
-                    badge.textContent = arg.event.extendedProps.priority;
+                    badge.textContent = priorityNames[arg.event.extendedProps.priority];
 
                     return { domNodes: arrayOfDomNodes }
                 }
