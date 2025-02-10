@@ -21,17 +21,17 @@
     !{var bookingShareType = booking.getShareRoomType();}
     @if(bookingShareType == ShareRoomType.YES)
         <label class="label" aria-label="${context.localize("bookings.collaboration.share_room")}"
-               title="${context.localize("bookings.collaboration.share_room")}">
+               title="${context.localize("bookings.collaboration.share_room.tooltip")}">
             <i class="fa-solid fa-users"></i>
         </label>
     @elseif(bookingShareType == ShareRoomType.NO)
         <label class="label" aria-label="${context.localize("bookings.collaboration.no_share_room")}"
-               title="${context.localize("bookings.collaboration.no_share_room")}">
+               title="${context.localize("bookings.collaboration.no_share_room.tooltip")}">
             <i class="fa-solid fa-users-slash"></i>
         </label>
     @else
         <label class="label" aria-label="${context.localize("bookings.collaboration.on_request_share_room")}"
-               title="${context.localize("bookings.collaboration.on_request_share_room")}">
+               title="${context.localize("bookings.collaboration.on_request_share_room.tooltip")}">
             <i class="fa-solid fa-question"></i>
             <i class="fa-solid fa-users"></i>
         </label>
