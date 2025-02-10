@@ -50,9 +50,7 @@
                 @endfor
                 </tbody>
             </table>
-            <button type="submit"
-                    class="btn btn-primary" aria-label="${context.localize("administration.opening_hours.save")}"
-                    title="${context.localize("administration.opening_hours.save")}">${context.localize("administration.opening_hours.save")}</button>
+            <input type="submit" class="input btn btn-primary" value="${context.localize("administration.opening_hours.save")}">
         `)
     </div>
 `)

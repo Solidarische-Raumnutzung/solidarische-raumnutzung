@@ -14,6 +14,6 @@
 <div class="modal-action">
     @template.util.modal.close(message = context.localize("generic.cancel"), id = id)
     @template.util.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/users/" + user.getId() + "/deactivate", method = PUT, content = @`
-        <input class="btn btn-warning" type="submit" value="${context.localize("administration.user.deactivate")}" aria-label="${context.localize("administration.user.deactivate")}">
+        <input class="btn btn-warning" type="submit" value="${context.localize("administration.user.deactivate")}">
     `)
 </div>

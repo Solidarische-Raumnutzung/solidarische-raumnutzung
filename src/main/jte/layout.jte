@@ -87,23 +87,17 @@
                         !{var currentHighestBooking = layout.getCurrentHighestBooking();}
                         @if (currentHighestBooking != null)
                             !{var bookingShareType = currentHighestBooking.getShareRoomType();}
-                            @if(bookingShareType == ShareRoomType.YES)
-                                <label class="label" aria-label="${context.localize("bookings.collaboration.share_room")}"
-                                       title="${context.localize("bookings.collaboration.share_room.tooltip")}">
+                            <label class="label" aria-label="${context.localize("bookings.collaboration." + bookingShareType)}"
+                                   title="${context.localize("bookings.collaboration." + bookingShareType + ".tooltip")}">
+                                @if (bookingShareType == ShareRoomType.YES)
                                     <i class="fa-solid fa-users"></i>
-                                </label>
-                            @elseif(bookingShareType == ShareRoomType.NO)
-                                <label class="label" aria-label="${context.localize("bookings.collaboration.no_share_room")}"
-                                       title="${context.localize("bookings.collaboration.no_share_room.tooltip")}">
+                                @elseif (bookingShareType == ShareRoomType.NO)
                                     <i class="fa-solid fa-users-slash"></i>
-                                </label>
-                            @else
-                                <label class="label" aria-label="${context.localize("bookings.collaboration.on_request_share_room")}"
-                                       title="${context.localize("bookings.collaboration.on_request_share_room.tooltip")}">
+                                @else
                                     <i class="fa-solid fa-question"></i>
                                     <i class="fa-solid fa-users"></i>
-                                </label>
-                            @endif
+                                @endif
+                            </label>
                         @endif
                     </div>
                 </div>
@@ -122,7 +116,7 @@
                         <div class="flex flex-row gap-3">
                             <li>
                                 <div class="basis-1/4">
-                                    <a aria-label="${context.localize("index")}" title="${context.localize("index")}" class="avatar avatar-placeholder w-20" href="/">
+                                    <a title="${context.localize("index")}" class="avatar avatar-placeholder w-20" href="/">
                                         <img src="/favicon.svg" alt="SOLI">
                                     </a>
                                 </div>
@@ -140,12 +134,12 @@
                                 <div class="relative h-20 w-20">
                                     <div class="absolute inset-x-0 bottom-0 h-16">
                                         @if (layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
-                                            <a href="/login" aria-label="${context.localize("login.login")}" title="${context.localize("login.login")}" class="btn btn-outline btn-primary">
+                                            <a href="/login" title="${context.localize("login.login")}" class="btn btn-outline btn-primary">
                                                 <i class="fa-solid fa-right-to-bracket"></i>
                                             </a>
                                         @else
                                             @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/logout", method = POST, content = @`
-                                                <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" title="${context.localize("login.logout")}" type="submit">
+                                                <button class="btn btn-outline btn-primary" title="${context.localize("login.logout")}" type="submit">
                                                     <i class="fa-solid fa-right-from-bracket"></i>
                                                 </button>
                                             `)

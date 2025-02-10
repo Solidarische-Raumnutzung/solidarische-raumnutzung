@@ -19,23 +19,17 @@
 
 <div class="absolute top-5 left-5">
     !{var bookingShareType = booking.getShareRoomType();}
-    @if(bookingShareType == ShareRoomType.YES)
-        <label class="label" aria-label="${context.localize("bookings.collaboration.share_room")}"
-               title="${context.localize("bookings.collaboration.share_room.tooltip")}">
+    <label class="label" aria-label="${context.localize("bookings.collaboration." + bookingShareType)}"
+           title="${context.localize("bookings.collaboration." + bookingShareType + ".tooltip")}">
+        @if (bookingShareType == ShareRoomType.YES)
             <i class="fa-solid fa-users"></i>
-        </label>
-    @elseif(bookingShareType == ShareRoomType.NO)
-        <label class="label" aria-label="${context.localize("bookings.collaboration.no_share_room")}"
-               title="${context.localize("bookings.collaboration.no_share_room.tooltip")}">
+        @elseif (bookingShareType == ShareRoomType.NO)
             <i class="fa-solid fa-users-slash"></i>
-        </label>
-    @else
-        <label class="label" aria-label="${context.localize("bookings.collaboration.on_request_share_room")}"
-               title="${context.localize("bookings.collaboration.on_request_share_room.tooltip")}">
+        @else
             <i class="fa-solid fa-question"></i>
             <i class="fa-solid fa-users"></i>
-        </label>
-    @endif
+        @endif
+    </label>
 </div>
 
 <p>${context.localize("bookings.start.value", context.format(booking.getStartDate()))}</p>
@@ -54,7 +48,7 @@
     </p>
 @elseif (allowEditing)
     <br>
-    <label class="btn btn-ghost text-gray-500 text-sm soli-view-content" for="soli-edit-toggle" aria-label="${context.localize("bookings.description.new")}" title="${context.localize("bookings.description.new")}">
+    <label class="btn btn-ghost text-gray-500 text-sm soli-view-content" for="soli-edit-toggle">
         ${context.localize("bookings.description.new")}
         <i class="fa-solid fa-pen"></i>
     </label>
@@ -75,14 +69,14 @@
     <div class="card-actions justify-end">
         @if (allowEditing)
             @template.util.form(csrf = csrf, action = "/" + booking.getRoom().getId() + "/bookings/" + booking.getId(), method = DELETE, content = @`
-                <button type="submit" class="btn btn-ghost" aria-label="${context.localize("bookings.tooltip.delete")}" title="${context.localize("bookings.tooltip.delete")}">
+                <button type="submit" class="btn btn-ghost" title="${context.localize("bookings.delete.tooltip")}">
                     <i class="fas fa-trash-alt"></i>
                     ${context.localize("bookings.delete")}
                 </button>
             `)
         @endif
         @if (showRequestButton)
-            <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME)}&cooperative=true" aria-label="${context.localize("bookings.tooltip.request")}" title="${context.localize("bookings.tooltip.request")}">${context.localize("bookings.request")}</a>
+            <a class="btn btn-primary" href="/${booking.getRoom().getId()}/bookings/new?start=${booking.getStartDate().format(DateTimeFormatter.ISO_DATE_TIME)}&end=${booking.getEndDate().toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME)}&cooperative=true" title="${context.localize("bookings.request.tooltip")}">${context.localize("bookings.request")}</a>
         @endif
     </div>
 @endif

@@ -18,7 +18,7 @@
                     <p>${error == null ? message != null ? message : context.lookup("error.unknown.fallback") : error}</p>
                 </div>
             </details>
-            <a class="btn btn-primary" href="/" aria-label="${context.localize("index.go")}" title="${context.localize("index.go")}">${context.localize("index.go")}</a>
+            <a class="btn btn-primary" href="/">${context.localize("index.go")}</a>
         </div>
     </div>
 `)

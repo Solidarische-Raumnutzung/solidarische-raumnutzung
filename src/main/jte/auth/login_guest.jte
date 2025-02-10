@@ -23,7 +23,7 @@
                 <input id="username" name="username" type="email" placeholder="${context.localize("login.email")}" class="validator" required/>
             </label>
 
-            <input class="input btn btn-secondary mt-4" type="submit" value="${context.localize("login.login")}" aria-label="${context.localize("login.login")}" title="${context.localize("login.login")}">
+            <input class="input btn btn-secondary mt-4" type="submit" value="${context.localize("login.login")}">
         `)
     </fieldset>
 `)

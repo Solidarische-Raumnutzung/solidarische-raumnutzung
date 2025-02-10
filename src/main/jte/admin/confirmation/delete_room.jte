@@ -14,6 +14,6 @@
 <div class="modal-action">
     @template.util.modal.close(message = context.localize("generic.cancel"), id = id)
     @template.util.form(csrf = csrf, cssClass = "card-actions justify-end", action = "/admin/rooms/" + room.getId(), method = DELETE, content = @`
-        <input class="btn btn-error" type="submit" value="${context.localize("rooms.delete")}" aria-label="${context.localize("rooms.delete")}" title="${context.localize("rooms.delete")}">
+        <input class="btn btn-error" type="submit" value="${context.localize("rooms.delete")}">
     `)
 </div>

@@ -26,9 +26,9 @@
                 <span>${context.localizeOrDefault(message, message)}</span>
             </div>
         @endif
-        <a class="input btn btn-primary" href="/oauth2/authorization/kit" aria-label="${context.localize("login.kit_login")}" title="${context.localize("login.kit_login")}">${context.localize("login.kit")}</a>
+        <a class="input btn btn-primary" href="/oauth2/authorization/kit" aria-label="${context.localize("login.kit.description")}" title="${context.localize("login.kit.description")}">${context.localize("login.kit")}</a>
         @if(guestEnabled)
-            <a class="input btn btn-secondary" href="/login/guest" aria-label="${context.localize("login.guest_login")}" title="${context.localize("login.guest_login")}">${context.localize("login.guest")}</a>
+            <a class="input btn btn-secondary" href="/login/guest" title="${context.localize("login.guest.description")}">${context.localize("login.guest")}</a>
         @endif
         <br>
         <details class="collapse collapse-plus">
@@ -39,11 +39,11 @@
                 <input id="password" name="password" type="password" placeholder="${context.localize("login.password")}" class="input" required/>
 
                 <label class="fieldset-legend text-xs items-center">
-                    <input id="remember-me" name="remember-me" type="checkbox" class="toggle" checked aria-label="${context.localize("login.remember")}" title="${context.localize("login.remember")}"/>
+                    <input id="remember-me" name="remember-me" type="checkbox" class="toggle" checked/>
                     ${context.localize("login.remember")}
                 </label>
 
-                <input class="input btn btn-secondary" type="submit" value="${context.localize("login.login")}" aria-label="${context.localize("login.login")}" title="${context.localize("login.login")}">
+                <input class="input btn btn-secondary" type="submit" value="${context.localize("login.login")}">
             `)
         </details>
     </fieldset>
