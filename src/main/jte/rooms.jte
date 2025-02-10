@@ -21,7 +21,7 @@
                         <i class="fa-solid fa-location-dot"></i> &shy;
                         ${room.getLocation()}</div>
                 </div>
-                <p class="list-col-wrap text-xs"title="${context.localize("rooms.description")}">${room.getDescription()}</p>
+                <p class="list-col-wrap text-xs" title="${context.localize("rooms.description")}">${room.getDescription()}</p>
                 @if (edit)
                     <a href="/admin/rooms/${room.getId()}" class="btn btn-square btn-ghost" title="${context.localize("rooms.edit")}">
                         <i class="fas fa-pen"></i>

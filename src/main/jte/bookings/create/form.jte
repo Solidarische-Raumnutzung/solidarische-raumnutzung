@@ -55,7 +55,7 @@
 
             <br><br>
 
-            <div class="tooltip block" data-tip="${context.localize("bookings.priority.tooltip")}">
+            <div class="block" title="${context.localize("bookings.priority.tooltip")}">
                 <label class="fieldset-label" for="priority">${context.localize("bookings.priority")}</label>
                 <select name="priority" class="select select-bordered" required>
                     @for(Priority priority : Priority.values())
@@ -69,7 +69,7 @@
 
             <br>
 
-            <div class="tooltip block" data-tip="${context.localize("bookings.share.tooltip")}">
+            <div title="${context.localize("bookings.share.tooltip")}">
                 <label class="fieldset-label" for="cooperative">${context.localize("bookings.share")}</label>
                 @for(ShareRoomType shareRoomType : ShareRoomType.values())
                     <label class="fieldset-label">
