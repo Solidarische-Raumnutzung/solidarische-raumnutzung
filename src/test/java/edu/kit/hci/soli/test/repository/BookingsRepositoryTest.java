@@ -44,17 +44,6 @@ public class BookingsRepositoryTest {
 
     @Test
     @Transactional
-    public void testDeleteAllBookingsByGuests() {
-        bookingsRepository.save(testBooking);
-        bookingsRepository.save(testBooking2);
-        bookingsRepository.save(testBooking3);
-        assertEquals(3, bookingsRepository.count());
-        bookingsRepository.deleteAllBookingsByGuests();
-        assertEquals(1, bookingsRepository.count());
-    }
-
-    @Test
-    @Transactional
     public void validateStatistics() {
         bookingsRepository.save(testBooking);
         bookingsRepository.save(testBooking2);

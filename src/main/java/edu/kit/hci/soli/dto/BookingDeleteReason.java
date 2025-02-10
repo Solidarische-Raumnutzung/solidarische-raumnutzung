@@ -17,5 +17,10 @@ public enum BookingDeleteReason {
     /**
      * Indicates that the booking was deleted by the user themselves.
      */
-    SELF
+    SELF,
+
+    /**
+     * Indicates that the booking was deleted because the guest function was deactivated.
+     */
+    GUESTS_DEACTIVATED
 }

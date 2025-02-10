@@ -84,6 +84,16 @@
     z-index: 20;
 }
 
+/* Subtract the height of the navbar from the size of the screen to avoid a secondary scrollbar in the calendar */
+.soli-content-height {
+    height: calc(100% - 4rem);
+}
+@media (width < 64rem) {
+    .soli-content-height {
+        height: calc(100vh - 4rem);
+    }
+}
+
 /* Make the now-indicator more visible */
 .fc-timegrid-now-indicator-line {
     border-width: 2px !important;

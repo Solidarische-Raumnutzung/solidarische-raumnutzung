@@ -90,12 +90,25 @@ public class BookingsServiceImpl implements BookingsService {
         if (!conflict.isEmpty()) return new BookingAttemptResult.Failure(conflict);
         if (!contact.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Deferred(override, contact, cooperate);
         if (!cooperate.isEmpty() || !override.isEmpty()) return new BookingAttemptResult.PossibleCooperation.Immediate(override, cooperate);
-        return new BookingAttemptResult.Success(bookingsRepository.save(booking));
+        return new BookingAttemptResult.Success(sendBookingCreatedMail(bookingsRepository.save(booking)));
+    }
+
+    private Booking sendBookingCreatedMail(Booking booking) {
+        emailService.sendMail(
+                booking.getUser(),
+                "mail.booking_created.subject",
+                "mail/booking_created",
+                Map.of(
+                        "booking", booking
+                )
+        );
+        return booking;
     }
 
     @Override
     @Transactional
     public void deleteAllBookingsForUser(User user) {
+        // This does not need to send emails, as doing so is handled by the caller
         bookingsRepository.deleteAllByUser(user);
         try (Stream<Booking> freed = bookingsRepository.findWithOutstandingRequests(user)) {
             freed.forEach(b -> {
@@ -112,7 +125,8 @@ public class BookingsServiceImpl implements BookingsService {
             return switch (result) {
                 case BookingAttemptResult.PossibleCooperation.Immediate(var override, var cooperate) -> {
                     override.forEach(b -> delete(b, BookingDeleteReason.CONFLICT));
-                    yield new BookingAttemptResult.Success(bookingsRepository.save(booking));
+                    sendBookingCreatedMail(booking);
+                    yield new BookingAttemptResult.Success(sendBookingCreatedMail(bookingsRepository.save(booking)));
                 }
                 case BookingAttemptResult.PossibleCooperation.Deferred(var override, var contact, var cooperate) -> {
                     Set<User> openRequests = contact.stream().map(Booking::getUser).collect(Collectors.toSet());
@@ -128,7 +142,7 @@ public class BookingsServiceImpl implements BookingsService {
                                 )
                         );
                     }
-                    yield new BookingAttemptResult.Staged(booking);
+                    yield new BookingAttemptResult.Staged(sendBookingCreatedMail(booking));
                 }
             };
         }
@@ -199,6 +213,14 @@ public class BookingsServiceImpl implements BookingsService {
                             }
                         });
             }
+            emailService.sendMail(
+                    stagedBooking.getUser(),
+                    "mail.open_requests_cleared.subject",
+                    "mail/open_requests_cleared",
+                    Map.of(
+                            "booking", stagedBooking
+                    )
+            );
         }
         return result;
     }

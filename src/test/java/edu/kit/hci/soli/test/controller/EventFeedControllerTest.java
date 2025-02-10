@@ -40,7 +40,7 @@ class EventFeedControllerTest {
         long roomId = 1L;
         SoliUserDetails principal = mock(SoliUserDetails.class);
         Room room = new Room();
-        List<CalendarEvent> events = List.of(new CalendarEvent(null, null, null, null, null, false, null));
+        List<CalendarEvent> events = List.of(new CalendarEvent(null, null, null, null, null, false, null, null, null));
 
         when(roomService.getOptional(roomId)).thenReturn(Optional.of(room));
         when(bookingsService.getCalendarEvents(room, start, end, principal.getUser())).thenReturn(events);
