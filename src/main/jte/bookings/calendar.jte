@@ -7,7 +7,7 @@
 @param JteContext context
 @param LayoutParams layout
 
-@template.layout(page = context.page("calendar"), context = context, layout = layout, content = @`
+@template.layout(page = context.page("calendar"), screenHeight = true, context = context, layout = layout, content = @`
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js"></script> <%-- dependency of timegrid --%>
@@ -19,14 +19,18 @@
         document.addEventListener('DOMContentLoaded', function () {
             const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
                 timeZone: '${context.getTimeZone().getID()}',
-                initialView: 'timeGridWeek',
+                initialView: window.matchMedia("(width < 64rem)").matches ? 'timeGridDay' : 'timeGridWeek',
                 nowIndicator: true,
                 weekends: false,
                 allDaySlot: false,
                 displayEventTime: false,
                 eventContent: function(arg) {
+                    let div = document.createElement('div');
                     let collaboration_icon = document.createElement('i');
-                    let arrayOfDomNodes = [ collaboration_icon ];
+                    div.className += 'fc-event-title fc-sticky';
+                    div.appendChild(collaboration_icon);
+
+                    let arrayOfDomNodes = [ div ];
 
                     if (arg.event.extendedProps.shareRoomType === 'YES') {
                         collaboration_icon.className += 'fa-solid fa-users';
@@ -36,17 +40,17 @@
                         collaboration_icon.className += 'fa-solid fa-question';
                         let collaboration_icon2 = document.createElement('i');
                         collaboration_icon2.className += 'fa-solid fa-users';
-                        arrayOfDomNodes.push(collaboration_icon2);
+                        div.appendChild(collaboration_icon2);
                     }
 
                     if (arg.event.extendedProps.favorite) {
                         let favorite_icon = document.createElement('i');
                         favorite_icon.className += ' fa-solid fa-star absolute top-1 right-1';
-                        arrayOfDomNodes.push(favorite_icon);
+                        div.appendChild(favorite_icon);
                     }
 
                     let badge = document.createElement('div');
-                    arrayOfDomNodes.push(badge);
+                    div.appendChild(badge);
 
                     badge.className += 'badge ml-2 badge-sm';
                     badge.textContent = arg.event.extendedProps.priority;
@@ -55,6 +59,7 @@
                 }
                 ,
                 locale: "${context.getLocale().getLanguage()}",
+                height: "100%",
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -69,7 +74,7 @@
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'timeGridWeek,timeGridDay'
+                    right: window.matchMedia("(width < 64rem)").matches ? null : 'timeGridWeek,timeGridDay'
                 },
                 themeSystem: 'bootstrap5',
                 selectable: true,
