@@ -35,6 +35,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
     <link rel="stylesheet" type="text/css" href="/soli.css">
 
+    <style>
+        :root {
+            --soli-priority-lowest:  "${context.localize("bookings.priority.LOWEST")}";
+            --soli-priority-medium:  "${context.localize("bookings.priority.MEDIUM")}";
+            --soli-priority-highest: "${context.localize("bookings.priority.HIGHEST")}";
+        }
+    </style>
     <noscript>
         <style>
             .needs-js {
