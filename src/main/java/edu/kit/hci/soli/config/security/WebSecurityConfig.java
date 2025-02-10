@@ -26,8 +26,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, PersistentTokenRepository tokenRepository) throws Exception {
         http
                 .authorizeHttpRequests(cfg -> cfg
-                        .requestMatchers("/", "/{id:\\d+}", "/{id:\\d+}/", "/api/{id:\\d+}/events", "/api/holidays.ics", "/login/guest").permitAll()
-                        .requestMatchers(
+                        .requestMatchers("/",
+                                "/{id:\\d+}",
+                                "/{id:\\d+}/",
+                                "/api/{id:\\d+}/events",
+                                "/api/holidays.ics",
+                                "/logout",
+                                "/login/guest").permitAll()
+                        .requestMatchers( // static content
                                 "/soli.css",
                                 "/favicon.ico", "/favicon.svg", "/favicon_180x180.png", "/favicon_512x512.png", "/mask-icon.svg",
                                 "/manifest.json",
