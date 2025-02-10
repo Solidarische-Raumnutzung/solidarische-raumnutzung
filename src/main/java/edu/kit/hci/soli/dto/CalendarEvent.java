@@ -4,7 +4,6 @@ import edu.kit.hci.soli.domain.Priority;
 import edu.kit.hci.soli.domain.ShareRoomType;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Record representing an event as specified by FullCalendar.
