@@ -164,7 +164,7 @@ tasks {
         mainClass = "de.mr_pine.doctex.CliKt"
         classpath = doctex
         args(
-            "--output=./entwurfsheft/javadoc",
+            "--output=./docs/entwurfsheft/javadoc",
             layout.projectDirectory.dir("src/main/java"),
             "edu.kit.hci.soli"
         )
