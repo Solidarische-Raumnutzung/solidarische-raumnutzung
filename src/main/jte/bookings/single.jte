@@ -29,6 +29,9 @@
     @endif
 </div>
 
+@if (!booking.getOpenRequests().isEmpty())
+    <p>${context.localize("bookings.outstanding", booking.getOpenRequests().size())}</p>
+@endif
 <p>${context.localize("bookings.start.value", context.format(booking.getStartDate()))}</p>
 <p>${context.localize("bookings.end.value", context.format(booking.getEndDate()))}</p>
 
