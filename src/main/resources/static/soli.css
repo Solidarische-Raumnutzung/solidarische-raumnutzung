@@ -6,6 +6,7 @@
     /* Color FullCalendar using DaisyUI colors */
     --fc-border-color: var(—-color-base-300);
     --fc-now-indicator-color: var(--color-error);
+    --fc-small-font-size: nothing;
 
     --soli-chart-height: 300px;
 }
@@ -124,10 +125,6 @@
 }
 
 /* Tweak event formatting to prevent overflow and ensure pleasant padding */
-.fc-event-title {
-    padding-bottom: 2px;
-}
-
 .fc-event-title-container {
     padding-top: 1px;
 }
@@ -142,6 +139,14 @@
 
 .fc-timegrid-event .fc-event-main {
     padding: 0 1px 0;
+}
+
+.fc-timegrid-event-short .fc-event-title > * {
+    transform: translateY(-0.1em)
+}
+
+.fc-timegrid-event-short .fc-event-title .badge {
+    transform: translateY(-0.2em)
 }
 
 /* Simple bar charts */
