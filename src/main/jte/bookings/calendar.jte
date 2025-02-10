@@ -40,16 +40,16 @@
 
                     if (arg.event.extendedProps.shareRoomType === 'YES') {
                         collaboration_icon.className += 'fa-solid fa-users';
-                        collaboration_icon.title = "${context.localize("bookings.collaboration.share_room.tooltip")}";
-                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.share_room")}";
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.yes.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.yes")}";
                     } else if (arg.event.extendedProps.shareRoomType === 'NO') {
                         collaboration_icon.className += 'fa-solid fa-users-slash';
-                        collaboration_icon.title = "${context.localize("bookings.collaboration.no_share_room.tooltip")}";
-                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.no_share_room")}";
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.no.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.no")}";
                     } else {
                         collaboration_icon.className += 'fa-solid fa-question';
-                        collaboration_icon.title = "${context.localize("bookings.collaboration.on_request_share_room.tooltip")}";
-                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.on_request_share_room")}";
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.on_request.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.on_request")}";
                         let collaboration_icon2 = document.createElement('i');
                         collaboration_icon2.className += 'fa-solid fa-users';
                         div.appendChild(collaboration_icon2);

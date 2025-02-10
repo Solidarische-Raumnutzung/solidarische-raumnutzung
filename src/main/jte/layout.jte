@@ -87,8 +87,8 @@
                         !{var currentHighestBooking = layout.getCurrentHighestBooking();}
                         @if (currentHighestBooking != null)
                             !{var bookingShareType = currentHighestBooking.getShareRoomType();}
-                            <label class="label" aria-label="${context.localize("bookings.collaboration." + bookingShareType)}"
-                                   title="${context.localize("bookings.collaboration." + bookingShareType + ".tooltip")}">
+                            <label class="label" aria-label="${context.localize("bookings.collaboration." + bookingShareType.toString().toLowerCase())}"
+                                   title="${context.localize("bookings.collaboration." + bookingShareType.toString().toLowerCase() + ".tooltip")}">
                                 @if (bookingShareType == ShareRoomType.YES)
                                     <i class="fa-solid fa-users"></i>
                                 @elseif (bookingShareType == ShareRoomType.NO)
