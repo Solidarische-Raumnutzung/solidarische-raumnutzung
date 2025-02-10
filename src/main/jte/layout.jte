@@ -34,14 +34,7 @@
     <!-- This version of tailwind is incredibly old, but appears to be the latest one that can be used in any (sane) manner. -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
     <link rel="stylesheet" type="text/css" href="/soli.css">
-    <style>
-        :root {
-            --soli-priority-lowest:  "p-${context.localize("bookings.priority.LOWEST")}";
-            --soli-priority-medium:  "p-${context.localize("bookings.priority.MEDIUM")}";
-            --soli-priority-highest: "p-${context.localize("bookings.priority.HIGHEST")}";
-            --soli-booking-own:      "${context.localize("bookings.own")}";
-        }
-    </style>
+
     <noscript>
         <style>
             .needs-js {
