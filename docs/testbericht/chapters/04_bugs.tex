@@ -63,4 +63,9 @@ Die folgenden Abschnitte beschreiben die gefundenen Fehler und die durchgeführt
 \textbf{Fehlergrund:} Die Auswahl des Raums wurde nicht aufgehoben, nachdem der Raum gelöscht wurde.
 \textbf{Behebung:} Die Auswahl des Raums wird aufgehoben, nachdem der Raum gelöscht wurde.
 
+\section{Buchungsende wird in UI nicht gegen Start validiert}
+\textbf{Fehlersymptom:} In der Benutzeroberfläche wird ein Enddatum vor dem Startdatum nicht sofort als Fehler angezeigt.
+\textbf{Fehlergrund:} Die Validierung des Enddatums gegen das Startdatum wurde erst nach dem Absenden des Formulars durchgeführt.
+\textbf{Behebung:} Die Validierung des Enddatums gegen das Startdatum wird sofort durchgeführt.
+
 \todo{Jeden gefundenen Bug dokumentieren}

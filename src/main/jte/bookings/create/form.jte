@@ -32,6 +32,7 @@
                    max="${maximumStart.toString()}"
                    step="${60 * 15}"
                    required
+                   onchange="validateEndTime()"
             />
 
             <label class="fieldset-legend" for="end">${context.localize("bookings.end")} </label>
@@ -42,6 +43,25 @@
                    step="${60 * 15}"
                    required
             />
+
+            <script>
+                const dows = [];
+                @for (var dow : layout.getRoom().getOpeningHours().entrySet())
+                    dows[${context.index(dow.getKey())}] = ${dow.getValue().getEnd().toSecondOfDay() * 1000};
+                @endfor
+                function validateEndTime() {
+                    const start = new Date(document.getElementById("start").value);
+                    const endEl = document.getElementById('end');
+                    endEl.min = new Date(start.getTime() + 15*60000).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
+                    const endMax1 = start.getTime() + 4 * 60 * 60 * 1000;
+                    start.setHours(0, 0, 0, 0);
+                    const endMax2 = start.getTime() + dows[start.getDay()];
+                    endEl.max = new Date(Math.min(endMax1, endMax2)).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
+                    const val = new Date("1970-01-01T" + endEl.value);
+                    if (val < new Date("1970-01-01T" + endEl.min)) endEl.value = endEl.min;
+                    if (val > new Date("1970-01-01T" + endEl.max)) endEl.value = endEl.max;
+                }
+            </script>
 
             <br><br>
 
