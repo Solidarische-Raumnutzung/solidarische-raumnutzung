@@ -34,7 +34,9 @@
                                        max="23:45"
                                        step="${60 * 15}"
                                        required
-                                ></td>
+                                       title="${context.localize("administration.opening_hours.start_time.tooltip")}"
+                                ><div class="validator-hint">${context.localize("administration.opening_hours.start_time.hint")}</div>
+                            </td>
                             <td><input type="time" class="input validator w-full"
                                        aria-label="${context.localize("administration.opening_hours.end", context.format(day))}"
                                        name="${name}End"
@@ -43,7 +45,9 @@
                                        max="23:45"
                                        step="${60 * 15}"
                                        required
-                                ></td>
+                                       title="${context.localize("administration.opening_hours.closing_time.tooltip")}"
+                                ><div class="validator-hint">${context.localize("administration.opening_hours.closing_time.hint")}</div>
+                            </td>
                             <input type="hidden" name="dayOfWeek" value="${day}">
                         </tr>
                     @endif
