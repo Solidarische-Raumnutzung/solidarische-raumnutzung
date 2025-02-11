@@ -2,5 +2,65 @@
 
 \chapter{Bugs}
 \label{ch:bugs}
-\todo{Jeden gefundenen Bug dokumentieren}
 
+Im Verlauf der Qualitätssicherung wurden zahlreiche Fehler gefunden und behoben.
+Genauer wurden insgesamt \todo{Zahl} Issues behoben. (Issues sind hierbei Fehler, die auf GitHub als Issues gemeldet wurden. Da nicht alle Issues tatsächliche Fehler sind, werden hier nicht alle Issues als Fehler betrachtet.)
+Von diesen waren vor der Qualitätssicherung bereits 68 Fehler behoben, welche hier nicht aufgeführt sind.
+Die folgenden Abschnitte beschreiben die gefundenen Fehler und die durchgeführten Korrekturen.
+
+\section{NPE beim Erstellen eines Raums ohne Beschreibung}
+\textbf{Fehlersymptom:} Beim Erstellen eines Raums ohne Beschreibung tritt ein NullPointerException (NPE) auf.
+\textbf{Fehlergrund:} Die Beschreibung des Raums wird nicht auf null überprüft, bevor sie verwendet wird.
+\textbf{Behebung:} Eine Überprüfung auf null bevor die Beschreibung verwendet wird wurde hinzugefügt. Im Fall eines Fehlers wird eine alternative Zeichenkette als Standardwert gesetzt.
+
+\section{Correct Z-Order for drawer on mobile}
+\textbf{Fehlersymptom:} Der Drawer auf mobilen Geräten wird unter dem Kalender angezeigt.
+\textbf{Fehlergrund:} Die Z-Reihenfolge der Elemente wurde nicht korrekt festgelegt.
+\textbf{Behebung:} Die Z-Reihenfolge der Elemente wurde korrekt festgelegt, sodass der Drawer über dem Kalender liegt.
+
+\section{Use Hamburger menu on mobile}
+\textbf{Fehlersymptom:} Der Drawer auf mobilen Geräten wird nicht durch ein Hamburger-Menü geöffnet.
+\textbf{Fehlergrund:} Das Hamburger-Menü wurde nicht implementiert.
+\textbf{Behebung:} Ein Hamburger-Menü wurde hinzugefügt, um den Drawer auf mobilen Geräten zu öffnen.
+
+\section{New icon for ShareRoomType.REQUEST}
+\textbf{Fehlersymptom:} Das Icon für den Raumtyp ShareRoomType.REQUEST ist nicht eindeutig.
+\textbf{Fehlergrund:} Das Icon für ShareRoomType.REQUEST wurde schlecht gewählt.
+\textbf{Behebung:} Ein neues Icon für ShareRoomType.REQUEST, das den Raumtyp besser repräsentiert, wurde hinzugefügt.
+
+\section{book at least 15 minutes into the future}
+\textbf{Fehlersymptom:} Es ist möglich, einen Raum in der Vergangenheit zu buchen.
+\textbf{Fehlergrund:} Es wurde keine Überprüfung hinzugefügt, um sicherzustellen, dass der Raum mindestens 15 Minuten in der Zukunft gebucht wird.
+\textbf{Behebung:} Eine Überprüfung um sicherzustellen, dass der Raum mindestens 15 Minuten in der Zukunft gebucht wird, wurde hinzugefügt.
+
+\section{Email benachrichtigung fehlen bei Akzeptierung oder Löschung durch Deaktivierung der Gastfunktion}
+\textbf{Fehlersymptom:} Es werden keine E-Mails versendet, wenn ein Raum akzeptiert oder gelöscht wird, weil die Gastfunktion deaktiviert wurde.
+\textbf{Fehlergrund:} Das Versenden von E-Mails in diesen Fällen wurde nicht implementiert.
+\textbf{Behebung:} Das Versenden von E-Mails in diesen Fällen wurde implementiert.
+
+\section{FullCalendar ist auf kleinen Bildschirmen schwer zu bedienen}
+\textbf{Fehlersymptom:} Der FullCalendar ist auf kleinen Bildschirmen schwer zu bedienen, da die Schaltflächen zu klein sind.
+\textbf{Fehlergrund:} Die Monatsansicht wurde als Standardansicht festgelegt, was auf kleinen Bildschirmen nicht gut funktioniert.
+\textbf{Behebung:} Die Tagesansicht wurde bei kleinen Bildschirmen als Standardansicht gestgelegt, um die Bedienung auf kleinen Bildschirmen zu erleichtern
+
+\section{Die Konfliktlösungs-UI nutzt rohen Text}
+\textbf{Fehlersymptom:} Die Konfliktlösungs-UI zeigt rohen Text an, anstatt eine benutzerfreundliche Oberfläche zu verwenden.
+\textbf{Fehlergrund:} Eine benutzerfreundliche Oberfläche wurde nicht implementiert.
+\textbf{Behebung:} Eine benutzerfreundliche Oberfläche für die Konfliktlösung auf Basis der List-Komponente wurde implementiert
+
+\section{Buchungen mit offenen Anfragen werden nicht markiert}
+\textbf{Fehlersymptom:} Buchungen mit offenen Anfragen werden nicht als solche markiert.
+\textbf{Fehlergrund:} Die Markierung von Buchungen mit offenen Anfragen wurde nicht implementiert.
+\textbf{Behebung:} Die Markierung von Buchungen mit offenen Anfragen wurde implementiert.
+
+\section{Correct sharing icon position in calendar}
+\textbf{Fehlersymptom:} Die vertikale Position des Sharing-Icons im Kalender ist nicht korrekt.
+\textbf{Fehlergrund:} Die vertikale Position des Sharing-Icons wurde nicht korrekt festgelegt.
+\textbf{Behebung:} Die vertikale Position des Sharing-Icons wurde korrekt festgelegt.
+
+\section{Room still selected after deletion}
+\textbf{Fehlersymptom:} Ein Raum ist immer noch ausgewählt, nachdem er gelöscht wurde. Dies führt zu Fehlern, wenn versucht wird, mit dem gelöschten Raum zu interagieren.
+\textbf{Fehlergrund:} Die Auswahl des Raums wurde nicht aufgehoben, nachdem der Raum gelöscht wurde.
+\textbf{Behebung:} Die Auswahl des Raums wird aufgehoben, nachdem der Raum gelöscht wurde.
+
+\todo{Jeden gefundenen Bug dokumentieren}
