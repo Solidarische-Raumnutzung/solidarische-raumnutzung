@@ -68,4 +68,9 @@ Die folgenden Abschnitte beschreiben die gefundenen Fehler und die durchgeführt
 \textbf{Fehlergrund:} Die Validierung des Enddatums gegen das Startdatum wurde erst nach dem Absenden des Formulars durchgeführt.
 \textbf{Behebung:} Die Validierung des Enddatums gegen das Startdatum wird sofort durchgeführt.
 
+\section{Bannerzustand wird nicht korrekt aktualisiert}
+\textbf{Fehlersymptom:} Der Zustand des Banners wird nicht korrekt aktualisiert, wenn der Raum gewechselt wird.
+\textbf{Fehlergrund:} Die Berechnung des neuen Zustandes nutzte den alten Raum.
+\textbf{Behebung:} Die Berechnung des neuen Zustandes nutzt den neuen Raum.
+
 \todo{Jeden gefundenen Bug dokumentieren}
