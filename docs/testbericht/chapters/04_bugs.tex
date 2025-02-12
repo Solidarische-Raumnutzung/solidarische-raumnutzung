@@ -73,4 +73,19 @@ Die folgenden Abschnitte beschreiben die gefundenen Fehler und die durchgeführt
 \textbf{Fehlergrund: } Die Terminansicht wurde nicht korrekt geladen, da die Tooltips für die Raumteilungssymbole nicht korrekt gesetzt wurden.
 \textbf{Behebung: } Die Tooltips für die Raumteilungssymbole wurden korrekt gesetzt, sodass die Terminansicht geladen werden kann.
 
+\section{Buchungsende wird in UI nicht gegen Start validiert}
+\textbf{Fehlersymptom:} In der Benutzeroberfläche wird ein Enddatum vor dem Startdatum nicht sofort als Fehler angezeigt.
+\textbf{Fehlergrund:} Die Validierung des Enddatums gegen das Startdatum wurde erst nach dem Absenden des Formulars durchgeführt.
+\textbf{Behebung:} Die Validierung des Enddatums gegen das Startdatum wird sofort durchgeführt.
+
+\section{Bannerzustand wird nicht korrekt aktualisiert}
+\textbf{Fehlersymptom:} Der Zustand des Banners wird nicht korrekt aktualisiert, wenn der Raum gewechselt wird.
+\textbf{Fehlergrund:} Die Berechnung des neuen Zustandes nutzte den alten Raum.
+\textbf{Behebung:} Die Berechnung des neuen Zustandes nutzt den neuen Raum.
+
+\section{Round bookings}
+\textbf{Fehlersymptom:} Buchungen, die nicht im Client gerundet wurden, führen zu einer Fehlermeldung.
+\textbf{Fehlergrund:} Buchungen, die nicht im Client gerundet wurden, führen zu einer Fehlermeldung.
+\textbf{Behebung:} Buchungen werden zusätzlich im Server gerundet, um Fehlermeldungen zu vermeiden.
+
 \todo{Jeden gefundenen Bug dokumentieren}
