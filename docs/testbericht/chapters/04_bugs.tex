@@ -73,4 +73,9 @@ Die folgenden Abschnitte beschreiben die gefundenen Fehler und die durchgeführt
 \textbf{Fehlergrund:} Die Berechnung des neuen Zustandes nutzte den alten Raum.
 \textbf{Behebung:} Die Berechnung des neuen Zustandes nutzt den neuen Raum.
 
+\section{Round bookings}
+\textbf{Fehlersymptom:} Buchungen, die nicht im Client gerundet wurden, führen zu einer Fehlermeldung.
+\textbf{Fehlergrund:} Buchungen, die nicht im Client gerundet wurden, führen zu einer Fehlermeldung.
+\textbf{Behebung:} Buchungen werden zusätzlich im Server gerundet, um Fehlermeldungen zu vermeiden.
+
 \todo{Jeden gefundenen Bug dokumentieren}
