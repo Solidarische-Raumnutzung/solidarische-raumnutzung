@@ -13,7 +13,7 @@
 @param BookingAttemptResult.PossibleCooperation bookingResult
 
 @template.layout(page = context.page("bookings.conflict.resolution"), context = context, layout = layout, content = @`
-    <div class="hero-content text-center">
+    <div class="mx-auto hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-2xl font-bold mb-2">${context.localize("bookings.conflict.resolution")}</h1>
 
@@ -39,6 +39,7 @@
 
                 @if (!bookingResult.override().isEmpty())
                     <h2>${context.localize("bookings.conflict.delete")}</h2>
+                    <p class="text-gray-500 text-sm">${context.localize("bookings.conflict.delete.message")}</p>
                     @for (Booking booking : bookingResult.override())
                         <li class="list-row">
                             <div class="text-xs uppercase font-semibold opacity-60 list-col-grow">
@@ -56,6 +57,7 @@
 
                 @if (!bookingResult.cooperate().isEmpty())
                     <h2>${context.localize("bookings.conflict.cooperate")}</h2>
+                    <p class="text-gray-500 text-sm">${context.localize("bookings.conflict.cooperate.message")}</p>
                     @for (Booking booking : bookingResult.cooperate())
                         <li class="list-row">
                             <div class="text-xs uppercase font-semibold opacity-60 list-col-grow">
