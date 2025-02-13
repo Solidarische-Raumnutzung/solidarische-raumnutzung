@@ -19,8 +19,8 @@
 
 <div class="absolute top-5 left-5">
     !{var bookingShareType = booking.getShareRoomType();}
-    <label class="label" aria-label="${context.localize("bookings.collaboration." + bookingShareType.toString().toLowerCase())}"
-           title="${context.localize("bookings.collaboration." + bookingShareType.toString().toLowerCase() + ".tooltip")}">
+    <label class="label" aria-label="${context.localize("bookings.collaboration." + bookingShareType)}"
+           title="${context.localize("bookings.collaboration." + bookingShareType + ".tooltip")}">
         @if (bookingShareType == ShareRoomType.YES)
             <i class="fa-solid fa-users"></i>
         @elseif (bookingShareType == ShareRoomType.NO)

@@ -40,16 +40,16 @@
 
                     if (arg.event.extendedProps.shareRoomType === 'YES') {
                         collaboration_icon.className += 'fa-solid fa-users';
-                        collaboration_icon.title = "${context.localize("bookings.collaboration.yes.tooltip")}";
-                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.yes")}";
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.YES.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.YES")}";
                     } else if (arg.event.extendedProps.shareRoomType === 'NO') {
                         collaboration_icon.className += 'fa-solid fa-users-slash';
-                        collaboration_icon.title = "${context.localize("bookings.collaboration.no.tooltip")}";
-                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.no")}";
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.NO.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.NO")}";
                     } else {
                         collaboration_icon.className += 'fa-solid fa-question';
-                        collaboration_icon.title = "${context.localize("bookings.collaboration.on_request.tooltip")}";
-                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.on_request")}";
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.ON_REQUEST.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.ON_REQUEST")}";
                         let collaboration_icon2 = document.createElement('i');
                         collaboration_icon2.className += 'fa-solid fa-users';
                         div.appendChild(collaboration_icon2);

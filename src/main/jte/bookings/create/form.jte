@@ -65,6 +65,7 @@
                     if (val < new Date("1970-01-01T" + endEl.min)) endEl.value = endEl.min;
                     if (val > new Date("1970-01-01T" + endEl.max)) endEl.value = endEl.max;
                 }
+                validateEndTime()
             </script>
 
             <br><br>

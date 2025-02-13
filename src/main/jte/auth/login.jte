@@ -26,7 +26,7 @@
                 <span>${context.localizeOrDefault(message, message)}</span>
             </div>
         @endif
-        <a class="input btn btn-primary" href="/oauth2/authorization/kit" aria-label="${context.localize("login.kit.description")}" title="${context.localize("login.kit.description")}">${context.localize("login.kit")}</a>
+        <a class="input btn btn-primary" href="/oauth2/authorization/kit" title="${context.localize("login.kit.description")}">${context.localize("login.kit")}</a>
         @if(guestEnabled)
             <a class="input btn btn-secondary" href="/login/guest" title="${context.localize("login.guest.description")}">${context.localize("login.guest")}</a>
         @endif
