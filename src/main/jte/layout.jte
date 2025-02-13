@@ -80,20 +80,24 @@
                     </div>
                     <div class="navbar-end">
                         @if (layout.getCurrentHighestBooking() != null)
-                            <div class="badge badge-neutral m-3">p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
+                            <div class="badge badge-neutral m-3" aria-label="${context.localize("bookings.priority")}" title="${context.localize("bookings.priority.tooltip")}">
+                                p-${context.localize("bookings.priority." + layout.getCurrentHighestBooking().getPriority())}</div>
                         @endif
 
                         !{var currentHighestBooking = layout.getCurrentHighestBooking();}
                         @if (currentHighestBooking != null)
                             !{var bookingShareType = currentHighestBooking.getShareRoomType();}
-                            @if(bookingShareType == ShareRoomType.YES)
-                                <i class="fa-solid fa-users"></i>
-                            @elseif(bookingShareType == ShareRoomType.NO)
-                                <i class="fa-solid fa-users-slash"></i>
-                            @else
-                                <i class="fa-solid fa-question"></i>
-                                <i class="fa-solid fa-users"></i>
-                            @endif
+                            <label class="label" aria-label="${context.localize("bookings.collaboration." + bookingShareType.toString().toLowerCase())}"
+                                   title="${context.localize("bookings.collaboration." + bookingShareType.toString().toLowerCase() + ".tooltip")}">
+                                @if (bookingShareType == ShareRoomType.YES)
+                                    <i class="fa-solid fa-users"></i>
+                                @elseif (bookingShareType == ShareRoomType.NO)
+                                    <i class="fa-solid fa-users-slash"></i>
+                                @else
+                                    <i class="fa-solid fa-question"></i>
+                                    <i class="fa-solid fa-users"></i>
+                                @endif
+                            </label>
                         @endif
                     </div>
                 </div>
@@ -112,7 +116,7 @@
                         <div class="flex flex-row gap-3">
                             <li>
                                 <div class="basis-1/4">
-                                    <a aria-label="home" class="avatar avatar-placeholder w-20" href="/">
+                                    <a title="${context.localize("index")}" class="avatar avatar-placeholder w-20" href="/">
                                         <img src="/favicon.svg" alt="SOLI">
                                     </a>
                                 </div>
@@ -130,12 +134,12 @@
                                 <div class="relative h-20 w-20">
                                     <div class="absolute inset-x-0 bottom-0 h-16">
                                         @if (layout.getLogin().kind() == LoginStateModel.Kind.VISITOR)
-                                            <a href="/login" aria-label="${context.localize("login.login")}" class="btn btn-outline btn-primary">
+                                            <a href="/login" title="${context.localize("login.login")}" class="btn btn-outline btn-primary">
                                                 <i class="fa-solid fa-right-to-bracket"></i>
                                             </a>
                                         @else
                                             @template.util.form(csrf = layout.getLogin().csrfToken(), action = "/logout", method = POST, content = @`
-                                                <button class="btn btn-outline btn-primary" aria-label="${context.localize("login.logout")}" type="submit">
+                                                <button class="btn btn-outline btn-primary" title="${context.localize("login.logout")}" type="submit">
                                                     <i class="fa-solid fa-right-from-bracket"></i>
                                                 </button>
                                             `)

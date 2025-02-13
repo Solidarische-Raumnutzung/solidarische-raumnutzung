@@ -40,10 +40,16 @@
 
                     if (arg.event.extendedProps.shareRoomType === 'YES') {
                         collaboration_icon.className += 'fa-solid fa-users';
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.yes.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.yes")}";
                     } else if (arg.event.extendedProps.shareRoomType === 'NO') {
                         collaboration_icon.className += 'fa-solid fa-users-slash';
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.no.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.no")}";
                     } else {
                         collaboration_icon.className += 'fa-solid fa-question';
+                        collaboration_icon.title = "${context.localize("bookings.collaboration.on_request.tooltip")}";
+                        collaboration_icon.ariaLabel = "${context.localize("bookings.collaboration.on_request")}";
                         let collaboration_icon2 = document.createElement('i');
                         collaboration_icon2.className += 'fa-solid fa-users';
                         div.appendChild(collaboration_icon2);
@@ -52,6 +58,8 @@
                     if (arg.event.extendedProps.favorite) {
                         let favorite_icon = document.createElement('i');
                         favorite_icon.className += ' fa-solid fa-star absolute top-1 right-1';
+                        favorite_icon.ariaLabel = "${context.localize("bookings.favorite")}";
+                        favorite_icon.title = "${context.localize("bookings.favorite.tooltip")}";
                         div.appendChild(favorite_icon);
                     }
 
@@ -60,6 +68,8 @@
 
                     badge.className += 'badge ml-2 badge-sm';
                     badge.textContent = priorityNames[arg.event.extendedProps.priority];
+                    badge.textContent = arg.event.extendedProps.priority;
+                    badge.title = "${context.localize("bookings.priority.tooltip2")}";
 
                     return { domNodes: arrayOfDomNodes }
                 }

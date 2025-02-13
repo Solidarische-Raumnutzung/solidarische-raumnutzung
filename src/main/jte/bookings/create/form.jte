@@ -33,7 +33,9 @@
                    step="${60 * 15}"
                    required
                    onchange="validateEndTime()"
+                   title="${context.localize("bookings.start.tooltip")}"
             />
+        <div class="validator-hint">${context.localize("bookings.start.hint")}</div>
 
             <label class="fieldset-legend" for="end">${context.localize("bookings.end")} </label>
             <input id="end" name="end" type="time" class="input validator"
@@ -42,7 +44,9 @@
                    max="${maximumEnd.toString()}"
                    step="${60 * 15}"
                    required
+                   title="${context.localize("bookings.end.tooltip")}"
             />
+        <div class="validator-hint">${context.localize("bookings.end.hint")}</div>
 
             <script>
                 const dows = [];
@@ -65,6 +69,7 @@
 
             <br><br>
 
+        <div class="block" title="${context.localize("bookings.description.tooltip")}">
             <textarea id="description" name="description" class="input validator textarea textarea-bordered"
                       placeholder="${context.localize("bookings.description")}"
                       maxlength="1024"
@@ -72,11 +77,12 @@
             <label class="label">
                 <span class="label-text-alt">${context.localize("bookings.optional")}</span>
             </label>
+        </div>
 
             <br><br>
 
-            <div class="tooltip block" data-tip="${context.localize("bookings.priority.tooltip")}">
-                <label class="fieldset-label" for="priority">${context.localize("bookings.priority")}</label>
+            <div class="block" title="${context.localize("bookings.priority.tooltip")}">
+                <label class="fieldset-legend" for="priority">${context.localize("bookings.priority")}</label>
                 <select name="priority" class="select select-bordered" required>
                     @for(Priority priority : Priority.values())
                         <option
@@ -89,8 +95,8 @@
 
             <br>
 
-            <div class="tooltip block" data-tip="${context.localize("bookings.share.tooltip")}">
-                <label class="fieldset-label" for="cooperative">${context.localize("bookings.share")}</label>
+            <div title="${context.localize("bookings.share.tooltip")}">
+                <label class="fieldset-legend" for="cooperative">${context.localize("bookings.share")}</label>
                 @for(ShareRoomType shareRoomType : ShareRoomType.values())
                     <label class="fieldset-label">
                         <input type="radio" name="cooperative" class="radio"

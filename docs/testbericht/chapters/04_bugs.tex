@@ -63,6 +63,16 @@ Die folgenden Abschnitte beschreiben die gefundenen Fehler und die durchgeführt
 \textbf{Fehlergrund:} Die Auswahl des Raums wurde nicht aufgehoben, nachdem der Raum gelöscht wurde.
 \textbf{Behebung:} Die Auswahl des Raums wird aufgehoben, nachdem der Raum gelöscht wurde.
 
+\section{Doppelung Aria-Labels zu Tooltips und normaler Text}
+\textbf{Fehlersymptom:} Der Ihalt der Aria-Labels war gleich zu dem der Tooltips oder sogar dem normalen Text.
+\textbf{Fehlergrund:} Die Logik der Textreader wurde falsch verstanden.
+\textbf{Behebung:} Die Aria-Labels und Tooltips wurden angepasst, sodass der Inhalt nicht mehr doppelt vorliegt.
+
+\section{Tooltips für Raumteilungssymbole}
+\textbf{Fehlersymptom: } Die Terminansicht konnte nicht geladen werden.
+\textbf{Fehlergrund: } Die Terminansicht wurde nicht korrekt geladen, da die Tooltips für die Raumteilungssymbole nicht korrekt gesetzt wurden.
+\textbf{Behebung: } Die Tooltips für die Raumteilungssymbole wurden korrekt gesetzt, sodass die Terminansicht geladen werden kann.
+
 \section{Buchungsende wird in UI nicht gegen Start validiert}
 \textbf{Fehlersymptom:} In der Benutzeroberfläche wird ein Enddatum vor dem Startdatum nicht sofort als Fehler angezeigt.
 \textbf{Fehlergrund:} Die Validierung des Enddatums gegen das Startdatum wurde erst nach dem Absenden des Formulars durchgeführt.
